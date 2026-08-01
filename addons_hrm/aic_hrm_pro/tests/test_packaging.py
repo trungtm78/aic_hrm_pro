@@ -51,11 +51,11 @@ class TestPackaging(TransactionCase):
                     continue
                 relative = path.relative_to(root).as_posix()
                 # i18n carries translations; import-term data intentionally
-                # carries spreadsheet vocabulary as DATA; test fixtures may
-                # mirror customer files.
-                if relative.startswith('i18n/') or \
-                        relative == 'data/aic_hrm_import_terms.xml' or \
-                        relative.startswith('tests/'):
+                # carries spreadsheet vocabulary as DATA; demo records use
+                # fictional Vietnamese-market names (person names are data,
+                # not UI strings); test fixtures may mirror customer files.
+                if relative.startswith(('i18n/', 'demo/', 'tests/')) or \
+                        relative == 'data/aic_hrm_import_terms.xml':
                     continue
                 text = path.read_text(encoding='utf-8', errors='ignore')
                 if _has_vietnamese(text):

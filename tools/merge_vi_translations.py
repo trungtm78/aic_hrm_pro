@@ -7,18 +7,18 @@ msgid/msgstr pairs); Odoo's PO loader additionally requires the occurrence
 metadata that only ``odoo-bin i18n export`` produces. This script marries
 the two: pot structure + draft translations -> ``vi.po``.
 
-Usage: python tools/merge_vi_translations.py <module_dir> [...]
+Usage: python tools/merge_vi_translations.py [--lang vi] <module_dir> [...]
 """
-import sys
+import argparse
 from pathlib import Path
 
 import polib
 
 
-def merge(module_dir):
+def merge(module_dir, lang):
     module = Path(module_dir)
     pot_path = next(module.glob('i18n/*.pot'))
-    draft_path = module / 'i18n' / 'vi.draft'
+    draft_path = module / 'i18n' / f'{lang}.draft'
     draft = polib.pofile(str(draft_path)) if draft_path.exists() else []
     translations = {entry.msgid: entry.msgstr
                     for entry in draft if entry.msgstr}
@@ -29,16 +29,20 @@ def merge(module_dir):
             entry.msgstr = translations[entry.msgid]
             translated += 1
     pot.metadata.update({
-        'Language': 'vi',
+        'Language': lang,
         'Content-Type': 'text/plain; charset=UTF-8',
         'Plural-Forms': 'nplurals=1; plural=0;',
     })
-    out_path = module / 'i18n' / 'vi.po'
+    out_path = module / 'i18n' / f'{lang}.po'
     pot.save(str(out_path))
-    print(f'{module.name}: {translated}/{len(pot)} entries translated '
-          f'-> {out_path}')
+    print(f'{module.name} [{lang}]: {translated}/{len(pot)} entries '
+          f'translated -> {out_path}')
 
 
 if __name__ == '__main__':
-    for path in sys.argv[1:]:
-        merge(path)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--lang', default='vi')
+    parser.add_argument('modules', nargs='+')
+    args = parser.parse_args()
+    for path in args.modules:
+        merge(path, args.lang)
