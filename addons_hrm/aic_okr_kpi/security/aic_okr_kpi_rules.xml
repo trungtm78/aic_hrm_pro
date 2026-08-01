@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Objectives: read = own + public + unowned; write = own -->
+    <record id="rule_objective_user_read" model="ir.rule">
+        <field name="name">Objective: user reads own, public and unowned</field>
+        <field name="model_id" ref="model_aic_hrm_objective"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', '|', ('employee_id.user_id', '=', user.id), ('visibility', '=', 'public'), ('employee_id', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_objective_user_write" model="ir.rule">
+        <field name="name">Objective: user writes own</field>
+        <field name="model_id" ref="model_aic_hrm_objective"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_objective_manager" model="ir.rule">
+        <field name="name">Objective: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_objective"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">['|', '|', '|', ('employee_id', 'child_of', user.employee_id.ids), ('visibility', '=', 'public'), ('employee_id', '=', False), ('create_uid', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_objective_admin" model="ir.rule">
+        <field name="name">Objective: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_objective"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_objective_company" model="ir.rule">
+        <field name="name">Objective: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_objective"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Key results follow their objective's visibility -->
+    <record id="rule_kr_user_read" model="ir.rule">
+        <field name="name">Key result: user reads via objective</field>
+        <field name="model_id" ref="model_aic_hrm_key_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', '|', '|', ('objective_id.employee_id.user_id', '=', user.id), ('objective_id.visibility', '=', 'public'), ('employee_id.user_id', '=', user.id), '&amp;', ('objective_id.employee_id', '=', False), ('objective_id.visibility', '=', 'public')]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_kr_user_write" model="ir.rule">
+        <field name="name">Key result: user writes own</field>
+        <field name="model_id" ref="model_aic_hrm_key_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', '|', ('objective_id.employee_id.user_id', '=', user.id), ('employee_id.user_id', '=', user.id), ('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_kr_manager" model="ir.rule">
+        <field name="name">Key result: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_key_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">['|', '|', '|', ('objective_id.employee_id', 'child_of', user.employee_id.ids), ('employee_id', 'child_of', user.employee_id.ids), ('objective_id.visibility', '=', 'public'), ('create_uid', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_kr_admin" model="ir.rule">
+        <field name="name">Key result: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_key_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_kr_company" model="ir.rule">
+        <field name="name">Key result: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_key_result"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

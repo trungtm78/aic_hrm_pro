@@ -24,7 +24,11 @@ Provides:
     'license': 'OPL-1',
     'depends': ['aic_hrm_base'],
     'external_dependencies': {'python': ['openpyxl']},
-    'data': [],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/aic_okr_kpi_rules.xml',
+        'views/aic_hrm_objective_views.xml',
+    ],
     'installable': True,
     'application': False,
     'auto_install': False,

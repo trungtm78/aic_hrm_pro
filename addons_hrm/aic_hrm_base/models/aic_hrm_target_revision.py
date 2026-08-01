@@ -97,7 +97,8 @@ class AicHrmTargetRevision(models.Model):
                 raise ValidationError(_(
                     "Only requested revisions can be approved."))
             target = revision._target_record()
-            target.write({revision.field_name: revision.new_value_float})
+            target.with_context(hrm_revision_write=True).write(
+                {revision.field_name: revision.new_value_float})
             revision.write({
                 'state': 'approved',
                 'approved_by': self.env.user.id,
