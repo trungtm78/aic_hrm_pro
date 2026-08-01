@@ -25,3 +25,11 @@ htmlcov/
 Thumbs.db
 .vscode/
 .idea/
+
+# Real customer data - NEVER commit (stays local only)
+Docs/Requirements/
+
+# Local tooling
+.claude/
+setup-claude-autonomous.bat
+test-claude-hook.bat
