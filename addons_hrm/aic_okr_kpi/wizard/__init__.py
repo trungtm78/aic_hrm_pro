@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
-from . import models
-from . import wizard
+from . import aic_hrm_import_wizard
+from . import aic_hrm_rollover_wizard

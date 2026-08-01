@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_aic_hrm_import_wizard_form" model="ir.ui.view">
+        <field name="name">aic.hrm.import.wizard.form</field>
+        <field name="model">aic.hrm.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group invisible="state not in ('upload', 'preview')">
+                    <group>
+                        <field name="cycle_id"/>
+                        <field name="file" filename="filename"/>
+                        <field name="filename" invisible="1"/>
+                        <field name="create_missing_employees"/>
+                        <field name="state" invisible="1"/>
+                    </group>
+                </group>
+                <div invisible="state != 'preview'">
+                    <h4>Preview</h4>
+                    <field name="preview"/>
+                </div>
+                <div invisible="not warning_log">
+                    <h4>Warnings</h4>
+                    <field name="warning_log"/>
+                </div>
+                <div invisible="state != 'error'">
+                    <h4>Error</h4>
+                    <field name="error_log"/>
+                </div>
+                <div invisible="state != 'done'">
+                    <p>Import finished.</p>
+                    <group>
+                        <field name="created_objective_count"/>
+                        <field name="created_kpi_count"/>
+                        <field name="created_assignment_count"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_preview" type="object" string="Preview"
+                            class="btn-primary" invisible="state != 'upload'"/>
+                    <button name="action_import" type="object" string="Import"
+                            class="btn-primary" invisible="state != 'preview'"/>
+                    <button string="Close" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import OKR/KPI Spreadsheet</field>
+        <field name="res_model">aic.hrm.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_aic_hrm_rollover_wizard_form" model="ir.ui.view">
+        <field name="name">aic.hrm.rollover.wizard.form</field>
+        <field name="model">aic.hrm.rollover.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="source_cycle_id"/>
+                        <field name="target_cycle_id"/>
+                    </group>
+                    <group>
+                        <field name="copy_objectives"/>
+                        <field name="copy_kpi_targets"/>
+                        <field name="copy_assignments"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_rollover" type="object" string="Roll Over"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_rollover_wizard" model="ir.actions.act_window">
+        <field name="name">Roll Over Cycle</field>
+        <field name="res_model">aic.hrm.rollover.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_import" name="Import Spreadsheet"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="60"
+              action="action_aic_hrm_import_wizard"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_rollover" name="Roll Over Cycle"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="70"
+              action="action_aic_hrm_rollover_wizard"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+</odoo>

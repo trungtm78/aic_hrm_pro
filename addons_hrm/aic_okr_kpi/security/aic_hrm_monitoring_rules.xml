@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rule_checkin_user" model="ir.rule">
+        <field name="name">Check-in: own goals scope</field>
+        <field name="model_id" ref="model_aic_hrm_checkin"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', '|', '|', ('kr_id.employee_id.user_id', '=', user.id), ('kr_id.objective_id.employee_id.user_id', '=', user.id), ('kpi_target_id.employee_id.user_id', '=', user.id), ('kr_id.objective_id.visibility', '=', 'public')]</field>
+    </record>
+
+    <record id="rule_checkin_manager" model="ir.rule">
+        <field name="name">Check-in: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_checkin"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">['|', '|', ('kr_id.employee_id', 'child_of', user.employee_id.ids), ('kr_id.objective_id.employee_id', 'child_of', user.employee_id.ids), ('kpi_target_id.employee_id', 'child_of', user.employee_id.ids)]</field>
+    </record>
+
+    <record id="rule_checkin_admin" model="ir.rule">
+        <field name="name">Check-in: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_checkin"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_checkin_company" model="ir.rule">
+        <field name="name">Check-in: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_checkin"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_meeting_company" model="ir.rule">
+        <field name="name">Review meeting: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_review_meeting"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_meeting_action_company" model="ir.rule">
+        <field name="name">Meeting action: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_meeting_action"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_alert_rule_company" model="ir.rule">
+        <field name="name">Alert rule: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_alert_rule"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

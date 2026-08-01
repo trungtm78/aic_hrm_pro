@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_aic_hrm_checkin_list" model="ir.ui.view">
+        <field name="name">aic.hrm.checkin.list</field>
+        <field name="model">aic.hrm.checkin</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="kr_id"/>
+                <field name="kpi_target_id"/>
+                <field name="value_current"/>
+                <field name="progress_snapshot" widget="percentage"/>
+                <field name="rag_snapshot" widget="badge"
+                       decoration-success="rag_snapshot == 'green'"
+                       decoration-warning="rag_snapshot == 'amber'"
+                       decoration-danger="rag_snapshot == 'red'"/>
+                <field name="confidence"/>
+                <field name="author_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_checkin_form" model="ir.ui.view">
+        <field name="name">aic.hrm.checkin.form</field>
+        <field name="model">aic.hrm.checkin</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="kr_id"/>
+                            <field name="kpi_target_id"/>
+                            <field name="date"/>
+                            <field name="value_current"/>
+                            <field name="confidence" widget="priority_range"
+                                   options="{'max': 10}"/>
+                        </group>
+                        <group>
+                            <field name="progress_snapshot" widget="percentage"/>
+                            <field name="rag_snapshot"/>
+                            <field name="author_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="blocker" placeholder="What is blocking you? (leave empty if nothing)"/>
+                        <field name="note" placeholder="Context for your team"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_checkin" model="ir.actions.act_window">
+        <field name="name">Check-ins</field>
+        <field name="res_model">aic.hrm.checkin</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_aic_hrm_alert_rule_list" model="ir.ui.view">
+        <field name="name">aic.hrm.alert.rule.list</field>
+        <field name="model">aic.hrm.alert.rule</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="rule_type"/>
+                <field name="cycle_id"/>
+                <field name="streak_length"/>
+                <field name="escalation_days"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_alert_rule" model="ir.actions.act_window">
+        <field name="name">Alert Rules</field>
+        <field name="res_model">aic.hrm.alert.rule</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_aic_hrm_review_meeting_list" model="ir.ui.view">
+        <field name="name">aic.hrm.review.meeting.list</field>
+        <field name="model">aic.hrm.review.meeting</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="open_action_count"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_review_meeting_form" model="ir.ui.view">
+        <field name="name">aic.hrm.review.meeting.form</field>
+        <field name="model">aic.hrm.review.meeting</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_build_agenda" type="object"
+                            string="Build Agenda" invisible="state != 'draft'"/>
+                    <button name="action_hold" type="object" string="Hold Meeting"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_close" type="object" string="Close"
+                            class="btn-primary" invisible="state != 'held'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Monthly performance review"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cycle_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="attendee_ids" widget="many2many_tags"/>
+                            <field name="open_action_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Agenda" name="agenda">
+                            <field name="agenda"/>
+                        </page>
+                        <page string="Minutes" name="minutes">
+                            <field name="minutes"/>
+                        </page>
+                        <page string="Action Items" name="actions">
+                            <field name="action_item_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="owner_id"/>
+                                    <field name="deadline"/>
+                                    <field name="state"/>
+                                    <button name="action_done" type="object"
+                                            string="Done" icon="fa-check"
+                                            invisible="state != 'todo'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_review_meeting" model="ir.actions.act_window">
+        <field name="name">Review Meetings</field>
+        <field name="res_model">aic.hrm.review.meeting</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_checkins" name="Check-ins"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="35"
+              action="action_aic_hrm_checkin"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_review_meetings" name="Review Meetings"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="65"
+              action="action_aic_hrm_review_meeting"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_alert_rules" name="Alert Rules"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="50"
+              action="action_aic_hrm_alert_rule"
+              groups="aic_hrm_base.group_hrm_admin"/>
+
+</odoo>

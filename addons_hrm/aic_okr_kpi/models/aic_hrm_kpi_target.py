@@ -99,26 +99,61 @@ class AicHrmKpiTarget(models.Model):
                 target.unit = kpi.unit
                 target.frequency = kpi.frequency
 
+    def _load_actuals_map(self):
+        """Batch aggregate confirmed period results: three SQL round-trips
+        for the whole recordset instead of one ORM pass per target.
+        Returns {target_id: (sum, count, last_actual)}."""
+        real_ids = [i for i in self.ids if isinstance(i, int)]
+        actuals = {}
+        if not real_ids:
+            return actuals
+        PeriodResult = self.env['aic.hrm.kpi.period.result']
+        PeriodResult.flush_model(['kpi_target_id', 'actual', 'state',
+                                  'date_to'])
+        for target_rec, total, count in PeriodResult._read_group(
+                [('kpi_target_id', 'in', real_ids),
+                 ('state', '=', 'confirmed')],
+                ['kpi_target_id'], ['actual:sum', '__count']):
+            actuals[target_rec.id] = [total or 0.0, count, 0.0]
+        self.env.cr.execute("""
+            SELECT DISTINCT ON (kpi_target_id) kpi_target_id, actual
+            FROM aic_hrm_kpi_period_result
+            WHERE kpi_target_id = ANY(%s) AND state = 'confirmed'
+            ORDER BY kpi_target_id, date_to DESC, id DESC
+        """, (real_ids,))
+        for target_id, last_actual in self.env.cr.fetchall():
+            if target_id in actuals:
+                actuals[target_id][2] = last_actual or 0.0
+        return actuals
+
     @api.depends('period_result_ids', 'period_result_ids.actual',
                  'period_result_ids.state', 'period_result_ids.date_to',
                  'aggregation', 'direction', 'target_value',
                  'cycle_id.score_cap')
     def _compute_actuals(self):
+        actuals = self._load_actuals_map()
         for target in self:
-            results = target.period_result_ids.filtered(
-                lambda r: r.state == 'confirmed')
-            if not results:
+            entry = actuals.get(target.id) if isinstance(target.id, int) \
+                else None
+            if entry is None:
+                # Unsaved records (onchange) aggregate in memory.
+                results = target.period_result_ids.filtered(
+                    lambda r: r.state == 'confirmed')
+                entry = [sum(results.mapped('actual')), len(results),
+                         max(results, key=lambda r: r.date_to).actual
+                         if results else 0.0]
+            total, count, last_actual = entry
+            if not count:
                 target.actual_value = 0.0
                 target.achievement = 0.0
                 target.score = 0.0
                 continue
-            values = results.mapped('actual')
             if target.aggregation == 'sum':
-                actual = sum(values)
+                actual = total
             elif target.aggregation == 'average':
-                actual = sum(values) / len(values)
-            else:  # last: value of the latest confirmed period
-                actual = max(results, key=lambda r: r.date_to).actual
+                actual = total / count
+            else:
+                actual = last_actual
             cap = target.cycle_id.score_cap or 1.0
             target.actual_value = actual
             target.achievement = utils.achievement(
@@ -215,6 +250,38 @@ class AicHrmKpiTarget(models.Model):
                         "through an approved target revision.",
                         fields=', '.join(governed)))
         return super().write(vals)
+
+    @api.model
+    def _cron_refresh_metric_sources(self):
+        """Pull automated actuals for the current month into draft period
+        results. Runs as the cron superuser, which satisfies the metric
+        source's admin gate."""
+        targets = self.search([
+            ('metric_source_id', '!=', False),
+            ('cycle_id.state', '=', 'open'),
+        ])
+        PeriodResult = self.env['aic.hrm.kpi.period.result']
+        today = fields.Date.context_today(self)
+        month_start = today.replace(day=1)
+        for target in targets:
+            value = target.metric_source_id.compute_value(
+                date_from=month_start, date_to=today)
+            existing = PeriodResult.search([
+                ('kpi_target_id', '=', target.id),
+                ('date_from', '=', month_start),
+            ], limit=1)
+            if existing:
+                if existing.state == 'draft':
+                    existing.write({'actual': value, 'source': 'auto'})
+            else:
+                PeriodResult.create({
+                    'kpi_target_id': target.id,
+                    'date_from': month_start,
+                    'date_to': today,
+                    'actual': value,
+                    'source': 'auto',
+                    'state': 'draft',
+                })
 
     def action_confirm(self):
         self.filtered(lambda t: t.state == 'draft').write(

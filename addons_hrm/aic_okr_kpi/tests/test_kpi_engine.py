@@ -23,19 +23,21 @@ class KpiCase(OkrCase):
             'unit': 'USD',
         })
 
-    def _make_target(self, **kw):
+    @classmethod
+    def _make_target(cls, **kw):
         vals = {
-            'kpi_id': self.kpi_revenue.id,
-            'cycle_id': self.year.id,
-            'employee_id': self.member_employee.id,
+            'kpi_id': cls.kpi_revenue.id,
+            'cycle_id': cls.year.id,
+            'employee_id': cls.member_employee.id,
             'target_value': 100.0,
             'weight': 10.0,
         }
         vals.update(kw)
-        return self.KpiTarget.create(vals)
+        return cls.KpiTarget.create(vals)
 
-    def _add_result(self, target, date_from, date_to, actual, state='confirmed'):
-        return self.PeriodResult.create({
+    @classmethod
+    def _add_result(cls, target, date_from, date_to, actual, state='confirmed'):
+        return cls.PeriodResult.create({
             'kpi_target_id': target.id,
             'date_from': date_from,
             'date_to': date_to,

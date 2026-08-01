@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
@@ -16,7 +18,8 @@ _GOVERNED_STATES = ('approved', 'in_progress', 'self_assessed',
 class AicHrmKeyResult(models.Model):
     _name = 'aic.hrm.key.result'
     _description = 'Key Result'
-    _inherit = ['mail.thread', 'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin',
+                'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin']
     _order = 'objective_id, code, id'
 
     name = fields.Char(required=True, tracking=True)
@@ -59,10 +62,66 @@ class AicHrmKeyResult(models.Model):
     progress = fields.Float(
         compute='_compute_progress', store=True, aggregator='avg',
         help="Normalized 0..cap progress toward the target.")
-    last_checkin_date = fields.Date(readonly=True, copy=False)
+    last_checkin_date = fields.Date(copy=False)
     confidence = fields.Integer(
         readonly=True, copy=False,
         help="Latest check-in confidence, 1 (will miss) to 10 (will hit).")
+    is_stale = fields.Boolean(
+        compute='_compute_is_stale', search='_search_is_stale',
+        help="No check-in within the cycle's stale threshold.")
+
+    def _stale_cutoff(self):
+        self.ensure_one()
+        days = self.cycle_id.stale_days or 14
+        return fields.Date.context_today(self) - relativedelta(days=days)
+
+    @api.depends('last_checkin_date', 'cycle_id.stale_days')
+    def _compute_is_stale(self):
+        for kr in self:
+            kr.is_stale = bool(
+                kr.last_checkin_date
+                and kr.last_checkin_date < kr._stale_cutoff())
+
+    @api.model
+    def _cron_checkin_reminders(self):
+        """Nudge owners whose key results are due for a check-in."""
+        activity_type = self.env.ref('mail.mail_activity_data_todo')
+        due = self.search([
+            ('cycle_id.state', '=', 'open'),
+            ('employee_id.user_id', '!=', False),
+        ]).filtered(
+            lambda kr: not kr.last_checkin_date
+            or kr.last_checkin_date < kr._stale_cutoff())
+        Activity = self.env['mail.activity']
+        for kr in due:
+            existing = Activity.search([
+                ('res_model', '=', self._name),
+                ('res_id', '=', kr.id),
+                ('summary', '=like', '[Check-in due]%'),
+            ], limit=1)
+            if not existing:
+                kr.activity_schedule(
+                    activity_type_id=activity_type.id,
+                    summary=f'[Check-in due] {kr.display_name}',
+                    user_id=kr.employee_id.user_id.id)
+
+    def _search_is_stale(self, operator, value):
+        # Odoo 19 normalizes boolean leaves to ('in', [True/False]);
+        # Odoo 18 still passes '='/'!='. Support both (backport note).
+        if operator in ('in', 'not in'):
+            truthy = any(value) if isinstance(value, (list, tuple, set)) \
+                else bool(value)
+            want_stale = truthy if operator == 'in' else not truthy
+        elif operator in ('=', '!='):
+            want_stale = bool(value) if operator == '=' else not value
+        else:
+            return NotImplemented
+        cutoff = fields.Date.context_today(self) - relativedelta(days=14)
+        domain = [('last_checkin_date', '!=', False),
+                  ('last_checkin_date', '<', cutoff)]
+        if want_stale:
+            return domain
+        return ['!', '&'] + domain
 
     @api.depends('metric_type', 'direction', 'baseline', 'current', 'target',
                  'milestone_ids.is_done', 'milestone_ids.weight',

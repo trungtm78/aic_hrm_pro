@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="term_dir_higher_vi" model="aic.hrm.import.term">
+        <field name="term_type">direction</field>
+        <field name="source_term">càng cao càng tốt</field>
+        <field name="value">higher</field>
+    </record>
+    <record id="term_dir_lower_vi" model="aic.hrm.import.term">
+        <field name="term_type">direction</field>
+        <field name="source_term">càng thấp càng tốt</field>
+        <field name="value">lower</field>
+    </record>
+    <record id="term_dir_boolean_vi" model="aic.hrm.import.term">
+        <field name="term_type">direction</field>
+        <field name="source_term">đạt/không đạt</field>
+        <field name="value">boolean</field>
+    </record>
+    <record id="term_dir_higher_en" model="aic.hrm.import.term">
+        <field name="term_type">direction</field>
+        <field name="source_term">higher is better</field>
+        <field name="value">higher</field>
+    </record>
+    <record id="term_dir_lower_en" model="aic.hrm.import.term">
+        <field name="term_type">direction</field>
+        <field name="source_term">lower is better</field>
+        <field name="value">lower</field>
+    </record>
+    <record id="term_dir_boolean_en" model="aic.hrm.import.term">
+        <field name="term_type">direction</field>
+        <field name="source_term">pass/fail</field>
+        <field name="value">boolean</field>
+    </record>
+
+    <record id="term_agg_last_vi" model="aic.hrm.import.term">
+        <field name="term_type">aggregation</field>
+        <field name="source_term">cuối kỳ</field>
+        <field name="value">last</field>
+    </record>
+    <record id="term_agg_avg_vi" model="aic.hrm.import.term">
+        <field name="term_type">aggregation</field>
+        <field name="source_term">bình quân</field>
+        <field name="value">average</field>
+    </record>
+    <record id="term_agg_sum_vi" model="aic.hrm.import.term">
+        <field name="term_type">aggregation</field>
+        <field name="source_term">lũy kế</field>
+        <field name="value">sum</field>
+    </record>
+    <record id="term_agg_last_en" model="aic.hrm.import.term">
+        <field name="term_type">aggregation</field>
+        <field name="source_term">final period</field>
+        <field name="value">last</field>
+    </record>
+    <record id="term_agg_avg_en" model="aic.hrm.import.term">
+        <field name="term_type">aggregation</field>
+        <field name="source_term">average</field>
+        <field name="value">average</field>
+    </record>
+    <record id="term_agg_sum_en" model="aic.hrm.import.term">
+        <field name="term_type">aggregation</field>
+        <field name="source_term">cumulative</field>
+        <field name="value">sum</field>
+    </record>
+
+    <record id="term_prio_high_vi" model="aic.hrm.import.term">
+        <field name="term_type">priority</field>
+        <field name="source_term">cao</field>
+        <field name="value">high</field>
+    </record>
+    <record id="term_prio_medium_vi" model="aic.hrm.import.term">
+        <field name="term_type">priority</field>
+        <field name="source_term">trung bình</field>
+        <field name="value">medium</field>
+    </record>
+    <record id="term_prio_low_vi" model="aic.hrm.import.term">
+        <field name="term_type">priority</field>
+        <field name="source_term">thấp</field>
+        <field name="value">low</field>
+    </record>
+
+</odoo>

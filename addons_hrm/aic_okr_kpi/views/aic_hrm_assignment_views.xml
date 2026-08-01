@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_aic_hrm_kpi_assignment_list" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.assignment.list</field>
+        <field name="model">aic.hrm.kpi.assignment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="department_id" optional="show"/>
+                <field name="cycle_id"/>
+                <field name="total_weight" string="Σ Weight %"
+                       decoration-danger="not weight_ok"/>
+                <field name="weight_ok" column_invisible="1"/>
+                <field name="score" widget="percentage"/>
+                <field name="rag" widget="badge"
+                       decoration-success="rag == 'green'"
+                       decoration-warning="rag == 'amber'"
+                       decoration-danger="rag == 'red'"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_kpi_assignment_form" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.assignment.form</field>
+        <field name="model">aic.hrm.kpi.assignment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" type="object" string="Submit"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-primary" invisible="state != 'submitted'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_reset_to_draft" type="object" string="Send Back"
+                            invisible="state != 'submitted'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_done" type="object" string="Close"
+                            invisible="state != 'approved'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="employee_id" placeholder="Employee"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cycle_id"/>
+                            <field name="department_id"/>
+                            <field name="job_note"/>
+                        </group>
+                        <group>
+                            <field name="total_weight" decoration-danger="not weight_ok"/>
+                            <field name="weight_ok" invisible="1"/>
+                            <field name="score" widget="percentage"/>
+                            <field name="rag"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="KPI Lines" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="kpi_target_id"
+                                           domain="[('cycle_id', '=', parent.cycle_id)]"/>
+                                    <field name="weight"/>
+                                    <field name="personal_target" optional="show"/>
+                                    <field name="score" widget="percentage"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="total_weight" string="Σ Weight (must equal 100%)"
+                                       decoration-danger="not weight_ok"
+                                       decoration-success="weight_ok"/>
+                            </group>
+                        </page>
+                        <page string="Responsibility" name="responsibility">
+                            <field name="responsibility"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_kpi_assignment" model="ir.actions.act_window">
+        <field name="name">Scorecards</field>
+        <field name="res_model">aic.hrm.kpi.assignment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Build the first personal scorecard</p>
+            <p>Assign weighted KPI targets to an employee; the composite score follows their results automatically. Weights must total exactly 100%.</p>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_department_scorecard_list" model="ir.ui.view">
+        <field name="name">aic.hrm.department.scorecard.list</field>
+        <field name="model">aic.hrm.department.scorecard</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="department_id"/>
+                <field name="cycle_id"/>
+                <field name="employee_count"/>
+                <field name="avg_composite" widget="percentage"/>
+                <field name="avg_objective_score" widget="percentage"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_department_scorecard" model="ir.actions.act_window">
+        <field name="name">Department Scorecard</field>
+        <field name="res_model">aic.hrm.department.scorecard</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_assignments" name="Scorecards"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="50"
+              action="action_aic_hrm_kpi_assignment"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_department_scorecard" name="Department Scorecard"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="60"
+              action="action_aic_hrm_department_scorecard"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+</odoo>

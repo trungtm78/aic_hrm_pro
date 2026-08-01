@@ -86,6 +86,76 @@
         <field name="domain_force">['|', ('kpi_target_id.employee_id', 'child_of', user.employee_id.ids), ('kpi_target_id.employee_id', '=', False)]</field>
     </record>
 
+    <!-- Scorecards: own for users, reporting line for managers -->
+    <record id="rule_assignment_user_read" model="ir.rule">
+        <field name="name">Scorecard: user reads own</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_assignment_user_write" model="ir.rule">
+        <field name="name">Scorecard: user writes own</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_assignment_manager" model="ir.rule">
+        <field name="name">Scorecard: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">[('employee_id', 'child_of', user.employee_id.ids)]</field>
+    </record>
+
+    <record id="rule_assignment_admin" model="ir.rule">
+        <field name="name">Scorecard: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_assignment_company" model="ir.rule">
+        <field name="name">Scorecard: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_assignment_line_user" model="ir.rule">
+        <field name="name">Scorecard line: via assignment ownership</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment_line"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">[('assignment_id.employee_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_assignment_line_manager" model="ir.rule">
+        <field name="name">Scorecard line: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment_line"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">[('assignment_id.employee_id', 'child_of', user.employee_id.ids)]</field>
+    </record>
+
+    <record id="rule_assignment_line_admin" model="ir.rule">
+        <field name="name">Scorecard line: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_assignment_line"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_dept_scorecard_company" model="ir.rule">
+        <field name="name">Department scorecard: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_department_scorecard"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
     <record id="rule_kpi_period_admin" model="ir.rule">
         <field name="name">KPI period result: admin unrestricted</field>
         <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
