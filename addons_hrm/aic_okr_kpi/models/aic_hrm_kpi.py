@@ -70,10 +70,9 @@ class AicHrmKpi(models.Model):
         help="Empty on shared templates.")
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint(
-        'unique (code)',
-        'KPI codes must be unique.',
-    )
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'KPI codes must be unique.'),
+    ]
 
     @api.constrains('direction', 'default_target')
     def _check_lower_target(self):

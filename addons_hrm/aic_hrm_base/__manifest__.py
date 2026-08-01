@@ -2,7 +2,7 @@
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
     'name': 'AIC HRM Base',
-    'version': '19.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Foundation for the AIC HRM Pro suite: performance cycles, RAG profiles, scoring engine, security',
     'description': """

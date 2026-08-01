@@ -31,21 +31,21 @@ class OkrCase(TransactionCase):
             {'name': 'Digital Products'})
         cls.manager_user = cls.env['res.users'].create({
             'name': 'Mai Manager', 'login': 'okr_manager',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('base.group_user').id,
                 cls.env.ref('aic_hrm_base.group_hrm_manager').id,
             ])],
         })
         cls.member_user = cls.env['res.users'].create({
             'name': 'Nam Member', 'login': 'okr_member',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('base.group_user').id,
                 cls.env.ref('aic_hrm_base.group_hrm_user').id,
             ])],
         })
         cls.outsider_user = cls.env['res.users'].create({
             'name': 'Out Sider', 'login': 'okr_outsider',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('base.group_user').id,
                 cls.env.ref('aic_hrm_base.group_hrm_user').id,
             ])],

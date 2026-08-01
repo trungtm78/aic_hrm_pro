@@ -71,10 +71,9 @@ class AicHrmCycle(models.Model):
     active = fields.Boolean(default=True)
 
     # NOTE(backport-18): Odoo 18 uses the legacy _sql_constraints list instead.
-    _code_company_uniq = models.Constraint(
-        'unique (code, company_id)',
-        'The cycle code must be unique per company.',
-    )
+    _sql_constraints = [
+        ('code_company_uniq', 'unique(code, company_id)', 'The cycle code must be unique per company.'),
+    ]
 
     @api.model
     def _default_rag_profile(self):

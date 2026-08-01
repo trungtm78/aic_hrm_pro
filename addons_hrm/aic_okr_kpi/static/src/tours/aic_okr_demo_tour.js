@@ -1,7 +1,7 @@
 /** @odoo-module **/
 // Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 import { registry } from "@web/core/registry";
-import { stepUtils } from "@web_tour/tour_utils";
+import { stepUtils } from "@web_tour/tour_service/tour_utils";
 
 /**
  * Demo walk: Performance app -> Objectives list -> Leadership Cockpit.

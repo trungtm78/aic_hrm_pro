@@ -22,10 +22,9 @@ class AicHrmMetricAllowedModel(models.Model):
     model_name = fields.Char(related='model_id.model', store=True)
 
     # NOTE(backport-18): Odoo 18 uses the legacy _sql_constraints list instead.
-    _model_uniq = models.Constraint(
-        'unique (model_id)',
-        'This model is already allowlisted.',
-    )
+    _sql_constraints = [
+        ('model_uniq', 'unique(model_id)', 'This model is already allowlisted.'),
+    ]
 
 
 class AicHrmMetricSource(models.Model):
