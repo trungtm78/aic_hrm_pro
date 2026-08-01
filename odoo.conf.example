@@ -1,0 +1,14 @@
+[options]
+; ===== AIC HRM Pro - example configuration =====
+; Copy to odoo.conf and adjust credentials/paths for your machine.
+admin_passwd = change_me
+db_host = 127.0.0.1
+db_port = 5433
+db_user = odoo
+db_password = change_me
+db_name = AIC_HRM_Pro
+dbfilter = ^AIC_HRM_Pro$
+addons_path = ./addons,./addons_hrm
+http_port = 8073
+workers = 0
+log_level = info

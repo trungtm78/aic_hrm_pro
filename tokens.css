@@ -1,0 +1,106 @@
+/* Hallmark · component: design-tokens · genre: modern-minimal · theme: custom
+ * vibe: "ink-on-steel, audited-document, enterprise-calm, no varnish"
+ * paper: oklch(98% 0.005 235) · accent: oklch(45% 0.14 235)
+ * display: IBM Plex Sans · body: IBM Plex Sans · mono: IBM Plex Mono · ja: IBM Plex Sans JP
+ * axes: light / grotesk-sans / cool · studied: no · context: user-approved
+ */
+
+/* ============================================================
+ * AIC HRM Pro — "Muc & Thep HRM" design tokens
+ * Three tiers: primitive -> semantic -> component.
+ * Consumers reference SEMANTIC tokens; primitives never leak
+ * into component CSS directly.
+ * ============================================================ */
+
+:root {
+  /* ---- Tier 1 · Primitives (never referenced by components) ---- */
+  --plex-sans: 'IBM Plex Sans', 'IBM Plex Sans JP', -apple-system, 'Segoe UI', sans-serif;
+  --plex-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --steel-98: oklch(98% 0.005 235);
+  --steel-95: oklch(95% 0.006 235);
+  --steel-92: oklch(92% 0.008 235);
+  --steel-88: oklch(88% 0.008 235);
+  --steel-50: oklch(50% 0.010 235);
+  --steel-40: oklch(40% 0.010 235);
+  --steel-20: oklch(20% 0.010 235);
+  --steel-16: oklch(16% 0.010 235);
+  --ink-blue-45: oklch(45% 0.14 235);
+  --ink-blue-48-hi: oklch(48% 0.20 235);
+  --green-60: oklch(60% 0.13 150);
+  --amber-72: oklch(72% 0.14 75);
+  --red-55: oklch(55% 0.18 25);
+
+  /* ---- Tier 2 · Semantic ---- */
+  --color-paper: var(--steel-98);
+  --color-paper-2: var(--steel-95);
+  --color-paper-3: var(--steel-92);
+  --color-ink: var(--steel-20);
+  --color-ink-2: var(--steel-40);
+  --color-rule: var(--steel-88);
+  --color-muted: var(--steel-50);
+  --color-accent: var(--ink-blue-45);
+  --color-accent-ink: var(--steel-98);
+  --color-focus: var(--ink-blue-48-hi);
+
+  /* Status colors are DATA colors, not accent. Always paired with a
+   * shape/icon so state never relies on hue alone (colorblind-safe). */
+  --status-green: var(--green-60);
+  --status-amber: var(--amber-72);
+  --status-red: var(--red-55);
+  --status-neutral: var(--color-muted);
+
+  --font-display: var(--plex-sans);
+  --font-body: var(--plex-sans);
+  --font-data: var(--plex-mono);
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-display-s: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
+  --text-display: clamp(2.25rem, 4vw + 0.5rem, 3.5rem);
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+
+  --rule-hairline: 1px solid var(--color-rule);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+}
+
+/* Dark mode ("night audit") — same hue family, inverted lightness. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: var(--steel-16);
+    --color-paper-2: oklch(19% 0.010 235);
+    --color-paper-3: oklch(23% 0.010 235);
+    --color-ink: oklch(93% 0.006 235);
+    --color-ink-2: oklch(72% 0.008 235);
+    --color-rule: oklch(30% 0.010 235);
+    --color-muted: oklch(60% 0.010 235);
+    --color-accent: oklch(68% 0.13 235);
+    --color-accent-ink: var(--steel-16);
+    --color-focus: oklch(72% 0.18 235);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+  }
+}

@@ -1,0 +1,27 @@
+# Odoo runtime (not part of the product repo - modules only)
+/odoo/
+/addons/
+/odoo-bin
+/requirements.txt
+
+# Local config (contains credentials) - use odoo.conf.example
+odoo.conf
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.hypothesis/
+.coverage
+htmlcov/
+
+# Logs / local artifacts
+*.log
+/filestore/
+/sessions/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
