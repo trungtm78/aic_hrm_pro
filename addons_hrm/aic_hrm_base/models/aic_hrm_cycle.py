@@ -6,7 +6,8 @@ from odoo.exceptions import UserError, ValidationError
 # Days per check-in frequency; stale threshold defaults to twice the interval.
 _FREQUENCY_DAYS = {'weekly': 7, 'biweekly': 14, 'monthly': 30}
 
-# state -> states it may transition to (server-guarded; no free-form writes)
+# state -> states it may transition to; write() validates legality and
+# permission itself, so no context flag can act as a bypassable boundary.
 _ALLOWED_TRANSITIONS = {
     'draft': {'open'},
     'open': {'review'},
@@ -14,6 +15,9 @@ _ALLOWED_TRANSITIONS = {
     'closed': {'locked'},
     'locked': set(),
 }
+
+# Locking is an admin act; every other transition is a manager act.
+_ADMIN_TRANSITIONS = {'locked'}
 
 
 class AicHrmCycle(models.Model):
@@ -121,21 +125,29 @@ class AicHrmCycle(models.Model):
                     "RAG profile %(profile)s belongs to another company.",
                     profile=cycle.rag_profile_id.display_name))
 
-    def _transition(self, target_state):
+    def _validate_state_change(self, target_state):
+        if not self.env.su:
+            required_group = ('aic_hrm_base.group_hrm_admin'
+                              if target_state in _ADMIN_TRANSITIONS
+                              else 'aic_hrm_base.group_hrm_manager')
+            if not self.env.user.has_group(required_group):
+                raise UserError(_(
+                    "You do not have the rights to move cycles to "
+                    "%(target)s.", target=target_state))
         for cycle in self:
             if target_state not in _ALLOWED_TRANSITIONS[cycle.state]:
                 raise UserError(_(
                     "Cycle %(name)s cannot go from %(current)s to %(target)s.",
                     name=cycle.display_name, current=cycle.state,
                     target=target_state))
-        self.with_context(hrm_cycle_transition=True).write(
-            {'state': target_state})
+
+    def _transition(self, target_state):
+        self.write({'state': target_state})
 
     def write(self, vals):
-        if 'state' in vals and not self.env.context.get('hrm_cycle_transition'):
-            raise UserError(_(
-                "Cycle states change only through their workflow actions."))
-        if not self.env.context.get('hrm_cycle_transition'):
+        if 'state' in vals:
+            self._validate_state_change(vals['state'])
+        else:
             locked = self.filtered(lambda c: c.state == 'locked')
             if locked:
                 raise UserError(_(

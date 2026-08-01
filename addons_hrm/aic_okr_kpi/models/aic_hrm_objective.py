@@ -5,7 +5,8 @@ from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.aic_hrm_base.models import utils
 
-# state -> reachable states, all changes go through the action_* methods
+# state -> reachable states; write() itself validates legality + permission,
+# so no context flag can act as a bypassable trust boundary.
 _TRANSITIONS = {
     'draft': {'submitted'},
     'submitted': {'approved', 'draft'},
@@ -15,6 +16,9 @@ _TRANSITIONS = {
     'manager_review': {'done'},
     'done': set(),
 }
+
+# Target states that only performance managers may reach.
+_MANAGER_TRANSITIONS = {'approved', 'done'}
 
 # Once approved, these fields only change through an approved target revision.
 _GOVERNED_STATES = ('approved', 'in_progress', 'self_assessed',
@@ -94,13 +98,18 @@ class AicHrmObjective(models.Model):
             objective.kr_count = len(objective.kr_ids)
 
     @api.depends('kr_ids.score', 'kr_ids.weight',
-                 'child_ids.score', 'child_ids.weight')
+                 'child_ids.score', 'child_ids.weight',
+                 'cycle_id.score_cap')
     def _compute_score(self):
         for objective in self:
             pairs = [(kr.score, kr.weight) for kr in objective.kr_ids]
             pairs += [(child.score, child.weight)
                       for child in objective.child_ids]
-            objective.score = utils.weighted_average(pairs)
+            # Clamp against OWN cycle cap: a child cycle with a higher cap
+            # must not push the parent above its scale.
+            objective.score = utils.clamp(
+                utils.weighted_average(pairs), 0.0,
+                objective.cycle_id.score_cap or 1.0)
 
     score = fields.Float(
         compute='_compute_score', store=True, readonly=True, aggregator='avg')
@@ -159,12 +168,28 @@ class AicHrmObjective(models.Model):
         cycles.ensure_editable()
         return super().create(vals_list)
 
-    def write(self, vals):
-        if 'state' in vals and not self.env.context.get('hrm_okr_transition'):
+    def _validate_state_change(self, target_state):
+        """Legality + permission for a state change, whatever the entry
+        point (action method or direct write over RPC)."""
+        if target_state in _MANAGER_TRANSITIONS and not self.env.su and \
+                not self.env.user.has_group('aic_hrm_base.group_hrm_manager'):
             raise UserError(_(
-                "Objective states change only through their workflow "
-                "actions."))
+                "Only performance managers may move objectives to "
+                "%(target)s.", target=target_state))
+        for objective in self:
+            if target_state not in _TRANSITIONS[objective.state]:
+                raise UserError(_(
+                    "Objective %(name)s cannot go from %(current)s to "
+                    "%(target)s.", name=objective.display_name,
+                    current=objective.state, target=target_state))
+
+    def write(self, vals):
+        if 'state' in vals:
+            self._validate_state_change(vals['state'])
         self.cycle_id.ensure_editable()
+        if 'cycle_id' in vals:
+            self.env['aic.hrm.cycle'].browse(
+                vals['cycle_id']).ensure_editable()
         if not self.env.context.get('hrm_revision_write'):
             governed = [f for f in _GOVERNED_FIELDS if f in vals]
             if governed:
@@ -178,14 +203,7 @@ class AicHrmObjective(models.Model):
         return super().write(vals)
 
     def _transition(self, target_state):
-        for objective in self:
-            if target_state not in _TRANSITIONS[objective.state]:
-                raise UserError(_(
-                    "Objective %(name)s cannot go from %(current)s to "
-                    "%(target)s.", name=objective.display_name,
-                    current=objective.state, target=target_state))
-        self.with_context(hrm_okr_transition=True).write(
-            {'state': target_state})
+        self.write({'state': target_state})
 
     def action_submit(self):
         self._transition('submitted')

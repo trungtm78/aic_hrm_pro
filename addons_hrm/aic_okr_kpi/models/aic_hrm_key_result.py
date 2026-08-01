@@ -114,10 +114,25 @@ class AicHrmKeyResult(models.Model):
             [vals['objective_id'] for vals in vals_list
              if vals.get('objective_id')])
         objectives.cycle_id.ensure_editable()
+        frozen = objectives.filtered(lambda o: o.state in _GOVERNED_STATES)
+        if frozen and not self.env.context.get('hrm_revision_write'):
+            raise UserError(_(
+                "Objective %(name)s is approved: adding key results now "
+                "would silently change its score. Send it back to draft or "
+                "go through a target revision.", name=frozen[0].display_name))
         return super().create(vals_list)
 
     def write(self, vals):
         self.cycle_id.ensure_editable()
+        if 'objective_id' in vals:
+            new_objective = self.env['aic.hrm.objective'].browse(
+                vals['objective_id'])
+            new_objective.cycle_id.ensure_editable()
+            if new_objective.state in _GOVERNED_STATES and \
+                    not self.env.context.get('hrm_revision_write'):
+                raise UserError(_(
+                    "Key results cannot be moved under the approved "
+                    "objective %(name)s.", name=new_objective.display_name))
         if not self.env.context.get('hrm_revision_write'):
             governed = [f for f in _GOVERNED_FIELDS if f in vals]
             if governed:

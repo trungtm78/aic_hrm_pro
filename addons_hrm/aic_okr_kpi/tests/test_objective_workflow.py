@@ -71,6 +71,41 @@ class TestObjectiveWorkflow(OkrCase):
         revision.action_approve()
         self.assertAlmostEqual(kr.target, 120.0)
 
+    def test_kr_creation_blocked_after_approval(self):
+        objective = self._make_objective()
+        objective.action_submit()
+        objective.action_approve()
+        with self.assertRaises(UserError):
+            self._make_kr(objective, name='Late addition')
+
+    def test_move_to_locked_cycle_blocked(self):
+        lockable = self.Cycle.create({
+            'name': 'Lockable move', 'code': 'OKR-MOVE', 'cycle_type': 'year',
+            'date_start': '2026-01-01', 'date_end': '2026-12-31',
+        })
+        objective = self._make_objective()
+        lockable.action_open()
+        lockable.action_start_review()
+        lockable.action_close()
+        lockable.action_lock()
+        with self.assertRaises(UserError):
+            objective.write({'cycle_id': lockable.id})
+
+    def test_score_clamped_by_own_cycle_cap(self):
+        overachieving = self.Cycle.create({
+            'name': 'Cap 1.2', 'code': 'OKR-CAP2', 'cycle_type': 'quarter',
+            'date_start': '2026-04-01', 'date_end': '2026-06-30',
+            'parent_id': self.year.id, 'score_cap': 1.2,
+        })
+        annual = self._make_objective(name='Capped parent')
+        child = self._make_objective(
+            name='Overachiever', cycle_id=overachieving.id,
+            parent_id=annual.id, weight=1.0)
+        self._make_kr(child, baseline=0, target=100, current=130)
+        self.assertAlmostEqual(child.score, 1.2)
+        # parent cycle cap is 1.0: the child's 1.2 must not leak through
+        self.assertAlmostEqual(annual.score, 1.0)
+
     def test_draft_fields_stay_editable(self):
         objective = self._make_objective(weight=20.0)
         objective.write({'weight': 30.0})
