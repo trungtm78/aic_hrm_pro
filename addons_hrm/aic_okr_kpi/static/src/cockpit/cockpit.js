@@ -40,7 +40,11 @@ export class AicHrmCockpit extends Component {
     }
 
     async onCycleChange(ev) {
-        this.state.cycleId = parseInt(ev.target.value, 10);
+        const cycleId = parseInt(ev.target.value, 10);
+        if (!cycleId) {
+            return;
+        }
+        this.state.cycleId = cycleId;
         await this.loadCycle();
     }
 

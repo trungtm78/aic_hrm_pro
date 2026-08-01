@@ -1,0 +1,66 @@
+# JAPANESE DRAFT - machine-assisted, NOT native-reviewed.
+# Deliberately partial: untranslated strings fall back to English VISIBLY.
+# Do not advertise official Japanese support until a native speaker signs
+# this file off (see design.md / spec: ja stays flagged as draft).
+msgid ""
+msgstr ""
+"Project-Id-Version: aic_okr_kpi 19.0.1.0.0\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Objectives"
+msgstr "目標"
+
+msgid "Objective"
+msgstr "目標"
+
+msgid "Key Results"
+msgstr "主要成果"
+
+msgid "Key Result"
+msgstr "主要成果"
+
+msgid "Check-ins"
+msgstr "チェックイン"
+
+msgid "KPI Targets"
+msgstr "KPIターゲット"
+
+msgid "KPI Library"
+msgstr "KPIライブラリ"
+
+msgid "Scorecards"
+msgstr "スコアカード"
+
+msgid "Review Meetings"
+msgstr "レビュー会議"
+
+msgid "Cockpit"
+msgstr "コックピット"
+
+msgid "Alignment Tree"
+msgstr "整合ツリー"
+
+msgid "Draft"
+msgstr "下書き"
+
+msgid "Done"
+msgstr "完了"
+
+msgid "Submit"
+msgstr "提出"
+
+msgid "Weight"
+msgstr "ウェイト"
+
+msgid "Target"
+msgstr "目標値"
+
+msgid "Progress"
+msgstr "進捗"
+
+msgid "Confidence"
+msgstr "自信度"

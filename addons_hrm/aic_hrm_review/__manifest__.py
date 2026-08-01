@@ -21,7 +21,11 @@ Provides:
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
     'depends': ['aic_okr_kpi'],
-    'data': [],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/aic_hrm_review_rules.xml',
+        'views/aic_hrm_review_views.xml',
+    ],
     'installable': True,
     'application': False,
     'auto_install': False,

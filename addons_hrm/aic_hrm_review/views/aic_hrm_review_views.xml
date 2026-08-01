@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_review_cycle_list" model="ir.ui.view">
+        <field name="name">aic.hrm.review.cycle.list</field>
+        <field name="model">aic.hrm.review.cycle</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="perf_cycle_id"/>
+                <field name="template_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_review_cycle_form" model="ir.ui.view">
+        <field name="name">aic.hrm.review.cycle.form</field>
+        <field name="model">aic.hrm.review.cycle</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate_reviews" type="object"
+                            string="Generate Reviews" class="btn-primary"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. 2026 annual review"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not small_team_warning">
+                        <field name="small_team_warning"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="perf_cycle_id"/>
+                            <field name="template_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="department_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Reviews" name="reviews">
+                            <field name="review_ids">
+                                <list>
+                                    <field name="employee_id"/>
+                                    <field name="stage_id"/>
+                                    <field name="goal_score" widget="percentage"/>
+                                    <field name="self_score" widget="percentage" optional="show"/>
+                                    <field name="manager_score" widget="percentage"/>
+                                    <field name="final_score" widget="percentage"/>
+                                    <field name="nine_box_position" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_review_cycle" model="ir.actions.act_window">
+        <field name="name">Review Cycles</field>
+        <field name="res_model">aic.hrm.review.cycle</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_review_form" model="ir.ui.view">
+        <field name="name">aic.hrm.review.form</field>
+        <field name="model">aic.hrm.review</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_next_stage" type="object"
+                            string="Next Stage" class="btn-primary"
+                            invisible="is_final"/>
+                    <button name="action_finalize_review" type="object"
+                            string="Finalize" class="btn-primary"
+                            invisible="is_final"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <field name="stage_id" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="employee_id"/></h1>
+                    </div>
+                    <group>
+                        <group string="Scores">
+                            <field name="goal_score" widget="percentage"/>
+                            <field name="self_score" widget="percentage"/>
+                            <field name="peer_feedback_ready" invisible="1"/>
+                            <field name="peer_score_avg" widget="percentage"
+                                   invisible="not peer_feedback_ready"/>
+                            <field name="manager_score" widget="percentage"
+                                   groups="aic_hrm_base.group_hrm_manager"/>
+                            <field name="calibrated_score" widget="percentage"
+                                   groups="aic_hrm_base.group_hrm_manager"/>
+                            <field name="final_score" widget="percentage"/>
+                        </group>
+                        <group string="Talent">
+                            <field name="potential_rating"
+                                   groups="aic_hrm_base.group_hrm_manager"/>
+                            <field name="nine_box_position"/>
+                            <field name="pip_suggested"/>
+                            <field name="is_final" invisible="1"/>
+                            <field name="review_cycle_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_review" model="ir.actions.act_window">
+        <field name="name">Reviews</field>
+        <field name="res_model">aic.hrm.review</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_review_list" model="ir.ui.view">
+        <field name="name">aic.hrm.review.list</field>
+        <field name="model">aic.hrm.review</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="review_cycle_id"/>
+                <field name="stage_id"/>
+                <field name="final_score" widget="percentage"/>
+                <field name="nine_box_position"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_calibration_session_form" model="ir.ui.view">
+        <field name="name">aic.hrm.calibration.session.form</field>
+        <field name="model">aic.hrm.calibration.session</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="review_cycle_id"/>
+                        <field name="facilitator_id"/>
+                        <field name="date"/>
+                        <field name="state"/>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="review_id"/>
+                            <field name="score_before" widget="percentage"/>
+                            <field name="score_after" widget="percentage"/>
+                            <field name="justification"/>
+                            <field name="state"/>
+                            <button name="action_apply" type="object"
+                                    string="Apply" icon="fa-check"
+                                    invisible="state == 'applied'"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_calibration_session" model="ir.actions.act_window">
+        <field name="name">Calibration Sessions</field>
+        <field name="res_model">aic.hrm.calibration.session</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_calibration_session_list" model="ir.ui.view">
+        <field name="name">aic.hrm.calibration.session.list</field>
+        <field name="model">aic.hrm.calibration.session</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="review_cycle_id"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_idp_form" model="ir.ui.view">
+        <field name="name">aic.hrm.idp.form</field>
+        <field name="model">aic.hrm.idp</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" type="object" string="Activate"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state != 'active'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="employee_id"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="plan_type"/>
+                            <field name="review_id"/>
+                            <field name="mentor_id"/>
+                        </group>
+                    </group>
+                    <field name="action_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="action_type"/>
+                            <field name="date_due"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                    <field name="note" placeholder="Context and success criteria"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_idp" model="ir.actions.act_window">
+        <field name="name">Development Plans</field>
+        <field name="res_model">aic.hrm.idp</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_idp_list" model="ir.ui.view">
+        <field name="name">aic.hrm.idp.list</field>
+        <field name="model">aic.hrm.idp</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="plan_type"/>
+                <field name="review_id" optional="show"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <menuitem id="menu_review_cycles" name="Review Cycles"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="70"
+              action="action_review_cycle"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_reviews" name="Reviews"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="72"
+              action="action_review"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_calibration" name="Calibration"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="74"
+              action="action_calibration_session"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_idp" name="Development Plans"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="76"
+              action="action_idp"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <record id="action_review_template" model="ir.actions.act_window">
+        <field name="name">Review Templates</field>
+        <field name="res_model">aic.hrm.review.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_review_templates" name="Review Templates"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="80"
+              action="action_review_template"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+</odoo>
