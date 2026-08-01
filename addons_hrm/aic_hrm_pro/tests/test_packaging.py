@@ -4,6 +4,7 @@ import pathlib
 import re
 import unicodedata
 
+from odoo import release
 from odoo.modules.module import get_manifest, get_module_path
 from odoo.tests import TransactionCase, tagged
 
@@ -30,8 +31,10 @@ class TestPackaging(TransactionCase):
         for name in SUITE_MODULES:
             manifest = get_manifest(name)
             self.assertEqual(manifest['license'], 'OPL-1', name)
+            series = '.'.join(release.version.split('.')[:2])
             self.assertTrue(
-                manifest['version'].startswith('19.0.'), name)
+                manifest['version'].startswith(f'{series}.'),
+                f'{name}: version must match the server series {series}')
             self.assertEqual(manifest['author'], 'AIPOWER CO.,LTD', name)
             prices[name] = manifest.get('price')
         self.assertTrue(prices['aic_hrm_pro'],
