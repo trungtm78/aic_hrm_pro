@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Human-capital KPI template library. Wording is our own, informed by
+     common human-capital reporting practice - deliberately NOT copied from
+     any standard's text (see docs/backport-notes.md provenance rules). -->
+<odoo noupdate="1">
+
+    <record id="kpi_group_workforce" model="aic.hrm.kpi.group">
+        <field name="name">Workforce &amp; Retention</field>
+        <field name="code">HCG-WF</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="kpi_group_recruitment" model="aic.hrm.kpi.group">
+        <field name="name">Recruitment</field>
+        <field name="code">HCG-REC</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="kpi_group_development" model="aic.hrm.kpi.group">
+        <field name="name">Skills &amp; Development</field>
+        <field name="code">HCG-DEV</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="kpi_group_productivity" model="aic.hrm.kpi.group">
+        <field name="name">Productivity &amp; Engagement</field>
+        <field name="code">HCG-PROD</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="kpi_group_safety" model="aic.hrm.kpi.group">
+        <field name="name">Health, Safety &amp; Compliance</field>
+        <field name="code">HCG-SAFE</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="kpi_tpl_turnover" model="aic.hrm.kpi">
+        <field name="name">Voluntary turnover rate</field>
+        <field name="code">HCT-TURNOVER</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_workforce"/>
+        <field name="definition">Share of employees who chose to leave during the period, against average headcount.</field>
+        <field name="formula">voluntary leavers / average headcount * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">8</field>
+    </record>
+
+    <record id="kpi_tpl_absence" model="aic.hrm.kpi">
+        <field name="name">Absence rate</field>
+        <field name="code">HCT-ABSENCE</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_workforce"/>
+        <field name="definition">Unplanned absence days as a share of scheduled working days.</field>
+        <field name="formula">unplanned absence days / scheduled days * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="frequency">monthly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">3</field>
+    </record>
+
+    <record id="kpi_tpl_retention_key" model="aic.hrm.kpi">
+        <field name="name">Key-people retention</field>
+        <field name="code">HCT-RETKEY</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_workforce"/>
+        <field name="definition">Share of employees flagged as critical who stayed through the period.</field>
+        <field name="formula">critical employees retained / critical employees at start * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">95</field>
+    </record>
+
+    <record id="kpi_tpl_time_to_fill" model="aic.hrm.kpi">
+        <field name="name">Average time to fill a vacancy</field>
+        <field name="code">HCT-TTF</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_recruitment"/>
+        <field name="definition">Calendar days from opening a position to an accepted offer, averaged over hires in the period.</field>
+        <field name="formula">sum(days open to accept) / positions filled</field>
+        <field name="unit">days</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">35</field>
+    </record>
+
+    <record id="kpi_tpl_cost_per_hire" model="aic.hrm.kpi">
+        <field name="name">Average cost per hire</field>
+        <field name="code">HCT-CPH</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_recruitment"/>
+        <field name="definition">Total internal and external recruiting spend divided by hires in the period.</field>
+        <field name="formula">(internal + external recruiting costs) / hires</field>
+        <field name="unit">currency</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">2000</field>
+    </record>
+
+    <record id="kpi_tpl_offer_accept" model="aic.hrm.kpi">
+        <field name="name">Offer acceptance rate</field>
+        <field name="code">HCT-OFFER</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_recruitment"/>
+        <field name="definition">Accepted offers as a share of offers extended.</field>
+        <field name="formula">offers accepted / offers extended * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">85</field>
+    </record>
+
+    <record id="kpi_tpl_training_hours" model="aic.hrm.kpi">
+        <field name="name">Training hours per employee</field>
+        <field name="code">HCT-TRAINHRS</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_development"/>
+        <field name="definition">Delivered learning hours divided by average headcount.</field>
+        <field name="formula">total training hours / average headcount</field>
+        <field name="unit">hours</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">sum</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">10</field>
+    </record>
+
+    <record id="kpi_tpl_training_completion" model="aic.hrm.kpi">
+        <field name="name">Mandatory training completion</field>
+        <field name="code">HCT-TRAINDONE</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_safety"/>
+        <field name="definition">Employees who completed all required trainings on time, as a share of those due.</field>
+        <field name="formula">on-time completions / employees due * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">100</field>
+    </record>
+
+    <record id="kpi_tpl_internal_mobility" model="aic.hrm.kpi">
+        <field name="name">Internal mobility rate</field>
+        <field name="code">HCT-INTMOB</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_development"/>
+        <field name="definition">Positions filled by internal moves or promotions, as a share of all filled positions.</field>
+        <field name="formula">internal fills / total fills * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">30</field>
+    </record>
+
+    <record id="kpi_tpl_revenue_fte" model="aic.hrm.kpi">
+        <field name="name">Revenue per full-time equivalent</field>
+        <field name="code">HCT-REVFTE</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_productivity"/>
+        <field name="definition">Company revenue divided by average full-time-equivalent headcount.</field>
+        <field name="formula">revenue / average FTE</field>
+        <field name="unit">currency</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">100000</field>
+    </record>
+
+    <record id="kpi_tpl_enps" model="aic.hrm.kpi">
+        <field name="name">Employee net promoter score</field>
+        <field name="code">HCT-ENPS</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_productivity"/>
+        <field name="definition">Promoters minus detractors on the would-you-recommend-working-here question.</field>
+        <field name="formula">% promoters - % detractors</field>
+        <field name="unit">points</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">30</field>
+    </record>
+
+    <record id="kpi_tpl_engagement" model="aic.hrm.kpi">
+        <field name="name">Engagement survey participation</field>
+        <field name="code">HCT-ENGPART</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_productivity"/>
+        <field name="definition">Employees who answered the engagement survey, as a share of those invited.</field>
+        <field name="formula">respondents / invited * 100</field>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">leading</field>
+        <field name="default_target">80</field>
+    </record>
+
+    <record id="kpi_tpl_safety_incidents" model="aic.hrm.kpi">
+        <field name="name">Recordable safety incidents</field>
+        <field name="code">HCT-SAFETY</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_safety"/>
+        <field name="definition">Work-related incidents requiring reporting, per period. Use Pass/Fail for strict zero-incident policies.</field>
+        <field name="formula">count of recordable incidents</field>
+        <field name="unit">incidents</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">sum</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">2</field>
+    </record>
+
+    <record id="kpi_tpl_span_control" model="aic.hrm.kpi">
+        <field name="name">Manager span of control</field>
+        <field name="code">HCT-SPAN</field>
+        <field name="is_template" eval="True"/>
+        <field name="group_id" ref="kpi_group_workforce"/>
+        <field name="definition">Average number of direct reports per people manager.</field>
+        <field name="formula">employees with a manager / people managers</field>
+        <field name="unit">reports</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="frequency">quarterly</field>
+        <field name="flag_type">lagging</field>
+        <field name="default_target">6</field>
+    </record>
+
+</odoo>

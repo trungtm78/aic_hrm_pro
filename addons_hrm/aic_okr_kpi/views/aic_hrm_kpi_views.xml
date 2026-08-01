@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_aic_hrm_kpi_list" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.list</field>
+        <field name="model">aic.hrm.kpi</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="group_id" optional="show"/>
+                <field name="direction"/>
+                <field name="aggregation"/>
+                <field name="frequency" optional="show"/>
+                <field name="unit" optional="show"/>
+                <field name="flag_type" optional="hide"/>
+                <field name="is_template"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_kpi_form" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.form</field>
+        <field name="model">aic.hrm.kpi</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="What does this KPI measure?"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identity">
+                            <field name="code"/>
+                            <field name="group_id"/>
+                            <field name="is_template"/>
+                            <field name="flag_type"/>
+                        </group>
+                        <group string="Measurement">
+                            <field name="direction"/>
+                            <field name="aggregation"/>
+                            <field name="frequency"/>
+                            <field name="unit"/>
+                            <field name="default_baseline"/>
+                            <field name="default_target"/>
+                            <field name="rag_profile_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="definition" placeholder="Business definition every reader agrees on"/>
+                        <field name="formula" placeholder="How the number is computed (documentation)"/>
+                        <field name="data_source" placeholder="System or report the actuals come from"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_kpi_search" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.search</field>
+        <field name="model">aic.hrm.kpi</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Templates" name="templates" domain="[('is_template', '=', True)]"/>
+                <filter string="Live KPIs" name="live" domain="[('is_template', '=', False)]"/>
+                <group>
+                    <filter string="Group" name="group_group" domain="[]" context="{'group_by': 'group_id'}"/>
+                    <filter string="Direction" name="group_direction" domain="[]" context="{'group_by': 'direction'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_kpi" model="ir.actions.act_window">
+        <field name="name">KPI Library</field>
+        <field name="res_model">aic.hrm.kpi</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Document your first KPI</p>
+            <p>A KPI record carries its full documentation form: definition, formula, direction, aggregation, source and thresholds. The template library ships ready-made human-capital KPIs.</p>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_kpi_target_list" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.target.list</field>
+        <field name="model">aic.hrm.kpi.target</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="kpi_id"/>
+                <field name="cycle_id"/>
+                <field name="employee_id"/>
+                <field name="department_id" optional="hide"/>
+                <field name="weight"/>
+                <field name="target_value"/>
+                <field name="actual_value"/>
+                <field name="unit" optional="show"/>
+                <field name="achievement" widget="percentage"/>
+                <field name="rag" widget="badge"
+                       decoration-success="rag == 'green'"
+                       decoration-warning="rag == 'amber'"
+                       decoration-danger="rag == 'red'"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_kpi_target_form" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.target.form</field>
+        <field name="model">aic.hrm.kpi.target</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="btn-primary" invisible="state != 'draft'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_done" type="object" string="Mark Done"
+                            invisible="state != 'confirmed'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="kpi_id"/>
+                            <field name="cycle_id"/>
+                            <field name="employee_id"/>
+                            <field name="objective_id"/>
+                            <field name="weight"/>
+                        </group>
+                        <group>
+                            <field name="direction"/>
+                            <field name="aggregation"/>
+                            <field name="frequency"/>
+                            <field name="unit"/>
+                            <field name="baseline_value"/>
+                            <field name="target_value"/>
+                            <field name="actual_value"/>
+                            <field name="achievement" widget="percentage"/>
+                            <field name="rag"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Period Results" name="periods">
+                            <field name="period_result_ids">
+                                <list editable="bottom">
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="actual"/>
+                                    <field name="period_target" optional="hide"/>
+                                    <field name="source"/>
+                                    <field name="state"/>
+                                    <field name="note" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_kpi_target_search" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.target.search</field>
+        <field name="model">aic.hrm.kpi.target</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="kpi_id"/>
+                <field name="employee_id"/>
+                <filter string="My KPIs" name="my"
+                        domain="[('employee_id.user_id', '=', uid)]"/>
+                <filter string="At Risk" name="at_risk" domain="[('rag', '=', 'red')]"/>
+                <group>
+                    <filter string="Cycle" name="group_cycle" domain="[]" context="{'group_by': 'cycle_id'}"/>
+                    <filter string="Owner" name="group_owner" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Department" name="group_department" domain="[]" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_kpi_target" model="ir.actions.act_window">
+        <field name="name">KPI Targets</field>
+        <field name="res_model">aic.hrm.kpi.target</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_cycle': 1}</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_kpi_targets" name="KPI Targets"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="40"
+              action="action_aic_hrm_kpi_target"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_kpi_library" name="KPI Library"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="5"
+              action="action_aic_hrm_kpi"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+</odoo>

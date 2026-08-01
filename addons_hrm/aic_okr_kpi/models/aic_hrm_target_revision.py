@@ -12,5 +12,7 @@ class AicHrmTargetRevision(models.Model):
         revisable.update({
             'aic.hrm.objective': {'weight'},
             'aic.hrm.key.result': {'target', 'baseline', 'weight'},
+            'aic.hrm.kpi.target': {'target_value', 'baseline_value',
+                                   'weight'},
         })
         return revisable

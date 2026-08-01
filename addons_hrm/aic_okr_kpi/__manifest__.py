@@ -27,7 +27,10 @@ Provides:
     'data': [
         'security/ir.model.access.csv',
         'security/aic_okr_kpi_rules.xml',
+        'security/aic_hrm_kpi_rules.xml',
+        'data/aic_hrm_kpi_templates.xml',
         'views/aic_hrm_objective_views.xml',
+        'views/aic_hrm_kpi_views.xml',
     ],
     'installable': True,
     'application': False,

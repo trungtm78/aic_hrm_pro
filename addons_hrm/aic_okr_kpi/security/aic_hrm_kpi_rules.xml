@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- KPI library: shared templates + company KPIs -->
+    <record id="rule_kpi_company" model="ir.rule">
+        <field name="name">KPI: company or shared template</field>
+        <field name="model_id" ref="model_aic_hrm_kpi"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_kpi_group_company" model="ir.rule">
+        <field name="name">KPI group: company or shared</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_group"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- KPI targets: own scorecard for users, reporting line for managers -->
+    <record id="rule_kpi_target_user" model="ir.rule">
+        <field name="name">KPI target: user sees own scorecard</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_target"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id', '=', False)]</field>
+    </record>
+
+    <record id="rule_kpi_target_manager" model="ir.rule">
+        <field name="name">KPI target: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_target"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">['|', ('employee_id', 'child_of', user.employee_id.ids), ('employee_id', '=', False)]</field>
+    </record>
+
+    <record id="rule_kpi_target_admin" model="ir.rule">
+        <field name="name">KPI target: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_target"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_kpi_target_company" model="ir.rule">
+        <field name="name">KPI target: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_target"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_kpi_period_user" model="ir.rule">
+        <field name="name">KPI period result: via target ownership</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', ('kpi_target_id.employee_id.user_id', '=', user.id), ('kpi_target_id.employee_id', '=', False)]</field>
+    </record>
+
+    <record id="rule_kpi_period_manager" model="ir.rule">
+        <field name="name">KPI period result: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">['|', ('kpi_target_id.employee_id', 'child_of', user.employee_id.ids), ('kpi_target_id.employee_id', '=', False)]</field>
+    </record>
+
+    <record id="rule_kpi_period_admin" model="ir.rule">
+        <field name="name">KPI period result: admin unrestricted</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_kpi_period_company" model="ir.rule">
+        <field name="name">KPI period result: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>
