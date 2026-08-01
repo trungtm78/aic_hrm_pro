@@ -45,6 +45,18 @@ class TestCalibration(ReviewCase):
         self.assertAlmostEqual(self.review.final_score, 0.85)
         self.assertEqual(line.state, 'applied')
 
+    def test_applied_line_immutable(self):
+        line = self.session.line_ids
+        line.action_apply()
+        with self.assertRaises(ValidationError):
+            line.write({'justification': 'history rewrite attempt'})
+
+    def test_closed_session_blocks_apply(self):
+        line = self.session.line_ids
+        self.session.write({'state': 'done'})
+        with self.assertRaises(ValidationError):
+            line.action_apply()
+
     def test_unchanged_score_needs_no_justification(self):
         line = self.session.line_ids
         line.action_apply()

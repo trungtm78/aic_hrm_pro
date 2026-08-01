@@ -41,7 +41,8 @@ class AicHrmFeedbackRequest(models.Model):
         ('declined', 'Declined'),
     ], default='invited', required=True)
     response_ids = fields.One2many(
-        'aic.hrm.feedback.response', 'request_id')
+        'aic.hrm.feedback.response', 'request_id',
+        groups='aic_hrm_base.group_hrm_admin')
 
     _review_rater_uniq = models.Constraint(
         'unique (review_id, rater_employee_id)',
@@ -76,10 +77,24 @@ class AicHrmFeedbackRequest(models.Model):
                               "feedback."))
         if request.state != 'invited':
             raise UserError(_("This feedback was already submitted."))
-        # with_user(SUPERUSER_ID), not sudo(): sudo keeps the caller's uid,
-        # and create_uid would identify the rater forever.
-        self.env['aic.hrm.feedback.response'].with_user(
-            SUPERUSER_ID).create([
+        valid_questions = request.review_id.review_cycle_id.template_id \
+            .form_id.section_ids.question_ids
+        for answer in answers:
+            question = valid_questions.filtered(
+                lambda q: q.id == answer['question_id'])
+            if not question:
+                raise ValidationError(_(
+                    "An answer references a question outside this "
+                    "review's form."))
+            rating = answer.get('rating', 0)
+            if rating and not 1 <= rating <= question._rating_scale():
+                raise ValidationError(_(
+                    "Rating out of range for question %(name)s.",
+                    name=question.name))
+        # with_user(SUPERUSER_ID), not sudo(): sudo keeps the caller's uid
+        # in create_uid/write_uid, which would identify the rater forever.
+        system = self.with_user(SUPERUSER_ID)
+        system.env['aic.hrm.feedback.response'].create([
             {
                 'request_id': request.id,
                 'question_id': answer['question_id'],
@@ -88,7 +103,7 @@ class AicHrmFeedbackRequest(models.Model):
             }
             for answer in answers
         ])
-        request.write({'state': 'submitted'})
+        system.write({'state': 'submitted'})
         return True
 
 

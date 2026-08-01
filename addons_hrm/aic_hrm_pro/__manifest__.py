@@ -14,15 +14,22 @@ Installs the full stack:
 - AIC OKR & KPI: objectives, key results, KPI engine, check-ins, dashboards, Excel import
 - AIC HRM Review: review route maps, 360 feedback, calibration, 9-box, IDP/PIP
 
-Ships fictional demo data modelled on a real digital-product department
-(6 objectives, 40+ KPIs, per-person assignments summing to 100%).
+Ships a fictional demo dataset modelled on a real digital-product
+department: weighted objectives totalling 100%, a KPI catalog with
+directions and aggregation methods, and personal scorecards summing to
+100%.
 """,
     'author': 'AIPOWER CO.,LTD',
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
+    'price': 149.0,
+    'currency': 'USD',
+    'support': 'ai.1click2power@gmail.com',
     'depends': ['aic_hrm_base', 'aic_okr_kpi', 'aic_hrm_review'],
     'data': [],
-    'demo': [],
+    'demo': [
+        'demo/aic_hrm_demo.xml',
+    ],
     'installable': True,
     'application': True,
     'auto_install': False,

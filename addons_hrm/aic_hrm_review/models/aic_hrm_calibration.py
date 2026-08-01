@@ -78,13 +78,27 @@ class AicHrmCalibrationLine(models.Model):
                     "Changing a score in calibration requires a written "
                     "justification."))
 
+    def write(self, vals):
+        # Applied lines are the audit record: immutable for EVERYONE,
+        # superuser included. (The apply itself passes untouched because
+        # the record is still 'proposed' when its state flips.)
+        if self.filtered(lambda l: l.state == 'applied'):
+            raise ValidationError(_(
+                "Applied calibration lines are immutable audit records."))
+        return super().write(vals)
+
     def action_apply(self):
         for line in self:
+            if line.session_id.state == 'done':
+                raise ValidationError(_(
+                    "This calibration session is closed."))
             line.review_id.write({'calibrated_score': line.score_after})
-            if line.justification:
-                line.review_id.message_post(body=_(
-                    "Calibration adjusted the final score from %(before)s "
-                    "to %(after)s: %(why)s",
-                    before=line.score_before, after=line.score_after,
-                    why=line.justification))
+            # Always chatter the review: before/after/author/why is the
+            # audit trail, even when the score stands unchanged.
+            line.review_id.message_post(body=_(
+                "Calibration by %(who)s: final score %(before)s -> "
+                "%(after)s. %(why)s",
+                who=self.env.user.name, before=line.score_before,
+                after=line.score_after,
+                why=line.justification or _("(score confirmed unchanged)")))
             line.write({'state': 'applied'})

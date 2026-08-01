@@ -210,6 +210,20 @@ class AicHrmReview(models.Model):
                 review.goal_score = assignment.score
         return reviews
 
+    feedback_submitted_count = fields.Integer(
+        compute='_compute_feedback_progress',
+        help="Submitted 360 invitations — aggregate only, never per-rater.")
+    feedback_invited_count = fields.Integer(
+        compute='_compute_feedback_progress')
+
+    def _compute_feedback_progress(self):
+        # Managers see progress as counts only; rows stay unreadable.
+        for review in self:
+            requests = review.sudo().feedback_request_ids
+            review.feedback_invited_count = len(requests)
+            review.feedback_submitted_count = len(requests.filtered(
+                lambda r: r.state == 'submitted'))
+
     def write(self, vals):
         manager_fields = {'manager_score', 'potential_rating',
                           'calibrated_score'}
@@ -218,6 +232,15 @@ class AicHrmReview(models.Model):
             raise UserError(_(
                 "Only performance managers may set manager, potential or "
                 "calibrated ratings."))
+        if 'self_score' in vals and not self.env.su and \
+                not self.env.user.has_group('aic_hrm_base.group_hrm_admin'):
+            for review in self:
+                is_owner = review.employee_id.user_id == self.env.user
+                in_self_stage = review.stage_id.stage_type == 'self'
+                if not (is_owner and in_self_stage):
+                    raise UserError(_(
+                        "Self-assessment is written by the employee, during "
+                        "the self stage only."))
         return super().write(vals)
 
     def action_next_stage(self):

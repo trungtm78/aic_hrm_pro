@@ -75,5 +75,35 @@ class TestFeedbackAnonymity(ReviewCase):
         with self.assertRaises(Exception):
             self._submit(self.requests[0], self.peer1_user, 9)
 
+    def test_write_uid_hides_rater_on_submit(self):
+        self._submit(self.requests[0], self.peer1_user, 8)
+        self.assertNotEqual(
+            self.requests[0].sudo().write_uid, self.peer1_user,
+            "state flips are written by the system user - write_uid must "
+            "not identify the rater either")
+
+    def test_manager_cannot_read_requests(self):
+        visible = self.env['aic.hrm.feedback.request'].with_user(
+            self.manager_user).search(
+            [('review_id', '=', self.review.id)])
+        self.assertFalse(
+            visible,
+            "per-invite status pre-threshold would leak who has spoken")
+        self.assertEqual(self.review.with_user(
+            self.manager_user).feedback_invited_count, 3,
+            "managers follow progress through aggregate counts")
+
+    def test_answer_outside_form_rejected(self):
+        foreign_question = self.env['aic.hrm.review.question'].create({
+            'section_id': self.env['aic.hrm.review.section'].create({
+                'form_id': self.env['aic.hrm.review.form'].create(
+                    {'name': 'Other form'}).id,
+                'name': 'Other section'}).id,
+            'name': 'Not in this template',
+        })
+        with self.assertRaises(Exception):
+            self.requests[0].with_user(self.peer1_user).submit_feedback([
+                {'question_id': foreign_question.id, 'rating': 5}])
+
     def test_small_team_warning(self):
         self.assertTrue(self.review_cycle.small_team_warning is not None)

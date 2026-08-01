@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fictional demo dataset for "Acme Digital Media" - structure modelled on
+     a real digital-product department (objectives with weights totalling
+     100%, a KPI catalog with directions/aggregations, personal scorecards
+     summing to 100%) with entirely invented names and numbers. -->
+<odoo>
+
+    <record id="demo_dept_product" model="hr.department">
+        <field name="name">Digital Products (Demo)</field>
+    </record>
+
+    <record id="demo_emp_head" model="hr.employee">
+        <field name="name">Alex Trần (Demo)</field>
+        <field name="department_id" ref="demo_dept_product"/>
+    </record>
+    <record id="demo_emp_pm" model="hr.employee">
+        <field name="name">Bao Lê (Demo)</field>
+        <field name="department_id" ref="demo_dept_product"/>
+        <field name="parent_id" ref="demo_emp_head"/>
+    </record>
+    <record id="demo_emp_data" model="hr.employee">
+        <field name="name">Chi Phạm (Demo)</field>
+        <field name="department_id" ref="demo_dept_product"/>
+        <field name="parent_id" ref="demo_emp_head"/>
+    </record>
+    <record id="demo_emp_growth" model="hr.employee">
+        <field name="name">Dũng Võ (Demo)</field>
+        <field name="department_id" ref="demo_dept_product"/>
+        <field name="parent_id" ref="demo_emp_head"/>
+    </record>
+    <record id="demo_emp_qa" model="hr.employee">
+        <field name="name">Én Ngô (Demo)</field>
+        <field name="department_id" ref="demo_dept_product"/>
+        <field name="parent_id" ref="demo_emp_head"/>
+    </record>
+
+    <!-- A closed last-year cycle so the rollover wizard has a live demo -->
+    <record id="demo_cycle_prev" model="aic.hrm.cycle">
+        <field name="name">Acme FY 2025 (Demo)</field>
+        <field name="code">DEMO-FY25</field>
+        <field name="cycle_type">year</field>
+        <field name="date_start">2025-01-01</field>
+        <field name="date_end">2025-12-31</field>
+    </record>
+
+    <record id="demo_cycle" model="aic.hrm.cycle">
+        <field name="name">Acme FY 2026 (Demo)</field>
+        <field name="code">DEMO-FY26</field>
+        <field name="cycle_type">year</field>
+        <field name="date_start">2026-01-01</field>
+        <field name="date_end">2026-12-31</field>
+    </record>
+
+    <record id="demo_cycle_q2" model="aic.hrm.cycle">
+        <field name="name">Acme Q2 2026 (Demo)</field>
+        <field name="code">DEMO-Q2-26</field>
+        <field name="cycle_type">quarter</field>
+        <field name="date_start">2026-04-01</field>
+        <field name="date_end">2026-06-30</field>
+        <field name="parent_id" ref="demo_cycle"/>
+    </record>
+
+    <!-- Six objectives, weights totalling 100 -->
+    <record id="demo_obj_1" model="aic.hrm.objective">
+        <field name="name">Ship the streaming super-app</field>
+        <field name="code">DO1</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="level">department</field>
+        <field name="objective_type">committed</field>
+        <field name="weight">25</field>
+        <field name="priority">high</field>
+    </record>
+    <record id="demo_obj_2" model="aic.hrm.objective">
+        <field name="name">Unify identity and payments</field>
+        <field name="code">DO2</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="level">department</field>
+        <field name="objective_type">committed</field>
+        <field name="weight">20</field>
+        <field name="priority">high</field>
+    </record>
+    <record id="demo_obj_3" model="aic.hrm.objective">
+        <field name="name">Stand up the data platform</field>
+        <field name="code">DO3</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="level">department</field>
+        <field name="objective_type">committed</field>
+        <field name="weight">20</field>
+        <field name="priority">high</field>
+    </record>
+    <record id="demo_obj_4" model="aic.hrm.objective">
+        <field name="name">Grow engaged usage</field>
+        <field name="code">DO4</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="level">department</field>
+        <field name="objective_type">aspirational</field>
+        <field name="weight">15</field>
+    </record>
+    <record id="demo_obj_5" model="aic.hrm.objective">
+        <field name="name">Release with discipline</field>
+        <field name="code">DO5</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="level">department</field>
+        <field name="objective_type">committed</field>
+        <field name="weight">10</field>
+    </record>
+    <record id="demo_obj_6" model="aic.hrm.objective">
+        <field name="name">Run the org on OKRs</field>
+        <field name="code">DO6</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="level">department</field>
+        <field name="objective_type">committed</field>
+        <field name="weight">10</field>
+    </record>
+
+    <!-- A Q2 objective cascading into the annual one (cross-cycle 1A) -->
+    <record id="demo_obj_q2" model="aic.hrm.objective">
+        <field name="name">Q2: land the beta launch</field>
+        <field name="code">DO1-Q2</field>
+        <field name="cycle_id" ref="demo_cycle_q2"/>
+        <field name="level">team</field>
+        <field name="weight">10</field>
+        <field name="parent_id" ref="demo_obj_1"/>
+        <field name="employee_id" ref="demo_emp_pm"/>
+    </record>
+
+    <record id="demo_kr_11" model="aic.hrm.key.result">
+        <field name="name">Beta go-live completed</field>
+        <field name="code">DKR1.1</field>
+        <field name="objective_id" ref="demo_obj_1"/>
+        <field name="metric_type">percent</field>
+        <field name="baseline">0</field>
+        <field name="current">65</field>
+        <field name="target">100</field>
+        <field name="unit">%</field>
+        <field name="weight">3</field>
+        <field name="employee_id" ref="demo_emp_pm"/>
+        <field name="focus_quarters">Q2-Q3</field>
+    </record>
+    <record id="demo_kr_12" model="aic.hrm.key.result">
+        <field name="name">Paying subscribers onboarded</field>
+        <field name="code">DKR1.2</field>
+        <field name="objective_id" ref="demo_obj_1"/>
+        <field name="baseline">0</field>
+        <field name="current">2100</field>
+        <field name="target">5000</field>
+        <field name="unit">users</field>
+        <field name="weight">2</field>
+        <field name="employee_id" ref="demo_emp_growth"/>
+    </record>
+    <record id="demo_kr_21" model="aic.hrm.key.result">
+        <field name="name">Sign-in flows unified</field>
+        <field name="code">DKR2.1</field>
+        <field name="objective_id" ref="demo_obj_2"/>
+        <field name="baseline">0</field>
+        <field name="current">4</field>
+        <field name="target">6</field>
+        <field name="unit">flows</field>
+        <field name="weight">1</field>
+        <field name="employee_id" ref="demo_emp_pm"/>
+    </record>
+    <record id="demo_kr_31" model="aic.hrm.key.result">
+        <field name="name">Data sources connected</field>
+        <field name="code">DKR3.1</field>
+        <field name="objective_id" ref="demo_obj_3"/>
+        <field name="baseline">0</field>
+        <field name="current">2</field>
+        <field name="target">6</field>
+        <field name="unit">sources</field>
+        <field name="weight">1</field>
+        <field name="employee_id" ref="demo_emp_data"/>
+    </record>
+    <record id="demo_kr_41" model="aic.hrm.key.result">
+        <field name="name">Push notification CTR uplift</field>
+        <field name="code">DKR4.1</field>
+        <field name="objective_id" ref="demo_obj_4"/>
+        <field name="baseline">0</field>
+        <field name="current">8</field>
+        <field name="target">20</field>
+        <field name="unit">%</field>
+        <field name="weight">1</field>
+        <field name="employee_id" ref="demo_emp_growth"/>
+    </record>
+    <record id="demo_kr_51" model="aic.hrm.key.result">
+        <field name="name">Releases shipped on schedule</field>
+        <field name="code">DKR5.1</field>
+        <field name="objective_id" ref="demo_obj_5"/>
+        <field name="metric_type">percent</field>
+        <field name="baseline">0</field>
+        <field name="current">88</field>
+        <field name="target">85</field>
+        <field name="unit">%</field>
+        <field name="weight">1</field>
+        <field name="employee_id" ref="demo_emp_qa"/>
+    </record>
+    <record id="demo_kr_61" model="aic.hrm.key.result">
+        <field name="name">Everyone has a weighted scorecard</field>
+        <field name="code">DKR6.1</field>
+        <field name="objective_id" ref="demo_obj_6"/>
+        <field name="metric_type">percent</field>
+        <field name="baseline">0</field>
+        <field name="current">100</field>
+        <field name="target">100</field>
+        <field name="unit">%</field>
+        <field name="weight">1</field>
+        <field name="employee_id" ref="demo_emp_head"/>
+    </record>
+
+    <!-- KPI catalog entries + cycle targets -->
+    <record id="demo_kpi_golive" model="aic.hrm.kpi">
+        <field name="name">Launch completion on schedule</field>
+        <field name="code">DKPI01</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="unit">%</field>
+        <field name="data_source">Release reports</field>
+    </record>
+    <record id="demo_kpi_bugs" model="aic.hrm.kpi">
+        <field name="name">Critical bugs per quarter</field>
+        <field name="code">DKPI02</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="unit">bugs</field>
+        <field name="default_target">3</field>
+        <field name="data_source">Issue tracker</field>
+    </record>
+    <record id="demo_kpi_payments" model="aic.hrm.kpi">
+        <field name="name">Payment success rate</field>
+        <field name="code">DKPI03</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="unit">%</field>
+        <field name="data_source">Payment dashboard</field>
+    </record>
+    <record id="demo_kpi_pipeline" model="aic.hrm.kpi">
+        <field name="name">Data pipelines meeting freshness SLA</field>
+        <field name="code">DKPI04</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="unit">%</field>
+        <field name="data_source">Pipeline monitor</field>
+    </record>
+
+    <record id="demo_target_golive" model="aic.hrm.kpi.target">
+        <field name="kpi_id" ref="demo_kpi_golive"/>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="employee_id" ref="demo_emp_pm"/>
+        <field name="objective_id" ref="demo_obj_1"/>
+        <field name="target_value">100</field>
+        <field name="weight">60</field>
+    </record>
+    <record id="demo_target_bugs" model="aic.hrm.kpi.target">
+        <field name="kpi_id" ref="demo_kpi_bugs"/>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="employee_id" ref="demo_emp_qa"/>
+        <field name="objective_id" ref="demo_obj_5"/>
+        <field name="target_value">3</field>
+        <field name="weight">50</field>
+    </record>
+    <record id="demo_target_payments" model="aic.hrm.kpi.target">
+        <field name="kpi_id" ref="demo_kpi_payments"/>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="employee_id" ref="demo_emp_pm"/>
+        <field name="objective_id" ref="demo_obj_2"/>
+        <field name="target_value">95</field>
+        <field name="weight">40</field>
+    </record>
+    <record id="demo_target_pipeline" model="aic.hrm.kpi.target">
+        <field name="kpi_id" ref="demo_kpi_pipeline"/>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="employee_id" ref="demo_emp_data"/>
+        <field name="objective_id" ref="demo_obj_3"/>
+        <field name="target_value">95</field>
+        <field name="weight">100</field>
+    </record>
+
+    <record id="demo_result_golive_1" model="aic.hrm.kpi.period.result">
+        <field name="kpi_target_id" ref="demo_target_golive"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="date_to">2026-01-31</field>
+        <field name="actual">40</field>
+        <field name="state">confirmed</field>
+    </record>
+    <record id="demo_result_golive_2" model="aic.hrm.kpi.period.result">
+        <field name="kpi_target_id" ref="demo_target_golive"/>
+        <field name="date_from">2026-02-01</field>
+        <field name="date_to">2026-02-28</field>
+        <field name="actual">65</field>
+        <field name="state">confirmed</field>
+    </record>
+    <record id="demo_result_bugs_1" model="aic.hrm.kpi.period.result">
+        <field name="kpi_target_id" ref="demo_target_bugs"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="date_to">2026-03-31</field>
+        <field name="actual">2</field>
+        <field name="state">confirmed</field>
+    </record>
+    <record id="demo_result_payments_1" model="aic.hrm.kpi.period.result">
+        <field name="kpi_target_id" ref="demo_target_payments"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="date_to">2026-01-31</field>
+        <field name="actual">93.5</field>
+        <field name="state">confirmed</field>
+    </record>
+    <record id="demo_result_pipeline_1" model="aic.hrm.kpi.period.result">
+        <field name="kpi_target_id" ref="demo_target_pipeline"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="date_to">2026-01-31</field>
+        <field name="actual">88</field>
+        <field name="state">confirmed</field>
+    </record>
+
+    <record id="demo_assignment_pm" model="aic.hrm.kpi.assignment">
+        <field name="employee_id" ref="demo_emp_pm"/>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="job_note">Product Owner - Streaming</field>
+        <field name="line_ids" eval="[
+            (0, 0, {'kpi_target_id': ref('demo_target_golive'), 'weight': 60.0}),
+            (0, 0, {'kpi_target_id': ref('demo_target_payments'), 'weight': 40.0}),
+        ]"/>
+    </record>
+    <record id="demo_assignment_data" model="aic.hrm.kpi.assignment">
+        <field name="employee_id" ref="demo_emp_data"/>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="job_note">Data Engineer</field>
+        <field name="line_ids" eval="[
+            (0, 0, {'kpi_target_id': ref('demo_target_pipeline'), 'weight': 100.0}),
+        ]"/>
+    </record>
+
+</odoo>

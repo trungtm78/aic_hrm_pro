@@ -40,11 +40,19 @@
         <field name="domain_force">[('rater_user_id', '=', user.id)]</field>
     </record>
 
-    <record id="rule_feedback_request_manager" model="ir.rule">
-        <field name="name">Feedback request: manager sees line status</field>
+    <!-- Managers may INVITE raters and withdraw invitations, but never
+         read individual request rows: pre-threshold per-invite status
+         would leak who has (not) spoken. Progress shows only as an
+         aggregate count on the review itself. -->
+    <record id="rule_feedback_request_manager_write" model="ir.rule">
+        <field name="name">Feedback request: manager invites for their line</field>
         <field name="model_id" ref="model_aic_hrm_feedback_request"/>
         <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
-        <field name="domain_force">['|', ('rater_user_id', '=', user.id), '&amp;', ('review_id.employee_id', 'child_of', user.employee_id.ids), ('review_id.employee_id.user_id', '!=', user.id)]</field>
+        <field name="domain_force">[('review_id.employee_id', 'child_of', user.employee_id.ids)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
     </record>
 
     <record id="rule_feedback_request_admin" model="ir.rule">
