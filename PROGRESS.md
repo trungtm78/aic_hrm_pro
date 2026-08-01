@@ -1,4 +1,4 @@
-STATUS: IN_PROGRESS
+STATUS: ALL_MILESTONES_DONE
 
 # PROGRESS
 Cập nhật: 2026-08-02T03:10:00+07:00 | Milestone: CP7/CP9 | Task: 0/5 của CP7
@@ -22,7 +22,12 @@ Protocol: AUTONOMOUS EXECUTION PROTOCOL (user cung cấp 2026-08-02) — không 
 - [x] CP8 DONE + codex hardening (8 findings fix hết; bài học: audit-immutability KHÔNG dựa cờ su — TransactionCase env.su=True; manager mất quyền đọc từng phiếu 360, chỉ còn aggregate count). Commit c543f92 + hardening commit (đang chạy nền bn2x91hhb kèm full suite 2 version).
 - [x] CP8 code+test GREEN (15 tests riêng module): review template/route map, review cycle sinh idempotent + goal_score snapshot bất biến, stage progression, manager-only fields validate trong write, 360 ẩn danh (field-level admin-only + rule rater-own + response ghi bởi with_user(SUPERUSER_ID) — KHÔNG sudo vì sudo giữ uid — + aggregate chỉ khi ≥min_raters + reviewee AccessError), calibration justification bắt buộc (snapshot trong create vals trước super), 9-box map band×potential, IDP/PIP (PIP tự sinh 3 checkpoint 30/60/90 khi final_score<0.4). ĐANG CHẠY NỀN beqi3jceh: full suite 19 (4 module) + build 18. Sau đó: commit "CP8", codex review CP7+CP8 (gộp), CP9.
 
-## Đang làm dở (CP9)
+- [x] CP9 DONE — commit 0809b3a (19.0), 18.0 refreshed 5fc87ea. SỰ CỐ ĐÃ XỬ LÝ: commit here-string fail thầm lặng (2>$null che) làm chuỗi lệnh ghi build-18 đè lên branch 19.0 (671b0bd — đã orphan); khôi phục bằng reset --hard 19f2741 + checkout file non-addons từ 671b0bd + salvage test_packaging/ja từ build. QUY TẮC MỚI: commit qua -F message-file, verify `git log -1` + `git status` sau MỖI commit, checkout branch chỉ khi porcelain rỗng.
+
+## HOÀN TẤT — 2026-08-02
+Verification cuối: 19.0 = 167/167 xanh (FINAL19:0, P19:0); 18.0 build = xanh sau fix test version-series (P18:0). UAT-COVERAGE.md 39/39 PASS. Branch 19.0 @ add5f3d, 18.0 @ 5fc87ea (+1 sync pending nếu cần — build đã verify, branch sync sẽ làm khi commit tiếp theo). Chưa push (chờ lệnh user).
+
+## Đang làm dở cũ (CP9 — đã xong, sử liệu)
 Task: CP9 đóng gói. Đã làm: demo hư cấu Acme Digital Media (aic_hrm_pro/demo — 6 objectives Σ100, KR có số liệu sống, KPI catalog + targets + period results + 2 scorecards Σ100, cycle 2025 đã có để demo rollover, Q2 cascade 1A), manifest aic_hrm_pro (price 149 USD, support, demo), tests/test_packaging.py (manifest coherence CX#5 + LANGUAGE GATE quét tiếng Việt ngoài i18n/import-terms/tests + demo-fictional check), static/description/index.html (Hallmark typography-led, honest copy), icons 4 module, ja.po DRAFT 17 chuỗi (header ghi rõ chưa native-review, fallback English lộ rõ), merge tool nhận --lang.
 ĐANG CHẠY NỀN bo9kkx43x: fresh install AIC_HRM_Demo với demo data + full tests.
 BƯỚC TIẾP THEO: (1) nếu demo-install fail → sửa demo XML; xanh → commit "CP9"; (2) python tools/backport_18.py + verify 18 + checkout 18.0 refresh từ build + commit; (3) UAT §9: tạo UAT-COVERAGE.md ma trận mọi màn hình/chức năng (Cycles, Objectives+workflow, KRs+milestones, Check-ins, KPI Library/Targets/Periods, Scorecards Σ100, Dept scorecard, Cockpit, Alignment tree, Review meetings, Alert rules, Import, Rollover, Review cycles, 360, Calibration, 9-box, IDP/PIP, i18n vi, tour) — mỗi dòng ánh xạ test đã có (đa số PASS bằng suite tự động) + bổ sung test thiếu → 100% PASS; (4) báo cáo tổng kết §8(a).
