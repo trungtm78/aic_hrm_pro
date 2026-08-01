@@ -15,11 +15,26 @@
     </record>
 
     <!-- KPI targets: own scorecard for users, reporting line for managers -->
-    <record id="rule_kpi_target_user" model="ir.rule">
-        <field name="name">KPI target: user sees own scorecard</field>
+    <record id="rule_kpi_target_user_read" model="ir.rule">
+        <field name="name">KPI target: user reads own scorecard</field>
         <field name="model_id" ref="model_aic_hrm_kpi_target"/>
         <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
         <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_kpi_target_user_write" model="ir.rule">
+        <field name="name">KPI target: user writes own</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_target"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), '&amp;', ('employee_id', '=', False), ('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
     </record>
 
     <record id="rule_kpi_target_manager" model="ir.rule">
@@ -42,11 +57,26 @@
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
 
-    <record id="rule_kpi_period_user" model="ir.rule">
-        <field name="name">KPI period result: via target ownership</field>
+    <record id="rule_kpi_period_user_read" model="ir.rule">
+        <field name="name">KPI period result: reads via target ownership</field>
         <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
         <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
         <field name="domain_force">['|', ('kpi_target_id.employee_id.user_id', '=', user.id), ('kpi_target_id.employee_id', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_kpi_period_user_write" model="ir.rule">
+        <field name="name">KPI period result: writes own</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">[('kpi_target_id.employee_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
     </record>
 
     <record id="rule_kpi_period_manager" model="ir.rule">

@@ -190,7 +190,7 @@ class AicHrmObjective(models.Model):
         if 'cycle_id' in vals:
             self.env['aic.hrm.cycle'].browse(
                 vals['cycle_id']).ensure_editable()
-        if not self.env.context.get('hrm_revision_write'):
+        if not self._revision_write_allowed():
             governed = [f for f in _GOVERNED_FIELDS if f in vals]
             if governed:
                 blocked = self.filtered(

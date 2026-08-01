@@ -196,6 +196,54 @@ class TestKpiGovernance(KpiCase):
         revision.action_approve()
         self.assertAlmostEqual(target.target_value, 150.0)
 
+    def test_forged_revision_context_blocked_for_member(self):
+        target = self._make_target()
+        target.action_confirm()
+        with self.assertRaises(Exception):
+            target.with_user(self.member_user).with_context(
+                hrm_revision_write=True).write({'target_value': 999.0})
+
+    def test_member_cannot_confirm_target(self):
+        target = self._make_target()
+        with self.assertRaises(UserError):
+            target.with_user(self.member_user).action_confirm()
+
+    def test_unassigned_duplicate_blocked(self):
+        self._make_target(employee_id=False)
+        with self.assertRaises(ValidationError):
+            self._make_target(employee_id=False)
+
+    def test_kpi_company_must_match_cycle(self):
+        other_company = self.env['res.company'].create({'name': 'KPI Co 2'})
+        foreign_kpi = self.Kpi.create({
+            'name': 'Foreign KPI', 'code': 'KPI-FOREIGN',
+            'company_id': other_company.id,
+        })
+        with self.assertRaises(ValidationError):
+            self._make_target(kpi_id=foreign_kpi.id)
+
+    def test_template_write_clears_company(self):
+        kpi = self.Kpi.create({'name': 'Live KPI', 'code': 'KPI-LIVE'})
+        self.assertTrue(kpi.company_id)
+        kpi.write({'is_template': True})
+        self.assertFalse(kpi.company_id)
+
+    def test_period_move_to_locked_target_blocked(self):
+        target = self._make_target()
+        result = self._add_result(target, '2026-01-01', '2026-01-31', 60)
+        locked_cycle = self.Cycle.create({
+            'name': 'KPI Locked', 'code': 'KPI-LOCK2', 'cycle_type': 'year',
+            'date_start': '2026-01-01', 'date_end': '2026-12-31',
+        })
+        locked_target = self._make_target(
+            cycle_id=locked_cycle.id, employee_id=self.manager_employee.id)
+        locked_cycle.action_open()
+        locked_cycle.action_start_review()
+        locked_cycle.action_close()
+        locked_cycle.action_lock()
+        with self.assertRaises(UserError):
+            result.write({'kpi_target_id': locked_target.id})
+
     def test_locked_cycle_blocks_period_results(self):
         target = self._make_target()
         self.year.action_open()

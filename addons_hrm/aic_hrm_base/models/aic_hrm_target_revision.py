@@ -92,6 +92,10 @@ class AicHrmTargetRevision(models.Model):
         return revisions
 
     def action_approve(self):
+        if not self.env.su and not self.env.user.has_group(
+                'aic_hrm_base.group_hrm_manager'):
+            raise ValidationError(_(
+                "Only performance managers may approve target revisions."))
         for revision in self:
             if revision.state != 'requested':
                 raise ValidationError(_(

@@ -129,11 +129,11 @@ class AicHrmKeyResult(models.Model):
                 vals['objective_id'])
             new_objective.cycle_id.ensure_editable()
             if new_objective.state in _GOVERNED_STATES and \
-                    not self.env.context.get('hrm_revision_write'):
+                    not self._revision_write_allowed():
                 raise UserError(_(
                     "Key results cannot be moved under the approved "
                     "objective %(name)s.", name=new_objective.display_name))
-        if not self.env.context.get('hrm_revision_write'):
+        if not self._revision_write_allowed():
             governed = [f for f in _GOVERNED_FIELDS if f in vals]
             if governed:
                 blocked = self.filtered(

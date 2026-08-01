@@ -99,9 +99,10 @@ class AicHrmKpiTarget(models.Model):
                 target.unit = kpi.unit
                 target.frequency = kpi.frequency
 
-    @api.depends('period_result_ids.actual', 'period_result_ids.state',
-                 'period_result_ids.date_to', 'aggregation', 'direction',
-                 'target_value', 'cycle_id.score_cap')
+    @api.depends('period_result_ids', 'period_result_ids.actual',
+                 'period_result_ids.state', 'period_result_ids.date_to',
+                 'aggregation', 'direction', 'target_value',
+                 'cycle_id.score_cap')
     def _compute_actuals(self):
         for target in self:
             results = target.period_result_ids.filtered(
@@ -150,6 +151,30 @@ class AicHrmKpiTarget(models.Model):
                 raise ValidationError(_(
                     "The linked objective belongs to a different cycle."))
 
+    @api.constrains('kpi_id', 'cycle_id')
+    def _check_kpi_company(self):
+        for target in self:
+            kpi_company = target.kpi_id.company_id
+            if kpi_company and kpi_company != target.cycle_id.company_id:
+                raise ValidationError(_(
+                    "KPI %(kpi)s belongs to another company than the cycle.",
+                    kpi=target.kpi_id.display_name))
+
+    @api.constrains('kpi_id', 'cycle_id', 'employee_id')
+    def _check_unique_unassigned(self):
+        # The SQL unique constraint cannot catch duplicated NULL owners.
+        for target in self.filtered(lambda t: not t.employee_id):
+            duplicate = self.search_count([
+                ('id', '!=', target.id),
+                ('kpi_id', '=', target.kpi_id.id),
+                ('cycle_id', '=', target.cycle_id.id),
+                ('employee_id', '=', False),
+            ], limit=1)
+            if duplicate:
+                raise ValidationError(_(
+                    "An unassigned target for this KPI already exists in "
+                    "this cycle."))
+
     @api.model_create_multi
     def create(self, vals_list):
         cycles = self.env['aic.hrm.cycle'].browse(
@@ -157,12 +182,29 @@ class AicHrmKpiTarget(models.Model):
         cycles.ensure_editable()
         return super().create(vals_list)
 
+    def _validate_state_change(self, target_state):
+        allowed = {'draft': {'confirmed'}, 'confirmed': {'done'},
+                   'done': set()}
+        if not self.env.su and not self.env.user.has_group(
+                'aic_hrm_base.group_hrm_manager'):
+            raise UserError(_(
+                "Only performance managers may confirm or close KPI "
+                "targets."))
+        for target in self:
+            if target_state not in allowed[target.state]:
+                raise UserError(_(
+                    "KPI target %(name)s cannot go from %(current)s to "
+                    "%(target)s.", name=target.display_label,
+                    current=target.state, target=target_state))
+
     def write(self, vals):
+        if 'state' in vals:
+            self._validate_state_change(vals['state'])
         self.cycle_id.ensure_editable()
         if 'cycle_id' in vals:
             self.env['aic.hrm.cycle'].browse(
                 vals['cycle_id']).ensure_editable()
-        if not self.env.context.get('hrm_revision_write'):
+        if not self._revision_write_allowed():
             governed = [f for f in _GOVERNED_FIELDS if f in vals]
             if governed:
                 blocked = self.filtered(
@@ -175,14 +217,12 @@ class AicHrmKpiTarget(models.Model):
         return super().write(vals)
 
     def action_confirm(self):
-        for target in self.filtered(lambda t: t.state == 'draft'):
-            target.with_context(hrm_revision_write=True).write(
-                {'state': 'confirmed'})
+        self.filtered(lambda t: t.state == 'draft').write(
+            {'state': 'confirmed'})
 
     def action_done(self):
-        for target in self.filtered(lambda t: t.state == 'confirmed'):
-            target.with_context(hrm_revision_write=True).write(
-                {'state': 'done'})
+        self.filtered(lambda t: t.state == 'confirmed').write(
+            {'state': 'done'})
 
 
 class AicHrmKpiPeriodResult(models.Model):
@@ -234,6 +274,9 @@ class AicHrmKpiPeriodResult(models.Model):
 
     def write(self, vals):
         self.kpi_target_id.cycle_id.ensure_editable()
+        if 'kpi_target_id' in vals:
+            self.env['aic.hrm.kpi.target'].browse(
+                vals['kpi_target_id']).cycle_id.ensure_editable()
         return super().write(vals)
 
     def unlink(self):

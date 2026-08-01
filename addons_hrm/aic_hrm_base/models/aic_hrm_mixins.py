@@ -16,6 +16,14 @@ class AicHrmOwnerMixin(models.AbstractModel):
         'hr.employee', string='Manager',
         compute='_compute_owner_org', store=True, readonly=False)
 
+    def _revision_write_allowed(self):
+        """A revision-driven write of governed fields is valid only when the
+        context flag comes from a manager/admin session: the flag alone can
+        be forged over RPC, the group membership cannot."""
+        return bool(self.env.context.get('hrm_revision_write')) and (
+            self.env.su
+            or self.env.user.has_group('aic_hrm_base.group_hrm_manager'))
+
     @api.depends('employee_id')
     def _compute_owner_org(self):
         for record in self:

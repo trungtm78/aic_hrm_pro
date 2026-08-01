@@ -85,9 +85,22 @@ class AicHrmKpi(models.Model):
                     "undefined at target 0. Model 'zero incidents' goals as "
                     "Pass/Fail instead.", name=kpi.name))
 
+    @api.constrains('is_template', 'company_id')
+    def _check_template_shared(self):
+        for kpi in self:
+            if kpi.is_template and kpi.company_id:
+                raise ValidationError(_(
+                    "Template KPIs are shared and cannot belong to a "
+                    "company."))
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('is_template'):
                 vals['company_id'] = False
         return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get('is_template'):
+            vals['company_id'] = False
+        return super().write(vals)
