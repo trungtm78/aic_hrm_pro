@@ -33,3 +33,6 @@ Docs/Requirements/
 .claude/
 setup-claude-autonomous.bat
 test-claude-hook.bat
+
+# Generated 18.0 build (repo branch 18.0 is populated from it at phase ends)
+build/
