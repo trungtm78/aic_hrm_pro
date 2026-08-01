@@ -78,6 +78,12 @@ def transform_xml(text):
     return text
 
 
+def transform_js(text):
+    # Odoo 18 keeps tour utils under tour_service/.
+    return text.replace('from "@web_tour/tour_utils"',
+                        'from "@web_tour/tour_service/tour_utils"')
+
+
 def backport(source, dest):
     source = pathlib.Path(source)
     dest = pathlib.Path(dest)
@@ -93,6 +99,9 @@ def backport(source, dest):
         elif path.suffix == '.xml':
             original = path.read_text(encoding='utf-8')
             updated = transform_xml(original)
+        elif path.suffix == '.js':
+            original = path.read_text(encoding='utf-8')
+            updated = transform_js(original)
         else:
             continue
         if updated != original:

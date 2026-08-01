@@ -1,0 +1,416 @@
+# Vietnamese translation of aic_okr_kpi — AIC HRM Pro suite.
+# Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
+msgid ""
+msgstr ""
+"Project-Id-Version: aic_okr_kpi 19.0.1.0.0\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Objectives"
+msgstr "Mục tiêu"
+
+msgid "Objective"
+msgstr "Mục tiêu"
+
+msgid "Key Results"
+msgstr "Kết quả then chốt"
+
+msgid "Key Result"
+msgstr "Kết quả then chốt"
+
+msgid "Check-ins"
+msgstr "Check-in"
+
+msgid "Check-in"
+msgstr "Check-in"
+
+msgid "KPI Targets"
+msgstr "Chỉ tiêu KPI"
+
+msgid "KPI Target"
+msgstr "Chỉ tiêu KPI"
+
+msgid "KPI Library"
+msgstr "Thư viện KPI"
+
+msgid "KPI Definition"
+msgstr "Định nghĩa KPI"
+
+msgid "KPI Group"
+msgstr "Nhóm KPI"
+
+msgid "Scorecards"
+msgstr "Bảng điểm cá nhân"
+
+msgid "Department Scorecard"
+msgstr "Bảng điểm phòng ban"
+
+msgid "Review Meetings"
+msgstr "Họp rà soát"
+
+msgid "Review Meeting"
+msgstr "Họp rà soát"
+
+msgid "Alert Rules"
+msgstr "Luật cảnh báo"
+
+msgid "Alert Rule"
+msgstr "Luật cảnh báo"
+
+msgid "Import Spreadsheet"
+msgstr "Nhập từ Excel"
+
+msgid "Roll Over Cycle"
+msgstr "Nhân bản sang kỳ mới"
+
+msgid "Cockpit"
+msgstr "Bàn điều hành"
+
+msgid "Leadership Cockpit"
+msgstr "Bàn điều hành lãnh đạo"
+
+msgid "Alignment Tree"
+msgstr "Cây liên kết mục tiêu"
+
+msgid "Company"
+msgstr "Công ty"
+
+msgid "Department"
+msgstr "Phòng ban"
+
+msgid "Team"
+msgstr "Nhóm"
+
+msgid "Individual"
+msgstr "Cá nhân"
+
+msgid "Committed"
+msgstr "Cam kết"
+
+msgid "Aspirational"
+msgstr "Khát vọng"
+
+msgid "High"
+msgstr "Cao"
+
+msgid "Medium"
+msgstr "Trung bình"
+
+msgid "Low"
+msgstr "Thấp"
+
+msgid "Public"
+msgstr "Công khai"
+
+msgid "Private"
+msgstr "Riêng tư"
+
+msgid "Submitted"
+msgstr "Đã nộp"
+
+msgid "In Progress"
+msgstr "Đang thực hiện"
+
+msgid "Self-assessed"
+msgstr "Đã tự đánh giá"
+
+msgid "Manager Review"
+msgstr "Quản lý đánh giá"
+
+msgid "Done"
+msgstr "Hoàn tất"
+
+msgid "Submit"
+msgstr "Nộp"
+
+msgid "Send Back"
+msgstr "Trả lại"
+
+msgid "Start"
+msgstr "Bắt đầu"
+
+msgid "Self-assess"
+msgstr "Tự đánh giá"
+
+msgid "To Manager Review"
+msgstr "Chuyển quản lý đánh giá"
+
+msgid "Finalize"
+msgstr "Chốt"
+
+msgid "Confirm"
+msgstr "Xác nhận"
+
+msgid "Mark Done"
+msgstr "Đánh dấu hoàn tất"
+
+msgid "Number"
+msgstr "Số"
+
+msgid "Percentage"
+msgstr "Phần trăm"
+
+msgid "Milestones"
+msgstr "Mốc công việc"
+
+msgid "Done / Not done"
+msgstr "Đạt / Không đạt"
+
+msgid "Higher is better"
+msgstr "Càng cao càng tốt"
+
+msgid "Lower is better"
+msgstr "Càng thấp càng tốt"
+
+msgid "Pass / Fail"
+msgstr "Đạt / Không đạt"
+
+msgid "Final period value"
+msgstr "Giá trị cuối kỳ"
+
+msgid "Average of periods"
+msgstr "Bình quân các kỳ"
+
+msgid "Cumulative sum"
+msgstr "Lũy kế"
+
+msgid "Quarterly"
+msgstr "Hằng quý"
+
+msgid "Leading indicator"
+msgstr "Chỉ số dẫn dắt"
+
+msgid "Lagging indicator"
+msgstr "Chỉ số kết quả"
+
+msgid "Baseline"
+msgstr "Mốc xuất phát"
+
+msgid "Current"
+msgstr "Hiện tại"
+
+msgid "Target"
+msgstr "Chỉ tiêu"
+
+msgid "Weight"
+msgstr "Trọng số"
+
+msgid "Unit"
+msgstr "Đơn vị"
+
+msgid "Deadline"
+msgstr "Hạn chót"
+
+msgid "Priority"
+msgstr "Ưu tiên"
+
+msgid "Progress"
+msgstr "Tiến độ"
+
+msgid "Confidence"
+msgstr "Độ tự tin"
+
+msgid "Blocker"
+msgstr "Vướng mắc"
+
+msgid "Position / Team"
+msgstr "Vị trí / Nhóm"
+
+msgid "Responsibility"
+msgstr "Trách nhiệm"
+
+msgid "KPI Lines"
+msgstr "Dòng KPI"
+
+msgid "Period Results"
+msgstr "Kết quả theo kỳ"
+
+msgid "KPI Period Result"
+msgstr "Kết quả KPI theo kỳ"
+
+msgid "Manual entry"
+msgstr "Nhập tay"
+
+msgid "Imported"
+msgstr "Nhập từ file"
+
+msgid "Metric source"
+msgstr "Nguồn số liệu"
+
+msgid "Confirmed"
+msgstr "Đã xác nhận"
+
+msgid "My Objectives"
+msgstr "Mục tiêu của tôi"
+
+msgid "My KPIs"
+msgstr "KPI của tôi"
+
+msgid "At Risk"
+msgstr "Có rủi ro"
+
+msgid "Templates"
+msgstr "Mẫu"
+
+msgid "Live KPIs"
+msgstr "KPI đang dùng"
+
+msgid "Key result without recent check-in"
+msgstr "Kết quả then chốt lâu chưa check-in"
+
+msgid "Key result in the red band"
+msgstr "Kết quả then chốt ở vùng đỏ"
+
+msgid "Confidence falling across check-ins"
+msgstr "Độ tự tin giảm liên tiếp"
+
+msgid "Scorecard not summing to 100%"
+msgstr "Bảng điểm chưa đủ 100% trọng số"
+
+msgid "Build Agenda"
+msgstr "Tạo chương trình họp"
+
+msgid "Hold Meeting"
+msgstr "Tiến hành họp"
+
+msgid "Held"
+msgstr "Đã họp"
+
+msgid "Agenda"
+msgstr "Chương trình"
+
+msgid "Minutes"
+msgstr "Biên bản"
+
+msgid "Action Items"
+msgstr "Việc cần làm"
+
+msgid "Meeting Action Item"
+msgstr "Việc cần làm sau họp"
+
+msgid "To do"
+msgstr "Cần làm"
+
+msgid "Cancelled"
+msgstr "Đã hủy"
+
+msgid "Attendees"
+msgstr "Người tham dự"
+
+msgid "Auto-generated agenda"
+msgstr "Chương trình họp tự tổng hợp"
+
+msgid "Red key results"
+msgstr "Kết quả then chốt vùng đỏ"
+
+msgid "Stale key results (no recent check-in)"
+msgstr "Kết quả then chốt lâu chưa check-in"
+
+msgid "Open blockers from check-ins"
+msgstr "Vướng mắc còn mở từ check-in"
+
+msgid "Nothing is red, stale or blocked. Confirm scores and move on."
+msgstr "Không có gì đỏ, trễ hay vướng. Xác nhận điểm và đi tiếp."
+
+msgid "Preview"
+msgstr "Xem trước"
+
+msgid "Import"
+msgstr "Nhập"
+
+msgid "Warnings"
+msgstr "Cảnh báo"
+
+msgid "Error"
+msgstr "Lỗi"
+
+msgid "Import finished."
+msgstr "Đã nhập xong."
+
+msgid "OKR/KPI Excel Import"
+msgstr "Nhập OKR/KPI từ Excel"
+
+msgid "Cycle Rollover"
+msgstr "Nhân bản chu kỳ"
+
+msgid "Import Term Mapping"
+msgstr "Ánh xạ thuật ngữ nhập liệu"
+
+msgid "Run the preview first."
+msgstr "Hãy chạy Xem trước trước khi nhập."
+
+msgid "Source and target cycles must differ."
+msgstr "Chu kỳ nguồn và chu kỳ đích phải khác nhau."
+
+msgid "On track"
+msgstr "Đúng tiến độ"
+
+msgid "At risk"
+msgstr "Có rủi ro"
+
+msgid "Off track"
+msgstr "Lệch tiến độ"
+
+msgid "No department"
+msgstr "Chưa có phòng ban"
+
+msgid "Overall score"
+msgstr "Điểm tổng thể"
+
+msgid "Committed objectives"
+msgstr "Mục tiêu cam kết"
+
+msgid "Fresh check-ins"
+msgstr "Check-in mới"
+
+msgid "Needs attention"
+msgstr "Cần chú ý"
+
+msgid "Nothing red or stale. Keep the cadence going."
+msgstr "Không có gì đỏ hay trễ. Giữ vững nhịp độ."
+
+msgid "No open cycle yet. Create and open a performance cycle, then come back."
+msgstr "Chưa có chu kỳ nào mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay lại."
+
+msgid "No objectives in this cycle yet — import the spreadsheet or add objectives."
+msgstr "Chu kỳ chưa có mục tiêu — nhập từ Excel hoặc thêm mục tiêu mới."
+
+msgid "Objective states change only through their workflow actions."
+msgstr "Trạng thái mục tiêu chỉ thay đổi qua các nút quy trình."
+
+msgid "Only performance managers may move objectives to %(target)s."
+msgstr "Chỉ quản lý hiệu suất mới được chuyển mục tiêu sang %(target)s."
+
+msgid "Only performance managers may confirm or close KPI targets."
+msgstr "Chỉ quản lý hiệu suất mới được xác nhận hoặc đóng chỉ tiêu KPI."
+
+msgid "Only performance managers may approve or close scorecards."
+msgstr "Chỉ quản lý hiệu suất mới được duyệt hoặc đóng bảng điểm."
+
+msgid "A check-in belongs to exactly one key result or one KPI target."
+msgstr "Mỗi check-in thuộc đúng một kết quả then chốt hoặc một chỉ tiêu KPI."
+
+msgid "Confidence is a 1..10 scale."
+msgstr "Độ tự tin theo thang 1..10."
+
+msgid "Assignment line weights must be positive."
+msgstr "Trọng số dòng KPI phải lớn hơn 0."
+
+msgid ""
+"Lower-is-better targets must be strictly positive; model 'zero incidents' "
+"goals as Pass/Fail."
+msgstr ""
+"Chỉ tiêu càng-thấp-càng-tốt phải lớn hơn 0; mục tiêu \"0 sự cố\" hãy dùng "
+"kiểu Đạt/Không đạt."
+
+msgid "Set the first objective of this cycle"
+msgstr "Đặt mục tiêu đầu tiên của chu kỳ"
+
+msgid "Build the first personal scorecard"
+msgstr "Lập bảng điểm cá nhân đầu tiên"
+
+msgid "Document your first KPI"
+msgstr "Lập hồ sơ KPI đầu tiên"

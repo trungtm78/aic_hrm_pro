@@ -1,0 +1,981 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-01 20:23+0000\n"
+"PO-Revision-Date: 2026-08-01 20:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "%(field)s revised from %(old)s to %(new)s. Reason: %(reason)s"
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "A cycle cannot contain itself."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.actions.act_window,help:aic_hrm_base.action_aic_hrm_cycle
+msgid ""
+"A cycle frames every objective, KPI and review: a year, a quarter, a month "
+"or any custom period."
+msgstr ""
+"Chu kỳ là khung cho mọi mục tiêu, KPI và kỳ đánh giá: năm, quý, tháng hoặc "
+"kỳ hạn tùy chỉnh."
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__stale_days
+msgid ""
+"A goal with no check-in for this many days is flagged as stale. Defaults to "
+"twice the check-in interval."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:res.groups.privilege,name:aic_hrm_base.privilege_aic_hrm
+msgid "AIC HRM Pro"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_needaction
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__active
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__active
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__active
+msgid "Active"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__aggregate
+msgid "Aggregate"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__amber
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_assignment__rag__amber
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_target__rag__amber
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_objective__rag__amber
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_scoring_mixin__rag__amber
+msgid "Amber"
+msgstr "Vàng"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__amber_from
+msgid "Amber From"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_form
+msgid "Approve"
+msgstr "Duyệt"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_target_revision__state__approved
+msgid "Approved"
+msgstr "Đã duyệt"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__approved_by
+msgid "Approved By"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__approved_date
+msgid "Approved Date"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
+msgid "Archived"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_attachment_count
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_metric_source
+msgid "Auto-Metric Source"
+msgstr "Nguồn số liệu tự động"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__avg
+msgid "Average"
+msgstr "Bình quân"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__check_in_frequency
+msgid "Check In Frequency"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+msgid "Close"
+msgstr "Đóng"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__state__closed
+msgid "Closed"
+msgstr "Đã đóng"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__code
+msgid "Code"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__company_id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__company_id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__company_id
+msgid "Company"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_config
+msgid "Configuration"
+msgstr "Cấu hình"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__parent_id
+msgid ""
+"Containing cycle, e.g. the year a quarter belongs to. Cross-cycle goal "
+"alignment follows this relation."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__count
+msgid "Count"
+msgstr "Đếm"
+
+#. module: aic_hrm_base
+#: model_terms:ir.actions.act_window,help:aic_hrm_base.action_aic_hrm_cycle
+msgid "Create your first performance cycle"
+msgstr "Tạo chu kỳ hiệu suất đầu tiên"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__create_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__create_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__create_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__create_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__custom
+msgid "Custom period"
+msgstr "Kỳ tùy chỉnh"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s and its parent must belong to the same company."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s cannot go from %(current)s to %(target)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s is locked and cannot be modified."
+msgstr "Chu kỳ %(name)s đã khóa, không thể sửa."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid ""
+"Cycle %(name)s is locked. Corrections require an approved target revision."
+msgstr ""
+"Chu kỳ %(name)s đã khóa. Muốn sửa phải qua phiếu điều chỉnh chỉ tiêu được "
+"duyệt."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s must fall entirely within its parent cycle %(parent)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s: the end date must be on or after the start date."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__cycle_type
+msgid "Cycle Type"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_cycle
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_cycles
+msgid "Cycles"
+msgstr "Chu kỳ"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__date_end
+msgid "Date End"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__date_field
+msgid "Date Field"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__date_start
+msgid "Date Start"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__department_id
+msgid "Department"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__domain
+msgid "Domain"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_metric_source__domain
+msgid "Domain filter evaluated when pulling the value."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__state__draft
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
+msgid "Draft"
+msgstr "Nháp"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__check_in_frequency__biweekly
+msgid "Every two weeks"
+msgstr "Hai tuần một lần"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "Field %(field)s does not exist on %(model)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid ""
+"Field %(field)s is not a float field; revisions govern numeric targets only."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
+msgid "Field %(field)s must be a date or datetime field on %(model)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
+msgid "Field %(field)s must be a stored numeric field on %(model)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "Field %(field)s on %(model)s is not governed by target revisions."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__field_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__field_name
+msgid "Field Name"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_follower_ids
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_partner_ids
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:res.groups,comment:aic_hrm_base.group_hrm_admin
+msgid "Full configuration access, including metric sources."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__green
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_assignment__rag__green
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_target__rag__green
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_objective__rag__green
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_scoring_mixin__rag__green
+msgid "Green"
+msgstr "Xanh"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__green_from
+msgid "Green From"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__half
+msgid "Half-year"
+msgstr "Nửa năm"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__has_message
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__id
+msgid "ID"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__message_needaction
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__message_has_error
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__message_has_sms_error
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision__message_has_error
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__state__review
+msgid "In Review"
+msgstr "Đang rà soát"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_is_follower
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__last_run
+msgid "Last Run"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__write_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__write_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__write_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__write_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__last_value
+msgid "Last Value"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_rag_profile__company_id
+msgid "Leave empty to share the profile across all companies."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+msgid "Lock"
+msgstr "Khóa"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__state__locked
+msgid "Locked"
+msgstr "Đã khóa"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__manager_id
+msgid "Manager"
+msgstr "Quản lý"
+
+#. module: aic_hrm_base
+#: model:res.groups,comment:aic_hrm_base.group_hrm_manager
+msgid "Manages cycles and the goals of their reporting line."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__max
+msgid "Maximum"
+msgstr "Lớn nhất"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_has_error
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_ids
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_metric_allowed_model
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_metric_allowlist
+msgid "Metric Allowlist"
+msgstr "Danh sách model cho phép"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_metric_allowed_model
+msgid "Metric Source Allowed Model"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_metric_source
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_metric_sources
+msgid "Metric Sources"
+msgstr "Nguồn số liệu"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
+msgid "Metric source %(name)s failed: %(error)s"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__min
+msgid "Minimum"
+msgstr "Nhỏ nhất"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__model_id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_allowed_model__model_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_model
+msgid "Model"
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
+msgid ""
+"Model %(model)s is not on the metric-source allowlist. An HR administrator "
+"must allowlist it first."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__month
+msgid "Month"
+msgstr "Tháng"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__check_in_frequency__monthly
+msgid "Monthly"
+msgstr "Hằng tháng"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__name
+msgid "Name"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__new_value_float
+msgid "New Value"
+msgstr "Giá trị mới"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_scoring_mixin__score
+msgid "Normalized 0..cap score."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__none
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_assignment__rag__none
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_target__rag__none
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_objective__rag__none
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_scoring_mixin__rag__none
+msgid "Not scored"
+msgstr "Chưa chấm"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_needaction_counter
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_has_error_counter
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__message_needaction_counter
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__message_has_error_counter
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__old_value_float
+msgid "Old Value"
+msgstr "Giá trị cũ"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
+msgid "Only HR administrators may evaluate metric sources."
+msgstr "Chỉ quản trị nhân sự mới được chạy nguồn số liệu."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Only draft cycles can be deleted. Archive %(name)s instead."
+msgstr "Chỉ xóa được chu kỳ nháp. Hãy lưu trữ %(name)s thay vì xóa."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "Only performance managers may approve target revisions."
+msgstr "Chỉ quản lý hiệu suất mới được duyệt điều chỉnh chỉ tiêu."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "Only requested revisions can be approved."
+msgstr "Chỉ duyệt được phiếu điều chỉnh đang ở trạng thái yêu cầu."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "Only requested revisions can be rejected."
+msgstr "Chỉ từ chối được phiếu điều chỉnh đang ở trạng thái yêu cầu."
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__state__open
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
+msgid "Open"
+msgstr "Đang mở"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_metric_source__date_field
+msgid ""
+"Optional date/datetime field used to restrict the pull to a period when the "
+"caller passes bounds."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__employee_id
+msgid "Owner"
+msgstr "Chủ trì"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_owner_mixin
+msgid "Owner Mixin"
+msgstr "Mixin chủ trì"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__parent_id
+msgid "Parent Cycle"
+msgstr "Chu kỳ cha"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_root
+msgid "Performance"
+msgstr "Hiệu suất"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_cycle
+msgid "Performance Cycle"
+msgstr "Chu kỳ hiệu suất"
+
+#. module: aic_hrm_base
+#: model:res.groups,name:aic_hrm_base.group_hrm_admin
+msgid "Performance: Administrator"
+msgstr "Hiệu suất: Quản trị"
+
+#. module: aic_hrm_base
+#: model:res.groups,name:aic_hrm_base.group_hrm_manager
+msgid "Performance: Manager"
+msgstr "Hiệu suất: Quản lý"
+
+#. module: aic_hrm_base
+#: model:res.groups,name:aic_hrm_base.group_hrm_user
+msgid "Performance: User"
+msgstr "Hiệu suất: Người dùng"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__quarter
+msgid "Quarter"
+msgstr "Quý"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__rag
+msgid "RAG"
+msgstr "RAG"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__rag_profile_id
+msgid "RAG Profile"
+msgstr "Ngưỡng RAG"
+
+#. module: aic_hrm_base
+#: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_rag_profile
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_rag_profiles
+msgid "RAG Profiles"
+msgstr "Ngưỡng RAG"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_rag_profile
+msgid "RAG Threshold Profile"
+msgstr "Bộ ngưỡng RAG"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "RAG profile %(profile)s belongs to another company."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_rag_profile.py:0
+msgid ""
+"RAG thresholds must satisfy 0 <= amber < green <= 1 (got amber=%(amber)s, "
+"green=%(green)s)."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__reason
+msgid "Reason"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_id
+msgid "Record"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__red
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_assignment__rag__red
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_kpi_target__rag__red
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_objective__rag__red
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_scoring_mixin__rag__red
+msgid "Red"
+msgstr "Đỏ"
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_form
+msgid "Reject"
+msgstr "Từ chối"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_target_revision__state__rejected
+msgid "Rejected"
+msgstr "Đã từ chối"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_target_revision__state__requested
+msgid "Requested"
+msgstr "Đã yêu cầu"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__requested_by
+msgid "Requested By"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_has_sms_error
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__score
+msgid "Score"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__score_cap
+msgid "Score Cap"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_rag_profile__amber_from
+msgid "Scores at or above this value (and below green) resolve to amber."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_rag_profile__green_from
+msgid "Scores at or above this value resolve to green."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_scoring_mixin
+msgid "Scoring Mixin"
+msgstr "Mixin chấm điểm"
+
+#. module: aic_hrm_base
+#: model:res.groups,comment:aic_hrm_base.group_hrm_user
+msgid "Sees own goals and public goals, records check-ins."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__stale_days
+msgid "Stale Days"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+msgid "Start Review"
+msgstr "Bắt đầu rà soát"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__state
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__state
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
+msgid "State"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_metric_source__field_name
+msgid "Stored numeric field to aggregate."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__child_ids
+msgid "Sub-cycles"
+msgstr "Chu kỳ con"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__sum
+msgid "Sum"
+msgstr "Tổng"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_target_revision
+msgid "Target Revision"
+msgstr "Điều chỉnh chỉ tiêu"
+
+#. module: aic_hrm_base
+#: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_target_revision
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_target_revisions
+msgid "Target Revisions"
+msgstr "Điều chỉnh chỉ tiêu"
+
+#. module: aic_hrm_base
+#: model:ir.model.constraint,message:aic_hrm_base.constraint_aic_hrm_cycle_code_company_uniq
+msgid "The cycle code must be unique per company."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "The revised record no longer exists."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.constraint,message:aic_hrm_base.constraint_aic_hrm_metric_allowed_model_model_uniq
+msgid "This model is already allowlisted."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
+msgid "Type"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
+msgid "Unknown model %(model)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__score_cap
+msgid ""
+"Upper bound of the normalized score scale. 1.0 is the Google OKR convention;"
+" raise it to allow visible overachievement."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__website_message_ids
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__website_message_ids
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__check_in_frequency__weekly
+msgid "Weekly"
+msgstr "Hằng tuần"
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_form
+msgid "Why is this change needed mid-cycle?"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__year
+msgid "Year"
+msgstr "Năm"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "You do not have the rights to move cycles to %(target)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+msgid "e.g. FY 2026"
+msgstr ""

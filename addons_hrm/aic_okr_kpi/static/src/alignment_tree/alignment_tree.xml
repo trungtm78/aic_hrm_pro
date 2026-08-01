@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="aic_okr_kpi.AlignmentTreeNode">
+    <div>
+        <div class="o_aic_tree_node" t-attf-style="margin-left: {{ depth * 1.25 }}rem">
+            <button class="o_aic_tree_toggle" t-on-click="() => this.toggle(node.id)"
+                    t-att-aria-expanded="!state.collapsed[node.id] ? 'true' : 'false'"
+                    t-if="node.children.length or node.krs.length">
+                <t t-esc="state.collapsed[node.id] ? '+' : '−'"/>
+            </button>
+            <span class="o_aic_tree_toggle" t-else="" style="visibility: hidden"/>
+            <span class="o_aic_tree_code" t-esc="node.code"/>
+            <span class="o_aic_tree_name" t-esc="node.name"/>
+            <span t-attf-class="o_aic_rag o_aic_rag_{{ node.rag || 'none' }}">
+                <span class="o_aic_rag_marker"/>
+            </span>
+            <span class="o_aic_hrm_num" t-esc="formatPercent(node.score)"/>
+            <span class="o_aic_tree_bar">
+                <span t-attf-style="width: {{ Math.min(100, Math.round((node.score || 0) * 100)) }}%"/>
+            </span>
+        </div>
+        <t t-if="!state.collapsed[node.id]">
+            <div t-foreach="node.krs" t-as="kr" t-key="kr.id"
+                 class="o_aic_tree_node"
+                 t-attf-style="margin-left: {{ (depth + 1) * 1.25 + 2.5 }}rem">
+                <span class="o_aic_tree_code" t-esc="kr.code"/>
+                <span class="o_aic_tree_name">
+                    <t t-esc="kr.name"/>
+                    <span class="text-muted" t-if="kr.employee_id">
+                        · <t t-esc="kr.employee_id[1]"/>
+                    </span>
+                </span>
+                <span t-attf-class="o_aic_rag o_aic_rag_{{ kr.rag || 'none' }}">
+                    <span class="o_aic_rag_marker"/>
+                </span>
+                <span class="o_aic_hrm_num" t-esc="formatPercent(kr.progress)"/>
+                <span class="o_aic_tree_bar">
+                    <span t-attf-style="width: {{ Math.min(100, Math.round((kr.progress || 0) * 100)) }}%"/>
+                </span>
+            </div>
+            <t t-foreach="node.children" t-as="child" t-key="child.id">
+                <t t-call="aic_okr_kpi.AlignmentTreeNode">
+                    <t t-set="node" t-value="child"/>
+                    <t t-set="depth" t-value="depth + 1"/>
+                </t>
+            </t>
+        </t>
+    </div>
+</t>
+
+<t t-name="aic_okr_kpi.AlignmentTree">
+    <div class="o_aic_hrm o_action">
+        <div class="d-flex align-items-center mb-3 gap-2 flex-wrap">
+            <h2 class="mb-0">Alignment Tree</h2>
+            <select class="form-select w-auto" t-on-change="onCycleChange"
+                    t-att-disabled="!state.cycles.length"
+                    aria-label="Cycle">
+                <t t-foreach="state.cycles" t-as="cycle" t-key="cycle.id">
+                    <option t-att-value="cycle.id"
+                            t-att-selected="cycle.id === state.cycleId ? 'selected' : undefined">
+                        <t t-esc="cycle.name"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+        <div t-if="state.loading" class="o_aic_empty">Loading…</div>
+        <div t-elif="!state.roots.length" class="o_aic_empty">
+            No objectives in this cycle yet — import the spreadsheet or add objectives.
+        </div>
+        <div t-else="" class="o_aic_tree_scroll">
+            <t t-foreach="state.roots" t-as="root" t-key="root.id">
+                <t t-call="aic_okr_kpi.AlignmentTreeNode">
+                    <t t-set="node" t-value="root"/>
+                    <t t-set="depth" t-value="0"/>
+                </t>
+            </t>
+        </div>
+    </div>
+</t>
+
+</templates>

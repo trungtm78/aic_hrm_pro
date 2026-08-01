@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_aic_hrm_cockpit" model="ir.actions.client">
+        <field name="name">Leadership Cockpit</field>
+        <field name="tag">aic_hrm_cockpit</field>
+    </record>
+
+    <record id="action_aic_hrm_alignment_tree" model="ir.actions.client">
+        <field name="name">Alignment Tree</field>
+        <field name="tag">aic_hrm_alignment_tree</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_cockpit" name="Cockpit"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="5"
+              action="action_aic_hrm_cockpit"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_alignment_tree" name="Alignment Tree"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="25"
+              action="action_aic_hrm_alignment_tree"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+</odoo>

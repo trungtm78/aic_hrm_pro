@@ -1,0 +1,212 @@
+# Vietnamese translation of aic_hrm_base — AIC HRM Pro suite.
+# Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
+msgid ""
+msgstr ""
+"Project-Id-Version: aic_hrm_base 19.0.1.0.0\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Performance"
+msgstr "Hiệu suất"
+
+msgid "Cycles"
+msgstr "Chu kỳ"
+
+msgid "Configuration"
+msgstr "Cấu hình"
+
+msgid "RAG Profiles"
+msgstr "Ngưỡng RAG"
+
+msgid "Target Revisions"
+msgstr "Điều chỉnh chỉ tiêu"
+
+msgid "Metric Sources"
+msgstr "Nguồn số liệu"
+
+msgid "Metric Allowlist"
+msgstr "Danh sách model cho phép"
+
+msgid "Performance Cycle"
+msgstr "Chu kỳ hiệu suất"
+
+msgid "Cycle"
+msgstr "Chu kỳ"
+
+msgid "Parent Cycle"
+msgstr "Chu kỳ cha"
+
+msgid "Sub-cycles"
+msgstr "Chu kỳ con"
+
+msgid "Year"
+msgstr "Năm"
+
+msgid "Half-year"
+msgstr "Nửa năm"
+
+msgid "Quarter"
+msgstr "Quý"
+
+msgid "Month"
+msgstr "Tháng"
+
+msgid "Custom period"
+msgstr "Kỳ tùy chỉnh"
+
+msgid "Draft"
+msgstr "Nháp"
+
+msgid "Open"
+msgstr "Đang mở"
+
+msgid "In Review"
+msgstr "Đang rà soát"
+
+msgid "Closed"
+msgstr "Đã đóng"
+
+msgid "Locked"
+msgstr "Đã khóa"
+
+msgid "Weekly"
+msgstr "Hằng tuần"
+
+msgid "Every two weeks"
+msgstr "Hai tuần một lần"
+
+msgid "Monthly"
+msgstr "Hằng tháng"
+
+msgid "Start Review"
+msgstr "Bắt đầu rà soát"
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "Lock"
+msgstr "Khóa"
+
+msgid "RAG Profile"
+msgstr "Ngưỡng RAG"
+
+msgid "RAG Threshold Profile"
+msgstr "Bộ ngưỡng RAG"
+
+msgid "Target Revision"
+msgstr "Điều chỉnh chỉ tiêu"
+
+msgid "Old Value"
+msgstr "Giá trị cũ"
+
+msgid "New Value"
+msgstr "Giá trị mới"
+
+msgid "Requested"
+msgstr "Đã yêu cầu"
+
+msgid "Approved"
+msgstr "Đã duyệt"
+
+msgid "Rejected"
+msgstr "Đã từ chối"
+
+msgid "Approve"
+msgstr "Duyệt"
+
+msgid "Reject"
+msgstr "Từ chối"
+
+msgid "Auto-Metric Source"
+msgstr "Nguồn số liệu tự động"
+
+msgid "Owner"
+msgstr "Chủ trì"
+
+msgid "Manager"
+msgstr "Quản lý"
+
+msgid "Owner Mixin"
+msgstr "Mixin chủ trì"
+
+msgid "Scoring Mixin"
+msgstr "Mixin chấm điểm"
+
+msgid "Green"
+msgstr "Xanh"
+
+msgid "Amber"
+msgstr "Vàng"
+
+msgid "Red"
+msgstr "Đỏ"
+
+msgid "Not scored"
+msgstr "Chưa chấm"
+
+msgid "RAG"
+msgstr "RAG"
+
+msgid "Sum"
+msgstr "Tổng"
+
+msgid "Average"
+msgstr "Bình quân"
+
+msgid "Count"
+msgstr "Đếm"
+
+msgid "Minimum"
+msgstr "Nhỏ nhất"
+
+msgid "Maximum"
+msgstr "Lớn nhất"
+
+msgid "Cycle states change only through their workflow actions."
+msgstr "Trạng thái chu kỳ chỉ thay đổi qua các nút quy trình."
+
+msgid "Only draft cycles can be deleted. Archive %(name)s instead."
+msgstr "Chỉ xóa được chu kỳ nháp. Hãy lưu trữ %(name)s thay vì xóa."
+
+msgid ""
+"Cycle %(name)s is locked. Corrections require an approved target revision."
+msgstr ""
+"Chu kỳ %(name)s đã khóa. Muốn sửa phải qua phiếu điều chỉnh chỉ tiêu được "
+"duyệt."
+
+msgid "Cycle %(name)s is locked and cannot be modified."
+msgstr "Chu kỳ %(name)s đã khóa, không thể sửa."
+
+msgid "Only requested revisions can be approved."
+msgstr "Chỉ duyệt được phiếu điều chỉnh đang ở trạng thái yêu cầu."
+
+msgid "Only requested revisions can be rejected."
+msgstr "Chỉ từ chối được phiếu điều chỉnh đang ở trạng thái yêu cầu."
+
+msgid "Only performance managers may approve target revisions."
+msgstr "Chỉ quản lý hiệu suất mới được duyệt điều chỉnh chỉ tiêu."
+
+msgid "Only HR administrators may evaluate metric sources."
+msgstr "Chỉ quản trị nhân sự mới được chạy nguồn số liệu."
+
+msgid "Performance: User"
+msgstr "Hiệu suất: Người dùng"
+
+msgid "Performance: Manager"
+msgstr "Hiệu suất: Quản lý"
+
+msgid "Performance: Administrator"
+msgstr "Hiệu suất: Quản trị"
+
+msgid "Create your first performance cycle"
+msgstr "Tạo chu kỳ hiệu suất đầu tiên"
+
+msgid ""
+"A cycle frames every objective, KPI and review: a year, a quarter, a month "
+"or any custom period."
+msgstr ""
+"Chu kỳ là khung cho mọi mục tiêu, KPI và kỳ đánh giá: năm, quý, tháng hoặc "
+"kỳ hạn tùy chỉnh."

@@ -1,0 +1,45 @@
+/* Hallmark · component: design-tokens · genre: modern-minimal · theme: custom
+ * vibe: "ink-on-steel, audited-document, enterprise-calm, no varnish"
+ * paper: oklch(98% 0.005 235) · accent: oklch(45% 0.14 235)
+ * display/body: IBM Plex Sans (+JP) · data: IBM Plex Mono
+ * axes: light / grotesk-sans / cool · studied: no · context: user-approved
+ */
+
+/* Muc & Thep HRM — semantic tokens consumed by every suite surface.
+ * Scoped under .o_aic_hrm so the Odoo backend shell keeps its own theme. */
+.o_aic_hrm {
+  --aic-paper: oklch(98% 0.005 235);
+  --aic-paper-2: oklch(95% 0.006 235);
+  --aic-paper-3: oklch(92% 0.008 235);
+  --aic-ink: oklch(20% 0.01 235);
+  --aic-ink-2: oklch(40% 0.01 235);
+  --aic-rule: oklch(88% 0.008 235);
+  --aic-muted: oklch(50% 0.01 235);
+  --aic-accent: oklch(45% 0.14 235);
+  --aic-accent-ink: oklch(98% 0.005 235);
+  --aic-focus: oklch(48% 0.2 235);
+
+  /* Status = data colors, never the accent; always paired with a shape. */
+  --aic-status-green: oklch(60% 0.13 150);
+  --aic-status-amber: oklch(72% 0.14 75);
+  --aic-status-red: oklch(55% 0.18 25);
+  --aic-status-neutral: oklch(50% 0.01 235);
+
+  --aic-font-data: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --aic-space-2xs: 0.25rem;
+  --aic-space-xs: 0.5rem;
+  --aic-space-sm: 0.75rem;
+  --aic-space-md: 1rem;
+  --aic-space-lg: 1.5rem;
+
+  --aic-radius: 6px;
+  --aic-dur: 120ms;
+  --aic-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o_aic_hrm {
+    --aic-dur: 0ms;
+  }
+}
