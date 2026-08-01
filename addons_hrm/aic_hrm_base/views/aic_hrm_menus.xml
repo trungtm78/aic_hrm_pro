@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_aic_hrm_root" name="Performance"
+              sequence="75" groups="aic_hrm_base.group_hrm_user"
+              web_icon="aic_hrm_base,static/description/icon.png"/>
+
+    <menuitem id="menu_aic_hrm_cycles" name="Cycles"
+              parent="menu_aic_hrm_root" sequence="10"
+              action="action_aic_hrm_cycle"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_config" name="Configuration"
+              parent="menu_aic_hrm_root" sequence="90"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_rag_profiles" name="RAG Profiles"
+              parent="menu_aic_hrm_config" sequence="10"
+              action="action_aic_hrm_rag_profile"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_target_revisions" name="Target Revisions"
+              parent="menu_aic_hrm_config" sequence="20"
+              action="action_aic_hrm_target_revision"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_metric_sources" name="Metric Sources"
+              parent="menu_aic_hrm_config" sequence="30"
+              action="action_aic_hrm_metric_source"
+              groups="aic_hrm_base.group_hrm_admin"/>
+
+    <menuitem id="menu_aic_hrm_metric_allowlist" name="Metric Allowlist"
+              parent="menu_aic_hrm_config" sequence="40"
+              action="action_aic_hrm_metric_allowed_model"
+              groups="aic_hrm_base.group_hrm_admin"/>
+
+</odoo>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_aic_hrm_cycle_list" model="ir.ui.view">
+        <field name="name">aic.hrm.cycle.list</field>
+        <field name="model">aic.hrm.cycle</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cycle_type"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="parent_id" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'open'"
+                       decoration-warning="state == 'review'"
+                       decoration-success="state == 'closed'"
+                       decoration-muted="state == 'locked'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_cycle_form" model="ir.ui.view">
+        <field name="name">aic.hrm.cycle.form</field>
+        <field name="model">aic.hrm.cycle</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open" type="object" string="Open"
+                            class="btn-primary" invisible="state != 'draft'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_start_review" type="object" string="Start Review"
+                            class="btn-primary" invisible="state != 'open'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_close" type="object" string="Close"
+                            class="btn-primary" invisible="state != 'review'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_lock" type="object" string="Lock"
+                            invisible="state != 'closed'"
+                            groups="aic_hrm_base.group_hrm_admin"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. FY 2026"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="cycle_type"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="check_in_frequency"/>
+                            <field name="stale_days"/>
+                            <field name="rag_profile_id"/>
+                            <field name="score_cap"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_cycle_search" model="ir.ui.view">
+        <field name="name">aic.hrm.cycle.search</field>
+        <field name="model">aic.hrm.cycle</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Open" name="open" domain="[('state', '=', 'open')]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Type" name="group_type" domain="[]" context="{'group_by': 'cycle_type'}"/>
+                    <filter string="State" name="group_state" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_cycle" model="ir.actions.act_window">
+        <field name="name">Cycles</field>
+        <field name="res_model">aic.hrm.cycle</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first performance cycle</p>
+            <p>A cycle frames every objective, KPI and review: a year, a quarter, a month or any custom period.</p>
+        </field>
+    </record>
+
+</odoo>

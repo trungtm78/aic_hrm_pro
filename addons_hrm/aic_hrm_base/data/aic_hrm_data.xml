@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="rag_profile_default" model="aic.hrm.rag.profile">
+        <field name="name">Default (Google OKR 0.4 / 0.7)</field>
+        <field name="green_from">0.7</field>
+        <field name="amber_from">0.4</field>
+    </record>
+
+    <record id="seq_aic_hrm_objective" model="ir.sequence">
+        <field name="name">Objective Code</field>
+        <field name="code">aic.hrm.objective</field>
+        <field name="prefix">O</field>
+        <field name="padding">2</field>
+    </record>
+
+    <record id="seq_aic_hrm_key_result" model="ir.sequence">
+        <field name="name">Key Result Code</field>
+        <field name="code">aic.hrm.key.result</field>
+        <field name="prefix">KR</field>
+        <field name="padding">3</field>
+    </record>
+
+    <record id="seq_aic_hrm_kpi" model="ir.sequence">
+        <field name="name">KPI Code</field>
+        <field name="code">aic.hrm.kpi</field>
+        <field name="prefix">KPI</field>
+        <field name="padding">3</field>
+    </record>
+
+</odoo>

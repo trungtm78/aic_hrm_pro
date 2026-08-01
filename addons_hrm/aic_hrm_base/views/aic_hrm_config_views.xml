@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_aic_hrm_rag_profile_list" model="ir.ui.view">
+        <field name="name">aic.hrm.rag.profile.list</field>
+        <field name="model">aic.hrm.rag.profile</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="amber_from"/>
+                <field name="green_from"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_rag_profile" model="ir.actions.act_window">
+        <field name="name">RAG Profiles</field>
+        <field name="res_model">aic.hrm.rag.profile</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_aic_hrm_metric_source_list" model="ir.ui.view">
+        <field name="name">aic.hrm.metric.source.list</field>
+        <field name="model">aic.hrm.metric.source</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="field_name"/>
+                <field name="aggregate"/>
+                <field name="last_run"/>
+                <field name="last_value"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_metric_source_form" model="ir.ui.view">
+        <field name="name">aic.hrm.metric.source.form</field>
+        <field name="model">aic.hrm.metric.source</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="field_name"/>
+                            <field name="aggregate"/>
+                        </group>
+                        <group>
+                            <field name="domain" widget="domain" options="{'model': 'model_name'}"/>
+                            <field name="model_name" invisible="1"/>
+                            <field name="date_field"/>
+                            <field name="last_run"/>
+                            <field name="last_value"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_metric_source" model="ir.actions.act_window">
+        <field name="name">Metric Sources</field>
+        <field name="res_model">aic.hrm.metric.source</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_aic_hrm_metric_allowed_model_list" model="ir.ui.view">
+        <field name="name">aic.hrm.metric.allowed.model.list</field>
+        <field name="model">aic.hrm.metric.allowed.model</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="model_id"/>
+                <field name="model_name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_metric_allowed_model" model="ir.actions.act_window">
+        <field name="name">Metric Allowlist</field>
+        <field name="res_model">aic.hrm.metric.allowed.model</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_aic_hrm_target_revision_list" model="ir.ui.view">
+        <field name="name">aic.hrm.target.revision.list</field>
+        <field name="model">aic.hrm.target.revision</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="create_date"/>
+                <field name="res_model"/>
+                <field name="res_id"/>
+                <field name="field_name"/>
+                <field name="old_value_float"/>
+                <field name="new_value_float"/>
+                <field name="requested_by"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_target_revision_form" model="ir.ui.view">
+        <field name="name">aic.hrm.target.revision.form</field>
+        <field name="model">aic.hrm.target.revision</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-primary" invisible="state != 'requested'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="state != 'requested'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                            <field name="field_name"/>
+                        </group>
+                        <group>
+                            <field name="old_value_float"/>
+                            <field name="new_value_float"/>
+                            <field name="requested_by"/>
+                            <field name="approved_by"/>
+                            <field name="approved_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason" placeholder="Why is this change needed mid-cycle?"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_target_revision" model="ir.actions.act_window">
+        <field name="name">Target Revisions</field>
+        <field name="res_model">aic.hrm.target.revision</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
