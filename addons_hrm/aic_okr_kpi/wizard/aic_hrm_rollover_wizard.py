@@ -30,7 +30,13 @@ class AicHrmRolloverWizard(models.TransientModel):
         if self.copy_objectives:
             objectives = self.env['aic.hrm.objective'].search(
                 [('cycle_id', '=', self.source_cycle_id.id)])
+            existing_codes = set(self.env['aic.hrm.objective'].search(
+                [('cycle_id', '=', self.target_cycle_id.id)])
+                .mapped('code'))
             for objective in objectives:
+                if objective.code in existing_codes:
+                    # Re-running the wizard must not duplicate structure.
+                    continue
                 objective_map[objective.id] = objective.copy({
                     'cycle_id': self.target_cycle_id.id,
                     'code': objective.code,
@@ -62,9 +68,17 @@ class AicHrmRolloverWizard(models.TransientModel):
         if self.copy_kpi_targets:
             kpi_targets = self.env['aic.hrm.kpi.target'].search(
                 [('cycle_id', '=', self.source_cycle_id.id)])
+            existing_targets = {
+                (target.kpi_id.id, target.employee_id.id)
+                for target in self.env['aic.hrm.kpi.target'].search(
+                    [('cycle_id', '=', self.target_cycle_id.id)])}
             for kpi_target in kpi_targets:
+                key = (kpi_target.kpi_id.id, kpi_target.employee_id.id)
+                if key in existing_targets:
+                    continue
                 target_map[kpi_target.id] = kpi_target.copy({
                     'cycle_id': self.target_cycle_id.id,
+                    'state': 'draft',
                     'objective_id': objective_map.get(
                         kpi_target.objective_id.id,
                         self.env['aic.hrm.objective']).id or False,
@@ -73,9 +87,15 @@ class AicHrmRolloverWizard(models.TransientModel):
         if self.copy_assignments and self.copy_kpi_targets:
             assignments = self.env['aic.hrm.kpi.assignment'].search(
                 [('cycle_id', '=', self.source_cycle_id.id)])
+            existing_owners = set(self.env['aic.hrm.kpi.assignment'].search(
+                [('cycle_id', '=', self.target_cycle_id.id)])
+                .mapped('employee_id').ids)
             for assignment in assignments:
+                if assignment.employee_id.id in existing_owners:
+                    continue
                 new_assignment = assignment.copy({
                     'cycle_id': self.target_cycle_id.id,
+                    'state': 'draft',
                     'line_ids': [(5, 0, 0)],
                 })
                 for line in assignment.line_ids:

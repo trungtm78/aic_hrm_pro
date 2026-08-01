@@ -93,11 +93,13 @@ class AicHrmAlertRule(models.Model):
         Activity = self.env['mail.activity']
         activity_type = self.env.ref('mail.mail_activity_data_todo')
         for rule in self:
+            # Stable idempotency key: survives rule renames.
+            key = f'[ALERT-{rule.id}]'
             for record in rule._find_matches():
                 existing = Activity.search([
                     ('res_model', '=', record._name),
                     ('res_id', '=', record.id),
-                    ('summary', '=like', f'[{rule.name}]%'),
+                    ('summary', '=like', f'{key}%'),
                 ], limit=1)
                 if existing:
                     open_days = (fields.Date.context_today(rule)
@@ -108,19 +110,18 @@ class AicHrmAlertRule(models.Model):
                         escalated = Activity.search([
                             ('res_model', '=', record._name),
                             ('res_id', '=', record.id),
-                            ('summary', '=like',
-                             f'[{rule.name}][escalated]%'),
+                            ('summary', '=like', f'{key}[escalated]%'),
                         ], limit=1)
                         if not escalated:
                             record.activity_schedule(
                                 activity_type_id=activity_type.id,
-                                summary=f'[{rule.name}][escalated] '
+                                summary=f'{key}[escalated] {rule.name}: '
                                         f'{record.display_name}',
                                 user_id=manager.user_id.id)
                     continue
                 record.activity_schedule(
                     activity_type_id=activity_type.id,
-                    summary=f'[{rule.name}] {record.display_name}',
+                    summary=f'{key} {rule.name}: {record.display_name}',
                     user_id=rule._alert_user(record).id)
 
     @api.model

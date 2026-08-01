@@ -81,17 +81,20 @@ class AicHrmCheckin(models.Model):
         for checkin in self.filtered('kpi_target_id'):
             target = checkin.kpi_target_id
             month_start = checkin.date.replace(day=1)
+            month_end = (month_start + relativedelta(months=1)
+                         - relativedelta(days=1))
+            # Match any result overlapping the month, not just an exact
+            # date_from: imports may have created partial-month rows.
             existing = PeriodResult.search([
                 ('kpi_target_id', '=', target.id),
-                ('date_from', '=', month_start),
+                ('date_from', '<=', month_end),
+                ('date_to', '>=', month_start),
             ], limit=1)
             if existing:
                 if existing.state == 'draft':
                     existing.write({'actual': checkin.value_current,
                                     'source': 'checkin'})
             else:
-                month_end = (month_start + relativedelta(months=1)
-                             - relativedelta(days=1))
                 PeriodResult.create({
                     'kpi_target_id': target.id,
                     'date_from': month_start,
@@ -114,9 +117,15 @@ class AicHrmCheckin(models.Model):
                 raise ValidationError(_(
                     "A check-in belongs to exactly one key result or one "
                     "KPI target."))
+        # Validate cycle editability BEFORE creating anything.
+        krs = self.env['aic.hrm.key.result'].browse(
+            [vals['kr_id'] for vals in vals_list if vals.get('kr_id')])
+        targets = self.env['aic.hrm.kpi.target'].browse(
+            [vals['kpi_target_id'] for vals in vals_list
+             if vals.get('kpi_target_id')])
+        krs.cycle_id.ensure_editable()
+        targets.cycle_id.ensure_editable()
         checkins = super().create(vals_list)
-        checkins.kr_id.cycle_id.ensure_editable()
-        checkins.kpi_target_id.cycle_id.ensure_editable()
         checkins._apply_to_kr()
         checkins._apply_to_kpi()
         return checkins

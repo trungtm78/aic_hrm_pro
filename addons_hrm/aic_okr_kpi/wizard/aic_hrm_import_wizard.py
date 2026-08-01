@@ -139,7 +139,9 @@ class AicHrmImportWizard(models.TransientModel):
             })
         return okr_rows, kpi_rows, assign_rows, warnings
 
-    def _match_employee(self, name, warnings):
+    def _match_employee(self, name, warnings, allow_create=False):
+        """Find an employee by name. Creation (when enabled) happens only
+        on the import pass — previewing must stay side-effect free."""
         if not name:
             return self.env['hr.employee']
         employee = self.env['hr.employee'].search(
@@ -148,7 +150,7 @@ class AicHrmImportWizard(models.TransientModel):
             warnings.append(_(
                 "Employee '%(name)s' not found — row imported without "
                 "owner or skipped.", name=name))
-            if self.create_missing_employees:
+            if allow_create and self.create_missing_employees:
                 employee = self.env['hr.employee'].create({
                     'name': name,
                     'company_id': self.cycle_id.company_id.id,
@@ -220,7 +222,7 @@ class AicHrmImportWizard(models.TransientModel):
                     created_objectives += 1
                 objectives[spec['code']] = objective
             owner = self._match_employee(
-                row['owner'].split(',')[0], warnings)
+                row['owner'].split(',')[0], warnings, allow_create=True)
             kr = KeyResult.search([
                 ('objective_id', '=', objective.id),
                 ('code', '=', row['kr_code'])], limit=1)
@@ -267,7 +269,7 @@ class AicHrmImportWizard(models.TransientModel):
                 kpi = Kpi.create({**kpi_vals, 'code': row['code']})
                 created_kpis += 1
             owner = self._match_employee(
-                row['owner'].split(',')[0], warnings)
+                row['owner'].split(',')[0], warnings, allow_create=True)
             target = KpiTarget.search([
                 ('kpi_id', '=', kpi.id),
                 ('cycle_id', '=', self.cycle_id.id),
@@ -295,7 +297,8 @@ class AicHrmImportWizard(models.TransientModel):
 
         created_assignments = 0
         for row in assign_rows:
-            employee = self._match_employee(row['person'], warnings)
+            employee = self._match_employee(
+                row['person'], warnings, allow_create=True)
             if not employee:
                 continue
             assignment = Assignment.search([
@@ -310,14 +313,26 @@ class AicHrmImportWizard(models.TransientModel):
                 })
                 created_assignments += 1
             for code in row['kpi_codes']:
-                target = kpi_targets.get((code, employee.id)) or \
-                    kpi_targets.get(code)
+                target = kpi_targets.get((code, employee.id))
                 if not target:
-                    warnings.append(_(
-                        "KPI %(code)s on %(person)s's row is not in the "
-                        "KPI sheet — line skipped.",
-                        code=code, person=row['person']))
-                    continue
+                    # Never fall back to another owner's target: clone the
+                    # KPI's cycle setup for THIS employee instead.
+                    reference = kpi_targets.get(code)
+                    if not reference:
+                        warnings.append(_(
+                            "KPI %(code)s on %(person)s's row is not in "
+                            "the KPI sheet — line skipped.",
+                            code=code, person=row['person']))
+                        continue
+                    target = KpiTarget.create({
+                        'kpi_id': reference.kpi_id.id,
+                        'cycle_id': self.cycle_id.id,
+                        'employee_id': employee.id,
+                        'weight': reference.weight,
+                        'target_value': reference.target_value,
+                        'objective_id': reference.objective_id.id or False,
+                    })
+                    kpi_targets[(code, employee.id)] = target
                 line = assignment.line_ids.filtered(
                     lambda l: l.kpi_target_id == target)
                 if not line:
