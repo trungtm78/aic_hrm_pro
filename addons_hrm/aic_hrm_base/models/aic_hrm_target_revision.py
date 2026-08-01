@@ -36,8 +36,19 @@ class AicHrmTargetRevision(models.Model):
         'res.company', required=True, index=True,
         default=lambda self: self.env.company)
 
+    @api.model
+    def _get_revisable_fields(self):
+        """Model -> set of float fields governed by revisions.
+
+        Downstream modules extend this map (objectives, key results, KPI
+        targets...). Keeping it explicit prevents a revision from becoming a
+        write-anything backdoor on arbitrary models.
+        """
+        return {'aic.hrm.cycle': {'score_cap'}}
+
     @api.constrains('res_model', 'field_name')
     def _check_field(self):
+        revisable = self._get_revisable_fields()
         for revision in self:
             model = self.env.get(revision.res_model)
             if model is None:
@@ -52,6 +63,20 @@ class AicHrmTargetRevision(models.Model):
                 raise ValidationError(_(
                     "Field %(field)s is not a float field; revisions govern "
                     "numeric targets only.", field=revision.field_name))
+            if revision.field_name not in revisable.get(revision.res_model,
+                                                        set()):
+                raise ValidationError(_(
+                    "Field %(field)s on %(model)s is not governed by target "
+                    "revisions.", field=revision.field_name,
+                    model=revision.res_model))
+
+    @api.constrains('res_model', 'res_id')
+    def _check_target_exists(self):
+        for revision in self:
+            if revision.res_model in self.env and \
+                    not revision._target_record().exists():
+                raise ValidationError(_(
+                    "The revised record no longer exists."))
 
     def _target_record(self):
         self.ensure_one()
@@ -68,6 +93,9 @@ class AicHrmTargetRevision(models.Model):
 
     def action_approve(self):
         for revision in self:
+            if revision.state != 'requested':
+                raise ValidationError(_(
+                    "Only requested revisions can be approved."))
             target = revision._target_record()
             target.write({revision.field_name: revision.new_value_float})
             revision.write({
@@ -83,4 +111,7 @@ class AicHrmTargetRevision(models.Model):
                     new=revision.new_value_float, reason=revision.reason))
 
     def action_reject(self):
+        if any(revision.state != 'requested' for revision in self):
+            raise ValidationError(_(
+                "Only requested revisions can be rejected."))
         self.write({'state': 'rejected'})

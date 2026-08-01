@@ -78,6 +78,46 @@ class TestCycle(TransactionCase):
         with self.assertRaises(UserError):
             cycle.action_close()  # draft -> closed is not allowed
 
+    def test_state_direct_write_blocked(self):
+        cycle = self._make_cycle()
+        with self.assertRaises(UserError):
+            cycle.write({'state': 'locked'})
+
+    def test_locked_cycle_immutable(self):
+        cycle = self._make_cycle()
+        cycle.action_open()
+        cycle.action_start_review()
+        cycle.action_close()
+        cycle.action_lock()
+        with self.assertRaises(UserError):
+            cycle.write({'name': 'Tampered'})
+
+    def test_unlink_only_draft(self):
+        cycle = self._make_cycle()
+        cycle.action_open()
+        with self.assertRaises(UserError):
+            cycle.unlink()
+        draft = self._make_cycle(code='DRAFT-DEL')
+        draft.unlink()
+        self.assertFalse(draft.exists())
+
+    def test_parent_company_must_match(self):
+        other_company = self.env['res.company'].create({'name': 'Cycle Co 2'})
+        year = self._make_cycle()
+        with self.assertRaises(ValidationError):
+            self._make_cycle(
+                code='Q-OTHER', parent_id=year.id, company_id=other_company.id,
+                date_start='2026-04-01', date_end='2026-06-30')
+
+    def test_rag_profile_company_must_match(self):
+        other_company = self.env['res.company'].create({'name': 'Cycle Co 3'})
+        foreign_profile = self.env['aic.hrm.rag.profile'].create({
+            'name': 'Foreign', 'green_from': 0.7, 'amber_from': 0.4,
+            'company_id': other_company.id,
+        })
+        with self.assertRaises(ValidationError):
+            self._make_cycle(code='RAGX', rag_profile_id=foreign_profile.id)
+
     def test_ensure_editable_guard(self):
         cycle = self._make_cycle()
         cycle.action_open()

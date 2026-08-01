@@ -93,18 +93,33 @@ class AicHrmCycle(models.Model):
                     "Cycle %(name)s: the end date must be on or after the "
                     "start date.", name=cycle.display_name))
 
-    @api.constrains('parent_id', 'date_start', 'date_end')
+    @api.constrains('parent_id', 'date_start', 'date_end', 'company_id')
     def _check_parent(self):
         for cycle in self:
             if cycle._has_cycle():
                 raise ValidationError(_("A cycle cannot contain itself."))
             parent = cycle.parent_id
-            if parent and (cycle.date_start < parent.date_start
-                           or cycle.date_end > parent.date_end):
+            if not parent:
+                continue
+            if cycle.company_id != parent.company_id:
+                raise ValidationError(_(
+                    "Cycle %(name)s and its parent must belong to the same "
+                    "company.", name=cycle.display_name))
+            if (cycle.date_start < parent.date_start
+                    or cycle.date_end > parent.date_end):
                 raise ValidationError(_(
                     "Cycle %(name)s must fall entirely within its parent "
                     "cycle %(parent)s.", name=cycle.display_name,
                     parent=parent.display_name))
+
+    @api.constrains('rag_profile_id', 'company_id')
+    def _check_rag_profile_company(self):
+        for cycle in self:
+            profile_company = cycle.rag_profile_id.company_id
+            if profile_company and profile_company != cycle.company_id:
+                raise ValidationError(_(
+                    "RAG profile %(profile)s belongs to another company.",
+                    profile=cycle.rag_profile_id.display_name))
 
     def _transition(self, target_state):
         for cycle in self:
@@ -113,7 +128,28 @@ class AicHrmCycle(models.Model):
                     "Cycle %(name)s cannot go from %(current)s to %(target)s.",
                     name=cycle.display_name, current=cycle.state,
                     target=target_state))
-        self.write({'state': target_state})
+        self.with_context(hrm_cycle_transition=True).write(
+            {'state': target_state})
+
+    def write(self, vals):
+        if 'state' in vals and not self.env.context.get('hrm_cycle_transition'):
+            raise UserError(_(
+                "Cycle states change only through their workflow actions."))
+        if not self.env.context.get('hrm_cycle_transition'):
+            locked = self.filtered(lambda c: c.state == 'locked')
+            if locked:
+                raise UserError(_(
+                    "Cycle %(name)s is locked and cannot be modified.",
+                    name=locked[0].display_name))
+        return super().write(vals)
+
+    def unlink(self):
+        non_draft = self.filtered(lambda c: c.state != 'draft')
+        if non_draft:
+            raise UserError(_(
+                "Only draft cycles can be deleted. Archive %(name)s instead.",
+                name=non_draft[0].display_name))
+        return super().unlink()
 
     def action_open(self):
         self._transition('open')

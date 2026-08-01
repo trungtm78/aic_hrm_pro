@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 
 _NUMERIC_FIELD_TYPES = ('integer', 'float', 'monetary')
@@ -95,8 +95,14 @@ class AicHrmMetricSource(models.Model):
 
         Deliberately not sudo(): record rules of the user triggering the pull
         apply, so a metric source can never become a data-exfiltration hole.
+        Callable only by HR administrators or system/cron contexts — regular
+        users must not be able to poke sources over RPC (nor dirty the cache).
         """
         self.ensure_one()
+        if not (self.env.su
+                or self.env.user.has_group('aic_hrm_base.group_hrm_admin')):
+            raise AccessError(_(
+                "Only HR administrators may evaluate metric sources."))
         model = self.env[self.model_name]
         try:
             domain = safe_eval(self.domain or '[]')

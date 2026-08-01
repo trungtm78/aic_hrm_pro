@@ -49,6 +49,28 @@ class TestTargetRevision(TransactionCase):
         self.assertEqual(revision.state, 'rejected')
         self.assertAlmostEqual(self.cycle.score_cap, 1.0)
 
+    def test_approve_requires_requested_state(self):
+        revision = self._make_revision()
+        revision.action_approve()
+        with self.assertRaises(ValidationError):
+            revision.action_approve()
+        rejected = self._make_revision(new_value_float=1.1)
+        rejected.action_reject()
+        with self.assertRaises(ValidationError):
+            rejected.action_approve()
+
+    def test_field_must_be_governed(self):
+        profile = self.env['aic.hrm.rag.profile'].create(
+            {'name': 'Gov', 'green_from': 0.7, 'amber_from': 0.4})
+        with self.assertRaises(ValidationError):
+            self._make_revision(
+                res_model='aic.hrm.rag.profile', res_id=profile.id,
+                field_name='green_from', new_value_float=0.8)
+
+    def test_target_must_exist(self):
+        with self.assertRaises(ValidationError):
+            self._make_revision(res_id=99999999)
+
     def test_unknown_field_rejected(self):
         with self.assertRaises(ValidationError):
             self._make_revision(field_name='not_a_field')

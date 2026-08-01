@@ -22,6 +22,9 @@ class AicHrmOwnerMixin(models.AbstractModel):
             if record.employee_id:
                 record.department_id = record.employee_id.department_id
                 record.manager_id = record.employee_id.parent_id
+            else:
+                record.department_id = False
+                record.manager_id = False
 
 
 class AicHrmScoringMixin(models.AbstractModel):
