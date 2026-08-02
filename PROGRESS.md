@@ -13,6 +13,7 @@ Cập nhật: 2026-08-02T10:35:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS HO
 
 BƯỚC TIẾP THEO (nếu có phiên mới): dự án ở trạng thái HOÀN TẤT + đã push. Việc kế tiếp chỉ khi user yêu cầu (gợi ý: chữ ký sign-off UAT, Apps Store submission, demo DLSP với thư viện mới, vòng axe a11y cho landing page).
 LƯU Ý DB DEV: noupdate đã clear cho aic_hrm_library + aic_okr_kpi (perspective/ksf/framework); 4 perspective BSC đã backfill framework_id bằng SQL (file noupdate="1" không update record cũ ở chế độ -u — bản cài mới không bị).
+SỰ CỐ 2026-08-02 (ĐÃ KHẮC PHỤC): sync 18.0 lần 3 (fae2cd9) lỡ commit + push tài liệu walkthrough chứa DATA THẬT KHÁCH (tên nhân sự DLSP + 51 ảnh) vì nhánh 18.0 chưa có .gitignore guard tại thời điểm add -A. Khắc phục trong ~3 phút: reset --hard về ebaa35f, sync .gitignore TRƯỚC khi staging, commit sạch b1e52a0, push --force-with-lease thay thế tip; verify remote 0 file gioi-*. Rủi ro tồn dư: object cũ có thể còn truy được bằng SHA trực tiếp trên GitHub tới khi GC (repo riêng, không collaborator). QUY TẮC MỚI CHO MỌI LẦN SYNC 18.0: bước 1 luôn là `git checkout 19.0 -- .gitignore`; và grep "gioi" trong staged trước commit.
 QUYẾT ĐỊNH USER 2026-08-02: **Odoo 19 là version bán chính** — dev/test/demo/marketing ưu tiên 19; 18.0 chỉ là backport phụ, không để vấn đề 18 chặn giao hàng 19.
 
 Spec gốc: `C:\Users\Than Minh Trung\.claude\plans\t-i-mu-n-t-o-1-noble-moler.md` (plan đã duyệt qua brainstorming + eng-review + codex + hallmark).
