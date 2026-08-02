@@ -24,8 +24,14 @@ export class AicHrmAlignmentTree extends Component {
             loading: true,
         });
         onWillStart(async () => {
+            // Same filter as the cockpit. This read every cycle including
+            // drafts, so the tree opened on a cycle that had not started -
+            // typically empty - while the cockpit next to it showed the
+            // live one. Two dashboards disagreeing about which cycles
+            // count is worse than either being wrong.
             this.state.cycles = await this.orm.searchRead(
-                "aic.hrm.cycle", [],
+                "aic.hrm.cycle",
+                [["state", "in", ["open", "review", "closed"]]],
                 ["id", "name", "code", "state"],
                 { order: "date_start desc" },
             );
