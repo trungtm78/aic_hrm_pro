@@ -1,0 +1,24 @@
+{
+  "platforms": ["WEB", "API"],
+  "packages": [
+    {
+      "name": "aic_hrm_pro suite (7 Odoo addons)",
+      "path": "addons_hrm/",
+      "labels": ["WEB", "API"],
+      "evidence": [
+        "addons_hrm/aic_okr_kpi/__manifest__.py: assets web.assets_backend (OWL client actions)",
+        "no pubspec.yaml / react-native / android / xcodeproj anywhere in repo"
+      ]
+    }
+  ],
+  "appId": null,
+  "buildCmds": {
+    "serve19": "python odoo-bin -c odoo.conf",
+    "test19": "python odoo-bin -c odoo.conf -d AIC_HRM_Pro -u aic_hrm_base --test-enable --test-tags <tags> --stop-after-init",
+    "test18": "venv18 python Community18/odoo-bin -d AIC_HRM_Pro_18 --addons-path ...,build/18.0 --test-enable"
+  },
+  "apiBaseUrl": "http://127.0.0.1:8073",
+  "host": {"os": "Windows 11", "iosPossible": false},
+  "blockers": [],
+  "mobileNote": "No mobile platform label detected; mobile-only TC categories = N/A (reason: product is responsive web backend; native app explicitly cancelled by user 2026-08-02). Responsive verification 320/375/414/768 is covered as WEB UX, not a mobile platform."
+}
