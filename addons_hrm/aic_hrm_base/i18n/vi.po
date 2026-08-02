@@ -91,7 +91,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__aggregate
 msgid "Aggregate"
-msgstr ""
+msgstr "Cách tổng hợp"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__amber
@@ -105,7 +105,7 @@ msgstr "Vàng"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__amber_from
 msgid "Amber From"
-msgstr ""
+msgstr "Vàng từ"
 
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_form
@@ -120,12 +120,12 @@ msgstr "Đã duyệt"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__approved_by
 msgid "Approved By"
-msgstr ""
+msgstr "Người duyệt"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__approved_date
 msgid "Approved Date"
-msgstr ""
+msgstr "Ngày duyệt"
 
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
@@ -151,7 +151,7 @@ msgstr "Bình quân"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__check_in_frequency
 msgid "Check In Frequency"
-msgstr ""
+msgstr "Tần suất check-in"
 
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
@@ -270,7 +270,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__cycle_type
 msgid "Cycle Type"
-msgstr ""
+msgstr "Loại chu kỳ"
 
 #. module: aic_hrm_base
 #: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_cycle
@@ -281,7 +281,7 @@ msgstr "Chu kỳ"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__date_end
 msgid "Date End"
-msgstr ""
+msgstr "Ngày kết thúc"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__date_field
@@ -291,7 +291,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__date_start
 msgid "Date Start"
-msgstr ""
+msgstr "Ngày bắt đầu"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__department_id
@@ -314,7 +314,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__domain
 msgid "Domain"
-msgstr ""
+msgstr "Miền lọc"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_metric_source__domain
@@ -367,7 +367,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__field_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__field_name
 msgid "Field Name"
-msgstr ""
+msgstr "Tên trường"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_follower_ids
@@ -403,7 +403,7 @@ msgstr "Xanh"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__green_from
 msgid "Green From"
-msgstr ""
+msgstr "Xanh từ"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__half
@@ -471,7 +471,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__last_run
 msgid "Last Run"
-msgstr ""
+msgstr "Lần chạy gần nhất"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__write_uid
@@ -496,7 +496,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__last_value
 msgid "Last Value"
-msgstr ""
+msgstr "Giá trị lần cuối"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_rag_profile__company_id
@@ -580,7 +580,7 @@ msgstr "Nhỏ nhất"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_model
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 #. module: aic_hrm_base
 #. odoo-python
@@ -809,7 +809,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__rating_ids
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Đánh giá"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__reason
@@ -819,7 +819,7 @@ msgstr "Lý do"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_id
 msgid "Record"
-msgstr ""
+msgstr "Bản ghi"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__red
@@ -848,7 +848,7 @@ msgstr "Đã yêu cầu"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__requested_by
 msgid "Requested By"
-msgstr ""
+msgstr "Người đề nghị"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_user_id
@@ -869,7 +869,7 @@ msgstr "Điểm"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__score_cap
 msgid "Score Cap"
-msgstr ""
+msgstr "Trần điểm"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_rag_profile__amber_from
@@ -894,7 +894,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__stale_days
 msgid "Stale Days"
-msgstr ""
+msgstr "Số ngày coi là ì"
 
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
@@ -982,7 +982,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
 msgid "Type"
-msgstr ""
+msgstr "Loại"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__activity_exception_decoration

@@ -288,12 +288,12 @@ msgstr ""
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__date_end
 msgid "Date End"
-msgstr ""
+msgstr "Ngày kết thúc"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__date_start
 msgid "Date Start"
-msgstr ""
+msgstr "Ngày bắt đầu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__deadline
@@ -927,7 +927,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__rating_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__request_id

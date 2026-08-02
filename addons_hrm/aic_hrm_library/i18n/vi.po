@@ -256,7 +256,7 @@ msgstr "Sổ tay thu thập dữ liệu"
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__default_target
 msgid "Default Target"
-msgstr ""
+msgstr "Đích mặc định"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__department_id
@@ -666,7 +666,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__objective_type
 msgid "Objective Type"
-msgstr ""
+msgstr "Loại mục tiêu"
 
 #. module: aic_hrm_library
 #. odoo-python
