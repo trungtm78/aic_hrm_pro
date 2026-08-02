@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.objective.list</field>
         <field name="model">aic.hrm.objective</field>
         <field name="arch" type="xml">
-            <list decoration-muted="state == 'done'">
+            <list class="o_aic_hrm_view" decoration-muted="state == 'done'">
                 <header>
                     <button name="%(action_aic_hrm_rollover_wizard)d"
                             type="action" string="From Previous Cycle"
@@ -36,7 +36,7 @@
         <field name="name">aic.hrm.objective.form</field>
         <field name="model">aic.hrm.objective</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <header>
                     <button name="action_submit" type="object" string="Submit"
                             class="btn-primary" invisible="state != 'draft'"/>
@@ -188,7 +188,7 @@
         <field name="name">aic.hrm.key.result.list</field>
         <field name="model">aic.hrm.key.result</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="objective_id"/>
@@ -209,7 +209,7 @@
         <field name="name">aic.hrm.key.result.form</field>
         <field name="model">aic.hrm.key.result</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>

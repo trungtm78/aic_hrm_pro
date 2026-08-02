@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.cycle.list</field>
         <field name="model">aic.hrm.cycle</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="cycle_type"/>
@@ -26,7 +26,7 @@
         <field name="name">aic.hrm.cycle.form</field>
         <field name="model">aic.hrm.cycle</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <header>
                     <button name="action_open" type="object" string="Open"
                             class="btn-primary" invisible="state != 'draft'"

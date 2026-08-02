@@ -1,0 +1,229 @@
+/* Hallmark · redesign: suite-wide backend views · genre: modern-minimal
+ * theme: custom "Muc & Thep HRM" (design.md) · macrostructure: n/a (app surface)
+ * scope: .o_aic_hrm_view — every list / form / search / wizard of the suite.
+ * Tokens only; no inline colours. The Odoo shell outside our app is untouched.
+ */
+
+.o_aic_hrm_view {
+  /* Tokens are declared on .o_aic_hrm for the OWL surfaces; the backend views
+   * live outside that root, so the same custom properties are re-declared
+   * here. One source of truth stays design.md. */
+  --aic-paper: oklch(98% 0.005 235);
+  --aic-paper-2: oklch(95% 0.006 235);
+  --aic-paper-3: oklch(92% 0.008 235);
+  --aic-ink: oklch(20% 0.01 235);
+  --aic-ink-2: oklch(40% 0.01 235);
+  --aic-rule: oklch(88% 0.008 235);
+  --aic-muted: oklch(50% 0.01 235);
+  --aic-accent: oklch(45% 0.14 235);
+  --aic-focus: oklch(48% 0.2 235);
+  --aic-status-green: oklch(60% 0.13 150);
+  --aic-status-amber: oklch(72% 0.14 75);
+  --aic-status-red: oklch(55% 0.18 25);
+  --aic-font-data: 'IBM Plex Mono', ui-monospace, monospace;
+  --aic-space-xs: 0.5rem;
+  --aic-space-sm: 0.75rem;
+  --aic-space-md: 1rem;
+  --aic-radius: 6px;
+  --aic-dur: 120ms;
+  --aic-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---- data first: every number is tabular, right-aligned, monospaced ---- */
+  .o_list_number,
+  .o_list_number_th,
+  .o_field_float,
+  .o_field_integer,
+  .o_field_monetary,
+  .o_field_percentage {
+    font-family: var(--aic-font-data);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---- list: quiet rhythm instead of a boxed grid ---- */
+  .o_list_renderer {
+    thead th {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--aic-muted);
+      border-bottom: 1px solid var(--aic-rule);
+      white-space: nowrap;
+    }
+    .o_data_row > td {
+      border-top: 1px solid var(--aic-rule);
+      padding-top: 0.45rem;
+      padding-bottom: 0.45rem;
+    }
+    .o_data_row:hover > td {
+      background: var(--aic-paper-2);
+    }
+    .o_group_header {
+      background: var(--aic-paper-3);
+      font-weight: 600;
+      td, th { border-top: 1px solid var(--aic-rule); }
+    }
+    .o_list_record_selector { opacity: 0.55; }
+    .o_data_row:hover .o_list_record_selector { opacity: 1; }
+  }
+
+  /* ---- status badges: readable, never a raw pill of accent ---- */
+  .o_field_badge > span,
+  .o_field_badge .badge {
+    border-radius: 999px;
+    padding: 0.12rem 0.6rem;
+    font-weight: 600;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--aic-rule);
+    background: var(--aic-paper);
+    color: var(--aic-ink-2);
+  }
+  .o_field_badge .text-bg-success,
+  .o_field_badge .bg-success {
+    background: color-mix(in oklab, var(--aic-status-green) 14%, white) !important;
+    border-color: color-mix(in oklab, var(--aic-status-green) 45%, var(--aic-rule));
+    color: color-mix(in oklab, var(--aic-status-green) 70%, black) !important;
+  }
+  .o_field_badge .text-bg-warning,
+  .o_field_badge .bg-warning {
+    background: color-mix(in oklab, var(--aic-status-amber) 18%, white) !important;
+    border-color: color-mix(in oklab, var(--aic-status-amber) 45%, var(--aic-rule));
+    color: color-mix(in oklab, var(--aic-status-amber) 75%, black) !important;
+  }
+  .o_field_badge .text-bg-danger,
+  .o_field_badge .bg-danger {
+    background: color-mix(in oklab, var(--aic-status-red) 12%, white) !important;
+    border-color: color-mix(in oklab, var(--aic-status-red) 45%, var(--aic-rule));
+    color: color-mix(in oklab, var(--aic-status-red) 72%, black) !important;
+  }
+
+  /* ---- progress bars: thin rule, number carries the meaning ---- */
+  .o_progressbar .o_progressbar_complete,
+  .o_progressbar .o_progress {
+    border-radius: 999px;
+  }
+  .o_progressbar .o_progress {
+    height: 0.4rem;
+    background: var(--aic-paper-3);
+  }
+  .o_progressbar .o_progressbar_value {
+    font-family: var(--aic-font-data);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- form: an audited document, not a card wall ---- */
+  .o_form_sheet {
+    border: 1px solid var(--aic-rule);
+    border-radius: var(--aic-radius);
+    box-shadow: none;
+  }
+  .oe_title h1,
+  .oe_title input {
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+  .o_group .o_horizontal_separator,
+  .o_inner_group > tbody > tr > td.o_td_label > .o_form_label {
+    color: var(--aic-muted);
+  }
+  .o_horizontal_separator {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--aic-muted);
+    border-bottom: 1px solid var(--aic-rule);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ---- notebook tabs: underline, not a browser-tab lookalike ---- */
+  .o_notebook .nav-tabs {
+    border-bottom: 1px solid var(--aic-rule);
+    gap: 0.25rem;
+
+    .nav-link {
+      border: none;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      color: var(--aic-muted);
+      font-weight: 600;
+      min-height: 44px;
+      transition: color var(--aic-dur) var(--aic-ease-out);
+
+      &:hover { color: var(--aic-ink); }
+      &.active {
+        color: var(--aic-ink);
+        border-bottom-color: var(--aic-accent);
+        background: transparent;
+      }
+    }
+  }
+
+  /* ---- statusbar + header buttons ---- */
+  .o_form_statusbar {
+    border-bottom: 1px solid var(--aic-rule);
+
+    .o_arrow_button {
+      min-height: 40px;
+      font-weight: 600;
+    }
+  }
+  .o_control_panel .btn,
+  .o_form_statusbar .btn,
+  .o_list_view .o_list_button .btn {
+    border-radius: var(--aic-radius);
+    min-height: 40px;
+    font-weight: 600;
+    transition: background-color var(--aic-dur) var(--aic-ease-out),
+                border-color var(--aic-dur) var(--aic-ease-out);
+  }
+  .btn-primary {
+    background: var(--aic-accent);
+    border-color: var(--aic-accent);
+  }
+  .btn-primary:hover {
+    background: color-mix(in oklab, var(--aic-accent) 88%, black);
+    border-color: color-mix(in oklab, var(--aic-accent) 88%, black);
+  }
+
+  /* ---- focus: instant, visible, never animated ---- */
+  :focus-visible {
+    outline: 2px solid var(--aic-focus);
+    outline-offset: 1px;
+    transition: none;
+  }
+
+  /* ---- empty states read like guidance, not decoration ---- */
+  .o_view_nocontent {
+    .o_nocontent_help {
+      max-width: 46ch;
+      color: var(--aic-muted);
+    }
+    p:first-child {
+      color: var(--aic-ink);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+  }
+
+  /* ---- search panel: facets follow the same chip language ---- */
+  .o_searchview .o_facet_values,
+  .o_searchview .o_searchview_facet {
+    border-radius: 999px;
+  }
+}
+
+/* Mobile floor (design.md § Responsive): 320 / 375 / 414 / 768 px. */
+@media (max-width: 768px) {
+  .o_aic_hrm_view {
+    .o_form_sheet { border-radius: 0; }
+    .o_notebook .nav-tabs { flex-wrap: nowrap; overflow-x: auto; }
+    .o_list_renderer thead th { font-size: 0.72rem; }
+  }
+}

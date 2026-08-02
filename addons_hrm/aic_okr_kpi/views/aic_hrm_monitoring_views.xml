@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.checkin.list</field>
         <field name="model">aic.hrm.checkin</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="date"/>
                 <field name="kr_id"/>
                 <field name="kpi_target_id"/>
@@ -25,7 +25,7 @@
         <field name="name">aic.hrm.checkin.form</field>
         <field name="model">aic.hrm.checkin</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <group>
                         <group>
@@ -61,7 +61,7 @@
         <field name="name">aic.hrm.alert.rule.list</field>
         <field name="model">aic.hrm.alert.rule</field>
         <field name="arch" type="xml">
-            <list editable="bottom">
+            <list class="o_aic_hrm_view" editable="bottom">
                 <field name="name"/>
                 <field name="rule_type"/>
                 <field name="cycle_id"/>
@@ -81,7 +81,7 @@
         <field name="name">aic.hrm.review.meeting.list</field>
         <field name="model">aic.hrm.review.meeting</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="date"/>
                 <field name="name"/>
                 <field name="cycle_id"/>
@@ -95,7 +95,7 @@
         <field name="name">aic.hrm.review.meeting.form</field>
         <field name="model">aic.hrm.review.meeting</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <header>
                     <button name="action_build_agenda" type="object"
                             string="Build Agenda" invisible="state != 'draft'"/>
