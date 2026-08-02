@@ -49,3 +49,7 @@ Ma trận phủ 100% màn hình/chức năng theo §9 protocol. "Viết test" = 
 "Vòng PDCA", "Hardening Codex", "Test bổ sung bắt buộc" đều có dòng tương ứng ở trên.
 Ngoài phạm vi (NOT in scope của spec): bridge hr_appraisal, backport 17, AI insights,
 bonus formula, mobile app — không thuộc UAT này.
+
+| U40 | Project bridge: task gắn KR, chế độ count/percent-done, task hủy loại khỏi mẫu số, manual mode không bị đụng, relink resync, cron safety-net | test_task_progress.py (8) | suite 19+18 2026-08-02 | PASS |
+| U41 | Sales bridge: doanh thu đơn xác nhận/số báo giá/hóa đơn theo từng sale, DRAFT chờ manager confirm, cron update-in-place, setting cấp KPI kế thừa mọi staff + override riêng | test_sales_actuals.py (6) | suite 19+18 2026-08-02 | PASS |
+| U42 | Luật "tay thắng máy": dòng nhập tay không bao giờ bị cron auto ghi đè (sale + metric source) | test_manual_entry_always_beats_automation | suite 19+18 2026-08-02 | PASS |

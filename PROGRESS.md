@@ -64,3 +64,7 @@ Full suite: chưa có | Patch coverage: n/a | Test fail: không
 
 ## Nợ kỹ thuật / rủi ro
 (chưa có)
+
+## Mở rộng sau bàn giao — 2026-08-02 (yêu cầu user)
+- [x] aic_hrm_project + aic_hrm_sale (thực tích tự động từ task/báo giá/đơn/hóa đơn theo từng staff; setting 1 lần cấp KPI definition; luật tay-thắng-máy) — 15 test mới xanh trên 19+18 — commit 6eee5ef (19.0), f5bfe95 (18.0), ĐÃ PUSH.
+- [x] Import file DLSP thật vào DB local (6 obj Σ100, 47 KPI, 8 scorecard) + demo script Docs/demo-script-dlsp.md (5e50471, đã push).
