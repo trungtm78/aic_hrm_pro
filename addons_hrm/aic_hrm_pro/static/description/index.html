@@ -52,6 +52,14 @@
 .aicp .foot a{color:#fff}
 .aicp .foot h2{color:#fff;margin-bottom:10px}
 .aicp .note{font-size:.85rem;color:var(--muted)}
+.aicp figure{margin:22px 0 6px}
+.aicp figure img{width:100%;height:auto;display:block;border:1px solid var(--rule);
+                 border-radius:8px}
+.aicp figure figcaption{font-size:.82rem;color:var(--muted);margin-top:8px}
+.aicp .diagram img{border:none;border-radius:0}
+.aicp .shots{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:700px){.aicp .shots{grid-template-columns:1fr}}
+
 @media(max-width:700px){
   .aicp .hero,.aicp .band,.aicp .foot{padding:28px 20px}
   .aicp .hero h1{font-size:1.55rem}
@@ -67,7 +75,6 @@
     <div class="fact"><b>7</b><span>modules, one install</span></div>
     <div class="fact"><b>5</b><span>goal levels</span></div>
     <div class="fact"><b>10 &times; 25</b><span>industries &times; role packs</span></div>
-    <div class="fact"><b>300+</b><span>automated tests</span></div>
     <div class="fact"><b>hr &middot; mail &middot; web</b><span>Community dependencies only</span></div>
   </div>
 </div>
@@ -82,18 +89,19 @@
   <p class="sub">Three practices prevent that, and this suite is built around them: a
   <b>documented measurement</b>, a <b>cadence that produces evidence</b>, and <b>governance that
   makes a mid-cycle change a decision instead of an edit</b>.</p>
+  <figure class="diagram"><img src="diagram-overview.png" alt="The whole system on one page: a one-time setup, then the loop every cycle runs." loading="lazy"><figcaption>The whole system on one page: a one-time setup, then the loop every cycle runs.</figcaption></figure>
 </div>
 
 <div class="band alt">
   <div class="kicker">The operating loop</div>
-  <h2>Plan, run, check, act &mdash; as records, not as a slide</h2>
+  <h2>Plan, Do, Check, Act &mdash; as records, not as a slide</h2>
   <p class="sub">Each stage leaves behind something the next stage can use.</p>
   <div class="loop">
     <div><b>Plan</b><p>Objectives at company, branch, department, team or individual level with
     weighted key results. Four ways in: the form, a three-sheet Excel import, a rollover from the
     previous cycle, or a ready-made pack from the role library. Weights must reach exactly
     100&percnt; before a scorecard can be submitted.</p></div>
-    <div><b>Run</b><p>Check-ins carry a value, a 1&ndash;10 confidence and the one blocker in the
+    <div><b>Do</b><p>Check-ins carry a value, a 1&ndash;10 confidence and the one blocker in the
     way. Actuals also arrive automatically from metric sources and the sale/project bridges, or
     monthly by CSV/XLSX import from systems outside Odoo.</p></div>
     <div><b>Check</b><p>Pace diagnosis compares real progress against calendar spent and computes
@@ -103,6 +111,8 @@
     reason. At cycle end: scoring, a review route map, anonymous 360, calibration, 9-box, and a
     rollover that carries unfinished work into the next cycle.</p></div>
   </div>
+  <figure class="diagram"><img src="diagram-loop.png" alt="Plan, Do, Check, Act - each stage leaves a record the next one uses." loading="lazy"><figcaption>Plan, Do, Check, Act - each stage leaves a record the next one uses.</figcaption></figure>
+  <figure class=""><img src="shot-cockpit.png" alt="Leadership cockpit: cycle health, the department heatmap ordered worst first, and the risk queue." loading="lazy"><figcaption>Leadership cockpit: cycle health, the department heatmap ordered worst first, and the risk queue.</figcaption></figure>
 </div>
 
 <div class="band">
@@ -126,6 +136,7 @@
     <tr><th>Thresholds</th><td>Red/amber/green bands inherited from the cycle, or overridden for
       this KPI alone</td></tr>
   </table>
+  <figure class=""><img src="shot-kpi-form.png" alt="The KPI documentation form: definition, formula, direction, aggregation, source and thresholds in one place." loading="lazy"><figcaption>The KPI documentation form: definition, formula, direction, aggregation, source and thresholds in one place.</figcaption></figure>
   <p class="note" style="margin-top:14px">Scoring follows the Google OKR convention: normalised
   0.0&ndash;1.0, clamped to the cycle cap, with configurable thresholds (0.4 / 0.7 by default).
   Committed and aspirational objectives are scored separately, so a stretch goal landing at 0.7
@@ -161,6 +172,8 @@
       under an annual one &mdash; plus soft &ldquo;contributes to&rdquo; links across the tree.
       The alignment tree shows how every key result rolls up into the company plan.</p></div>
   </div>
+  <figure class="diagram"><img src="diagram-cascade.png" alt="Five levels, weighted roll-up, and the frameworks a portfolio can be read through." loading="lazy"><figcaption>Five levels, weighted roll-up, and the frameworks a portfolio can be read through.</figcaption></figure>
+  <figure class=""><img src="shot-alignment.png" alt="The alignment tree: how every key result rolls up into the company plan." loading="lazy"><figcaption>The alignment tree: how every key result rolls up into the company plan.</figcaption></figure>
 </div>
 
 <div class="band">
@@ -181,6 +194,8 @@
   overwritten by a collector.<br>
   <b>A confirmed period is final.</b> Once a manager confirms a period result, no import and no
   scheduled job changes it silently.</div>
+  <figure class="diagram"><img src="diagram-data.png" alt="Three ways in, one place they land, and the two rules that decide who wins." loading="lazy"><figcaption>Three ways in, one place they land, and the two rules that decide who wins.</figcaption></figure>
+  <div class="shots"><figure class=""><img src="shot-kpi-target.png" alt="KPI targets with direction, aggregation and period results." loading="lazy"><figcaption>KPI targets with direction, aggregation and period results.</figcaption></figure><figure class=""><img src="shot-kr-diagnosis.png" alt="Pace diagnosis on a key result: expected progress and the run rate now required." loading="lazy"><figcaption>Pace diagnosis on a key result: expected progress and the run rate now required.</figcaption></figure></div>
 </div>
 
 <div class="band alt">
@@ -204,6 +219,8 @@
       30/60/90-day checkpoints, suggested when a composite score falls below the configured
       threshold.</p></div>
   </div>
+  <figure class="diagram"><img src="diagram-review.png" alt="From a goal score to a decision people can defend." loading="lazy"><figcaption>From a goal score to a decision people can defend.</figcaption></figure>
+  <figure class=""><img src="shot-scorecard.png" alt="Personal scorecards: weighted KPIs that must total exactly 100% to submit." loading="lazy"><figcaption>Personal scorecards: weighted KPIs that must total exactly 100% to submit.</figcaption></figure>
 </div>
 
 <div class="band">
@@ -241,6 +258,10 @@
       level. A database administrator with direct SQL access can always read raw rows &mdash; the
       documentation states that rather than implying a guarantee it cannot make.</p></div>
   </div>
+  <div class="shots"><figure class=""><img src="shot-alerts.png" alt="Alert rules are configuration, not code: red streaks, falling confidence, stale goals." loading="lazy"><figcaption>Alert rules are configuration, not code: red streaks, falling confidence, stale goals.</figcaption></figure><figure class=""><img src="shot-objectives.png" alt="Objectives across levels, with weights, owners and key-result counts." loading="lazy"><figcaption>Objectives across levels, with weights, owners and key-result counts.</figcaption></figure></div>
+  <p class="note" style="margin-top:16px">Screenshots are taken on the demo dataset that ships
+  with the app. The application area is shown on its own; an optional backend theme was used for
+  the surrounding shell and is not part of this product.</p>
 </div>
 
 <div class="band">
@@ -258,8 +279,6 @@
       the matching Odoo app is present</td></tr>
     <tr><th>Languages</th><td>English and Vietnamese. Japanese ships as a flagged draft, marked as
       needing native review rather than presented as finished.</td></tr>
-    <tr><th>Quality</th><td>Over 300 automated tests across the suite, covering scoring, security,
-      360 anonymity, governance and enterprise-scale performance fixtures</td></tr>
     <tr><th>Demo data</th><td>A fictional dataset modelled on a real digital-product department:
       weighted objectives totalling 100&percnt;, a KPI catalogue with directions and aggregation
       methods, and personal scorecards summing to 100&percnt;</td></tr>

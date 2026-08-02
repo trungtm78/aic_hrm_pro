@@ -10,26 +10,26 @@
     </record>
 
     <record id="demo_emp_head" model="hr.employee">
-        <field name="name">Alex Trần (Demo)</field>
+        <field name="name">Alex Morgan (Demo)</field>
         <field name="department_id" ref="demo_dept_product"/>
     </record>
     <record id="demo_emp_pm" model="hr.employee">
-        <field name="name">Bao Lê (Demo)</field>
+        <field name="name">Priya Raman (Demo)</field>
         <field name="department_id" ref="demo_dept_product"/>
         <field name="parent_id" ref="demo_emp_head"/>
     </record>
     <record id="demo_emp_data" model="hr.employee">
-        <field name="name">Chi Phạm (Demo)</field>
+        <field name="name">Daniel Okafor (Demo)</field>
         <field name="department_id" ref="demo_dept_product"/>
         <field name="parent_id" ref="demo_emp_head"/>
     </record>
     <record id="demo_emp_growth" model="hr.employee">
-        <field name="name">Dũng Võ (Demo)</field>
+        <field name="name">Sofia Almeida (Demo)</field>
         <field name="department_id" ref="demo_dept_product"/>
         <field name="parent_id" ref="demo_emp_head"/>
     </record>
     <record id="demo_emp_qa" model="hr.employee">
-        <field name="name">Én Ngô (Demo)</field>
+        <field name="name">Kenji Watanabe (Demo)</field>
         <field name="department_id" ref="demo_dept_product"/>
         <field name="parent_id" ref="demo_emp_head"/>
     </record>
@@ -340,5 +340,32 @@
             (0, 0, {'kpi_target_id': ref('demo_target_pipeline'), 'weight': 100.0}),
         ]"/>
     </record>
+
+    <!--
+        Open the cycles the demo data belongs to.
+
+        Cycles are created in draft, and the cockpit, the alignment tree and
+        every dashboard only read cycles that are open, in review or closed.
+        Leaving the demo in draft meant a fresh install with demo data landed
+        on an empty cockpit saying "no open cycle yet" - the one screen that
+        is supposed to show what the product does, showing nothing.
+
+        The previous year is closed as well, so the rollover wizard has a
+        finished cycle to copy from, which is the other thing a first-time
+        reader wants to try.
+    -->
+    <!--
+        Only the annual cycle opens. The cockpit lists open cycles newest
+        first, so opening the quarter as well made it the default view -
+        and the quarter carries one objective and no check-ins, so a first
+        install landed on a dashboard reading 0% across the board. The
+        quarter stays in draft as the nesting example it was meant to be.
+    -->
+    <function model="aic.hrm.cycle" name="action_open"
+              eval="[[ref('demo_cycle'), ref('demo_cycle_prev')]]"/>
+    <function model="aic.hrm.cycle" name="action_start_review"
+              eval="[[ref('demo_cycle_prev')]]"/>
+    <function model="aic.hrm.cycle" name="action_close"
+              eval="[[ref('demo_cycle_prev')]]"/>
 
 </odoo>
