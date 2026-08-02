@@ -1,0 +1,103 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-02 08:10+0000\n"
+"PO-Revision-Date: 2026-08-02 08:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields,help:aic_hrm_sale.field_aic_hrm_kpi_target__sales_source
+msgid ""
+"Automatic monthly actuals pulled from the owner's sales documents. Inherited"
+" from the KPI definition; override per target when needed. Results land as "
+"DRAFT period rows - a manager still confirms them before they score."
+msgstr ""
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi__default_sales_source__order_revenue
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi_target__sales_source__order_revenue
+msgid "Confirmed order revenue (untaxed)"
+msgstr "Doanh thu đơn đã xác nhận (chưa thuế)"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields,field_description:aic_hrm_sale.field_aic_hrm_kpi__display_name
+#: model:ir.model.fields,field_description:aic_hrm_sale.field_aic_hrm_kpi_target__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields,field_description:aic_hrm_sale.field_aic_hrm_kpi__id
+#: model:ir.model.fields,field_description:aic_hrm_sale.field_aic_hrm_kpi_target__id
+msgid "ID"
+msgstr ""
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi__default_sales_source__invoiced_revenue
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi_target__sales_source__invoiced_revenue
+msgid "Invoiced revenue (untaxed, posted)"
+msgstr "Doanh thu đã xuất hóa đơn (chưa thuế, đã vào sổ)"
+
+#. module: aic_hrm_sale
+#: model:ir.model,name:aic_hrm_sale.model_aic_hrm_kpi
+msgid "KPI Definition"
+msgstr "Định nghĩa KPI"
+
+#. module: aic_hrm_sale
+#: model:ir.model,name:aic_hrm_sale.model_aic_hrm_kpi_target
+msgid "KPI Target"
+msgstr "Chỉ tiêu KPI"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi__default_sales_source__off
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi_target__sales_source__off
+msgid "Manual figures"
+msgstr "Nhập tay"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi__default_sales_source__order_count
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi_target__sales_source__order_count
+msgid "Orders confirmed"
+msgstr "Số đơn hàng đã xác nhận"
+
+#. module: aic_hrm_sale
+#: model:ir.actions.server,name:aic_hrm_sale.cron_sync_sales_actuals_ir_actions_server
+msgid "Performance: sync sales KPI actuals"
+msgstr "Hiệu suất: đồng bộ số liệu KPI bán hàng"
+
+#. module: aic_hrm_sale
+#: model_terms:ir.ui.view,arch_db:aic_hrm_sale.view_kpi_target_form_inherit_sales
+msgid "Pull sales figures now"
+msgstr "Lấy số liệu bán hàng ngay"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi__default_sales_source__quotation_count
+#: model:ir.model.fields.selection,name:aic_hrm_sale.selection__aic_hrm_kpi_target__sales_source__quotation_count
+msgid "Quotations created"
+msgstr "Số báo giá đã tạo"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields,field_description:aic_hrm_sale.field_aic_hrm_kpi__default_sales_source
+msgid "Sales Collection"
+msgstr "Cách lấy số liệu bán hàng"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields,field_description:aic_hrm_sale.field_aic_hrm_kpi_target__sales_source
+msgid "Sales Source"
+msgstr "Nguồn số liệu bán hàng"
+
+#. module: aic_hrm_sale
+#: model:ir.model.fields,help:aic_hrm_sale.field_aic_hrm_kpi__default_sales_source
+msgid ""
+"Set ONCE on the KPI definition: every target assigned to any employee "
+"inherits this collection mode automatically."
+msgstr ""
