@@ -241,3 +241,27 @@ msgstr ""
 
 msgid "e.g. Growth Squad"
 msgstr "vd: Đội Tăng trưởng"
+
+msgid "Active"
+msgstr "Đang dùng"
+
+msgid "Code"
+msgstr "Mã"
+
+msgid "Company"
+msgstr "Công ty"
+
+msgid "Department"
+msgstr "Phòng ban"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "Reason"
+msgstr "Lý do"
+
+msgid "Score"
+msgstr "Điểm"
+
+msgid "State"
+msgstr "Trạng thái"

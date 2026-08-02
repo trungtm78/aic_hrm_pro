@@ -99,7 +99,7 @@ msgstr "Mỗi check-in thuộc đúng một kết quả then chốt hoặc một
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__achievement
 msgid "Achievement"
-msgstr ""
+msgstr "Mức đạt"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__action_item_ids
@@ -128,7 +128,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__active
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__active
 msgid "Active"
-msgstr ""
+msgstr "Đang dùng"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__activity_ids
@@ -165,7 +165,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__actual
 msgid "Actual"
-msgstr ""
+msgstr "Thực tế"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__actual_value
@@ -202,7 +202,7 @@ msgstr "Chương trình"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__aggregation
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__aggregation
 msgid "Aggregation"
-msgstr ""
+msgstr "Cách tổng hợp"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_import_term__term_type__aggregation
@@ -275,7 +275,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_assignment__state__approved
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__state__approved
 msgid "Approved"
-msgstr ""
+msgstr "Đã duyệt"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__objective_type__aspirational
@@ -548,7 +548,7 @@ msgstr "Bàn điều hành"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__code
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__code
 msgid "Code"
-msgstr ""
+msgstr "Mã"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__collection_guideline
@@ -799,7 +799,7 @@ msgstr "Khách hàng hài lòng, ở lại và giới thiệu chúng ta."
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Cycle"
-msgstr ""
+msgstr "Chu kỳ"
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_rollover_wizard
@@ -824,7 +824,7 @@ msgstr "Quản lý hằng ngày"
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__data_source
 msgid "Data Source"
-msgstr ""
+msgstr "Nguồn dữ liệu"
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_digital_capability
@@ -835,7 +835,7 @@ msgstr "Năng lực dữ liệu và số hóa"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__date
 msgid "Date"
-msgstr ""
+msgstr "Ngày"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__date_done
@@ -888,7 +888,7 @@ msgstr "Định nghĩa một yếu tố thành công"
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__definition
 msgid "Definition"
-msgstr ""
+msgstr "Định nghĩa"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -927,7 +927,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__description
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
 msgid "Description"
-msgstr ""
+msgstr "Mô tả"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__perspective_ids
@@ -940,7 +940,7 @@ msgstr "Chiều phân loại"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__direction
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_search
 msgid "Direction"
-msgstr ""
+msgstr "Chiều đo"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__display_label
@@ -1008,7 +1008,7 @@ msgstr "Đạt / Không đạt"
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__state__draft
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_review_meeting__state__draft
 msgid "Draft"
-msgstr ""
+msgstr "Nháp"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__objective_ids
@@ -1019,7 +1019,7 @@ msgstr "Mục tiêu thúc đẩy"
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 msgid "Employee"
-msgstr ""
+msgstr "Nhân viên"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1173,7 +1173,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__formula
 msgid "Formula"
-msgstr ""
+msgstr "Công thức"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__framework_id
@@ -1216,7 +1216,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__frequency
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__frequency
 msgid "Frequency"
-msgstr ""
+msgstr "Tần suất"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -1603,7 +1603,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_list
 msgid "KRs"
-msgstr ""
+msgstr "KR"
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.framework,description:aic_okr_kpi.framework_bsc
@@ -1806,7 +1806,7 @@ msgstr "Học hỏi & Phát triển"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__level
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Level"
-msgstr ""
+msgstr "Cấp"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__line_ids
@@ -2055,7 +2055,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__frequency__monthly
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__frequency__monthly
 msgid "Monthly"
-msgstr ""
+msgstr "Hằng tháng"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__my_activity_date_deadline
@@ -2088,7 +2088,7 @@ msgstr "Mục tiêu của tôi"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__name
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -2218,12 +2218,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__note
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__note
 msgid "Note"
-msgstr ""
+msgstr "Ghi chú"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
 msgid "Notes"
-msgstr ""
+msgstr "Ghi chú"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2466,7 +2466,7 @@ msgstr "Điểm tổng thể"
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Owner"
-msgstr ""
+msgstr "Chủ sở hữu"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2806,7 +2806,7 @@ msgstr "An toàn và tuân thủ"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__score
 msgid "Score"
-msgstr ""
+msgstr "Điểm"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2856,7 +2856,7 @@ msgstr "Trả lại"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Thứ tự"
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_service_quality
@@ -2920,7 +2920,7 @@ msgstr "Bắt đầu"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__state
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__state
 msgid "State"
-msgstr ""
+msgstr "Trạng thái"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__activity_state
@@ -3226,7 +3226,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__visibility
 msgid "Visibility"
-msgstr ""
+msgstr "Hiển thị"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__warning_log

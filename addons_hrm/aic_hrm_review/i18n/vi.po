@@ -1,0 +1,1257 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_review
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-02 05:26+0000\n"
+"PO-Revision-Date: 2026-08-02 05:26+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
+msgid "(score confirmed unchanged)"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "30-day checkpoint: agree the improvement goals"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "60-day checkpoint: review progress evidence"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "90-day checkpoint: final decision"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review_template.py:0
+msgid "A review template needs a final stage."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid ""
+"A scoped department has fewer than 6 people: anonymous feedback can often be"
+" guessed. Prefer department-level aggregates."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__action_ids
+msgid "Action"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_needaction
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_needaction
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__action_type
+msgid "Action Type"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_idp_form
+msgid "Activate"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__active
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__active
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__state__active
+msgid "Active"
+msgstr "Đang dùng"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_exception_decoration
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_state
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_type_icon
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid "An answer references a question outside this review's form."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__small_team_warning
+msgid "Anonymity is arithmetically weak in very small teams."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_stage__min_raters
+msgid "Anonymous aggregates only appear once this many raters have submitted."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_line__state__applied
+msgid "Applied"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
+msgid "Applied calibration lines are immutable audit records."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_calibration_session_form
+msgid "Apply"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_attachment_count
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_attachment_count
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_attachment_count
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__peer_score_avg
+msgid "Average anonymous peer rating, only once enough raters submitted."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__calibrated_score
+msgid "Calibrated Score"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__calibration
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__calibration
+#: model:ir.ui.menu,name:aic_hrm_review.menu_calibration
+msgid "Calibration"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_calibration_line
+msgid "Calibration Line"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_calibration_session
+msgid "Calibration Session"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_calibration_session
+msgid "Calibration Sessions"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
+msgid "Calibration by %(who)s: final score %(before)s -> %(after)s. %(why)s"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__state__cancelled
+msgid "Cancelled"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
+msgid "Changing a score in calibration requires a written justification."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__checkpoint
+msgid "Checkpoint"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_idp_form
+msgid "Close"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__closed
+msgid "Closed"
+msgstr "Đóng"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__company_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__company_id
+msgid "Company"
+msgstr "Công ty"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__competency
+msgid "Competency"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_idp_form
+msgid "Context and success criteria"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__core_player
+msgid "Core player"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__create_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__date
+msgid "Date"
+msgstr "Ngày"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__date_due
+msgid "Date Due"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__date_end
+msgid "Date End"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__date_start
+msgid "Date Start"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__deadline
+msgid "Deadline"
+msgstr "Hạn chót"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__state__declined
+msgid "Declined"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__department_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__department_ids
+msgid "Department"
+msgstr "Phòng ban"
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_idp
+msgid "Development / Improvement Plan"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_idp
+#: model:ir.ui.menu,name:aic_hrm_review.menu_idp
+msgid "Development Plans"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__plan_type__development
+msgid "Development plan"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__upward
+msgid "Direct report"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__display_label
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__display_label
+msgid "Display Label"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__display_name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_session__state__done
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__state__done
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__state__done
+msgid "Done"
+msgstr "Hoàn tất"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_session__state__draft
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__state__draft
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__draft
+msgid "Draft"
+msgstr "Nháp"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__duration_days
+msgid "Duration Days"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__employee_id
+msgid "Employee"
+msgstr "Nhân viên"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__external
+msgid "External"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__facilitator_id
+msgid "Facilitator"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__feedback_invited_count
+msgid "Feedback Invited Count"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_feedback_request
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__feedback_request_ids
+msgid "Feedback Request"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_feedback_response
+msgid "Feedback Response"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__feedback_submitted_count
+msgid "Feedback Submitted Count"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__final
+msgid "Final"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__final_score
+msgid "Final Score"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
+msgid "Finalize"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_follower_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_follower_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_follower_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_partner_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_partner_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_partner_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_type_icon
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__form_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__form_id
+msgid "Form"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__text
+msgid "Free text"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
+msgid "Generate Reviews"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_score
+msgid "Goal Score"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__growth_talent
+msgid "Growth talent"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__has_message
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__has_message
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__has_message
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__potential_rating__3
+msgid "High"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__high_performer
+msgid "High performer"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__id
+msgid "ID"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_exception_icon
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_exception_icon
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__idp_id
+msgid "Idp"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__message_needaction
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_needaction
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_has_sms_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__message_has_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__message_has_sms_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_has_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_has_sms_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_session__state__in_progress
+msgid "In Progress"
+msgstr "Đang thực hiện"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__state__in_progress
+msgid "In progress"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__inconsistent
+msgid "Inconsistent"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__state__invited
+msgid "Invited"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__is_final
+msgid "Is Final"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_is_follower
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_is_follower
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_is_follower
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__is_required
+msgid "Is Required"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__justification
+msgid "Justification"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__write_date
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__line_ids
+msgid "Line"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__potential_rating__1
+msgid "Low"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__manager_id
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__manager
+msgid "Manager"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__manager_score
+msgid "Manager Score"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__manager
+msgid "Manager assessment"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__potential_rating
+msgid "Manager's potential estimate, feeds the 9-box grid."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__potential_rating__2
+msgid "Medium"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__mentor_id
+msgid "Mentor"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__mentoring
+msgid "Mentoring"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_has_error
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_has_error
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__min_raters
+msgid "Min Raters"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__my_activity_date_deadline
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__name
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_date_deadline
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_summary
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_type_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
+msgid "Next Stage"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__nine_box_position
+msgid "Nine Box Position"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__note
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__note
+msgid "Note"
+msgstr "Ghi chú"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction_counter
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_needaction_counter
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_needaction_counter
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error_counter
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_has_error_counter
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_has_error_counter
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction_counter
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__message_needaction_counter
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_needaction_counter
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error_counter
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__message_has_error_counter
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_has_error_counter
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid ""
+"Only performance managers may set manager, potential or calibrated ratings."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid "Only the invited rater may submit this feedback."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__open
+msgid "Open"
+msgstr "Mở"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_question__competency
+msgid "Optional competency label this question maps to."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__employee_id
+msgid "Owner"
+msgstr "Chủ sở hữu"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__peer
+msgid "Peer"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__peer_feedback_ready
+msgid "Peer Feedback Ready"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__peer_score_avg
+msgid "Peer Score Avg"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__peer_feedback
+msgid "Peer feedback"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid ""
+"People do not rate themselves through 360 feedback; self-assessment has its "
+"own stage."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__perf_cycle_id
+msgid "Perf Cycle"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review
+msgid "Performance Review"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__perf_cycle_id
+msgid "Performance cycle whose goal scores feed the reviews."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__plan_type__pip
+msgid "Performance improvement plan"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__pip_suggested
+msgid "Pip Suggested"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_idp_action
+msgid "Plan Action"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__plan_type
+msgid "Plan Type"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__potential_rating
+msgid "Potential Rating"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_line__state__proposed
+msgid "Proposed"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__question_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__question_ids
+msgid "Question"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__question_type
+msgid "Question Type"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_employee_id
+msgid "Rater Employee"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_role
+msgid "Rater Role"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_user_id
+msgid "Rater User"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__rating
+msgid "Rating"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__rating_10
+msgid "Rating 1-10"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__rating_5
+msgid "Rating 1-5"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid "Rating out of range for question %(name)s."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__rating_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__rating_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__rating_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__request_id
+msgid "Request"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__response_ids
+msgid "Response"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_user_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__review_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__review_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__review_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__review_ids
+msgid "Review"
+msgstr "Rà soát"
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_cycle
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__review_cycle_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__review_cycle_id
+msgid "Review Cycle"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_review_cycle
+#: model:ir.ui.menu,name:aic_hrm_review.menu_review_cycles
+msgid "Review Cycles"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_form
+msgid "Review Form"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_section
+msgid "Review Form Section"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_question
+msgid "Review Question"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_stage
+msgid "Review Stage"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_template
+msgid "Review Template"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_review_template
+#: model:ir.ui.menu,name:aic_hrm_review.menu_review_templates
+msgid "Review Templates"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_review
+#: model:ir.ui.menu,name:aic_hrm_review.menu_reviews
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
+msgid "Reviews"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__rough_diamond
+msgid "Rough diamond"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_has_sms_error
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_has_sms_error
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_has_sms_error
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__department_ids
+msgid "Scope; empty covers every active employee of the company."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__score_after
+msgid "Score After"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__score_before
+msgid "Score Before"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
+msgid "Scores"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__section_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__section_id
+msgid "Section"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__self_score
+msgid "Self Score"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__self
+msgid "Self-assessment"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid ""
+"Self-assessment is written by the employee, during the self stage only."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__reading
+msgid "Self-study"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__sequence
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__sequence
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__sequence
+msgid "Sequence"
+msgstr "Thứ tự"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__session_id
+msgid "Session"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__small_team_warning
+msgid "Small Team Warning"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__goal_score
+msgid ""
+"Snapshot of the composite goal score when the review was generated; later "
+"goal edits never rewrite history."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__solid_contributor
+msgid "Solid contributor"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__stage_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__stage_ids
+msgid "Stage"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__stage_type
+msgid "Stage Type"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__star
+msgid "Star"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__state
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__state
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__state
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__state
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__state
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__state
+msgid "State"
+msgstr "Trạng thái"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_state
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__project
+msgid "Stretch project"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__state__submitted
+msgid "Submitted"
+msgstr "Đã gửi"
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__feedback_submitted_count
+msgid "Submitted 360 invitations — aggregate only, never per-rater."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
+msgid "Talent"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__template_id
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__template_id
+msgid "Template"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__text
+msgid "Text"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "The review is already at its final stage."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
+msgid "This calibration session is closed."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_review_cycle_employee_uniq
+msgid "This employee already has a review in this cycle."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid "This feedback was already submitted."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_feedback_request_review_rater_uniq
+msgid "This person was already invited to this review."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_calibration_line_session_review_uniq
+msgid "This review is already on the session."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__state__todo
+msgid "To do"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__training
+msgid "Training"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_exception_decoration
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__underperformer
+msgid "Underperformer"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__upward_feedback
+msgid "Upward feedback"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_feedback_request__rater_employee_id
+msgid "Visible to HR administrators only."
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__website_message_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__website_message_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__website_message_ids
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__website_message_ids
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__website_message_ids
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__website_message_ids
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__workhorse
+msgid "Workhorse"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__boolean
+msgid "Yes / No"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
+msgid "e.g. 2026 annual review"
+msgstr ""

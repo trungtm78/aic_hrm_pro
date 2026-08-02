@@ -66,7 +66,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__active
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__active
 msgid "Active"
-msgstr ""
+msgstr "Đang dùng"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_ids
@@ -166,7 +166,7 @@ msgstr "Đã đóng"
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__code
 msgid "Code"
-msgstr ""
+msgstr "Mã"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__company_id
@@ -174,7 +174,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__company_id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__company_id
 msgid "Company"
-msgstr ""
+msgstr "Công ty"
 
 #. module: aic_hrm_base
 #: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_config
@@ -297,7 +297,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__department_id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__department_id
 msgid "Department"
-msgstr ""
+msgstr "Phòng ban"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__display_name
@@ -611,7 +611,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__name
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__new_value_float
@@ -814,7 +814,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__reason
 msgid "Reason"
-msgstr ""
+msgstr "Lý do"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_id
@@ -864,7 +864,7 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__score
 msgid "Score"
-msgstr ""
+msgstr "Điểm"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__score_cap
@@ -906,7 +906,7 @@ msgstr "Bắt đầu rà soát"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__state
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_search
 msgid "State"
-msgstr ""
+msgstr "Trạng thái"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__activity_state
