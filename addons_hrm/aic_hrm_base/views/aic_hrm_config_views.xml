@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.rag.profile.list</field>
         <field name="model">aic.hrm.rag.profile</field>
         <field name="arch" type="xml">
-            <list editable="bottom">
+            <list class="o_aic_hrm_view" editable="bottom">
                 <field name="name"/>
                 <field name="amber_from"/>
                 <field name="green_from"/>
@@ -24,7 +24,7 @@
         <field name="name">aic.hrm.metric.source.list</field>
         <field name="model">aic.hrm.metric.source</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="name"/>
                 <field name="model_id"/>
                 <field name="field_name"/>
@@ -39,7 +39,7 @@
         <field name="name">aic.hrm.metric.source.form</field>
         <field name="model">aic.hrm.metric.source</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <group>
                         <group>
@@ -71,7 +71,7 @@
         <field name="name">aic.hrm.metric.allowed.model.list</field>
         <field name="model">aic.hrm.metric.allowed.model</field>
         <field name="arch" type="xml">
-            <list editable="bottom">
+            <list class="o_aic_hrm_view" editable="bottom">
                 <field name="model_id"/>
                 <field name="model_name"/>
             </list>
@@ -88,7 +88,7 @@
         <field name="name">aic.hrm.target.revision.list</field>
         <field name="model">aic.hrm.target.revision</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="create_date"/>
                 <field name="res_model"/>
                 <field name="res_id"/>
@@ -107,7 +107,7 @@
         <field name="name">aic.hrm.target.revision.form</field>
         <field name="model">aic.hrm.target.revision</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <header>
                     <button name="action_approve" type="object" string="Approve"
                             class="btn-primary" invisible="state != 'requested'"
@@ -151,7 +151,7 @@
         <field name="name">aic.hrm.team.list</field>
         <field name="model">aic.hrm.team</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="name"/>
                 <field name="department_id" optional="show"/>
                 <field name="lead_id" optional="show"/>
@@ -165,7 +165,7 @@
         <field name="name">aic.hrm.team.form</field>
         <field name="model">aic.hrm.team</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="e.g. Growth Squad"/></h1>

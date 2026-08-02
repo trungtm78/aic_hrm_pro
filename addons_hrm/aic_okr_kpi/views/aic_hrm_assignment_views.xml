@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.kpi.assignment.list</field>
         <field name="model">aic.hrm.kpi.assignment</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="employee_id"/>
                 <field name="department_id" optional="show"/>
                 <field name="cycle_id"/>
@@ -26,7 +26,7 @@
         <field name="name">aic.hrm.kpi.assignment.form</field>
         <field name="model">aic.hrm.kpi.assignment</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <header>
                     <button name="action_submit" type="object" string="Submit"
                             class="btn-primary" invisible="state != 'draft'"/>
@@ -99,7 +99,7 @@
         <field name="name">aic.hrm.department.scorecard.list</field>
         <field name="model">aic.hrm.department.scorecard</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="department_id"/>
                 <field name="cycle_id"/>
                 <field name="employee_count"/>

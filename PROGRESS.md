@@ -1,7 +1,17 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 
 # PROGRESS
 Cập nhật: 2026-08-02T10:35:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS HOÀN TẤT + UAT §9 PASS 100%
+
+## ĐỢT GIAO DIỆN & TÀI LIỆU KHÁCH HÀNG (2026-08-02 chiều)
+- [x] i18n: ~70 nhãn UI phổ dụng + vi.po đầu tiên cho aic_hrm_review (commit a23ec81; 18.0 sync b1e52a0 SẠCH sau sự cố rò rỉ đã xử lý).
+- [x] Theme: rà toàn bộ C:\AIConnect — bản Spiffy mới nhất là **aic_sale_pro_theme 19.0.1.9.7** (AIC_Sale Pro, kế thừa Spiffy 1.9.7 + style Executive) → đã gỡ spiffy 1.9 và cài bản này vào addons_third/ (GITIGNORE, không commit vì proprietary).
+- [x] Nhận diện: logo wordmark "AIC HRM Pro / OKR · KPI · Performance Suite" thay logo Spiffy trên sidebar; PWA + tên công ty + màu #274690/#1c2a4a; 3 icon module vẽ lại (commit a8144af).
+- [x] Redesign cockpit + alignment tree theo design system (page head, thẻ số liệu tabular, heatmap chip bo tròn tách mã/điểm, risk rail 2 dòng, cây liên kết có card + hairline) — test dashboard xanh, commit a8144af.
+- [~] ĐANG CHẠY: chụp lại 51 ảnh (task beh800xd7) với UI mới → cập nhật Docs/Gioi-thieu-he-thong-AIC-HRM-Pro.html (đã có flow toàn hệ + 11 flow nghiệp vụ + dữ liệu mức bản ghi + bằng chứng E2E) → gửi khách.
+- [x] REDESIGN TOÀN HỆ THỐNG (yêu cầu user "không chỉ phần giới thiệu"): gắn class `o_aic_hrm_view` vào 50 view gốc (list/form/wizard) của 6 module + stylesheet mới `aic_okr_kpi/static/src/scss/aic_hrm_views.scss` áp design.md "Mực & Thép" cho MỌI màn hình nghiệp vụ (số tabular mono, list nhịp hàng + kẻ mảnh, badge RAG dùng token dữ liệu, form sheet viền mảnh, tab gạch chân, nút 40px, focus ring tức thì, empty state hướng dẫn, sàn mobile 768). Sửa 2 lỗi phát sinh: view `search` không nhận `class` (gỡ 4 chỗ), thẻ `<header>` chưa đóng trong alignment_tree làm vỡ bundle JS.
+- [x] Tour sản phẩm: thêm guard `_skip_if_backend_theme()` — theme bên thứ ba thay app-menu bằng sidebar nên tour tự bỏ qua CÓ THÔNG BÁO trên DB có theme (theme không thuộc sản phẩm bán), vẫn chạy đủ trên môi trường chuẩn.
+BƯỚC TIẾP THEO: đợi full suite (log scratchpad/suite_redesign.log) → xanh thì commit redesign + guard tour → backport 18 + sync 18.0 (LUÔN `git checkout 19.0 -- .gitignore` TRƯỚC khi add) → push 2 nhánh → chụp lại 51 ảnh với UI mới → cập nhật + gửi tài liệu khách.
 
 ## MỞ RỘNG SAU BÀN GIAO (2026-08-02, theo loạt yêu cầu mới của user)
 - [x] Đợt 1 — commit 76987c7 (214 test xanh): diagnosis engine (pace/run-rate/khuyến nghị); module MỚI aic_hrm_library (13 vai trò × 4 ngành, 26 obj templates + 78 KR + 52 KPI, playbook thu thập dữ liệu/vai trò, wizard Apply + Capture); nút "From Previous Cycle"/"From Library" trên list Objectives & KPI Targets; collection_method/guideline trên KPI + tab "How to Collect" trên target; wizard Import Actuals (CSV/XLSX, manual thắng, không đụng confirmed); 5 cấp mục tiêu (company/branch/department/team/individual) + model aic.hrm.team + constraint anchor theo level.
@@ -13,6 +23,7 @@ Cập nhật: 2026-08-02T10:35:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS HO
 
 BƯỚC TIẾP THEO (nếu có phiên mới): dự án ở trạng thái HOÀN TẤT + đã push. Việc kế tiếp chỉ khi user yêu cầu (gợi ý: chữ ký sign-off UAT, Apps Store submission, demo DLSP với thư viện mới, vòng axe a11y cho landing page).
 LƯU Ý DB DEV: noupdate đã clear cho aic_hrm_library + aic_okr_kpi (perspective/ksf/framework); 4 perspective BSC đã backfill framework_id bằng SQL (file noupdate="1" không update record cũ ở chế độ -u — bản cài mới không bị).
+SỰ CỐ 2026-08-02 (ĐÃ KHẮC PHỤC): sync 18.0 lần 3 (fae2cd9) lỡ commit + push tài liệu walkthrough chứa DATA THẬT KHÁCH (tên nhân sự DLSP + 51 ảnh) vì nhánh 18.0 chưa có .gitignore guard tại thời điểm add -A. Khắc phục trong ~3 phút: reset --hard về ebaa35f, sync .gitignore TRƯỚC khi staging, commit sạch b1e52a0, push --force-with-lease thay thế tip; verify remote 0 file gioi-*. Rủi ro tồn dư: object cũ có thể còn truy được bằng SHA trực tiếp trên GitHub tới khi GC (repo riêng, không collaborator). QUY TẮC MỚI CHO MỌI LẦN SYNC 18.0: bước 1 luôn là `git checkout 19.0 -- .gitignore`; và grep "gioi" trong staged trước commit.
 QUYẾT ĐỊNH USER 2026-08-02: **Odoo 19 là version bán chính** — dev/test/demo/marketing ưu tiên 19; 18.0 chỉ là backport phụ, không để vấn đề 18 chặn giao hàng 19.
 
 Spec gốc: `C:\Users\Than Minh Trung\.claude\plans\t-i-mu-n-t-o-1-noble-moler.md` (plan đã duyệt qua brainstorming + eng-review + codex + hallmark).

@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.library.industry.list</field>
         <field name="model">aic.hrm.library.industry</field>
         <field name="arch" type="xml">
-            <list editable="bottom">
+            <list class="o_aic_hrm_view" editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
@@ -43,7 +43,7 @@
         <field name="name">aic.hrm.library.role.list</field>
         <field name="model">aic.hrm.library.role</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
@@ -57,7 +57,7 @@
         <field name="name">aic.hrm.library.role.form</field>
         <field name="model">aic.hrm.library.role</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="e.g. Sales"/></h1>
@@ -109,7 +109,7 @@
         <field name="name">aic.hrm.objective.template.form</field>
         <field name="model">aic.hrm.objective.template</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
@@ -155,7 +155,7 @@
         <field name="name">aic.hrm.library.apply.wizard.form</field>
         <field name="model">aic.hrm.library.apply.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <group>
                     <group>
                         <field name="industry_id"/>
@@ -190,7 +190,7 @@
         <field name="name">aic.hrm.library.capture.wizard.form</field>
         <field name="model">aic.hrm.library.capture.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <group>
                     <field name="role_id"/>
                     <field name="raw_text" widget="text"
@@ -217,7 +217,7 @@
         <field name="name">aic.hrm.knowledge.article.list</field>
         <field name="model">aic.hrm.knowledge.article</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="o_aic_hrm_view">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="category"/>
@@ -232,7 +232,7 @@
         <field name="name">aic.hrm.knowledge.article.form</field>
         <field name="model">aic.hrm.knowledge.article</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>

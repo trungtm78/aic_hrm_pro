@@ -5,7 +5,7 @@
         <field name="name">aic.hrm.import.wizard.form</field>
         <field name="model">aic.hrm.import.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <group invisible="state not in ('upload', 'preview')">
                     <group>
                         <field name="cycle_id"/>
@@ -58,7 +58,7 @@
         <field name="name">aic.hrm.rollover.wizard.form</field>
         <field name="model">aic.hrm.rollover.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <group>
                     <group>
                         <field name="source_cycle_id"/>
@@ -90,7 +90,7 @@
         <field name="name">aic.hrm.actuals.import.wizard.form</field>
         <field name="model">aic.hrm.actuals.import.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="o_aic_hrm_view">
                 <group invisible="state == 'done'">
                     <group>
                         <field name="cycle_id"/>

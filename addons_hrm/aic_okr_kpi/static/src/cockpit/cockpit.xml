@@ -3,9 +3,12 @@
 
 <t t-name="aic_okr_kpi.Cockpit">
     <div class="o_aic_hrm o_action">
-        <div class="d-flex align-items-center mb-3 gap-2 flex-wrap">
-            <h2 class="mb-0">Leadership Cockpit</h2>
-            <select class="form-select w-auto" t-on-change="onCycleChange"
+        <header class="o_aic_page_head">
+            <div>
+                <h2 class="o_aic_page_title">Leadership Cockpit</h2>
+                <p class="o_aic_page_sub">Cycle health, department heatmap and the risk queue</p>
+            </div>
+            <select class="form-select o_aic_cycle_select" t-on-change="onCycleChange"
                     t-att-disabled="!state.cycles.length"
                     aria-label="Cycle">
                 <t t-foreach="state.cycles" t-as="cycle" t-key="cycle.id">
@@ -15,7 +18,7 @@
                     </option>
                 </t>
             </select>
-        </div>
+        </header>
 
         <div t-if="state.loading" class="o_aic_empty">Loading…</div>
         <div t-elif="!state.cycles.length" class="o_aic_empty">
@@ -42,54 +45,59 @@
             </div>
 
             <div class="o_aic_cockpit_body">
-                <div class="o_aic_heatmap_scroll">
-                    <table class="o_aic_heatmap">
-                        <thead>
-                            <tr><th>Department</th><th>Objectives</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="state.heatmapRows" t-as="row" t-key="row.department">
-                                <th t-esc="row.department"/>
-                                <td>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <span t-foreach="row.objectives" t-as="objective"
-                                              t-key="objective.id"
-                                              t-attf-class="o_aic_rag o_aic_rag_{{ objective.rag || 'none' }}"
-                                              t-att-title="objective.name">
-                                            <span class="o_aic_rag_marker"/>
-                                            <span class="o_aic_hrm_num" t-esc="objective.code"/>
-                                            <span class="o_aic_hrm_num" t-esc="formatPercent(objective.score)"/>
-                                        </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr t-if="!state.heatmapRows.length">
-                                <td colspan="2" class="o_aic_empty">
-                                    No objectives in this cycle yet — import the spreadsheet or add objectives.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <section class="o_aic_card">
+                    <h5 class="o_aic_card_title">Department heatmap</h5>
+                    <div class="o_aic_heatmap_scroll">
+                        <table class="o_aic_heatmap">
+                            <tbody>
+                                <tr t-foreach="state.heatmapRows" t-as="row" t-key="row.department">
+                                    <th t-esc="row.department"/>
+                                    <td>
+                                        <div class="o_aic_chip_row">
+                                            <span t-foreach="row.objectives" t-as="objective"
+                                                  t-key="objective.id"
+                                                  t-attf-class="o_aic_rag o_aic_rag_{{ objective.rag || 'none' }}"
+                                                  t-att-title="objective.name">
+                                                <span class="o_aic_rag_marker"/>
+                                                <span class="o_aic_chip_code" t-esc="objective.code"/>
+                                                <span class="o_aic_chip_value"
+                                                      t-esc="formatPercent(objective.score)"/>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr t-if="!state.heatmapRows.length">
+                                    <td colspan="2" class="o_aic_empty">
+                                        No objectives in this cycle yet — import the spreadsheet or add objectives.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
 
-                <div class="o_aic_risk_rail">
-                    <h5>Needs attention</h5>
+                <aside class="o_aic_card o_aic_risk_rail">
+                    <h5 class="o_aic_card_title">Needs attention</h5>
                     <div t-foreach="state.risks" t-as="risk" t-key="risk.id"
                          class="o_aic_risk_item">
-                        <span t-attf-class="o_aic_rag o_aic_rag_{{ risk.rag || 'none' }}">
+                        <span t-attf-class="o_aic_rag o_aic_rag_{{ risk.rag || 'none' }} o_aic_rag_code">
                             <span class="o_aic_rag_marker"/>
-                            <span class="o_aic_hrm_num" t-esc="risk.code"/>
+                            <span class="o_aic_chip_code" t-esc="risk.code"/>
                         </span>
-                        <span t-esc="risk.name"/>
-                        <span class="text-muted" t-if="risk.is_stale"> · stale</span>
-                        <span class="text-muted" t-if="risk.employee_id">
-                            · <t t-esc="risk.employee_id[1]"/>
-                        </span>
+                        <div class="o_aic_risk_text">
+                            <div class="o_aic_risk_name" t-esc="risk.name"/>
+                            <div class="o_aic_risk_meta">
+                                <t t-if="risk.employee_id"><t t-esc="risk.employee_id[1]"/></t>
+                                <t t-if="risk.is_stale">
+                                    <span class="o_aic_tag_stale">no recent check-in</span>
+                                </t>
+                            </div>
+                        </div>
                     </div>
                     <div t-if="!state.risks.length" class="o_aic_empty">
                         Nothing red or stale. Keep the cadence going.
                     </div>
-                </div>
+                </aside>
             </div>
         </t>
     </div>
