@@ -33,6 +33,14 @@ class AicHrmKpi(models.Model):
         help="Templates are shared across companies and copied into real "
              "KPIs; they never carry live targets themselves.")
     group_id = fields.Many2one('aic.hrm.kpi.group')
+    perspective_id = fields.Many2one(
+        'aic.hrm.perspective', string='BSC Perspective', index=True,
+        ondelete='set null',
+        help="Balanced Scorecard perspective this KPI reports under.")
+    ksf_id = fields.Many2one(
+        'aic.hrm.ksf', string='Key Success Factor', index=True,
+        ondelete='set null',
+        help="Success factor this KPI measures.")
     definition = fields.Text(
         help="What exactly does this KPI measure, in business language?")
     formula = fields.Text(
@@ -54,6 +62,19 @@ class AicHrmKpi(models.Model):
     ], default='monthly', required=True)
     data_source = fields.Char(
         help="Where the actuals come from (report, system, meeting minutes).")
+    collection_method = fields.Selection([
+        ('manual', 'Manual entry'),
+        ('import', 'File import (Excel/CSV)'),
+        ('auto', 'Automatic (metric source)'),
+    ], default='manual', required=True,
+        help="Primary way actuals for this KPI are expected to arrive. "
+             "Manual entry stays allowed regardless and always wins over "
+             "automatic collection.")
+    collection_guideline = fields.Text(
+        string='Collection Guideline',
+        help="Operating instructions for whoever collects this number: "
+             "which system or report to pull from, the exact query or "
+             "export steps, cadence, and who is responsible.")
     flag_type = fields.Selection([
         ('leading', 'Leading indicator'),
         ('lagging', 'Lagging indicator'),

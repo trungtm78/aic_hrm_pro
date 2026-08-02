@@ -372,10 +372,13 @@ msgstr "Cần chú ý"
 msgid "Nothing red or stale. Keep the cadence going."
 msgstr "Không có gì đỏ hay trễ. Giữ vững nhịp độ."
 
-msgid "No open cycle yet. Create and open a performance cycle, then come back."
-msgstr "Chưa có chu kỳ nào mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay lại."
+msgid ""
+"No open cycle yet. Create and open a performance cycle, then come back."
+msgstr ""
+"Chưa có chu kỳ nào mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay lại."
 
-msgid "No objectives in this cycle yet — import the spreadsheet or add objectives."
+msgid ""
+"No objectives in this cycle yet — import the spreadsheet or add objectives."
 msgstr "Chu kỳ chưa có mục tiêu — nhập từ Excel hoặc thêm mục tiêu mới."
 
 msgid "Objective states change only through their workflow actions."
@@ -414,3 +417,460 @@ msgstr "Lập bảng điểm cá nhân đầu tiên"
 
 msgid "Document your first KPI"
 msgstr "Lập hồ sơ KPI đầu tiên"
+
+msgid ""
+"%(kpi)s KPI period value(s) and %(kr)s key-result check-in(s) ready to "
+"import into cycle %(cycle)s."
+msgstr ""
+"%(kpi)s giá trị kỳ KPI và %(kr)s check-in KR sẵn sàng import vào chu kỳ "
+"%(cycle)s."
+
+msgid "%(level)s-level objectives must be linked to %(unit)s."
+msgstr "Mục tiêu cấp %(level)s phải gắn với %(unit)s."
+
+msgid "Actuals Import (Excel/CSV)"
+msgstr "Import số liệu thực tế (Excel/CSV)"
+
+msgid "Add a perspective"
+msgstr "Thêm góc nhìn"
+
+msgid "Automatic (metric source)"
+msgstr "Tự động (nguồn số liệu)"
+
+msgid "BSC Perspective"
+msgstr "Góc nhìn BSC"
+
+msgid "BSC Perspectives"
+msgstr "Góc nhìn BSC"
+
+msgid "Balanced Scorecard perspective this KPI reports under."
+msgstr "Góc nhìn Balanced Scorecard mà KPI này báo cáo theo."
+
+msgid ""
+"Balanced Scorecard perspective this objective serves; leadership uses it to "
+"check the portfolio is balanced."
+msgstr ""
+"Góc nhìn Balanced Scorecard mà mục tiêu này phục vụ; lãnh đạo dùng để soi độ"
+" cân bằng của danh mục mục tiêu."
+
+msgid "Branch"
+msgstr "Chi nhánh"
+
+msgid ""
+"Branch or subsidiary this objective belongs to (for branch-level "
+"objectives)."
+msgstr ""
+"Chi nhánh/công ty con mà mục tiêu này thuộc về (cho mục tiêu cấp chi nhánh)."
+
+msgid ""
+"Can we keep improving? People capability, culture, systems, innovation."
+msgstr ""
+"Chúng ta có tiếp tục tiến bộ? Năng lực con người, văn hóa, hệ thống, đổi "
+"mới."
+
+msgid "Cash and working-capital health"
+msgstr "Sức khỏe dòng tiền và vốn lưu động"
+
+msgid "Collection Guideline"
+msgstr "Hướng dẫn thu thập"
+
+msgid "Collection Method"
+msgstr "Phương thức thu thập"
+
+msgid "Collections, inventory and payables keep cash available for the plan."
+msgstr ""
+"Thu hồi công nợ, tồn kho và phải trả giữ tiền mặt sẵn sàng cho kế hoạch."
+
+msgid "Core processes run reliably, fast and at low defect rates."
+msgstr "Quy trình lõi chạy ổn định, nhanh, tỷ lệ lỗi thấp."
+
+msgid "Cost discipline"
+msgstr "Kỷ luật chi phí"
+
+msgid "Customer"
+msgstr "Khách hàng"
+
+msgid "Customer satisfaction and loyalty"
+msgstr "Hài lòng và trung thành của khách hàng"
+
+msgid "Customers are satisfied, stay, and recommend us."
+msgstr "Khách hàng hài lòng, ở lại và giới thiệu chúng ta."
+
+msgid "Data and digital capability"
+msgstr "Năng lực dữ liệu và số hóa"
+
+msgid "Decisions run on trusted data and fit-for-purpose systems."
+msgstr "Quyết định dựa trên dữ liệu tin cậy và hệ thống phù hợp mục đích."
+
+msgid "Define a success factor"
+msgstr "Định nghĩa một yếu tố thành công"
+
+msgid ""
+"Department the imported objectives belong to. Empty = company-level "
+"objectives."
+msgstr ""
+"Phòng ban của các mục tiêu được import. Để trống = mục tiêu cấp công ty."
+
+msgid "Driving Objectives"
+msgstr "Mục tiêu thúc đẩy"
+
+msgid "Empty on the shared built-in catalog; set on company-specific factors."
+msgstr ""
+"Để trống với danh mục dùng chung có sẵn; đặt giá trị với yếu tố riêng của "
+"công ty."
+
+msgid ""
+"Empty on the shared built-in perspectives; set on company-specific ones."
+msgstr ""
+"Để trống với góc nhìn dùng chung có sẵn; đặt giá trị với góc nhìn riêng của "
+"công ty."
+
+msgid "File import (Excel/CSV)"
+msgstr "Import file (Excel/CSV)"
+
+msgid "Financial"
+msgstr "Tài chính"
+
+msgid "From Previous Cycle"
+msgstr "Từ kỳ trước"
+
+msgid "How do customers see us? Satisfaction, retention, market share, brand."
+msgstr ""
+"Khách hàng nhìn chúng ta thế nào? Hài lòng, giữ chân, thị phần, thương hiệu."
+
+msgid ""
+"How do we look to shareholders? Revenue, margin, cost discipline, cash."
+msgstr ""
+"Cổ đông nhìn chúng ta thế nào? Doanh thu, biên lợi nhuận, kỷ luật chi phí, "
+"dòng tiền."
+
+msgid "How to Collect"
+msgstr "Cách thu thập"
+
+msgid ""
+"How to collect this number - defined once on the KPI, shown here so the "
+"owner knows the operating procedure."
+msgstr ""
+"Cách thu thập con số này — định nghĩa một lần trên KPI, hiển thị ở đây để "
+"người phụ trách biết quy trình vận hành."
+
+msgid "Import Actuals"
+msgstr "Import số liệu thực tế"
+
+msgid "Import Actuals (Excel/CSV)"
+msgstr "Import số liệu thực tế (Excel/CSV)"
+
+msgid "Imported Checkin Count"
+msgstr "Số check-in đã import"
+
+msgid "Imported Period Count"
+msgstr "Số kết quả kỳ đã import"
+
+msgid "Imported from %s"
+msgstr "Import từ %s"
+
+msgid "Innovation pipeline"
+msgstr "Dòng chảy đổi mới"
+
+msgid "Internal Process"
+msgstr "Quy trình nội bộ"
+
+msgid "Key Success Factor"
+msgstr "Yếu tố thành công then chốt"
+
+msgid "Key Success Factors"
+msgstr "Yếu tố thành công then chốt"
+
+msgid "Key success factor codes must be unique."
+msgstr "Mã yếu tố thành công phải duy nhất."
+
+msgid ""
+"Key success factors are the few areas where things must go right for the "
+"strategy to work. Objectives drive them; KPIs measure them. A starter "
+"catalog ships built in."
+msgstr ""
+"Yếu tố thành công then chốt là số ít lĩnh vực buộc phải làm đúng để chiến "
+"lược thành công. Mục tiêu thúc đẩy chúng; KPI đo lường chúng. Danh mục khởi "
+"điểm có sẵn trong sản phẩm."
+
+msgid "Leadership and management capability"
+msgstr "Năng lực lãnh đạo và quản lý"
+
+msgid "Learning & Growth"
+msgstr "Học hỏi & Phát triển"
+
+msgid "Managers set goals, coach and review well at every level."
+msgstr "Quản lý các cấp đặt mục tiêu, kèm cặp và đánh giá tốt."
+
+msgid "Market position and brand"
+msgstr "Vị thế thị trường và thương hiệu"
+
+msgid "Measuring KPIs"
+msgstr "KPI đo lường"
+
+msgid ""
+"New and recurring revenue grows on plan, with a healthy mix across products "
+"and segments."
+msgstr ""
+"Doanh thu mới và định kỳ tăng đúng kế hoạch, cơ cấu lành mạnh giữa các sản "
+"phẩm và phân khúc."
+
+msgid ""
+"New products and improvements move from idea to market on a steady cadence."
+msgstr ""
+"Sản phẩm mới và cải tiến đi từ ý tưởng ra thị trường theo nhịp đều đặn."
+
+msgid ""
+"No guideline documented yet - define it on the KPI so the owner knows how to"
+" collect this number."
+msgstr ""
+"Chưa có hướng dẫn — hãy định nghĩa trên KPI để người phụ trách biết cách thu"
+" thập con số này."
+
+msgid "Operating costs stay inside budget and unit economics keep improving."
+msgstr ""
+"Chi phí vận hành nằm trong ngân sách và hiệu quả kinh tế trên đơn vị tiếp "
+"tục cải thiện."
+
+msgid ""
+"Operating instructions for whoever collects this number: which system or "
+"report to pull from, the exact query or export steps, cadence, and who is "
+"responsible."
+msgstr ""
+"Hướng dẫn vận hành cho người thu thập con số này: lấy từ hệ thống/báo cáo "
+"nào, các bước truy vấn hoặc xuất dữ liệu, chu kỳ, và ai chịu trách nhiệm."
+
+msgid "Operational excellence"
+msgstr "Vận hành xuất sắc"
+
+msgid "People are safe and obligations are met - no incidents, no findings."
+msgstr ""
+"Con người an toàn và nghĩa vụ được đáp ứng — không sự cố, không phát hiện vi"
+" phạm."
+
+msgid "Perspective codes must be unique."
+msgstr "Mã góc nhìn phải duy nhất."
+
+msgid "Perspective this success factor belongs to."
+msgstr "Góc nhìn mà yếu tố thành công này thuộc về."
+
+msgid ""
+"Primary way actuals for this KPI are expected to arrive. Manual entry stays "
+"allowed regardless and always wins over automatic collection."
+msgstr ""
+"Đường về chính của số liệu thực tế cho KPI này. Nhập tay luôn được phép và "
+"luôn thắng thu thập tự động."
+
+msgid "Revenue growth and mix"
+msgstr "Tăng trưởng và cơ cấu doanh thu"
+
+msgid "Safety and compliance"
+msgstr "An toàn và tuân thủ"
+
+msgid "Service and delivery quality"
+msgstr "Chất lượng dịch vụ và giao hàng"
+
+msgid ""
+"Step-by-step: which system/report, export or query, cadence, responsible "
+"person"
+msgstr ""
+"Từng bước: hệ thống/báo cáo nào, cách xuất hoặc truy vấn, chu kỳ, người chịu"
+" trách nhiệm"
+
+msgid "Strategic Perspective (BSC)"
+msgstr "Góc nhìn chiến lược (BSC)"
+
+msgid "Success factor this KPI measures."
+msgstr "Yếu tố thành công mà KPI này đo lường."
+
+msgid ""
+"Success factor this objective drives - the strategy-level 'must go right' it"
+" exists for."
+msgstr ""
+"Yếu tố thành công mà mục tiêu này thúc đẩy — điều \"phải làm đúng\" ở tầm "
+"chiến lược mà nó tồn tại vì."
+
+msgid "Suppliers and partners deliver in full, on time, to spec."
+msgstr "Nhà cung cấp và đối tác giao đủ, đúng hạn, đúng chuẩn."
+
+msgid "Supply and partner reliability"
+msgstr "Độ tin cậy của nguồn cung và đối tác"
+
+msgid "Talent attraction and retention"
+msgstr "Thu hút và giữ chân nhân tài"
+
+msgid "Team this objective belongs to (for team-level objectives)."
+msgstr "Team mà mục tiêu này thuộc về (cho mục tiêu cấp team)."
+
+msgid ""
+"Team this target is tracked for, when the KPI is a team number rather than a"
+" personal one."
+msgstr ""
+"Team được theo dõi chỉ tiêu này, khi KPI là con số của team thay vì cá nhân."
+
+msgid "The brand is known and preferred in the segments we compete in."
+msgstr ""
+"Thương hiệu được biết đến và được ưu tiên trong các phân khúc chúng ta cạnh "
+"tranh."
+
+msgid "The file is empty."
+msgstr "File rỗng."
+
+msgid ""
+"The four Balanced Scorecard perspectives ship built in; add company-specific"
+" ones (e.g. Sustainability) as needed. Tag objectives and KPIs to keep the "
+"goal portfolio balanced."
+msgstr ""
+"Bốn góc nhìn Balanced Scorecard có sẵn; thêm góc nhìn riêng của công ty (vd:"
+" Bền vững) khi cần. Gắn thẻ mục tiêu và KPI để giữ danh mục mục tiêu cân "
+"bằng."
+
+msgid "The right people join, grow and stay."
+msgstr "Đúng người gia nhập, phát triển và ở lại."
+
+msgid "What 'going right' looks like, in business language"
+msgstr "Hình hài của \"làm đúng\", diễn đạt bằng ngôn ngữ kinh doanh"
+
+msgid "What 'going right' looks like, in business language."
+msgstr "Hình hài của \"làm đúng\", diễn đạt bằng ngôn ngữ kinh doanh."
+
+msgid "What must go right?"
+msgstr "Điều gì phải làm đúng?"
+
+msgid ""
+"What must we excel at? Quality, speed, reliability, cost of operations."
+msgstr ""
+"Chúng ta phải xuất sắc ở đâu? Chất lượng, tốc độ, độ tin cậy, chi phí vận "
+"hành."
+
+msgid "What we promise is what we deliver - on time, complete, correct."
+msgstr "Hứa gì giao nấy — đúng hạn, đầy đủ, chính xác."
+
+msgid "Where the actuals come from (report, system, meeting minutes)."
+msgstr "Số liệu thực tế đến từ đâu (báo cáo, hệ thống, biên bản họp)."
+
+msgid "a branch"
+msgstr "một chi nhánh"
+
+msgid "a department"
+msgstr "một phòng ban"
+
+msgid "a team"
+msgstr "một team"
+
+msgid "an owner (employee)"
+msgstr "một chủ sở hữu (nhân viên)"
+
+msgid "4 Disciplines of Execution"
+msgstr "4 Kỷ luật Thực thi (4DX)"
+
+msgid "Add a framework"
+msgstr "Thêm framework"
+
+msgid "Balanced Scorecard"
+msgstr "Balanced Scorecard"
+
+msgid ""
+"Balanced Scorecard, Hoshin Kanri and 4DX ship built in, each with its "
+"dimensions. Tag objectives with dimensions from any framework to read the "
+"portfolio through several management lenses at once."
+msgstr ""
+"Balanced Scorecard, Hoshin Kanri và 4DX có sẵn, mỗi framework kèm các chiều "
+"phân loại riêng. Gắn thẻ mục tiêu bằng chiều của bất kỳ framework nào để đọc"
+" danh mục qua nhiều lăng kính quản trị cùng lúc."
+
+msgid "Breakthrough"
+msgstr "Đột phá"
+
+msgid "Continuous Improvement"
+msgstr "Cải tiến liên tục"
+
+msgid "Daily Management"
+msgstr "Quản lý hằng ngày"
+
+msgid "Dimensions"
+msgstr "Chiều phân loại"
+
+msgid "Empty on the shared built-in frameworks; set on company-specific ones."
+msgstr ""
+"Để trống với framework dùng chung có sẵn; đặt giá trị với framework riêng "
+"của công ty."
+
+msgid ""
+"Focus on wildly important goals, act on lead measures, keep a compelling "
+"scoreboard, hold a cadence of accountability."
+msgstr ""
+"Tập trung vào mục tiêu tối quan trọng, hành động trên thước đo dẫn dắt, giữ "
+"bảng điểm hấp dẫn, duy trì nhịp giải trình."
+
+msgid "Framework"
+msgstr "Framework"
+
+msgid "Framework Tags"
+msgstr "Thẻ framework"
+
+msgid "Framework codes must be unique."
+msgstr "Mã framework phải duy nhất."
+
+msgid "Framework this dimension belongs to (BSC, Hoshin, 4DX...)."
+msgstr "Framework mà chiều phân loại này thuộc về (BSC, Hoshin, 4DX...)."
+
+msgid "Frameworks"
+msgstr "Framework"
+
+msgid "Hoshin Kanri"
+msgstr "Hoshin Kanri"
+
+msgid ""
+"Kaplan-Norton: read the goal portfolio through four balanced perspectives."
+msgstr "Kaplan–Norton: đọc danh mục mục tiêu qua bốn góc nhìn cân bằng."
+
+msgid ""
+"Local improvement work owned by teams, below the leadership review line."
+msgstr ""
+"Việc cải tiến cục bộ do các team làm chủ, dưới tuyến rà soát của lãnh đạo."
+
+msgid "Management Framework"
+msgstr "Framework quản trị"
+
+msgid ""
+"Policy deployment: separate the few breakthrough bets from daily management "
+"and continuous improvement."
+msgstr ""
+"Triển khai chính sách: tách số ít cú đặt cược đột phá khỏi quản lý hằng ngày"
+" và cải tiến liên tục."
+
+msgid ""
+"Read this objective through additional frameworks - e.g. Hoshin "
+"'Breakthrough' or 4DX 'Wildly Important Goal' on top of its BSC perspective."
+msgstr ""
+"Đọc mục tiêu này qua các framework bổ sung — vd: \"Đột phá\" của Hoshin hay "
+"\"Mục tiêu tối quan trọng\" của 4DX bên cạnh góc nhìn BSC."
+
+msgid ""
+"Run-the-business standards that must stay healthy while the breakthroughs "
+"happen."
+msgstr "Chuẩn vận hành phải giữ khỏe mạnh trong lúc các đột phá diễn ra."
+
+msgid "Sustaining Operation"
+msgstr "Vận hành duy trì"
+
+msgid ""
+"The 3-5 bets that change the business this year; reviewed by leadership "
+"every month."
+msgstr ""
+"3–5 cú đặt cược thay đổi doanh nghiệp trong năm; lãnh đạo rà soát hằng "
+"tháng."
+
+msgid "The one or two goals where a miss makes everything else irrelevant."
+msgstr "Một hai mục tiêu mà nếu trượt thì mọi thứ khác thành vô nghĩa."
+
+msgid ""
+"The whirlwind: necessary operational work that must not crowd out the wildly"
+" important."
+msgstr ""
+"Cơn lốc công việc: việc vận hành cần thiết nhưng không được lấn át điều tối "
+"quan trọng."
+
+msgid "Wildly Important Goal"
+msgstr "Mục tiêu tối quan trọng"

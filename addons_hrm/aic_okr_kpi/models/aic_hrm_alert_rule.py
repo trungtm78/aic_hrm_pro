@@ -119,9 +119,15 @@ class AicHrmAlertRule(models.Model):
                                         f'{record.display_name}',
                                 user_id=manager.user_id.id)
                     continue
+                note = False
+                if hasattr(record, '_diagnose'):
+                    tips = record._diagnose()[:2]
+                    if tips:
+                        note = '\n'.join(f'- {tip}' for tip in tips)
                 record.activity_schedule(
                     activity_type_id=activity_type.id,
                     summary=f'{key} {rule.name}: {record.display_name}',
+                    note=note,
                     user_id=rule._alert_user(record).id)
 
     @api.model

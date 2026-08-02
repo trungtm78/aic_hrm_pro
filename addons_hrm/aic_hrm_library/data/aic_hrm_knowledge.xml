@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Built-in management knowledge (own wording; sources in
+     Docs/library-sources.md). Updates with the module; company
+     knowledge lives in separate records. -->
+<odoo>
+
+    <record id="article_okr_rhythm" model="aic.hrm.knowledge.article">
+        <field name="name">Running goals with OKR: the operating rhythm</field>
+        <field name="category">method</field>
+        <field name="sequence">10</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>OKR is a rhythm, not a form. Each cycle: <b>plan</b> (a few objectives,
+each with 2&#8211;4 measurable key results, approved by the manager),
+<b>run</b> (a short check-in every week or two: current value, confidence,
+blockers), <b>score</b> (0.0&#8211;1.0 at cycle end; around 0.7 on an
+aspirational goal is a good outcome, committed goals are expected to land),
+and <b>reset</b> (retrospective, then roll unfinished work into the next
+cycle). The single most common failure is "set and forget" &#8212; goals
+written in January and reopened in December. The check-in cadence is what
+keeps this system alive.</p>]]></field>
+    </record>
+
+    <record id="article_okr_vs_kpi" model="aic.hrm.knowledge.article">
+        <field name="name">OKR vs KPI: change the business vs run the business</field>
+        <field name="category">method</field>
+        <field name="sequence">20</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>KPIs monitor the machine: they have a normal level, a direction, and an
+owner, and they should stay healthy every period. OKRs change the machine:
+they describe the few improvements this cycle exists for. If a number must
+simply stay above 95%, it is a KPI. If reaching it requires new work,
+it belongs in an objective with key results. Keep both, and resist turning
+every KPI into an OKR &#8212; a scorecard full of "business as usual"
+drowns the few changes that matter.</p>]]></field>
+    </record>
+
+    <record id="article_bsc_read" model="aic.hrm.knowledge.article">
+        <field name="name">The Balanced Scorecard read: four perspectives</field>
+        <field name="category">method</field>
+        <field name="sequence">30</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>Tag objectives and KPIs with a perspective &#8212; <b>Financial</b>,
+<b>Customer</b>, <b>Internal Process</b>, <b>Learning &amp; Growth</b>
+&#8212; then group any goal list by perspective and look at the shape.
+A portfolio that is all Financial is borrowing against next year; nothing
+in Learning &amp; Growth means the capability that produces future results
+is not being built. The balance check takes one minute per cycle and
+catches strategic blind spots early.</p>]]></field>
+    </record>
+
+    <record id="article_ksf" model="aic.hrm.knowledge.article">
+        <field name="name">Key success factors: from strategy to measures</field>
+        <field name="category">method</field>
+        <field name="sequence">40</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>A key success factor is an area where things must go right for the
+strategy to work &#8212; "service and delivery quality", "talent
+retention". Keep the list short (a company has 5&#8211;8, not 30). Each
+objective should declare which factor it drives; each KPI should declare
+which factor it measures. When a factor has no measuring KPI, you are
+flying blind on something you called critical. When a KPI measures no
+factor, ask why you track it at all.</p>]]></field>
+    </record>
+
+    <record id="article_good_krs" model="aic.hrm.knowledge.article">
+        <field name="name">Writing key results that can be scored</field>
+        <field name="category">measure</field>
+        <field name="sequence">10</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>A key result is a number, not an activity. "Launch the new onboarding
+flow" is a milestone; "raise activation from 30% to 50%" is a key result.
+Set the baseline honestly, pick the direction (higher/lower), and choose a
+target where ~70% progress would still be a good quarter. Three key
+results per objective is usually enough; if you need six, the objective is
+two objectives.</p>]]></field>
+    </record>
+
+    <record id="article_kpi_documentation" model="aic.hrm.knowledge.article">
+        <field name="name">Documenting a KPI so any reader trusts it</field>
+        <field name="category">measure</field>
+        <field name="sequence">20</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>Every KPI in the library carries a documentation form: business
+definition, calculation formula, unit, direction, aggregation (final /
+average / cumulative), frequency, data source, and whether it leads or
+lags results. Fill it once, argue about it never again. The
+"How to collect" guideline on each KPI tells the operator exactly which
+system or report the number comes from and who confirms it.</p>]]></field>
+    </record>
+
+    <record id="article_checkin_habit" model="aic.hrm.knowledge.article">
+        <field name="name">The check-in habit: value, confidence, blockers</field>
+        <field name="category">cadence</field>
+        <field name="sequence">10</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>A good check-in takes two minutes: the current value, a 1&#8211;10
+confidence that the target will be reached, and the one blocker in the
+way. Confidence trends matter more than single values &#8212; three
+declining check-ins in a row is an early warning the alert engine watches
+for. Blockers written down become the agenda of the next review meeting
+automatically; blockers kept in heads become December surprises.</p>]]></field>
+    </record>
+
+    <record id="article_collecting_actuals" model="aic.hrm.knowledge.article">
+        <field name="name">Collecting actuals: automatic, imported, manual</field>
+        <field name="category">data</field>
+        <field name="sequence">10</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>Numbers arrive three ways. <b>Automatic</b>: metric sources and the
+sales/project bridges pull from Odoo data on schedule. <b>Imported</b>:
+monthly CSV/Excel exports from outside systems (MES, helpdesk, analytics)
+land through the actuals import wizard. <b>Manual</b>: anything else is
+typed in at period close. Two rules keep the data trustworthy: manual
+entry always beats automation, and a period confirmed by a manager is
+never silently changed by any collector. Each role's collection playbook
+in the library says where its numbers live.</p>]]></field>
+    </record>
+
+    <record id="article_diagnosis" model="aic.hrm.knowledge.article">
+        <field name="name">Reading pace: expected progress and run-rate</field>
+        <field name="category">review</field>
+        <field name="sequence">10</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>Halfway through the cycle, a key result at 20% is not "in progress",
+it is behind &#8212; the diagnosis panel compares actual progress with the
+share of calendar already spent and computes the run-rate now required.
+A required run-rate above ~1.5&#215; the pace so far is a signal to act:
+remove the recorded blocker, re-scope through a target revision with
+manager approval, or accept the miss consciously in the review meeting.
+Acting in month two is cheap; discovering in month twelve is not.</p>]]></field>
+    </record>
+
+    <record id="article_fair_scoring" model="aic.hrm.knowledge.article">
+        <field name="name">Fair scoring: calibration and the anonymity rules</field>
+        <field name="category">review</field>
+        <field name="sequence">20</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>Scores are compared across teams in a calibration session before they
+are final; any change requires a written justification, and applied
+changes are frozen &#8212; for everyone. 360&#176; feedback is aggregated
+only when at least the minimum number of raters have answered, and rater
+identities are never shown. Keep OKR scores away from bonus formulas:
+pay against committed KPIs, learn from aspirational OKRs &#8212; the
+moment a stretch goal decides a bonus, everyone stops stretching.</p>]]></field>
+    </record>
+
+    <record id="article_using_library" model="aic.hrm.knowledge.article">
+        <field name="name">Building your company knowledge on top of the library</field>
+        <field name="category">library</field>
+        <field name="sequence">10</field>
+        <field name="is_builtin" eval="True"/>
+        <field name="content"><![CDATA[
+<p>Start a new team or cycle from the role library: pick your industry,
+pick the role, apply the pack, then edit the drafts &#8212; the templates
+are reference points, not prescriptions. Capture what you learn back:
+the capture wizard turns your own proven objectives and KPIs into
+company templates (kept per company, never mixed into the shared
+built-ins), and administrators can add articles like this one for your
+market. Over cycles, the library becomes your organization's own
+management playbook.</p>]]></field>
+    </record>
+
+</odoo>

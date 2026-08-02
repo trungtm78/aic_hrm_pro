@@ -32,6 +32,8 @@
                         <group string="Identity">
                             <field name="code"/>
                             <field name="group_id"/>
+                            <field name="perspective_id"/>
+                            <field name="ksf_id"/>
                             <field name="is_template"/>
                             <field name="flag_type"/>
                         </group>
@@ -49,6 +51,9 @@
                         <field name="definition" placeholder="Business definition every reader agrees on"/>
                         <field name="formula" placeholder="How the number is computed (documentation)"/>
                         <field name="data_source" placeholder="System or report the actuals come from"/>
+                        <field name="collection_method"/>
+                        <field name="collection_guideline"
+                               placeholder="Step-by-step: which system/report, export or query, cadence, responsible person"/>
                     </group>
                 </sheet>
             </form>
@@ -66,6 +71,7 @@
                 <filter string="Live KPIs" name="live" domain="[('is_template', '=', False)]"/>
                 <group>
                     <filter string="Group" name="group_group" domain="[]" context="{'group_by': 'group_id'}"/>
+                    <filter string="BSC Perspective" name="group_perspective" domain="[]" context="{'group_by': 'perspective_id'}"/>
                     <filter string="Direction" name="group_direction" domain="[]" context="{'group_by': 'direction'}"/>
                 </group>
             </search>
@@ -87,9 +93,20 @@
         <field name="model">aic.hrm.kpi.target</field>
         <field name="arch" type="xml">
             <list>
+                <header>
+                    <button name="%(action_aic_hrm_rollover_wizard)d"
+                            type="action" string="From Previous Cycle"
+                            display="always"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="%(action_aic_hrm_actuals_import_wizard)d"
+                            type="action" string="Import Actuals"
+                            display="always"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                </header>
                 <field name="kpi_id"/>
                 <field name="cycle_id"/>
                 <field name="employee_id"/>
+                <field name="team_id" optional="hide"/>
                 <field name="department_id" optional="hide"/>
                 <field name="weight"/>
                 <field name="target_value"/>
@@ -125,6 +142,7 @@
                             <field name="kpi_id"/>
                             <field name="cycle_id"/>
                             <field name="employee_id"/>
+                            <field name="team_id"/>
                             <field name="objective_id"/>
                             <field name="weight"/>
                         </group>
@@ -141,6 +159,14 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="How to Collect" name="collection">
+                            <group>
+                                <field name="collection_method"/>
+                                <field name="metric_source_id"/>
+                            </group>
+                            <field name="collection_guideline" nolabel="1"
+                                   placeholder="No guideline documented yet - define it on the KPI so the owner knows how to collect this number."/>
+                        </page>
                         <page string="Period Results" name="periods">
                             <field name="period_result_ids">
                                 <list editable="bottom">
@@ -174,7 +200,9 @@
                 <group>
                     <filter string="Cycle" name="group_cycle" domain="[]" context="{'group_by': 'cycle_id'}"/>
                     <filter string="Owner" name="group_owner" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Team" name="group_team" domain="[]" context="{'group_by': 'team_id'}"/>
                     <filter string="Department" name="group_department" domain="[]" context="{'group_by': 'department_id'}"/>
+                    <filter string="BSC Perspective" name="group_perspective" domain="[]" context="{'group_by': 'perspective_id'}"/>
                 </group>
             </search>
         </field>
@@ -195,6 +223,189 @@
     <menuitem id="menu_aic_hrm_kpi_library" name="KPI Library"
               parent="aic_hrm_base.menu_aic_hrm_config" sequence="5"
               action="action_aic_hrm_kpi"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <record id="view_aic_hrm_perspective_list" model="ir.ui.view">
+        <field name="name">aic.hrm.perspective.list</field>
+        <field name="model">aic.hrm.perspective</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="framework_id" optional="show"/>
+                <field name="description" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_framework_list" model="ir.ui.view">
+        <field name="name">aic.hrm.framework.list</field>
+        <field name="model">aic.hrm.framework</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="description" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_framework_form" model="ir.ui.view">
+        <field name="name">aic.hrm.framework.form</field>
+        <field name="model">aic.hrm.framework</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Balanced Scorecard"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                    <field name="perspective_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="description" optional="show"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_framework" model="ir.actions.act_window">
+        <field name="name">Frameworks</field>
+        <field name="res_model">aic.hrm.framework</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a framework</p>
+            <p>Balanced Scorecard, Hoshin Kanri and 4DX ship built in, each with its dimensions. Tag objectives with dimensions from any framework to read the portfolio through several management lenses at once.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_frameworks" name="Frameworks"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="7"
+              action="action_aic_hrm_framework"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <record id="action_aic_hrm_perspective" model="ir.actions.act_window">
+        <field name="name">BSC Perspectives</field>
+        <field name="res_model">aic.hrm.perspective</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a perspective</p>
+            <p>The four Balanced Scorecard perspectives ship built in; add company-specific ones (e.g. Sustainability) as needed. Tag objectives and KPIs to keep the goal portfolio balanced.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_perspectives" name="BSC Perspectives"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="8"
+              action="action_aic_hrm_perspective"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <record id="view_aic_hrm_ksf_list" model="ir.ui.view">
+        <field name="name">aic.hrm.ksf.list</field>
+        <field name="model">aic.hrm.ksf</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="perspective_id"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_ksf_form" model="ir.ui.view">
+        <field name="name">aic.hrm.ksf.form</field>
+        <field name="model">aic.hrm.ksf</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="What must go right?"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="perspective_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <field name="description"
+                           placeholder="What 'going right' looks like, in business language"/>
+                    <notebook>
+                        <page string="Measuring KPIs" name="kpis">
+                            <field name="kpi_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="direction"/>
+                                    <field name="flag_type"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Driving Objectives" name="objectives">
+                            <field name="objective_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="cycle_id"/>
+                                    <field name="level"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_ksf_search" model="ir.ui.view">
+        <field name="name">aic.hrm.ksf.search</field>
+        <field name="model">aic.hrm.ksf</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <group>
+                    <filter string="BSC Perspective" name="group_perspective"
+                            domain="[]"
+                            context="{'group_by': 'perspective_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_ksf" model="ir.actions.act_window">
+        <field name="name">Key Success Factors</field>
+        <field name="res_model">aic.hrm.ksf</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_perspective': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define a success factor</p>
+            <p>Key success factors are the few areas where things must go right for the strategy to work. Objectives drive them; KPIs measure them. A starter catalog ships built in.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_ksf" name="Key Success Factors"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="9"
+              action="action_aic_hrm_ksf"
               groups="aic_hrm_base.group_hrm_manager"/>
 
 </odoo>

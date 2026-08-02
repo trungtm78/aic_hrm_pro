@@ -210,3 +210,34 @@ msgid ""
 msgstr ""
 "Chu kỳ là khung cho mọi mục tiêu, KPI và kỳ đánh giá: năm, quý, tháng hoặc "
 "kỳ hạn tùy chỉnh."
+
+msgid "A team with this name already exists in this company."
+msgstr "Team trùng tên đã tồn tại trong công ty này."
+
+msgid "Create the first team"
+msgstr "Tạo team đầu tiên"
+
+msgid "Home department; leave empty for cross-functional teams."
+msgstr "Phòng ban chủ quản; để trống nếu là team liên phòng ban."
+
+msgid "Members"
+msgstr "Thành viên"
+
+msgid "Performance Team"
+msgstr "Team hiệu suất"
+
+msgid "Team Lead"
+msgstr "Trưởng team"
+
+msgid "Teams"
+msgstr "Team"
+
+msgid ""
+"Teams are the delivery units team-level objectives anchor to; departments "
+"stay the org chart."
+msgstr ""
+"Team là đơn vị thực thi mà mục tiêu cấp team neo vào; phòng ban vẫn là sơ đồ"
+" tổ chức."
+
+msgid "e.g. Growth Squad"
+msgstr "vd: Đội Tăng trưởng"

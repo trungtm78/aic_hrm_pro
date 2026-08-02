@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from industry research (own wording; see
+     Docs/library-sources.md). Regenerate: scratchpad generator. -->
+<odoo>
+
+    <record id="industry_mfg" model="aic.hrm.library.industry">
+        <field name="name">Manufacturing</field>
+        <field name="code">MFG</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="industry_trade" model="aic.hrm.library.industry">
+        <field name="name">Trading / Distribution / Retail</field>
+        <field name="code">TRADE</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="industry_svc" model="aic.hrm.library.industry">
+        <field name="name">Professional Services</field>
+        <field name="code">SVC</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="industry_soft" model="aic.hrm.library.industry">
+        <field name="name">Software / SaaS</field>
+        <field name="code">SOFT</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="industry_fnb" model="aic.hrm.library.industry">
+        <field name="name">F&amp;B / Restaurant Chain</field>
+        <field name="code">FNB</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="industry_const" model="aic.hrm.library.industry">
+        <field name="name">Construction / Real Estate</field>
+        <field name="code">CONST</field>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="industry_logi" model="aic.hrm.library.industry">
+        <field name="name">Logistics / Transportation</field>
+        <field name="code">LOGI</field>
+        <field name="sequence">70</field>
+    </record>
+
+    <record id="industry_health" model="aic.hrm.library.industry">
+        <field name="name">Healthcare / Clinic Chain</field>
+        <field name="code">HEALTH</field>
+        <field name="sequence">80</field>
+    </record>
+
+    <record id="industry_edu" model="aic.hrm.library.industry">
+        <field name="name">Education / Training</field>
+        <field name="code">EDU</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <record id="industry_ecom" model="aic.hrm.library.industry">
+        <field name="name">E-commerce / Digital Retail</field>
+        <field name="code">ECOM</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <record id="role_sales" model="aic.hrm.library.role">
+        <field name="name">Sales</field>
+        <field name="code">SALES</field>
+        <field name="sequence">10</field>
+        <field name="description">Owns revenue delivery, pipeline health and deal quality.</field>
+        <field name="collection_playbook">Bookings, win rate and cycle length come from the CRM/quotation system: connect them as automatic metric sources (in Odoo, the Sales bridge collects quotations, confirmed orders and posted invoices per salesperson daily). Quota attainment is reviewed monthly by the sales manager; correct any automated figure by manual entry - manual always wins.</field>
+    </record>
+
+    <record id="role_mkt" model="aic.hrm.library.role">
+        <field name="name">Marketing</field>
+        <field name="code">MKT</field>
+        <field name="sequence">20</field>
+        <field name="description">Owns demand generation, brand reach and funnel conversion.</field>
+        <field name="collection_playbook">Lead counts and conversion rates export from the marketing automation / web analytics tools as CSV - import them monthly with the actuals import wizard. Cost per lead and CAC are computed by finance from campaign spend reports; entered manually at month close by the marketing lead.</field>
+    </record>
+
+    <record id="role_eng" model="aic.hrm.library.role">
+        <field name="name">Engineering</field>
+        <field name="code">ENG</field>
+        <field name="sequence">30</field>
+        <field name="description">Owns delivery speed, production stability and platform health.</field>
+        <field name="collection_playbook">Deployment frequency, change failure rate, MTTR and lead time come from the CI/CD and incident tooling - export monthly (CSV) or record at the sprint retro. Uptime and open critical bugs are read from the monitoring dashboard and issue tracker on the last working day of each month by the engineering manager.</field>
+    </record>
+
+    <record id="role_pm" model="aic.hrm.library.role">
+        <field name="name">Product Management</field>
+        <field name="code">PM</field>
+        <field name="sequence">40</field>
+        <field name="description">Owns roadmap delivery, adoption and product growth loops.</field>
+        <field name="collection_playbook">Active users, adoption, retention and activation come from the product analytics tool - export the monthly cohort report as CSV and import it. Roadmap delivery and discovery interviews are counted manually by the product manager at each monthly review.</field>
+    </record>
+
+    <record id="role_hr" model="aic.hrm.library.role">
+        <field name="name">HR (People)</field>
+        <field name="code">HR</field>
+        <field name="sequence">50</field>
+        <field name="description">Owns hiring speed, retention and people development.</field>
+        <field name="collection_playbook">Time to fill, offer acceptance and retention are computed from the recruitment pipeline and employee register (in Odoo: Recruitment and Employees apps). Attrition and absenteeism are calculated monthly from HR records; engagement scores import from the survey tool after each survey wave.</field>
+    </record>
+
+    <record id="role_cs" model="aic.hrm.library.role">
+        <field name="name">Customer Success / Support</field>
+        <field name="code">CS</field>
+        <field name="sequence">60</field>
+        <field name="description">Owns response quality, satisfaction and revenue retention.</field>
+        <field name="collection_playbook">Response and resolution times, backlog and satisfaction come from the helpdesk system - schedule a monthly CSV export and import it. Churn and revenue retention are computed by finance from the subscription/invoice ledger at month close; the CS manager confirms each period.</field>
+    </record>
+
+    <record id="role_fin" model="aic.hrm.library.role">
+        <field name="name">Finance</field>
+        <field name="code">FIN</field>
+        <field name="sequence">70</field>
+        <field name="description">Owns close discipline, forecast accuracy and cash health.</field>
+        <field name="collection_playbook">Close duration, margins, DSO and cash flow come from the accounting system itself - most can be wired as automatic metric sources against posted journal entries. Budget variance and forecast accuracy are computed in the planning spreadsheet and entered manually by the controller at each close.</field>
+    </record>
+
+    <record id="role_ops" model="aic.hrm.library.role">
+        <field name="name">Operations</field>
+        <field name="code">OPS</field>
+        <field name="sequence">80</field>
+        <field name="description">Owns process reliability, cost discipline and scale readiness.</field>
+        <field name="collection_playbook">Throughput, utilization and cost per transaction come from the operations/ERP system - export the monthly operations report or connect a metric source. SLA fulfilment and incidents are logged in the ticketing/QMS tool and confirmed monthly by the operations manager.</field>
+    </record>
+
+    <record id="role_data" model="aic.hrm.library.role">
+        <field name="name">Data / Analytics</field>
+        <field name="code">DATA</field>
+        <field name="sequence">90</field>
+        <field name="description">Owns trusted data delivery and self-serve insight.</field>
+        <field name="collection_playbook">Pipeline success rate, incidents and MTTR come from the orchestrator and observability tooling - export monthly. Dashboard usage comes from the BI platform's own usage statistics; request backlog is read from the team's ticket queue on the last day of each month.</field>
+    </record>
+
+    <record id="role_ux" model="aic.hrm.library.role">
+        <field name="name">Design / UX</field>
+        <field name="code">UX</field>
+        <field name="sequence">100</field>
+        <field name="description">Owns usability, consistency and accessibility of the product.</field>
+        <field name="collection_playbook">Task success, error rates and time-on-task are recorded per usability test session in the research repository - enter them after each study. Satisfaction ratings import from the in-app survey tool monthly; design-system compliance is audited quarterly by the design lead.</field>
+    </record>
+
+    <record id="role_prod" model="aic.hrm.library.role">
+        <field name="name">Production Manager (Manufacturing)</field>
+        <field name="code">PROD</field>
+        <field name="sequence">110</field>
+        <field name="description">Owns output volume, equipment effectiveness, quality and plant safety.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_mfg')])]"/>
+        <field name="collection_playbook">OEE, units produced, scrap and downtime come from the MES/SCADA line reports - export the daily production report and import it weekly, or connect a metric source if the MES writes into the ERP. Safety incidents and maintenance compliance are logged in the EHS/CMMS registers and confirmed monthly by the plant manager.</field>
+    </record>
+
+    <record id="role_purch" model="aic.hrm.library.role">
+        <field name="name">Purchasing &amp; Inventory (Trading)</field>
+        <field name="code">PURCH</field>
+        <field name="sequence">120</field>
+        <field name="description">Owns stock availability, turnover, margins and supplier performance.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_trade')])]"/>
+        <field name="collection_playbook">Turnover, stockouts, days on hand and GMROI are computed from the inventory valuation and sales reports in the ERP - schedule a monthly export and import it. Supplier OTIF and defect rates are tracked per receipt in the purchasing log; the purchasing lead confirms each month.</field>
+    </record>
+
+    <record id="role_deliv" model="aic.hrm.library.role">
+        <field name="name">Service Delivery (Professional Services)</field>
+        <field name="code">DELIV</field>
+        <field name="sequence">130</field>
+        <field name="description">Owns billable utilization, on-time delivery and engagement margins.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_svc')])]"/>
+        <field name="collection_playbook">Utilization and margins come from the timesheet and project accounting system - export the monthly utilization report as CSV and import it. On-time delivery is recorded per project at closure; client satisfaction imports from the post-engagement survey tool.</field>
+    </record>
+
+    <record id="role_resto" model="aic.hrm.library.role">
+        <field name="name">Restaurant Operations Manager (F&amp;B)</field>
+        <field name="code">RESTO</field>
+        <field name="sequence">140</field>
+        <field name="description">Owns multi-store P&amp;L, service quality, and day-to-day restaurant operating discipline across the chain.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_fnb')])]"/>
+        <field name="collection_playbook">Sales, check counts, and order-to-serve times are pulled automatically from the POS system daily; labor hours come from the scheduling/timeclock system and are joined to sales in a weekly labor-cost report. Store audit scores are entered manually by area managers after each monthly visit, and guest satisfaction is fed by post-visit surveys and review platforms via a monthly CSV import. The Operations Manager reviews the weekly flash report and the finance controller confirms month-end figures before OKR check-in.</field>
+    </record>
+
+    <record id="role_fbcost" model="aic.hrm.library.role">
+        <field name="name">Kitchen / F&amp;B Cost Controller (F&amp;B)</field>
+        <field name="code">FBCOST</field>
+        <field name="sequence">150</field>
+        <field name="description">Owns food and beverage cost control, recipe costing, stock accuracy, and kitchen waste reduction.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_fnb')])]"/>
+        <field name="collection_playbook">Purchases and supplier invoices flow from the purchasing/accounting module, while theoretical usage comes from recipe cards in the POS or inventory system, updated automatically per sale. Physical stock counts are performed monthly (weekly for high-value perishables), keyed manually into the inventory system, and variance is computed automatically. Waste is logged daily on kitchen waste sheets and imported as a monthly CSV. The Cost Controller prepares the monthly F&amp;B cost pack and the F&amp;B Director signs off before results post to KPIs.</field>
+    </record>
+
+    <record id="role_site" model="aic.hrm.library.role">
+        <field name="name">Project / Site Manager (Construction)</field>
+        <field name="code">SITE</field>
+        <field name="sequence">160</field>
+        <field name="description">Owns on-site delivery of construction projects to schedule, budget, quality, and safety commitments.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_const')])]"/>
+        <field name="collection_playbook">Progress and earned value come from the project scheduling tool (e.g., Primavera/MS Project), exported monthly and reconciled with cost actuals from the ERP job-costing module. Safety incidents and training hours are recorded in the HSE register within 24 hours of occurrence, and inspection pass rates come from the site QA/QC checklist app. Rework hours are captured via dedicated cost codes on timesheets. The Site Manager compiles the monthly project report and the Project Director confirms the numbers used for OKR scoring.</field>
+    </record>
+
+    <record id="role_qs" model="aic.hrm.library.role">
+        <field name="name">QS &amp; Contract Manager (Construction)</field>
+        <field name="code">QS</field>
+        <field name="sequence">170</field>
+        <field name="description">Owns quantity surveying, contract administration, valuations, variations, and commercial margin protection.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_const')])]"/>
+        <field name="collection_playbook">Certified valuations, variations, and payment data live in the contract management / ERP commercial module and are updated as each certificate is issued. Cost forecasts are refreshed monthly in the cost-value-reconciliation (CVR) workbook and imported via CSV; collection days come automatically from accounts receivable. Dispute and claim status is maintained manually in the contracts register at each monthly commercial review. The QS Manager owns the data and the Commercial Director countersigns the monthly CVR before figures are locked.</field>
+    </record>
+
+    <record id="role_fleet" model="aic.hrm.library.role">
+        <field name="name">Fleet / Transport Manager (Logistics)</field>
+        <field name="code">FLEET</field>
+        <field name="sequence">180</field>
+        <field name="description">Owns transport planning, fleet availability, delivery reliability, and cost per kilometer across the vehicle fleet.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_logi')])]"/>
+        <field name="collection_playbook">Delivery timestamps, route completion, and OTIF status are captured automatically in the TMS, with proof-of-delivery from the driver app. Telematics units stream utilization, kilometers, fuel burn, and driver behavior scores to the fleet platform continuously; maintenance downtime comes from workshop work orders in the maintenance module. Accident records are entered manually into the safety register within 24 hours. The Fleet Manager reviews a weekly dashboard and the Logistics Director confirms the monthly roll-up used for scoring.</field>
+    </record>
+
+    <record id="role_wh" model="aic.hrm.library.role">
+        <field name="name">Warehouse Manager (Logistics)</field>
+        <field name="code">WH</field>
+        <field name="sequence">190</field>
+        <field name="description">Owns receiving, storage, picking, and shipping operations with accountability for accuracy, speed, and cost per order.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_logi')])]"/>
+        <field name="collection_playbook">Receipts, put-away, picks, and shipments are scanned in the WMS, so accuracy, fill rate, and dock-to-stock times are computed automatically in near real time. Cycle counts run daily on rotating locations and feed inventory accuracy; shrinkage is confirmed at the quarterly wall-to-wall count entered manually into the WMS. Labor productivity joins WMS transaction data with timeclock hours in a weekly report. The Warehouse Manager validates the weekly dashboard and the Supply Chain Director signs the monthly summary.</field>
+    </record>
+
+    <record id="role_clinic" model="aic.hrm.library.role">
+        <field name="name">Clinic Operations Manager (Healthcare)</field>
+        <field name="code">CLINIC</field>
+        <field name="sequence">200</field>
+        <field name="description">Owns clinic throughput, scheduling efficiency, staff utilization, and unit-level revenue performance.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_health')])]"/>
+        <field name="collection_playbook">Appointment, check-in, and consult timestamps come from the HIS/EMR scheduling module, so wait times, no-shows, and utilization are computed automatically each day. Visit revenue and accounts-receivable aging are pulled from the billing module at month end. Any walk-in or off-system activity is reconciled manually by the clinic coordinator weekly. The Clinic Operations Manager reviews the weekly operations dashboard and the Finance Lead confirms revenue figures before monthly OKR updates.</field>
+    </record>
+
+    <record id="role_patexp" model="aic.hrm.library.role">
+        <field name="name">Patient Experience Lead (Healthcare)</field>
+        <field name="code">PATEXP</field>
+        <field name="sequence">210</field>
+        <field name="description">Owns patient satisfaction, complaint handling, retention, and the end-to-end patient journey across touchpoints.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_health')])]"/>
+        <field name="collection_playbook">NPS and satisfaction surveys are sent automatically by SMS/email after each visit through the survey tool integrated with the HIS/EMR, with results synced daily. Public review ratings are collected monthly from Google and local platforms via a CSV export, and complaints are logged manually in the feedback register with resolution timestamps. Portal adoption comes from the patient-app analytics console. The Patient Experience Lead compiles the monthly experience report and the Chief Medical/Operations Officer confirms it before scoring.</field>
+    </record>
+
+    <record id="role_acad" model="aic.hrm.library.role">
+        <field name="name">Academic Program Manager (Education)</field>
+        <field name="code">ACAD</field>
+        <field name="sequence">220</field>
+        <field name="description">Owns curriculum delivery quality, learner completion and outcomes, and instructor performance for assigned programs.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_edu')])]"/>
+        <field name="collection_playbook">Enrollment, activity, completion, and assessment results are tracked automatically in the LMS and student information system, with a weekly sync to the reporting layer. Course ratings come from end-of-course surveys pushed automatically at completion; employment outcomes are gathered by a graduate survey run each term and entered via CSV import. Launch dates are maintained manually in the program calendar. The Program Manager reviews cohort dashboards monthly and the Academic Director signs off term-end results.</field>
+    </record>
+
+    <record id="role_enroll" model="aic.hrm.library.role">
+        <field name="name">Enrollment / Admissions Lead (Education)</field>
+        <field name="code">ENROLL</field>
+        <field name="sequence">230</field>
+        <field name="description">Owns the admissions funnel from inquiry to enrolled student, including conversion, response speed, and acquisition cost.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_edu')])]"/>
+        <field name="collection_playbook">Inquiries, source channels, response times, and pipeline stages are tracked automatically in the admissions CRM, with marketing spend imported monthly from ad platforms to compute cost per student. Enrollment and payment confirmation come from the student information / billing system. Consultation show rates are marked by counselors in the CRM at each appointment. The Enrollment Lead reviews the funnel weekly and the Marketing/Finance pair confirms spend and enrollment counts at month end.</field>
+    </record>
+
+    <record id="role_ecomm" model="aic.hrm.library.role">
+        <field name="name">E-commerce Manager (E-commerce)</field>
+        <field name="code">ECOMM</field>
+        <field name="sequence">240</field>
+        <field name="description">Owns online revenue growth, storefront conversion, marketing efficiency, and repeat-customer economics.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_ecom')])]"/>
+        <field name="collection_playbook">Sessions, conversion, AOV, and cart abandonment are collected automatically from the e-commerce platform (e.g., Shopify/Magento) and GA4, reconciled daily in the analytics dashboard. Ad spend and ROAS come from ad-platform APIs synced daily; revenue is cross-checked against the order management system at month end. Repeat purchase and owned-channel revenue are computed monthly from the customer data platform or an exported orders CSV. The E-commerce Manager owns the weekly trading report and the Finance Controller confirms month-end revenue.</field>
+    </record>
+
+    <record id="role_fulfil" model="aic.hrm.library.role">
+        <field name="name">Fulfillment &amp; Last-mile Lead (E-commerce)</field>
+        <field name="code">FULFIL</field>
+        <field name="sequence">250</field>
+        <field name="description">Owns order processing speed, delivery reliability, last-mile cost, and the returns pipeline.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_ecom')])]"/>
+        <field name="collection_playbook">Order-to-ship times and shipment accuracy are computed automatically from the OMS/WMS event log; carrier tracking APIs feed on-time and first-attempt delivery status into the TMS or shipping platform daily. Last-mile cost per order joins carrier invoices (imported monthly as CSV) with shipped-order counts. Returns are scanned on receipt and their processing time tracked in the returns module, with reasons coded manually. The Fulfillment Lead validates the weekly service dashboard and the Operations Director confirms the monthly cost figures.</field>
+    </record>
+
+</odoo>

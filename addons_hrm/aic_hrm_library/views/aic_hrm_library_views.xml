@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_library_industry_list" model="ir.ui.view">
+        <field name="name">aic.hrm.library.industry.list</field>
+        <field name="model">aic.hrm.library.industry</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_library_industries" model="ir.actions.act_window">
+        <field name="name">Library Industries</field>
+        <field name="res_model">aic.hrm.library.industry</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add an industry</p>
+            <p>Industries filter the role library: roles tagged with an industry surface for companies in that industry; untagged roles apply everywhere.</p>
+        </field>
+    </record>
+
+    <record id="view_library_role_search" model="ir.ui.view">
+        <field name="name">aic.hrm.library.role.search</field>
+        <field name="model">aic.hrm.library.role</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="industry_ids"/>
+                <filter name="cross_industry" string="Cross-industry"
+                        domain="[('industry_ids', '=', False)]"/>
+                <filter name="group_industry" string="Industry"
+                        context="{'group_by': 'industry_ids'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_library_role_list" model="ir.ui.view">
+        <field name="name">aic.hrm.library.role.list</field>
+        <field name="model">aic.hrm.library.role</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="industry_ids" widget="many2many_tags" optional="show"/>
+                <field name="company_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_library_role_form" model="ir.ui.view">
+        <field name="name">aic.hrm.library.role.form</field>
+        <field name="model">aic.hrm.library.role</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Sales"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="industry_ids" widget="many2many_tags"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Objective Templates" name="objectives">
+                            <field name="objective_template_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="objective_type"/>
+                                    <field name="is_builtin"/>
+                                    <field name="company_id" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Data Collection Playbook" name="playbook">
+                            <field name="collection_playbook" nolabel="1"
+                                   placeholder="Where does each number live, how is it pulled (auto / file import / manual) and on what cadence?"/>
+                        </page>
+                        <page string="KPI Templates" name="kpis">
+                            <field name="kpi_template_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="direction"/>
+                                    <field name="aggregation"/>
+                                    <field name="default_target"/>
+                                    <field name="unit"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_objective_template_form" model="ir.ui.view">
+        <field name="name">aic.hrm.objective.template.form</field>
+        <field name="model">aic.hrm.objective.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="role_id"/>
+                            <field name="objective_type"/>
+                        </group>
+                        <group>
+                            <field name="is_builtin"/>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="When to use this objective"/>
+                    <field name="kr_line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="metric_type"/>
+                            <field name="direction"/>
+                            <field name="default_target"/>
+                            <field name="unit"/>
+                            <field name="weight"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_library_roles" model="ir.actions.act_window">
+        <field name="name">OKR/KPI Library</field>
+        <field name="res_model">aic.hrm.library.role</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Browse the role library</p>
+            <p>Each role ships with objective templates and KPI templates. Apply a pack into a cycle, then tailor targets to your context.</p>
+        </field>
+    </record>
+
+    <record id="view_library_apply_wizard_form" model="ir.ui.view">
+        <field name="name">aic.hrm.library.apply.wizard.form</field>
+        <field name="model">aic.hrm.library.apply.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="industry_id"/>
+                        <field name="role_id"/>
+                        <field name="cycle_id"/>
+                        <field name="employee_id"/>
+                        <field name="team_id"/>
+                        <field name="department_id"/>
+                    </group>
+                    <group>
+                        <field name="include_kpis"/>
+                        <field name="template_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Create Draft Goals"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_library_apply" model="ir.actions.act_window">
+        <field name="name">Apply Library Pack</field>
+        <field name="res_model">aic.hrm.library.apply.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_library_capture_wizard_form" model="ir.ui.view">
+        <field name="name">aic.hrm.library.capture.wizard.form</field>
+        <field name="model">aic.hrm.library.capture.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="role_id"/>
+                    <field name="raw_text" widget="text"
+                           placeholder="OBJ: Win the enterprise segment | aspirational&#10;KR: Enterprise deals closed | number | higher | 12 | deals&#10;KPI: Pipeline coverage ratio | x | higher | last | 3"/>
+                    <field name="created_summary" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="action_capture" type="object" string="Add to Library"
+                            class="btn-primary"/>
+                    <button string="Close" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_library_capture" model="ir.actions.act_window">
+        <field name="name">Capture Knowledge</field>
+        <field name="res_model">aic.hrm.library.capture.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_knowledge_article_list" model="ir.ui.view">
+        <field name="name">aic.hrm.knowledge.article.list</field>
+        <field name="model">aic.hrm.knowledge.article</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="role_ids" widget="many2many_tags" optional="hide"/>
+                <field name="industry_ids" widget="many2many_tags" optional="hide"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_knowledge_article_form" model="ir.ui.view">
+        <field name="name">aic.hrm.knowledge.article.form</field>
+        <field name="model">aic.hrm.knowledge.article</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="role_ids" widget="many2many_tags"/>
+                            <field name="industry_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <field name="content"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_knowledge_article_search" model="ir.ui.view">
+        <field name="name">aic.hrm.knowledge.article.search</field>
+        <field name="model">aic.hrm.knowledge.article</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="role_ids"/>
+                <field name="industry_ids"/>
+                <group>
+                    <filter string="Category" name="group_category"
+                            domain="[]" context="{'group_by': 'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_knowledge_articles" model="ir.actions.act_window">
+        <field name="name">Knowledge Guide</field>
+        <field name="res_model">aic.hrm.knowledge.article</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_category': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No articles yet</p>
+            <p>The built-in guide covers the operating method (OKR, BSC, success factors), measurement design, cadence, data collection and fair scoring. Administrators add company- and market-specific knowledge alongside.</p>
+        </field>
+    </record>
+
+    <!-- Plan-building entry points: surface the library right where
+         objectives and KPI targets are created. -->
+    <record id="view_objective_list_library" model="ir.ui.view">
+        <field name="name">aic.hrm.objective.list.library</field>
+        <field name="model">aic.hrm.objective</field>
+        <field name="inherit_id" ref="aic_okr_kpi.view_aic_hrm_objective_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/header" position="inside">
+                <button name="%(action_library_apply)d" type="action"
+                        string="From Library" display="always"
+                        groups="aic_hrm_base.group_hrm_manager"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_kpi_target_list_library" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.target.list.library</field>
+        <field name="model">aic.hrm.kpi.target</field>
+        <field name="inherit_id" ref="aic_okr_kpi.view_aic_hrm_kpi_target_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/header" position="inside">
+                <button name="%(action_library_apply)d" type="action"
+                        string="From Library" display="always"
+                        groups="aic_hrm_base.group_hrm_manager"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_library" name="Library"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="45"
+              action="action_library_roles"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_knowledge_guide" name="Knowledge Guide"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="46"
+              action="action_knowledge_articles"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_library_apply" name="Apply Library Pack"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="55"
+              action="action_library_apply"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_library_capture" name="Capture Knowledge"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="56"
+              action="action_library_capture"
+              groups="aic_hrm_base.group_hrm_admin"/>
+
+    <menuitem id="menu_library_industries" name="Library Industries"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="57"
+              action="action_library_industries"
+              groups="aic_hrm_base.group_hrm_admin"/>
+
+</odoo>

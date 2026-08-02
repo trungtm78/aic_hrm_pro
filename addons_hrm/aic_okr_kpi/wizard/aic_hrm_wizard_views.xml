@@ -9,6 +9,7 @@
                 <group invisible="state not in ('upload', 'preview')">
                     <group>
                         <field name="cycle_id"/>
+                        <field name="department_id"/>
                         <field name="file" filename="filename"/>
                         <field name="filename" invisible="1"/>
                         <field name="create_missing_employees"/>
@@ -85,6 +86,63 @@
         <field name="target">new</field>
     </record>
 
+    <record id="view_aic_hrm_actuals_import_wizard_form" model="ir.ui.view">
+        <field name="name">aic.hrm.actuals.import.wizard.form</field>
+        <field name="model">aic.hrm.actuals.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group invisible="state == 'done'">
+                    <group>
+                        <field name="cycle_id"/>
+                        <field name="file" filename="filename"/>
+                        <field name="filename" invisible="1"/>
+                        <field name="state" invisible="1"/>
+                    </group>
+                    <group>
+                        <div class="text-muted" colspan="2">
+                            Flat table, one measurement per row. Columns:
+                            <code>type</code> (kpi/kr, default kpi),
+                            <code>code</code>, <code>employee</code>,
+                            <code>date_from</code>, <code>date_to</code>,
+                            <code>value</code>, <code>note</code>.
+                            Confirmed periods and manual entries are never
+                            overwritten.
+                        </div>
+                    </group>
+                </group>
+                <div invisible="state != 'preview'">
+                    <h4>Preview</h4>
+                    <field name="preview"/>
+                </div>
+                <div invisible="not warning_log">
+                    <h4>Warnings</h4>
+                    <field name="warning_log"/>
+                </div>
+                <div invisible="state != 'done'">
+                    <p>Import finished.</p>
+                    <group>
+                        <field name="imported_period_count"/>
+                        <field name="imported_checkin_count"/>
+                    </group>
+                </div>
+                <footer>
+                    <button name="action_preview" type="object" string="Preview"
+                            class="btn-primary" invisible="state != 'upload'"/>
+                    <button name="action_import" type="object" string="Import"
+                            class="btn-primary" invisible="state != 'preview'"/>
+                    <button string="Close" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_actuals_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Actuals (Excel/CSV)</field>
+        <field name="res_model">aic.hrm.actuals.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
     <menuitem id="menu_aic_hrm_import" name="Import Spreadsheet"
               parent="aic_hrm_base.menu_aic_hrm_config" sequence="60"
               action="action_aic_hrm_import_wizard"
@@ -93,6 +151,11 @@
     <menuitem id="menu_aic_hrm_rollover" name="Roll Over Cycle"
               parent="aic_hrm_base.menu_aic_hrm_config" sequence="70"
               action="action_aic_hrm_rollover_wizard"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_actuals_import" name="Import Actuals"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="65"
+              action="action_aic_hrm_actuals_import_wizard"
               groups="aic_hrm_base.group_hrm_manager"/>
 
 </odoo>

@@ -25,6 +25,10 @@ class AicHrmImportWizard(models.TransientModel):
     _description = 'OKR/KPI Excel Import'
 
     cycle_id = fields.Many2one('aic.hrm.cycle', required=True)
+    department_id = fields.Many2one(
+        'hr.department',
+        help="Department the imported objectives belong to. Empty = "
+             "company-level objectives.")
     file = fields.Binary(required=True)
     filename = fields.Char()
     create_missing_employees = fields.Boolean(
@@ -216,7 +220,9 @@ class AicHrmImportWizard(models.TransientModel):
                         'code': spec['code'],
                         'name': spec['name'] or spec['code'],
                         'cycle_id': self.cycle_id.id,
-                        'level': 'department',
+                        'level': ('department' if self.department_id
+                                  else 'company'),
+                        'department_id': self.department_id.id or False,
                         'weight': spec['weight'],
                     })
                     created_objectives += 1
