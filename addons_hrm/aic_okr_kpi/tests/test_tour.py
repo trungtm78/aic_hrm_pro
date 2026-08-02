@@ -23,3 +23,7 @@ class TestDemoTour(HttpCase):
             'baseline': 0, 'target': 100, 'current': 40,
         })
         self.start_tour('/odoo', 'aic_okr_demo', login='admin')
+
+    def test_screens_tour(self):
+        """Every core menu opens and renders in a real browser."""
+        self.start_tour('/odoo', 'aic_okr_screens', login='admin')
