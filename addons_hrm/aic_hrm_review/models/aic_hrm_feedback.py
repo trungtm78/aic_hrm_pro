@@ -44,9 +44,10 @@ class AicHrmFeedbackRequest(models.Model):
         'aic.hrm.feedback.response', 'request_id',
         groups='aic_hrm_base.group_hrm_admin')
 
-    _sql_constraints = [
-        ('review_rater_uniq', 'unique(review_id, rater_employee_id)', 'This person was already invited to this review.'),
-    ]
+    _review_rater_uniq = models.Constraint(
+        'unique (review_id, rater_employee_id)',
+        'This person was already invited to this review.',
+    )
 
     @api.depends('rater_employee_id')
     def _compute_rater_user(self):
@@ -70,10 +71,25 @@ class AicHrmFeedbackRequest(models.Model):
         """
         self.ensure_one()
         request = self.sudo()
-        if request.rater_user_id and \
-                request.rater_user_id != self.env.user and not self.env.su:
-            raise UserError(_("Only the invited rater may submit this "
-                              "feedback."))
+        # Authorise before the escalation is used for anything. The old
+        # guard read `if request.rater_user_id and ...`, so a rater with no
+        # login - every 'external' rater, and every employee the import
+        # wizard creates - fell straight through it and any caller could
+        # submit in their name. Anonymity then hid the forger as well as it
+        # hides an honest rater.
+        if not self.env.su:
+            if request.rater_user_id:
+                if request.rater_user_id != self.env.user:
+                    raise UserError(_("Only the invited rater may submit "
+                                      "this feedback."))
+            elif not self.env.user.has_group(
+                    'aic_hrm_base.group_hrm_admin'):
+                # A rater without an account answers on paper or by mail;
+                # the HR administrator who invited them transcribes it.
+                # Nobody else gets to speak for them.
+                raise UserError(_(
+                    "This rater has no login of their own. Only an HR "
+                    "administrator may record their answers."))
         if request.state != 'invited':
             raise UserError(_("This feedback was already submitted."))
         valid_questions = request.review_id.review_cycle_id.template_id \

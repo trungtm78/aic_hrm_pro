@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
 from .common import ReviewCase
@@ -107,3 +107,45 @@ class TestFeedbackAnonymity(ReviewCase):
 
     def test_small_team_warning(self):
         self.assertTrue(self.review_cycle.small_team_warning is not None)
+
+    def _hr_admin(self):
+        return self.env['res.users'].create({
+            'name': 'Rev HR Admin', 'login': 'rev_hr_admin',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.env.ref('aic_hrm_base.group_hrm_admin').id])],
+        })
+
+    def _external_request(self):
+        """A rater with no login: the 'external' role, and every employee
+        the import wizard creates for a name it could not match."""
+        outsider = self.env['hr.employee'].create({'name': 'Outside Rater'})
+        self.assertFalse(outsider.user_id)
+        return self.env['aic.hrm.feedback.request'].create({
+            'review_id': self.review.id,
+            'rater_employee_id': outsider.id,
+            'rater_role': 'external',
+        })
+
+    def test_rater_without_login_cannot_be_spoken_for(self):
+        """The guard used to read `if rater_user_id and ...`, so a rater
+        with no account fell through it and anyone could submit in their
+        name - untraceably, because responses are written by the system
+        user on purpose."""
+        request = self._external_request()
+        with self.assertRaises(UserError):
+            self._submit(request, self.peer1_user, 5)
+        self.assertEqual(request.state, 'invited')
+        self.assertFalse(request.sudo().response_ids)
+
+    def test_hr_admin_may_transcribe_for_a_rater_without_login(self):
+        """Someone has to be able to record a paper answer, or the
+        external role is decorative. That someone is the administrator who
+        issued the invitation."""
+        request = self._external_request()
+        self._submit(request, self._hr_admin(), 4)
+        self.assertEqual(request.sudo().state, 'submitted')
+
+    def test_invited_rater_still_submits_normally(self):
+        self._submit(self.requests[0], self.peer1_user, 5)
+        self.assertEqual(self.requests[0].sudo().state, 'submitted')

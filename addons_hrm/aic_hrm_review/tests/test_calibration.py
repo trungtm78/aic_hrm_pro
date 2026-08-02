@@ -51,6 +51,24 @@ class TestCalibration(ReviewCase):
         with self.assertRaises(ValidationError):
             line.write({'justification': 'history rewrite attempt'})
 
+    def test_applied_line_cannot_be_deleted(self):
+        """write() alone left the record deletable, and the manager ACL
+        granted unlink - so the evidence of a score change could be removed
+        by the role that makes score changes."""
+        line = self.session.line_ids
+        line.action_apply()
+        with self.assertRaises(ValidationError):
+            line.unlink()
+        self.assertTrue(line.exists())
+
+    def test_unapplied_line_can_still_be_removed(self):
+        """A proposal that was never applied is not an audit record; the
+        guard must not freeze the working state of a live session."""
+        line = self.session.line_ids
+        self.assertEqual(line.state, 'proposed')
+        line.unlink()
+        self.assertFalse(line.exists())
+
     def test_closed_session_blocks_apply(self):
         line = self.session.line_ids
         self.session.write({'state': 'done'})

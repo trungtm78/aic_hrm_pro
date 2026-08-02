@@ -2,7 +2,7 @@
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
     'name': 'AIC HRM Review',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Performance reviews: configurable route maps, 360 feedback, calibration, 9-box, IDP and PIP',
     'description': """

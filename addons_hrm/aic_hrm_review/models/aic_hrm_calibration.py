@@ -48,9 +48,10 @@ class AicHrmCalibrationLine(models.Model):
         ('applied', 'Applied'),
     ], default='proposed', required=True)
 
-    _sql_constraints = [
-        ('session_review_uniq', 'unique(session_id, review_id)', 'This review is already on the session.'),
-    ]
+    _session_review_uniq = models.Constraint(
+        'unique (session_id, review_id)',
+        'This review is already on the session.',
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -85,6 +86,15 @@ class AicHrmCalibrationLine(models.Model):
             raise ValidationError(_(
                 "Applied calibration lines are immutable audit records."))
         return super().write(vals)
+
+    def unlink(self):
+        # write() alone did not make the record immutable: deleting it
+        # removed the evidence just as well, and the manager ACL granted
+        # unlink. An audit record you can delete is not an audit record.
+        if self.filtered(lambda l: l.state == 'applied'):
+            raise ValidationError(_(
+                "Applied calibration lines are immutable audit records."))
+        return super().unlink()
 
     def action_apply(self):
         for line in self:
