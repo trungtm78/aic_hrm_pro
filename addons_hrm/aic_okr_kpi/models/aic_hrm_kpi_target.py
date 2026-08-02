@@ -271,8 +271,10 @@ class AicHrmKpiTarget(models.Model):
                 ('date_from', '=', month_start),
             ], limit=1)
             if existing:
-                if existing.state == 'draft':
-                    existing.write({'actual': value, 'source': 'auto'})
+                # Manual always beats automatic: only auto-created drafts
+                # may be refreshed by the metric pull.
+                if existing.state == 'draft' and existing.source == 'auto':
+                    existing.write({'actual': value})
             else:
                 PeriodResult.create({
                     'kpi_target_id': target.id,

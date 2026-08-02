@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_task_form_inherit_kr" model="ir.ui.view">
+        <field name="name">project.task.form.inherit.aic.kr</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="aic_kr_id"
+                       groups="aic_hrm_base.group_hrm_user"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_kr_form_inherit_tasks" model="ir.ui.view">
+        <field name="name">aic.hrm.key.result.form.inherit.tasks</field>
+        <field name="model">aic.hrm.key.result</field>
+        <field name="inherit_id" ref="aic_okr_kpi.view_aic_hrm_key_result_form"/>
+        <field name="arch" type="xml">
+            <field name="focus_quarters" position="after">
+                <field name="task_progress_mode"/>
+                <field name="task_done_count" string="Tasks done"/>
+                <field name="task_count" string="Tasks linked"/>
+            </field>
+            <notebook position="inside">
+                <page string="Project Tasks" name="tasks">
+                    <field name="task_ids">
+                        <list>
+                            <field name="name"/>
+                            <field name="project_id"/>
+                            <field name="user_ids" widget="many2many_tags" optional="show"/>
+                            <field name="date_deadline" optional="show"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_kpi_form_inherit_sales" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.form.inherit.sales</field>
+        <field name="model">aic.hrm.kpi</field>
+        <field name="inherit_id" ref="aic_okr_kpi.view_aic_hrm_kpi_form"/>
+        <field name="arch" type="xml">
+            <field name="data_source" position="after">
+                <field name="default_sales_source"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_kpi_target_form_inherit_sales" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.target.form.inherit.sales</field>
+        <field name="model">aic.hrm.kpi.target</field>
+        <field name="inherit_id" ref="aic_okr_kpi.view_aic_hrm_kpi_target_form"/>
+        <field name="arch" type="xml">
+            <field name="target_value" position="after">
+                <field name="sales_source"/>
+                <button name="action_sync_sales_actuals" type="object"
+                        string="Pull sales figures now" icon="fa-refresh"
+                        invisible="sales_source == 'off'"
+                        groups="aic_hrm_base.group_hrm_manager"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
