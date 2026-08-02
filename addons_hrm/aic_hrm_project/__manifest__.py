@@ -2,7 +2,7 @@
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
     'name': 'AIC HRM Pro - Project Bridge',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Key results measured by real project work: task links and automatic progress',
     'description': """

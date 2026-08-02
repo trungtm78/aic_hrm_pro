@@ -2,7 +2,7 @@
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
     'name': 'AIC HRM Pro - OKR/KPI Library',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Role-based OKR and KPI starter library, extensible into company knowledge',
     'description': """

@@ -46,3 +46,6 @@ addons_third/
 
 # Security reports stay local: they name concrete unpatched holes.
 .gstack/
+
+# Build output of tools/build_store_package.py
+dist/

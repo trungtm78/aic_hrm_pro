@@ -23,9 +23,10 @@ class AicHrmImportTerm(models.Model):
         required=True, help="Spreadsheet wording, matched case-insensitively.")
     value = fields.Char(required=True, help="Technical value it maps to.")
 
-    _sql_constraints = [
-        ('term_uniq', 'unique(term_type, source_term)', 'This spreadsheet term is already mapped.'),
-    ]
+    _term_uniq = models.Constraint(
+        'unique (term_type, source_term)',
+        'This spreadsheet term is already mapped.',
+    )
 
     @api.model
     def get_map(self, term_type):
