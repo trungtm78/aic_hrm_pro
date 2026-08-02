@@ -53,3 +53,14 @@ bonus formula, mobile app — không thuộc UAT này.
 | U40 | Project bridge: task gắn KR, chế độ count/percent-done, task hủy loại khỏi mẫu số, manual mode không bị đụng, relink resync, cron safety-net | test_task_progress.py (8) | suite 19+18 2026-08-02 | PASS |
 | U41 | Sales bridge: doanh thu đơn xác nhận/số báo giá/hóa đơn theo từng sale, DRAFT chờ manager confirm, cron update-in-place, setting cấp KPI kế thừa mọi staff + override riêng | test_sales_actuals.py (6) | suite 19+18 2026-08-02 | PASS |
 | U42 | Luật "tay thắng máy": dòng nhập tay không bao giờ bị cron auto ghi đè (sale + metric source) | test_manual_entry_always_beats_automation | suite 19+18 2026-08-02 | PASS |
+| U43 | Diagnosis engine: expected progress theo lịch, pace gap, required run-rate, khuyến nghị từ blocker/confidence/cadence/task thật | test_diagnosis.py (8) | suite 19 2026-08-02 | PASS |
+| U44 | Thư viện vai trò × ngành: ≥25 role seed (10 cross + 15 theo ngành), mỗi role có obj+KPI templates + playbook thu thập dữ liệu; lọc theo industry (tagged hiện, khác ngành ẩn, cross luôn hiện) | test_library.py | suite 19 2026-08-02 | PASS |
+| U45 | Apply pack: draft objectives+KR+targets cho employee/team/department/company, re-apply không nhân đôi target, perspective truyền từ template | test_library.py | suite 19 2026-08-02 | PASS |
+| U46 | Capture knowledge: parse OBJ:/KR:/KPI:, company-scoped, chặn KR mồ côi | test_library.py | suite 19 2026-08-02 | PASS |
+| U47 | Actuals import CSV/XLSX: period result source=import chờ confirm, manual thắng, confirmed bất biến, auto-draft bị đè, KR row→check-in, CSV chấm phẩy + thập phân phẩy, code lạ chỉ warn, thiếu cột báo lỗi | test_actuals_import.py (8) | suite 19 2026-08-02 | PASS |
+| U48 | 5 cấp mục tiêu: company/branch/department/team/individual + constraint anchor đúng cấp, cascade xuyên cấp, team unique per company | test_levels.py (7) | suite 19 2026-08-02 | PASS |
+| U49 | BSC: 4 perspective seed, KSF catalog ≥12 phủ đủ 4 góc, objective drive / KPI measure / target kế thừa perspective, read_group cân bằng danh mục | test_strategy.py | suite 19 2026-08-02 | PASS |
+| U50 | Đa framework: BSC/Hoshin/4DX seed kèm dimension, 1 objective đọc qua nhiều framework cùng lúc (m2m tags + group-by) | test_strategy.py | suite 19 2026-08-02 | PASS |
+| U51 | Knowledge Guide: ≥10 bài built-in phủ đủ 6 nhóm chủ đề, company article tách khỏi built-in (record rule) | test_library.py | suite 19 2026-08-02 | PASS |
+| U52 | Hướng dẫn thu thập: collection_method/guideline trên KPI + tab "How to Collect" trên target (related) | view + related field (U47 gián tiếp) | suite 19 2026-08-02 | PASS |
+| U53 | Nút xây kế hoạch tại chỗ: "From Previous Cycle" + "From Library" + "Import Actuals" trên list Objectives/KPI Targets | view header buttons (load qua suite install) | suite 19 2026-08-02 | PASS |

@@ -14,7 +14,7 @@ class TestObjectiveLevels(OkrCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.team = cls.env['aic.hrm.team'].create({
-            'name': 'Launch Squad',
+            'name': 'Levels Fixture Squad',
             'department_id': cls.department.id,
             'lead_id': cls.manager_employee.id,
             'member_ids': [(6, 0, [cls.member_employee.id])],
@@ -68,6 +68,6 @@ class TestObjectiveLevels(OkrCase):
         with self.assertRaises(Exception):
             with self.env.cr.savepoint():
                 self.env['aic.hrm.team'].create({
-                    'name': 'Launch Squad',
+                    'name': 'Levels Fixture Squad',
                     'company_id': self.env.company.id,
                 })
