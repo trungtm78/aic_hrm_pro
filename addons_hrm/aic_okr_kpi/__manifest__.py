@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIC OKR & KPI',
+    'name': 'AIConnect OKR & KPI Engine',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Performance',
-    'summary': 'OKR and KPI management: objectives, key results, KPI engine, check-ins, assignments, dashboards',
+    'summary': 'AIConnect OKR and KPI engine: five goal levels, weighted scoring, check-ins, alerts and dashboards',
     'description': """
-Core OKR / KPI performance management for the AIC HRM Pro suite.
+Core OKR / KPI performance management for the AIConnect HRM Pro suite.
 
 Provides:
 
@@ -19,7 +19,7 @@ Provides:
 - Excel import wizard (3-sheet OKR/KPI/assignment) and cycle rollover wizard
 - OWL alignment tree and leadership cockpit dashboards
 """,
-    'author': 'AIPOWER CO.,LTD',
+    'author': 'AIPOWER CO., LTD',
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
     'depends': ['aic_hrm_base'],

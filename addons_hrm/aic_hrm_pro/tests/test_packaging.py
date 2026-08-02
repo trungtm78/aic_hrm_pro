@@ -35,7 +35,10 @@ class TestPackaging(TransactionCase):
             self.assertTrue(
                 manifest['version'].startswith(f'{series}.'),
                 f'{name}: version must match the server series {series}')
-            self.assertEqual(manifest['author'], 'AIPOWER CO.,LTD', name)
+            # One exact string across the range: the Apps Store groups a
+            # publisher's listings by it, so a stray space splits them
+            # across two publisher pages.
+            self.assertEqual(manifest['author'], 'AIPOWER CO., LTD', name)
             prices[name] = manifest.get('price')
         self.assertTrue(prices['aic_hrm_pro'],
                         'the app module carries the price')

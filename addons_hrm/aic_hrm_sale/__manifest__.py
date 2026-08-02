@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIC HRM Pro - Sales Bridge',
-    'version': '19.0.1.0.0',
+    'name': 'AIConnect HRM - Sales Bridge',
+    'version': '18.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Sales KPIs fed by real quotations, orders and invoices - no manual entry',
     'description': """
-Connects AIC HRM Pro KPI targets to Odoo Sales and Invoicing.
+Connects AIConnect HRM Pro KPI targets to Odoo Sales and Invoicing.
 
 Provides:
 
@@ -16,7 +16,7 @@ Provides:
   confirmation step
 - sale.order and account.move allowlisted for generic metric sources
 """,
-    'author': 'AIPOWER CO.,LTD',
+    'author': 'AIPOWER CO., LTD',
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
     'depends': ['aic_okr_kpi', 'sale'],

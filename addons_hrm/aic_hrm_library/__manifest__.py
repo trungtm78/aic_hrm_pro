@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIC HRM Pro - OKR/KPI Library',
-    'version': '19.0.1.0.0',
+    'name': 'AIConnect HRM Library - Industry OKR/KPI Packs',
+    'version': '18.0.1.0.0',
     'category': 'Human Resources/Performance',
-    'summary': 'Role-based OKR and KPI starter library, extensible into company knowledge',
+    'summary': 'AIConnect library: 10 industries x 25 roles of ready-made OKR and KPI packs, and a management guide',
     'description': """
 A curated starter library of objectives, key results and KPIs per role
 (Sales, Marketing, Engineering, Product, HR, Customer Success, Finance,
@@ -24,7 +24,7 @@ Provides:
   library into company-specific knowledge (kept per company, separate from
   the shared built-ins)
 """,
-    'author': 'AIPOWER CO.,LTD',
+    'author': 'AIPOWER CO., LTD',
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
     'depends': ['aic_okr_kpi'],

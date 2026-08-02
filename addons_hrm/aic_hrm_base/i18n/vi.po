@@ -51,8 +51,8 @@ msgstr "Team trùng tên đã tồn tại trong công ty này."
 
 #. module: aic_hrm_base
 #: model:res.groups.privilege,name:aic_hrm_base.privilege_aic_hrm
-msgid "AIC HRM Pro"
-msgstr "AIC HRM Pro"
+msgid "AIConnect HRM Pro"
+msgstr "AIConnect HRM Pro"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_needaction

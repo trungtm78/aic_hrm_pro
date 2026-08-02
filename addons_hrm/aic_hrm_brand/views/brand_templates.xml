@@ -8,7 +8,7 @@
     -->
     <template id="layout_brand_title" inherit_id="web.layout">
         <xpath expr="//title" position="replace">
-            <title t-esc="title or 'AIC HRM Pro'"/>
+            <title t-esc="title or 'AIConnect HRM Pro'"/>
         </xpath>
         <xpath expr="//link[@rel='shortcut icon']" position="replace">
             <link type="image/png" rel="shortcut icon"
@@ -30,7 +30,7 @@
         <xpath expr="//div[hasclass('border-top')]" position="replace">
             <div class="text-center small mt-4 pt-3 border-top"
                  t-if="not disable_footer">
-                <span class="text-muted">AIC HRM Pro — AIPOWER CO.,LTD</span>
+                <span class="text-muted">AIConnect HRM Pro — AIPOWER CO.,LTD</span>
             </div>
         </xpath>
     </template>
@@ -53,7 +53,7 @@
     <template id="brand_promotion_message" inherit_id="web.brand_promotion_message">
         <xpath expr="//t[@t-set='odoo_logo']" position="replace">
             <t t-set="odoo_logo">
-                <span class="badge text-bg-light">AIC HRM Pro</span>
+                <span class="badge text-bg-light">AIConnect HRM Pro</span>
             </t>
         </xpath>
         <xpath expr="//t[@t-set='final_message']" position="replace">

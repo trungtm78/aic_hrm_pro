@@ -20,11 +20,11 @@ class TestBrandSurfaces(HttpCase):
         body = response.text
         self.assertNotIn('Powered by', body)
         self.assertNotIn('www.odoo.com', body)
-        self.assertIn('AIC HRM Pro', body)
+        self.assertIn('AIConnect HRM Pro', body)
 
     def test_browser_title_defaults_to_the_product(self):
         body = self.url_open('/web/login').text
-        self.assertIn('<title>AIC HRM Pro</title>', body)
+        self.assertIn('<title>AIConnect HRM Pro</title>', body)
 
     def test_product_entry_point_reaches_the_web_client(self):
         """/aic is the address handed to customers; it must resolve."""
