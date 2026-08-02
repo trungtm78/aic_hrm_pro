@@ -51,9 +51,12 @@
 
 <t t-name="aic_okr_kpi.AlignmentTree">
     <div class="o_aic_hrm o_action">
-        <div class="d-flex align-items-center mb-3 gap-2 flex-wrap">
-            <h2 class="mb-0">Alignment Tree</h2>
-            <select class="form-select w-auto" t-on-change="onCycleChange"
+        <header class="o_aic_page_head">
+            <div>
+                <h2 class="o_aic_page_title">Alignment Tree</h2>
+                <p class="o_aic_page_sub">How every key result rolls up into the company plan</p>
+            </div>
+            <select class="form-select o_aic_cycle_select" t-on-change="onCycleChange"
                     t-att-disabled="!state.cycles.length"
                     aria-label="Cycle">
                 <t t-foreach="state.cycles" t-as="cycle" t-key="cycle.id">
@@ -68,7 +71,7 @@
         <div t-elif="!state.roots.length" class="o_aic_empty">
             No objectives in this cycle yet — import the spreadsheet or add objectives.
         </div>
-        <div t-else="" class="o_aic_tree_scroll">
+        <div t-else="" class="o_aic_card o_aic_tree_scroll">
             <t t-foreach="state.roots" t-as="root" t-key="root.id">
                 <t t-call="aic_okr_kpi.AlignmentTreeNode">
                     <t t-set="node" t-value="root"/>

@@ -40,3 +40,6 @@ build/
 # Local customer-data documentation (never commit)
 Docs/gioi-thieu-assets/
 Docs/Gioi-thieu-he-thong*.html
+
+# Third-party proprietary themes (never commit)
+addons_third/
