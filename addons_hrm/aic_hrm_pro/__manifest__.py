@@ -29,12 +29,12 @@ department: weighted objectives totalling 100%, a KPI catalog with
 directions and aggregation methods, and personal scorecards summing to
 100%.
 """,
-    'author': 'AIPOWER CO.,LTD',
-    'website': 'https://github.com/trungtm78/aic_hrm_pro',
+    'author': 'AIPOWER CO., LTD',
+    'website': 'https://aipower.vn/en',
     'license': 'OPL-1',
-    'price': 149.0,
+    'price': 130.0,
     'currency': 'USD',
-    'support': 'ai.1click2power@gmail.com',
+    'support': 'sales@aipower.vn',
     # The library ships with the suite. It is a headline reason to buy -
     # 10 industries, 25 roles, ready-made objective/KPI packs and the
     # built-in management guide - so a buyer who installs the app must get
