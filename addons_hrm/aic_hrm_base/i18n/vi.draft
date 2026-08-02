@@ -265,3 +265,63 @@ msgstr "Điểm"
 
 msgid "State"
 msgstr "Trạng thái"
+
+msgid "Aggregate"
+msgstr "Cách tổng hợp"
+
+msgid "Amber From"
+msgstr "Vàng từ"
+
+msgid "Approved By"
+msgstr "Người duyệt"
+
+msgid "Approved Date"
+msgstr "Ngày duyệt"
+
+msgid "Check In Frequency"
+msgstr "Tần suất check-in"
+
+msgid "Cycle Type"
+msgstr "Loại chu kỳ"
+
+msgid "Date End"
+msgstr "Ngày kết thúc"
+
+msgid "Date Start"
+msgstr "Ngày bắt đầu"
+
+msgid "Domain"
+msgstr "Miền lọc"
+
+msgid "Field Name"
+msgstr "Tên trường"
+
+msgid "Green From"
+msgstr "Xanh từ"
+
+msgid "Last Run"
+msgstr "Lần chạy gần nhất"
+
+msgid "Last Value"
+msgstr "Giá trị lần cuối"
+
+msgid "Model"
+msgstr "Model"
+
+msgid "Ratings"
+msgstr "Đánh giá"
+
+msgid "Record"
+msgstr "Bản ghi"
+
+msgid "Requested By"
+msgstr "Người đề nghị"
+
+msgid "Score Cap"
+msgstr "Trần điểm"
+
+msgid "Stale Days"
+msgstr "Số ngày coi là ì"
+
+msgid "Type"
+msgstr "Loại"

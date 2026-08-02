@@ -170,7 +170,7 @@ msgstr "Thực tế"
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__actual_value
 msgid "Actual Value"
-msgstr ""
+msgstr "Giá trị thực tế"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__pace_gap
@@ -431,7 +431,7 @@ msgstr "Mốc xuất phát"
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__baseline_value
 msgid "Baseline Value"
-msgstr ""
+msgstr "Giá trị gốc"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__behind
@@ -873,12 +873,12 @@ msgstr "Quyết định dựa trên dữ liệu tin cậy và hệ thống phù 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__default_baseline
 msgid "Default Baseline"
-msgstr ""
+msgstr "Mốc gốc mặc định"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__default_target
 msgid "Default Target"
-msgstr ""
+msgstr "Đích mặc định"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_ksf
@@ -1239,7 +1239,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__group_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_search
 msgid "Group"
-msgstr ""
+msgstr "Nhóm"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__has_message
@@ -1373,7 +1373,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_form
 msgid "Identity"
-msgstr ""
+msgstr "Định danh"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__message_needaction
@@ -1697,7 +1697,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__kpi_id
 msgid "Kpi"
-msgstr ""
+msgstr "KPI"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__kpi_target_id
@@ -1967,7 +1967,7 @@ msgstr "Vị thế thị trường và thương hiệu"
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_form
 msgid "Measurement"
-msgstr ""
+msgstr "Đo lường"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__kpi_ids
@@ -2012,7 +2012,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__metric_source_id
 msgid "Metric Source"
-msgstr ""
+msgstr "Nguồn số liệu"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__metric_type
@@ -2307,7 +2307,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__objective_type
 msgid "Objective Type"
-msgstr ""
+msgstr "Loại mục tiêu"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__objective_id
@@ -2620,7 +2620,7 @@ msgstr "Tiến độ"
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
 msgid "Progress Diagnosis"
-msgstr ""
+msgstr "Chẩn đoán tiến độ"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__progress_snapshot
@@ -2671,7 +2671,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__rating_ids
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Đánh giá"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__framework_dimension_ids
@@ -3027,7 +3027,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__target_value
 msgid "Target Value"
-msgstr ""
+msgstr "Giá trị đích"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__team_id

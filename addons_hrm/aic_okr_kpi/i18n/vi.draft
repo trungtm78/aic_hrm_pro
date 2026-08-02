@@ -955,3 +955,42 @@ msgstr "Trạng thái"
 
 msgid "Visibility"
 msgstr "Hiển thị"
+
+msgid "Actual Value"
+msgstr "Giá trị thực tế"
+
+msgid "Baseline Value"
+msgstr "Giá trị gốc"
+
+msgid "Default Baseline"
+msgstr "Mốc gốc mặc định"
+
+msgid "Default Target"
+msgstr "Đích mặc định"
+
+msgid "Group"
+msgstr "Nhóm"
+
+msgid "Identity"
+msgstr "Định danh"
+
+msgid "Kpi"
+msgstr "KPI"
+
+msgid "Measurement"
+msgstr "Đo lường"
+
+msgid "Metric Source"
+msgstr "Nguồn số liệu"
+
+msgid "Objective Type"
+msgstr "Loại mục tiêu"
+
+msgid "Progress Diagnosis"
+msgstr "Chẩn đoán tiến độ"
+
+msgid "Ratings"
+msgstr "Đánh giá"
+
+msgid "Target Value"
+msgstr "Giá trị đích"
