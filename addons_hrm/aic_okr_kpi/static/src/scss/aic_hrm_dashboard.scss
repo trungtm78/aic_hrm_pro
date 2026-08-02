@@ -148,35 +148,136 @@
     gap: var(--aic-space-lg);
   }
 
-  .o_aic_heatmap_scroll {
-    overflow-x: auto;
-  }
+  /* ---- department heatmap ----
+     A grid of codes and percentages reads as noise: the codes are
+     sequence numbers and the colours have no stated meaning. Each tile
+     therefore carries the objective's own name, each department states
+     its aggregate and its band counts, and the legend says what the
+     colours mean instead of assuming the reader knows. */
+  .o_aic_card_head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--aic-space-sm);
+    margin-bottom: var(--aic-space-md);
 
-  .o_aic_heatmap {
-    border-collapse: collapse;
-    width: 100%;
-
-    th, td {
-      border: none;
-      border-top: 1px solid var(--aic-rule);
-      padding: var(--aic-space-sm) var(--aic-space-sm) var(--aic-space-sm) 0;
-      text-align: left;
-      vertical-align: middle;
-    }
-    tr:first-child th, tr:first-child td { border-top: none; }
-    th {
-      width: 12rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      padding-right: var(--aic-space-md);
+    .o_aic_card_title { margin-bottom: 0.15rem; }
+    .o_aic_card_sub {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--aic-muted);
+      max-width: 34rem;
     }
   }
 
-  .o_aic_chip_row {
+  .o_aic_legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: 0.35rem;
+
+    .o_aic_legend_item {
+      font-size: 0.74rem;
+      padding: 0.1rem 0.5rem;
+      gap: 0.3rem;
+    }
+  }
+
+  .o_aic_dept {
+    border-top: 1px solid var(--aic-rule);
+    padding: var(--aic-space-md) 0;
+
+    &:first-of-type { border-top: none; padding-top: 0; }
+    &:last-of-type { padding-bottom: 0; }
+  }
+
+  .o_aic_dept_head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--aic-space-sm);
+    margin-bottom: var(--aic-space-sm);
+
+    .o_aic_dept_name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+    .o_aic_dept_counts {
+      display: flex;
+      gap: 0.3rem;
+
+      .o_aic_count {
+        font-family: var(--aic-font-data);
+        font-variant-numeric: tabular-nums;
+        font-size: 0.74rem;
+        padding: 0.1rem 0.45rem;
+        gap: 0.25rem;
+      }
+    }
+    .o_aic_dept_score {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--aic-space-sm);
+      font-size: 0.9rem;
+    }
+    .o_aic_dept_bar {
+      display: block;
+      width: 7rem;
+      height: 5px;
+      border-radius: 3px;
+      background: var(--aic-paper-3);
+      overflow: hidden;
+
+      span {
+        display: block;
+        height: 100%;
+        background: var(--aic-accent);
+      }
+    }
+  }
+
+  .o_aic_tile_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: 0.5rem;
+  }
+
+  .o_aic_tile {
+    display: block;
+    border-radius: var(--aic-radius);
+    padding: 0.45rem 0.6rem;
+    min-width: 0;
+
+    .o_aic_tile_top {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.2rem;
+    }
+    .o_aic_chip_value { margin-left: auto; }
+    .o_aic_tile_name {
+      font-size: 0.8rem;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+      // The RAG chip sets nowrap so a badge never breaks; a tile is not a
+      // badge, and a one-line objective name truncated mid-word is what
+      // made this panel unreadable in the first place.
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .o_aic_tile_grid { grid-template-columns: 1fr; }
+    .o_aic_dept_head .o_aic_dept_score { margin-left: 0; }
   }
 
   .o_aic_risk_rail {

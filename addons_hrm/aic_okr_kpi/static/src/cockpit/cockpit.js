@@ -86,18 +86,51 @@ export class AicHrmCockpit extends Component {
             checkinRate: krs.length ? freshKrs.length / krs.length : 0,
             objectiveCount: objectives.length,
         };
+        this.state.heatmapRows = this.buildHeatmap(objectives);
+        this.state.risks = risks;
+    }
+
+    /**
+     * Group objectives per department and give every row the two things a
+     * reader needs before any individual cell means anything: how the
+     * department is doing overall, and how many objectives sit in each
+     * band. Rows and cells are both ordered worst-first, so the eye lands
+     * on the problem instead of hunting for it.
+     */
+    buildHeatmap(objectives) {
+        const RANK = { red: 0, amber: 1, none: 2, green: 3 };
+        const unassigned = _t("Not assigned to a department");
         const byDepartment = new Map();
         for (const objective of objectives) {
             const key = objective.department_id
-                ? objective.department_id[1] : _t("No department");
+                ? objective.department_id[1] : unassigned;
             if (!byDepartment.has(key)) {
                 byDepartment.set(key, []);
             }
             byDepartment.get(key).push(objective);
         }
-        this.state.heatmapRows = [...byDepartment.entries()].map(
-            ([department, rows]) => ({ department, objectives: rows }));
-        this.state.risks = risks;
+        const rows = [...byDepartment.entries()].map(([department, list]) => {
+            const counts = { red: 0, amber: 0, green: 0, none: 0 };
+            let total = 0;
+            for (const objective of list) {
+                counts[objective.rag || "none"] += 1;
+                total += objective.score || 0;
+            }
+            list.sort((a, b) => (RANK[a.rag || "none"] - RANK[b.rag || "none"])
+                || ((a.score || 0) - (b.score || 0)));
+            return {
+                department,
+                objectives: list,
+                counts,
+                score: list.length ? total / list.length : 0,
+                isUnassigned: department === unassigned,
+            };
+        });
+        // Worst department first; the unassigned bucket is bookkeeping, not
+        // a business unit, so it never outranks a real one.
+        rows.sort((a, b) => (a.isUnassigned - b.isUnassigned)
+            || (a.score - b.score));
+        return rows;
     }
 
     formatPercent(value) {
@@ -112,6 +145,13 @@ export class AicHrmCockpit extends Component {
             none: _t("Not scored"),
         };
         return labels[rag] || labels.none;
+    }
+
+    /** Tooltip text for a heatmap cell: name, band and score in one line. */
+    cellTitle(objective) {
+        return `${objective.code} · ${objective.name} — `
+            + `${this.ragLabel(objective.rag)} `
+            + `(${this.formatPercent(objective.score)})`;
     }
 }
 
