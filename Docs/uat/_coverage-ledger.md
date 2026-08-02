@@ -69,9 +69,19 @@ Phân bố: base 44 · okr 128 · review 24 · library 10 · project 8 · sale 6
 | COV-COLLECT | U52 | Related guideline hiển thị trên target | (gián tiếp qua U47 + view load toàn suite) | DATA-01 | GREEN |
 | COV-BUTTONS | U53 | Header buttons load (view validate khi install) | suite install validation | — (Product) | GREEN |
 | COV-UX | U26/U27 | Design system: RAG shape+màu, 44px touch, responsive 320–768, reduced-motion | design.md gates + slop-test CP7 + tour Chrome | — (ISO 9241/WCAG) | UX |
+| COV-SCREENS-ALL | U54 | **Enumerate-from-DB toàn bộ bề mặt**: 35 menu → action → get_view mọi view_mode → search+read; Form() new-record mọi model có form (≥20); default_get 5 wizard; 2 client action; 5 cron trỏ method thật — màn hình thêm sau TỰ ĐỘNG bị quét | test_screen_smoke.py (5 test) | — (Product oracle) | GREEN/INSTALL |
+| COV-SCREENS-E2E | U55 | Browser walk màn hình lõi: Objectives, Key Results, KPI Targets, Check-ins, Scorecards, Cockpit, Alignment Tree render thật trên Chrome | tour `aic_okr_screens` (test_tour.test_screens_tour) | Personas J1/J2 | E2E |
 
-**Coverage tính từ bảng: 53/53 U-row có ≥1 cov_id; 0 TC mồ côi (mọi test file
+**Coverage tính từ bảng: 55/55 U-row có ≥1 cov_id; 0 TC mồ côi (mọi test file
 xuất hiện ≥1 dòng); GAP: 0.**
+
+**Kiểm kê bề mặt (enumerate từ code + DB, 2026-08-02):** 35 menu · 31
+act_window · 2 client action · 63 view · 44 model (trong đó ≥20 có form
+user-facing) · 5 wizard · 5 cron. Toàn bộ nằm trong COV-SCREENS-ALL (ORM
+level, tự liệt kê từ ir.model.data nên KHÔNG THỂ sót màn hình đã cài) +
+COV-SCREENS-E2E (browser). Bug thật bắt được bởi tầng này: mở form New Key
+Result crash khi chưa có cycle (`_compute_pace` trừ ngày trên record trống)
+— fix + regression full suite.
 
 ### ISO 25010 áp dụng
 Functional suitability (toàn bảng) · Security (COV-SEC-*, COV-360) · Performance

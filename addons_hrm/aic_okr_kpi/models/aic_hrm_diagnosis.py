@@ -40,6 +40,13 @@ class AicHrmKeyResultDiagnosis(models.Model):
         today = fields.Date.context_today(self)
         for kr in self:
             cycle = kr.cycle_id
+            if not cycle.date_start or not cycle.date_end:
+                # New records have no cycle yet - nothing to pace against.
+                kr.expected_progress = 0.0
+                kr.pace_gap = 0.0
+                kr.pace_status = 'not_started'
+                kr.required_run_rate_factor = 0.0
+                continue
             total_days = (cycle.date_end - cycle.date_start).days or 1
             elapsed_days = (today - cycle.date_start).days
             elapsed = min(max(elapsed_days / total_days, 0.0), 1.0)

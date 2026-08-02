@@ -1,4 +1,14 @@
-# 📊 KẾT QUẢ THỰC THI UAT — AIC HRM Pro suite (U01–U53)
+# 📊 KẾT QUẢ THỰC THI UAT — AIC HRM Pro suite (U01–U55)
+
+> **Bổ sung 2026-08-02 10:40 (yêu cầu "không sót màn hình/chức năng nào"):**
+> Thêm tầng phủ TOÀN BỘ bề mặt bằng liệt-kê-từ-DB — `test_screen_smoke.py`
+> (35 menu → action → mọi view_mode → search; Form() new-record mọi model có
+> form; default_get 5 wizard; 2 client action; 5 cron) + tour browser thứ hai
+> `aic_okr_screens` đi qua 7 màn hình lõi trên Chrome thật. Màn hình cài thêm
+> sau này TỰ ĐỘNG nằm trong vòng quét — không thể sót do liệt kê tay.
+> **Bug thật bắt được ngay lần chạy đầu:** mở form New Key Result crash
+> (`_compute_pace` trừ ngày khi record chưa có cycle) — S2, đã fix tận gốc,
+> smoke 5/5 + 2 tour PASS lại; full suite regression đang xác nhận (suite4).
 
 ## Header (traceability)
 - Build SHA: 19.0 @ `2ba0660` · 18.0 @ `b53540b` (đã push origin)

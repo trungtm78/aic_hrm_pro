@@ -64,3 +64,5 @@ bonus formula, mobile app — không thuộc UAT này.
 | U51 | Knowledge Guide: ≥10 bài built-in phủ đủ 6 nhóm chủ đề, company article tách khỏi built-in (record rule) | test_library.py | suite 19 2026-08-02 | PASS |
 | U52 | Hướng dẫn thu thập: collection_method/guideline trên KPI + tab "How to Collect" trên target (related) | view + related field (U47 gián tiếp) | suite 19 2026-08-02 | PASS |
 | U53 | Nút xây kế hoạch tại chỗ: "From Previous Cycle" + "From Library" + "Import Actuals" trên list Objectives/KPI Targets | view header buttons (load qua suite install) | suite 19 2026-08-02 | PASS |
+| U54 | TOÀN BỘ màn hình (enumerate từ DB — không sót): 35 menu→action→views→search, Form new-record mọi model, 5 wizard default_get, 2 client action, 5 cron | test_screen_smoke.py (5) | suite 19 2026-08-02 | PASS |
+| U55 | Browser walk màn hình lõi (KRs, Targets, Check-ins, Scorecards, Alignment) trên Chrome thật | tour aic_okr_screens | run 2026-08-02 03:40 | PASS |
