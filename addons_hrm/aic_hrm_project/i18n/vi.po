@@ -1,0 +1,132 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_project
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-02 08:09+0000\n"
+"PO-Revision-Date: 2026-08-02 08:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,help:aic_hrm_project.field_aic_hrm_key_result__task_progress_mode
+msgid ""
+"Automatic actuals from linked project tasks. 'Manual' never touches your "
+"figures."
+msgstr ""
+
+#. module: aic_hrm_project
+#: model:ir.model.fields.selection,name:aic_hrm_project.selection__aic_hrm_key_result__task_progress_mode__percent_done
+msgid "Current = % of tasks done"
+msgstr "Giá trị hiện tại = % công việc hoàn thành"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields.selection,name:aic_hrm_project.selection__aic_hrm_key_result__task_progress_mode__count_done
+msgid "Current = tasks done"
+msgstr "Giá trị hiện tại = số công việc hoàn thành"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,field_description:aic_hrm_project.field_aic_hrm_key_result__display_name
+#: model:ir.model.fields,field_description:aic_hrm_project.field_project_task__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,field_description:aic_hrm_project.field_aic_hrm_key_result__id
+#: model:ir.model.fields,field_description:aic_hrm_project.field_project_task__id
+msgid "ID"
+msgstr ""
+
+#. module: aic_hrm_project
+#: model:ir.model,name:aic_hrm_project.model_aic_hrm_key_result
+#: model:ir.model.fields,field_description:aic_hrm_project.field_project_task__aic_kr_id
+msgid "Key Result"
+msgstr "Kết quả then chốt"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,help:aic_hrm_project.field_project_task__aic_kr_id
+msgid ""
+"Key result this task delivers against. With an automatic progress mode on "
+"the key result, closing the task moves the score."
+msgstr ""
+
+#. module: aic_hrm_project
+#: model:ir.model.fields.selection,name:aic_hrm_project.selection__aic_hrm_key_result__task_progress_mode__off
+msgid "Manual figures"
+msgstr "Nhập tay"
+
+#. module: aic_hrm_project
+#: model:ir.actions.server,name:aic_hrm_project.cron_sync_task_progress_ir_actions_server
+msgid "Performance: sync KR progress from project tasks"
+msgstr "Hiệu suất: đồng bộ tiến độ KR từ công việc dự án"
+
+#. module: aic_hrm_project
+#: model_terms:ir.ui.view,arch_db:aic_hrm_project.view_kr_form_inherit_tasks
+msgid "Project Tasks"
+msgstr "Công việc dự án"
+
+#. module: aic_hrm_project
+#: model:ir.model,name:aic_hrm_project.model_project_task
+msgid "Task"
+msgstr "Nhiệm vụ"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,field_description:aic_hrm_project.field_aic_hrm_key_result__task_count
+msgid "Task Count"
+msgstr "Số công việc"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,field_description:aic_hrm_project.field_aic_hrm_key_result__task_done_count
+msgid "Task Done Count"
+msgstr "Số công việc hoàn thành"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,field_description:aic_hrm_project.field_aic_hrm_key_result__task_progress_mode
+msgid "Task Progress Mode"
+msgstr "Cách tính tiến độ từ công việc"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,field_description:aic_hrm_project.field_aic_hrm_key_result__task_ids
+msgid "Tasks"
+msgstr "Công việc"
+
+#. module: aic_hrm_project
+#: model_terms:ir.ui.view,arch_db:aic_hrm_project.view_kr_form_inherit_tasks
+msgid "Tasks done"
+msgstr "Số công việc hoàn thành"
+
+#. module: aic_hrm_project
+#: model_terms:ir.ui.view,arch_db:aic_hrm_project.view_kr_form_inherit_tasks
+msgid "Tasks linked"
+msgstr "Công việc đã liên kết"
+
+#. module: aic_hrm_project
+#: model:ir.model.fields,help:aic_hrm_project.field_project_task__display_name
+msgid ""
+"Use these keywords in the title to set new tasks:\n"
+"\n"
+"            #tags Set tags on the task\n"
+"            @user Assign the task to a user\n"
+"            ! Set the task a medium priority\n"
+"            !! Set the task a high priority\n"
+"            !!! Set the task a urgent priority\n"
+"\n"
+"            Make sure to use the right format and order e.g. Improve the configuration screen #feature #v16 @Mitchell !"
+msgstr ""
+"Sử dụng các từ khóa sau trong tiêu đề để tạo nhiệm vụ mới:\n"
+"\n"
+"        30h Phân bổ 30 giờ cho nhiệm vụ\n"
+"        #tags Gắn thẻ cho nhiệm vụ\n"
+"        @user Giao nhiệm vụ cho người dùng\n"
+"        ! Đặt mức ưu tiên trung bình cho nhiệm vụ\n"
+"        !! Đặt mức ưu tiên cao cho nhiệm vụ\n"
+"        !!! Đặt mức ưu tiên khẩn cấp cho nhiệm vụ\n"
+"\n"
+"        Đảm bảo sử dụng đúng định dạng và thứ tự. Ví dụ: Cải thiện màn hình cấu hình 5h #feature #v16 @Mitchell !"
