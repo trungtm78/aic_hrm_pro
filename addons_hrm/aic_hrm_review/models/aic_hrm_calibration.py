@@ -87,6 +87,15 @@ class AicHrmCalibrationLine(models.Model):
                 "Applied calibration lines are immutable audit records."))
         return super().write(vals)
 
+    def unlink(self):
+        # write() alone did not make the record immutable: deleting it
+        # removed the evidence just as well, and the manager ACL granted
+        # unlink. An audit record you can delete is not an audit record.
+        if self.filtered(lambda l: l.state == 'applied'):
+            raise ValidationError(_(
+                "Applied calibration lines are immutable audit records."))
+        return super().unlink()
+
     def action_apply(self):
         for line in self:
             if line.session_id.state == 'done':

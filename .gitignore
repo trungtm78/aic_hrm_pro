@@ -43,3 +43,6 @@ Docs/Gioi-thieu-he-thong*.html
 
 # Third-party proprietary themes (never commit)
 addons_third/
+
+# Security reports stay local: they name concrete unpatched holes.
+.gstack/
