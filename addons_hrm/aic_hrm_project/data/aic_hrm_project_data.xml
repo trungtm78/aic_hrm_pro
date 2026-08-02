@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Real work data becomes a legitimate metric source out of the box -->
+    <record id="metric_allowed_project_task" model="aic.hrm.metric.allowed.model">
+        <field name="model_id" ref="project.model_project_task"/>
+    </record>
+
+    <record id="cron_sync_task_progress" model="ir.cron">
+        <field name="name">Performance: sync KR progress from project tasks</field>
+        <field name="model_id" ref="aic_okr_kpi.model_aic_hrm_key_result"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_sync_task_progress()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

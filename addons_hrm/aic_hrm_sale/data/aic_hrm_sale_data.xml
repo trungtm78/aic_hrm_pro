@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="metric_allowed_sale_order" model="aic.hrm.metric.allowed.model">
+        <field name="model_id" ref="sale.model_sale_order"/>
+    </record>
+
+    <record id="metric_allowed_account_move" model="aic.hrm.metric.allowed.model">
+        <field name="model_id" ref="account.model_account_move"/>
+    </record>
+
+    <record id="cron_sync_sales_actuals" model="ir.cron">
+        <field name="name">Performance: sync sales KPI actuals</field>
+        <field name="model_id" ref="aic_okr_kpi.model_aic_hrm_kpi_target"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_sync_sales_actuals()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>
