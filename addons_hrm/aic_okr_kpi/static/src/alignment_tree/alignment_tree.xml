@@ -2,42 +2,65 @@
 <templates xml:space="preserve">
 
 <t t-name="aic_okr_kpi.AlignmentTreeNode">
-    <div>
-        <div class="o_aic_tree_node" t-attf-style="margin-left: {{ depth * 1.25 }}rem">
+    <div class="o_aic_node">
+        <div t-attf-class="o_aic_node_row o_aic_band o_aic_band_{{ node.rag || 'none' }}">
             <button class="o_aic_tree_toggle" t-on-click="() => this.toggle(node.id)"
                     t-att-aria-expanded="!state.collapsed[node.id] ? 'true' : 'false'"
                     t-if="node.children.length or node.krs.length">
                 <t t-esc="state.collapsed[node.id] ? '+' : '−'"/>
             </button>
-            <span class="o_aic_tree_toggle" t-else="" style="visibility: hidden"/>
-            <span class="o_aic_tree_code" t-esc="node.code"/>
-            <span class="o_aic_tree_name" t-esc="node.name"/>
-            <span t-attf-class="o_aic_rag o_aic_rag_{{ node.rag || 'none' }}">
+            <span class="o_aic_tree_toggle o_aic_tree_toggle_empty" t-else=""/>
+
+            <span class="o_aic_node_code" t-esc="node.code"/>
+
+            <div class="o_aic_node_main">
+                <div class="o_aic_node_name" t-esc="node.name"/>
+                <div class="o_aic_node_meta">
+                    <span t-esc="levelLabel(node.level)"/>
+                    <t t-if="node.department_id">
+                        · <t t-esc="node.department_id[1]"/>
+                    </t>
+                    <t t-if="node.weight">
+                        · weight <span class="o_aic_hrm_num"
+                                       t-esc="Math.round(node.weight)"/>%
+                    </t>
+                    <t t-if="node.objective_type === 'aspirational'">
+                        · <span class="o_aic_tag_soft">aspirational</span>
+                    </t>
+                    <t t-if="node.krs.length">
+                        · <t t-esc="node.krs.length"/> key result<t
+                            t-if="node.krs.length > 1">s</t>
+                    </t>
+                </div>
+            </div>
+
+            <div class="o_aic_node_score">
                 <span class="o_aic_rag_marker"/>
-            </span>
-            <span class="o_aic_hrm_num" t-esc="formatPercent(node.score)"/>
-            <span class="o_aic_tree_bar">
-                <span t-attf-style="width: {{ Math.min(100, Math.round((node.score || 0) * 100)) }}%"/>
-            </span>
+                <span class="o_aic_hrm_num o_aic_node_pct"
+                      t-esc="formatPercent(node.score)"/>
+                <span class="o_aic_meter">
+                    <span t-attf-style="width: {{ Math.min(100, Math.round((node.score || 0) * 100)) }}%"/>
+                </span>
+            </div>
         </div>
-        <t t-if="!state.collapsed[node.id]">
+
+        <div class="o_aic_node_children" t-if="!state.collapsed[node.id]">
             <div t-foreach="node.krs" t-as="kr" t-key="kr.id"
-                 class="o_aic_tree_node"
-                 t-attf-style="margin-left: {{ (depth + 1) * 1.25 + 2.5 }}rem">
-                <span class="o_aic_tree_code" t-esc="kr.code"/>
-                <span class="o_aic_tree_name">
-                    <t t-esc="kr.name"/>
-                    <span class="text-muted" t-if="kr.employee_id">
-                        · <t t-esc="kr.employee_id[1]"/>
-                    </span>
-                </span>
-                <span t-attf-class="o_aic_rag o_aic_rag_{{ kr.rag || 'none' }}">
+                 t-attf-class="o_aic_kr_row o_aic_band o_aic_band_{{ kr.rag || 'none' }}">
+                <span class="o_aic_kr_code" t-esc="kr.code"/>
+                <div class="o_aic_kr_main">
+                    <span class="o_aic_kr_name" t-esc="kr.name"/>
+                    <span class="o_aic_kr_owner" t-if="kr.employee_id"
+                          t-esc="kr.employee_id[1]"/>
+                </div>
+                <div class="o_aic_node_score">
                     <span class="o_aic_rag_marker"/>
-                </span>
-                <span class="o_aic_hrm_num" t-esc="formatPercent(kr.progress)"/>
-                <span class="o_aic_tree_bar">
-                    <span t-attf-style="width: {{ Math.min(100, Math.round((kr.progress || 0) * 100)) }}%"/>
-                </span>
+                    <span class="o_aic_hrm_num o_aic_node_pct"
+                          t-esc="formatPercent(kr.progress)"/>
+                    <span class="o_aic_meter">
+                        <span t-attf-style="width: {{ Math.min(100, Math.round((kr.progress || 0) * 100)) }}%"/>
+                    </span>
+                </div>
             </div>
             <t t-foreach="node.children" t-as="child" t-key="child.id">
                 <t t-call="aic_okr_kpi.AlignmentTreeNode">
@@ -45,7 +68,7 @@
                     <t t-set="depth" t-value="depth + 1"/>
                 </t>
             </t>
-        </t>
+        </div>
     </div>
 </t>
 
@@ -67,18 +90,61 @@
                 </t>
             </select>
         </header>
+
         <div t-if="state.loading" class="o_aic_empty">Loading…</div>
         <div t-elif="!state.roots.length" class="o_aic_empty">
             No objectives in this cycle yet — import the spreadsheet or add objectives.
         </div>
-        <div t-else="" class="o_aic_card o_aic_tree_scroll">
-            <t t-foreach="state.roots" t-as="root" t-key="root.id">
-                <t t-call="aic_okr_kpi.AlignmentTreeNode">
-                    <t t-set="node" t-value="root"/>
-                    <t t-set="depth" t-value="0"/>
+        <t t-else="">
+            <div class="o_aic_tree_summary" t-if="state.summary">
+                <div class="o_aic_tree_stat">
+                    <span class="o_aic_hrm_num o_aic_tree_stat_value"
+                          t-esc="formatPercent(state.summary.score)"/>
+                    <span class="o_aic_tree_stat_label">Weighted roll-up</span>
+                </div>
+                <div class="o_aic_tree_stat">
+                    <span class="o_aic_hrm_num o_aic_tree_stat_value"
+                          t-esc="state.summary.objectives"/>
+                    <span class="o_aic_tree_stat_label">Objectives</span>
+                </div>
+                <div class="o_aic_tree_stat">
+                    <span class="o_aic_hrm_num o_aic_tree_stat_value"
+                          t-esc="state.summary.keyResults"/>
+                    <span class="o_aic_tree_stat_label">Key results</span>
+                </div>
+                <div class="o_aic_tree_bands">
+                    <span t-if="state.summary.counts.red"
+                          class="o_aic_rag o_aic_rag_red o_aic_count">
+                        <span class="o_aic_rag_marker"/>
+                        <t t-esc="state.summary.counts.red"/> off track
+                    </span>
+                    <span t-if="state.summary.counts.amber"
+                          class="o_aic_rag o_aic_rag_amber o_aic_count">
+                        <span class="o_aic_rag_marker"/>
+                        <t t-esc="state.summary.counts.amber"/> at risk
+                    </span>
+                    <span t-if="state.summary.counts.green"
+                          class="o_aic_rag o_aic_rag_green o_aic_count">
+                        <span class="o_aic_rag_marker"/>
+                        <t t-esc="state.summary.counts.green"/> on track
+                    </span>
+                    <span t-if="state.summary.counts.none"
+                          class="o_aic_rag o_aic_rag_none o_aic_count">
+                        <span class="o_aic_rag_marker"/>
+                        <t t-esc="state.summary.counts.none"/> not scored
+                    </span>
+                </div>
+            </div>
+
+            <div class="o_aic_card o_aic_tree_scroll">
+                <t t-foreach="state.roots" t-as="root" t-key="root.id">
+                    <t t-call="aic_okr_kpi.AlignmentTreeNode">
+                        <t t-set="node" t-value="root"/>
+                        <t t-set="depth" t-value="0"/>
+                    </t>
                 </t>
-            </t>
-        </div>
+            </div>
+        </t>
     </div>
 </t>
 

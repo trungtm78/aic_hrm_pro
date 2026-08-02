@@ -68,6 +68,33 @@
     }
   }
 
+  /* The marker is also used outside the badge - on tree rows, which are
+     full-width and must not inherit the pill chrome. Same shapes, keyed
+     on the band modifier alone. */
+  .o_aic_band .o_aic_rag_marker {
+    width: 0.7rem;
+    height: 0.7rem;
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+  .o_aic_band_green .o_aic_rag_marker {
+    background: var(--aic-status-green);
+    border-radius: 50%;
+  }
+  .o_aic_band_amber .o_aic_rag_marker {
+    background: var(--aic-status-amber);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+  .o_aic_band_red .o_aic_rag_marker {
+    background: var(--aic-status-red);
+    border-radius: 1px;
+  }
+  .o_aic_band_none .o_aic_rag_marker {
+    border: 1px solid var(--aic-status-neutral);
+    border-radius: 50%;
+    background: transparent;
+  }
+
   /* ---- page head ---- */
   .o_aic_page_head {
     display: flex;
@@ -323,87 +350,206 @@
     text-align: center;
   }
 
-  /* ---- alignment tree ---- */
-  .o_aic_tree_scroll {
-    overflow-x: auto;
+  .o_aic_tree_scroll { overflow-x: auto; }
 
-    .o_aic_tree_node {
-      border-top: 1px solid var(--aic-rule);
-      padding: 0.55rem 0;
-    }
-    .o_aic_tree_node:first-child { border-top: none; }
-    .o_aic_tree_code {
-      font-family: var(--aic-font-data);
-      font-variant-numeric: tabular-nums;
+  /* ---- alignment tree ----
+     The old version was a flat list: an objective and one of its key
+     results looked the same, every meter was the same steel colour
+     whatever the band said, and nothing showed that a parent score is
+     made of its children. Now the hierarchy is drawn (a rail with elbow
+     connectors), the parent row carries the weight that produced the
+     roll-up, and the meter takes its colour from the band so the number,
+     the shape and the bar all say the same thing. */
+  .o_aic_tree_summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--aic-space-lg);
+    padding: var(--aic-space-sm) var(--aic-space-md);
+    margin-bottom: var(--aic-space-md);
+    border: 1px solid var(--aic-rule);
+    border-radius: var(--aic-radius);
+    background: var(--aic-paper-2);
+
+    .o_aic_tree_stat_value {
+      font-size: 1.35rem;
       font-weight: 600;
-      font-size: 0.82rem;
-      padding: 0.15rem 0.5rem;
-      border: 1px solid var(--aic-rule);
-      border-radius: 999px;
-      background: var(--aic-paper);
-      white-space: nowrap;
+      line-height: 1.1;
+      display: block;
     }
-    .o_aic_tree_name { font-size: 0.92rem; }
+    .o_aic_tree_stat_label {
+      font-size: 0.74rem;
+      color: var(--aic-muted);
+      letter-spacing: 0.02em;
+    }
+    .o_aic_tree_bands {
+      margin-left: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+
+      .o_aic_count {
+        font-size: 0.74rem;
+        padding: 0.12rem 0.5rem;
+        gap: 0.3rem;
+      }
+    }
   }
 
-  .o_aic_tree_node {
+  .o_aic_node { min-width: 0; }
+
+  .o_aic_node_row {
     display: flex;
     align-items: center;
     gap: var(--aic-space-sm);
     min-height: 44px;
-    padding: var(--aic-space-2xs) var(--aic-space-xs);
-    border-left: 2px solid var(--aic-rule);
-    transition: opacity var(--aic-dur) var(--aic-ease-out);
+    padding: 0.45rem var(--aic-space-sm);
+    margin-top: var(--aic-space-xs);
+    border: 1px solid var(--aic-rule);
+    border-left-width: 3px;
+    border-radius: var(--aic-radius);
+    background: var(--aic-paper);
+    transition: background var(--aic-dur) var(--aic-ease-out);
 
     &:hover { background: var(--aic-paper-2); }
 
-    .o_aic_tree_toggle {
-      background: none;
-      border: 1px solid var(--aic-rule);
-      border-radius: var(--aic-radius);
-      /* 44px touch floor (design.md § Responsive) */
-      min-width: 2.75rem;
-      min-height: 2.75rem;
-      cursor: pointer;
-      color: var(--aic-ink-2);
+    &.o_aic_band_red { border-left-color: var(--aic-status-red); }
+    &.o_aic_band_amber { border-left-color: var(--aic-status-amber); }
+    &.o_aic_band_green { border-left-color: var(--aic-status-green); }
+    &.o_aic_band_none { border-left-color: var(--aic-rule); }
+  }
 
-      &:focus-visible {
-        outline: 2px solid var(--aic-focus);
-        outline-offset: 1px;
-      }
-    }
+  .o_aic_node_code {
+    font-family: var(--aic-font-data);
+    font-size: 0.78rem;
+    color: var(--aic-ink-2);
+    background: var(--aic-paper-2);
+    border: 1px solid var(--aic-rule);
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+    white-space: nowrap;
+  }
 
-    .o_aic_tree_code {
-      font-family: var(--aic-font-data);
-      color: var(--aic-muted);
-      font-size: 0.85rem;
-      min-width: 3.5rem;
-    }
-    .o_aic_tree_name {
-      min-width: 0;
+  .o_aic_node_main {
+    flex: 1 1 12rem;
+    min-width: 0;
+
+    .o_aic_node_name {
+      font-weight: 600;
+      font-size: 0.95rem;
       overflow-wrap: anywhere;
-      flex: 1 1 12rem;
     }
-    .o_aic_tree_bar {
-      flex: 0 0 6rem;
-      height: 0.4rem;
-      background: var(--aic-paper-3);
-      border-radius: 2px;
-      overflow: hidden;
+    .o_aic_node_meta {
+      font-size: 0.76rem;
+      color: var(--aic-muted);
+      margin-top: 0.1rem;
+    }
+  }
 
-      span {
-        display: block;
-        height: 100%;
-        background: var(--aic-accent);
+  .o_aic_tag_soft {
+    border: 1px solid var(--aic-rule);
+    border-radius: 999px;
+    padding: 0 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  .o_aic_node_score {
+    display: flex;
+    align-items: center;
+    gap: var(--aic-space-sm);
+    flex: 0 0 auto;
+
+    .o_aic_node_pct {
+      /* Fixed width so every percentage lines up in one column. */
+      min-width: 3rem;
+      text-align: right;
+      font-size: 0.9rem;
+    }
+  }
+
+  .o_aic_meter {
+    flex: 0 0 7rem;
+    height: 0.45rem;
+    background: var(--aic-paper-3);
+    border-radius: 3px;
+    overflow: hidden;
+
+    span { display: block; height: 100%; background: var(--aic-muted); }
+  }
+  .o_aic_band_red .o_aic_meter span { background: var(--aic-status-red); }
+  .o_aic_band_amber .o_aic_meter span { background: var(--aic-status-amber); }
+  .o_aic_band_green .o_aic_meter span { background: var(--aic-status-green); }
+
+  .o_aic_node_children {
+    margin-left: 1.6rem;
+    padding-left: 1.1rem;
+    border-left: 1px solid var(--aic-rule);
+  }
+
+  .o_aic_kr_row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--aic-space-sm);
+    min-height: 40px;
+    padding: 0.3rem var(--aic-space-sm) 0.3rem 0;
+
+    /* the elbow that ties a key result to its objective's rail */
+    &::before {
+      content: "";
+      position: absolute;
+      left: -1.1rem;
+      top: 50%;
+      width: 0.85rem;
+      border-top: 1px solid var(--aic-rule);
+    }
+
+    .o_aic_kr_code {
+      font-family: var(--aic-font-data);
+      font-size: 0.74rem;
+      color: var(--aic-muted);
+      min-width: 4.2rem;
+    }
+    .o_aic_kr_main {
+      flex: 1 1 10rem;
+      min-width: 0;
+
+      .o_aic_kr_name {
+        font-size: 0.88rem;
+        overflow-wrap: anywhere;
+      }
+      .o_aic_kr_owner {
+        font-size: 0.76rem;
+        color: var(--aic-muted);
+        margin-left: 0.4rem;
       }
     }
   }
+
+  .o_aic_tree_toggle {
+    background: none;
+    border: 1px solid var(--aic-rule);
+    border-radius: var(--aic-radius);
+    min-width: 1.9rem;
+    min-height: 1.9rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--aic-ink-2);
+
+    &:focus-visible {
+      outline: 2px solid var(--aic-focus);
+      outline-offset: 1px;
+    }
+  }
+  .o_aic_tree_toggle_empty { visibility: hidden; }
 
   /* ---- mobile collapse (design.md: verified 320/375/414/768) ---- */
   @media (max-width: 768px) {
     .o_aic_cockpit_body { grid-template-columns: minmax(0, 1fr); }
     .o_aic_health_strip { grid-template-columns: 1fr 1fr; }
-    .o_aic_tree_node .o_aic_tree_bar { flex-basis: 4rem; }
+    .o_aic_meter { flex-basis: 4rem; }
+    .o_aic_tree_summary { gap: var(--aic-space-sm); }
+    .o_aic_tree_bands { margin-left: 0; }
   }
   @media (max-width: 414px) {
     .o_aic_health_strip { grid-template-columns: 1fr; }
