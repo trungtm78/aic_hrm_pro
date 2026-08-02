@@ -874,3 +874,84 @@ msgstr ""
 
 msgid "Wildly Important Goal"
 msgstr "Mục tiêu tối quan trọng"
+
+msgid "Achievement"
+msgstr "Mức đạt"
+
+msgid "Active"
+msgstr "Đang dùng"
+
+msgid "Actual"
+msgstr "Thực tế"
+
+msgid "Aggregation"
+msgstr "Cách tổng hợp"
+
+msgid "Approved"
+msgstr "Đã duyệt"
+
+msgid "Code"
+msgstr "Mã"
+
+msgid "Cycle"
+msgstr "Chu kỳ"
+
+msgid "Data Source"
+msgstr "Nguồn dữ liệu"
+
+msgid "Date"
+msgstr "Ngày"
+
+msgid "Definition"
+msgstr "Định nghĩa"
+
+msgid "Description"
+msgstr "Mô tả"
+
+msgid "Direction"
+msgstr "Chiều đo"
+
+msgid "Draft"
+msgstr "Nháp"
+
+msgid "Employee"
+msgstr "Nhân viên"
+
+msgid "Formula"
+msgstr "Công thức"
+
+msgid "Frequency"
+msgstr "Tần suất"
+
+msgid "KRs"
+msgstr "KR"
+
+msgid "Level"
+msgstr "Cấp"
+
+msgid "Monthly"
+msgstr "Hằng tháng"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "Note"
+msgstr "Ghi chú"
+
+msgid "Notes"
+msgstr "Ghi chú"
+
+msgid "Owner"
+msgstr "Chủ sở hữu"
+
+msgid "Score"
+msgstr "Điểm"
+
+msgid "Sequence"
+msgstr "Thứ tự"
+
+msgid "State"
+msgstr "Trạng thái"
+
+msgid "Visibility"
+msgstr "Hiển thị"

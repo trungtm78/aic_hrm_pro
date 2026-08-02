@@ -1,0 +1,59 @@
+#
+msgid ""
+msgstr ""
+"Language: vi\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Active"
+msgstr "Đang dùng"
+
+msgid "Closed"
+msgstr "Đóng"
+
+msgid "Company"
+msgstr "Công ty"
+
+msgid "Date"
+msgstr "Ngày"
+
+msgid "Deadline"
+msgstr "Hạn chót"
+
+msgid "Department"
+msgstr "Phòng ban"
+
+msgid "Done"
+msgstr "Hoàn tất"
+
+msgid "Draft"
+msgstr "Nháp"
+
+msgid "Employee"
+msgstr "Nhân viên"
+
+msgid "In Progress"
+msgstr "Đang thực hiện"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "Note"
+msgstr "Ghi chú"
+
+msgid "Open"
+msgstr "Mở"
+
+msgid "Owner"
+msgstr "Chủ sở hữu"
+
+msgid "Review"
+msgstr "Rà soát"
+
+msgid "Sequence"
+msgstr "Thứ tự"
+
+msgid "State"
+msgstr "Trạng thái"
+
+msgid "Submitted"
+msgstr "Đã gửi"

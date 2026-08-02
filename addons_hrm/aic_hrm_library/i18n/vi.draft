@@ -391,3 +391,54 @@ msgstr ""
 
 msgid "Writing key results that can be scored"
 msgstr "Viết kết quả then chốt chấm điểm được"
+
+msgid "Active"
+msgstr "Đang dùng"
+
+msgid "Aspirational"
+msgstr "Khát vọng"
+
+msgid "Code"
+msgstr "Mã"
+
+msgid "Committed"
+msgstr "Cam kết"
+
+msgid "Company"
+msgstr "Công ty"
+
+msgid "Cycle"
+msgstr "Chu kỳ"
+
+msgid "Department"
+msgstr "Phòng ban"
+
+msgid "Description"
+msgstr "Mô tả"
+
+msgid "Direction"
+msgstr "Chiều đo"
+
+msgid "Employee"
+msgstr "Nhân viên"
+
+msgid "Higher is better"
+msgstr "Càng cao càng tốt"
+
+msgid "Lower is better"
+msgstr "Càng thấp càng tốt"
+
+msgid "Milestones"
+msgstr "Cột mốc"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "Sequence"
+msgstr "Thứ tự"
+
+msgid "Unit"
+msgstr "Đơn vị"
+
+msgid "Weight"
+msgstr "Trọng số"

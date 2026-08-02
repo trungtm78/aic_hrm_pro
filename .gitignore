@@ -36,3 +36,7 @@ test-claude-hook.bat
 
 # Generated 18.0 build (repo branch 18.0 is populated from it at phase ends)
 build/
+
+# Local customer-data documentation (never commit)
+Docs/gioi-thieu-assets/
+Docs/Gioi-thieu-he-thong*.html

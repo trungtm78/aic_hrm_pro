@@ -87,7 +87,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__active
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__active
 msgid "Active"
-msgstr ""
+msgstr "Đang dùng"
 
 #. module: aic_hrm_library
 #: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_industries
@@ -114,7 +114,7 @@ msgstr "Áp dụng gói thư viện"
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_objective_template__objective_type__aspirational
 msgid "Aspirational"
-msgstr ""
+msgstr "Khát vọng"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__perspective_id
@@ -176,7 +176,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__code
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__code
 msgid "Code"
-msgstr ""
+msgstr "Mã"
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_collecting_actuals
@@ -186,14 +186,14 @@ msgstr "Thu thập số liệu thực tế: tự động, import, nhập tay"
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_objective_template__objective_type__committed
 msgid "Committed"
-msgstr ""
+msgstr "Cam kết"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__company_id
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__company_id
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__company_id
 msgid "Company"
-msgstr ""
+msgstr "Công ty"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__content
@@ -240,7 +240,7 @@ msgstr "Liên ngành"
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__cycle_id
 msgid "Cycle"
-msgstr ""
+msgstr "Chu kỳ"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__data
@@ -261,18 +261,18 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__department_id
 msgid "Department"
-msgstr ""
+msgstr "Phòng ban"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__description
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__description
 msgid "Description"
-msgstr ""
+msgstr "Mô tả"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__direction
 msgid "Direction"
-msgstr ""
+msgstr "Chiều đo"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__display_name
@@ -308,7 +308,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__employee_id
 msgid "Employee"
-msgstr ""
+msgstr "Nhân viên"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_knowledge_article__industry_ids
@@ -387,7 +387,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__direction__higher
 msgid "Higher is better"
-msgstr ""
+msgstr "Càng cao càng tốt"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__id
@@ -538,7 +538,7 @@ msgstr "Vai trò thư viện"
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__direction__lower
 msgid "Lower is better"
-msgstr ""
+msgstr "Càng thấp càng tốt"
 
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_knowledge_article
@@ -558,7 +558,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__metric_type__milestone
 msgid "Milestones"
-msgstr ""
+msgstr "Cột mốc"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__name
@@ -567,7 +567,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__name
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__name
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #. module: aic_hrm_library
 #. odoo-python
@@ -773,7 +773,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__sequence
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Thứ tự"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_objective_template__is_builtin
@@ -869,7 +869,7 @@ msgstr "Thói quen check-in: giá trị, độ tự tin, vướng mắc"
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__unit
 msgid "Unit"
-msgstr ""
+msgstr "Đơn vị"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__library
@@ -879,7 +879,7 @@ msgstr "Sử dụng thư viện"
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__weight
 msgid "Weight"
-msgstr ""
+msgstr "Trọng số"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__description
