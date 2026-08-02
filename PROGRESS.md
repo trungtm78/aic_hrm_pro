@@ -1,7 +1,15 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 
 # PROGRESS
 Cập nhật: 2026-08-02T10:35:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS HOÀN TẤT + UAT §9 PASS 100%
+
+## ĐỢT GIAO DIỆN & TÀI LIỆU KHÁCH HÀNG (2026-08-02 chiều)
+- [x] i18n: ~70 nhãn UI phổ dụng + vi.po đầu tiên cho aic_hrm_review (commit a23ec81; 18.0 sync b1e52a0 SẠCH sau sự cố rò rỉ đã xử lý).
+- [x] Theme: rà toàn bộ C:\AIConnect — bản Spiffy mới nhất là **aic_sale_pro_theme 19.0.1.9.7** (AIC_Sale Pro, kế thừa Spiffy 1.9.7 + style Executive) → đã gỡ spiffy 1.9 và cài bản này vào addons_third/ (GITIGNORE, không commit vì proprietary).
+- [x] Nhận diện: logo wordmark "AIC HRM Pro / OKR · KPI · Performance Suite" thay logo Spiffy trên sidebar; PWA + tên công ty + màu #274690/#1c2a4a; 3 icon module vẽ lại (commit a8144af).
+- [x] Redesign cockpit + alignment tree theo design system (page head, thẻ số liệu tabular, heatmap chip bo tròn tách mã/điểm, risk rail 2 dòng, cây liên kết có card + hairline) — test dashboard xanh, commit a8144af.
+- [~] ĐANG CHẠY: chụp lại 51 ảnh (task beh800xd7) với UI mới → cập nhật Docs/Gioi-thieu-he-thong-AIC-HRM-Pro.html (đã có flow toàn hệ + 11 flow nghiệp vụ + dữ liệu mức bản ghi + bằng chứng E2E) → gửi khách.
+BƯỚC TIẾP THEO: đợi beh800xd7 → xác minh ảnh → gửi tài liệu → push 19.0 → sync 18.0 (LUÔN checkout .gitignore trước) → push 18.0.
 
 ## MỞ RỘNG SAU BÀN GIAO (2026-08-02, theo loạt yêu cầu mới của user)
 - [x] Đợt 1 — commit 76987c7 (214 test xanh): diagnosis engine (pace/run-rate/khuyến nghị); module MỚI aic_hrm_library (13 vai trò × 4 ngành, 26 obj templates + 78 KR + 52 KPI, playbook thu thập dữ liệu/vai trò, wizard Apply + Capture); nút "From Previous Cycle"/"From Library" trên list Objectives & KPI Targets; collection_method/guideline trên KPI + tab "How to Collect" trên target; wizard Import Actuals (CSV/XLSX, manual thắng, không đụng confirmed); 5 cấp mục tiêu (company/branch/department/team/individual) + model aic.hrm.team + constraint anchor theo level.
