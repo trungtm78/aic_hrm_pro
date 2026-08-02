@@ -3433,3 +3433,21 @@ msgstr "Bản đồ nhiệt theo phòng ban"
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "How every key result rolls up into the company plan"
 msgstr "Mỗi kết quả then chốt cộng dồn lên kế hoạch công ty như thế nào"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "One tile per objective, worst first. The band comes from the cycle's thresholds, not from opinion."
+msgstr "Mỗi ô là một mục tiêu, xấu xếp trước. Màu lấy theo ngưỡng của chu kỳ, không theo cảm tính."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Not assigned to a department"
+msgstr "Chưa gán phòng ban"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "needs an owner"
+msgstr "cần có chủ sở hữu"

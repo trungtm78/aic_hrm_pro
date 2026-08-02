@@ -46,33 +46,88 @@
 
             <div class="o_aic_cockpit_body">
                 <section class="o_aic_card">
-                    <h5 class="o_aic_card_title">Department heatmap</h5>
-                    <div class="o_aic_heatmap_scroll">
-                        <table class="o_aic_heatmap">
-                            <tbody>
-                                <tr t-foreach="state.heatmapRows" t-as="row" t-key="row.department">
-                                    <th t-esc="row.department"/>
-                                    <td>
-                                        <div class="o_aic_chip_row">
-                                            <span t-foreach="row.objectives" t-as="objective"
-                                                  t-key="objective.id"
-                                                  t-attf-class="o_aic_rag o_aic_rag_{{ objective.rag || 'none' }}"
-                                                  t-att-title="objective.name">
-                                                <span class="o_aic_rag_marker"/>
-                                                <span class="o_aic_chip_code" t-esc="objective.code"/>
-                                                <span class="o_aic_chip_value"
-                                                      t-esc="formatPercent(objective.score)"/>
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr t-if="!state.heatmapRows.length">
-                                    <td colspan="2" class="o_aic_empty">
-                                        No objectives in this cycle yet — import the spreadsheet or add objectives.
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <header class="o_aic_card_head">
+                        <div>
+                            <h5 class="o_aic_card_title">Department heatmap</h5>
+                            <!-- Kept on one line on purpose: the translation
+                                 key is the literal text node, so wrapping it
+                                 for readability would stop it matching. -->
+                            <p class="o_aic_card_sub">One tile per objective, worst first. The band comes from the cycle's thresholds, not from opinion.</p>
+                        </div>
+                        <div class="o_aic_legend">
+                            <span class="o_aic_rag o_aic_rag_red o_aic_legend_item">
+                                <span class="o_aic_rag_marker"/>Off track
+                            </span>
+                            <span class="o_aic_rag o_aic_rag_amber o_aic_legend_item">
+                                <span class="o_aic_rag_marker"/>At risk
+                            </span>
+                            <span class="o_aic_rag o_aic_rag_green o_aic_legend_item">
+                                <span class="o_aic_rag_marker"/>On track
+                            </span>
+                            <span class="o_aic_rag o_aic_rag_none o_aic_legend_item">
+                                <span class="o_aic_rag_marker"/>Not scored
+                            </span>
+                        </div>
+                    </header>
+
+                    <div t-foreach="state.heatmapRows" t-as="row"
+                         t-key="row.department" class="o_aic_dept">
+                        <div class="o_aic_dept_head">
+                            <div class="o_aic_dept_name">
+                                <t t-esc="row.department"/>
+                                <span t-if="row.isUnassigned" class="o_aic_tag_stale">
+                                    needs an owner
+                                </span>
+                            </div>
+                            <div class="o_aic_dept_counts">
+                                <span t-if="row.counts.red"
+                                      class="o_aic_rag o_aic_rag_red o_aic_count">
+                                    <span class="o_aic_rag_marker"/>
+                                    <t t-esc="row.counts.red"/>
+                                </span>
+                                <span t-if="row.counts.amber"
+                                      class="o_aic_rag o_aic_rag_amber o_aic_count">
+                                    <span class="o_aic_rag_marker"/>
+                                    <t t-esc="row.counts.amber"/>
+                                </span>
+                                <span t-if="row.counts.green"
+                                      class="o_aic_rag o_aic_rag_green o_aic_count">
+                                    <span class="o_aic_rag_marker"/>
+                                    <t t-esc="row.counts.green"/>
+                                </span>
+                                <span t-if="row.counts.none"
+                                      class="o_aic_rag o_aic_rag_none o_aic_count">
+                                    <span class="o_aic_rag_marker"/>
+                                    <t t-esc="row.counts.none"/>
+                                </span>
+                            </div>
+                            <div class="o_aic_dept_score">
+                                <span class="o_aic_hrm_num"
+                                      t-esc="formatPercent(row.score)"/>
+                                <span class="o_aic_dept_bar">
+                                    <span t-attf-style="width: {{ Math.min(100, Math.round((row.score || 0) * 100)) }}%"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="o_aic_tile_grid">
+                            <div t-foreach="row.objectives" t-as="objective"
+                                 t-key="objective.id"
+                                 t-attf-class="o_aic_tile o_aic_rag o_aic_rag_{{ objective.rag || 'none' }}"
+                                 t-att-title="cellTitle(objective)">
+                                <div class="o_aic_tile_top">
+                                    <span class="o_aic_rag_marker"/>
+                                    <span class="o_aic_chip_code" t-esc="objective.code"/>
+                                    <span class="o_aic_chip_value o_aic_hrm_num"
+                                          t-esc="formatPercent(objective.score)"/>
+                                </div>
+                                <div class="o_aic_tile_name" t-esc="objective.name"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div t-if="!state.heatmapRows.length" class="o_aic_empty">
+                        No objectives in this cycle yet — import the spreadsheet or add objectives.
                     </div>
                 </section>
 

@@ -3367,3 +3367,21 @@ msgstr ""
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "How every key result rolls up into the company plan"
 msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "One tile per objective, worst first. The band comes from the cycle's thresholds, not from opinion."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Not assigned to a department"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "needs an owner"
+msgstr ""
