@@ -32,12 +32,12 @@ Provides:
         'data/aic_hrm_kpi_templates.xml',
         'data/aic_hrm_import_terms.xml',
         'data/aic_hrm_cron.xml',
+        'wizard/aic_hrm_wizard_views.xml',
         'views/aic_hrm_objective_views.xml',
         'views/aic_hrm_kpi_views.xml',
         'views/aic_hrm_assignment_views.xml',
         'views/aic_hrm_monitoring_views.xml',
         'views/aic_hrm_dashboard_actions.xml',
-        'wizard/aic_hrm_wizard_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

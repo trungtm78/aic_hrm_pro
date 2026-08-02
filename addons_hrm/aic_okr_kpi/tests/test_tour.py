@@ -15,7 +15,8 @@ class TestDemoTour(HttpCase):
         })
         cycle.action_open()
         objective = self.env['aic.hrm.objective'].create({
-            'name': 'Tour objective', 'cycle_id': cycle.id, 'weight': 100,
+            'name': 'Tour objective', 'cycle_id': cycle.id,
+            'level': 'company', 'weight': 100,
         })
         self.env['aic.hrm.key.result'].create({
             'name': 'Tour KR', 'objective_id': objective.id,

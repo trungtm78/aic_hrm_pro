@@ -6,12 +6,20 @@
         <field name="model">aic.hrm.objective</field>
         <field name="arch" type="xml">
             <list decoration-muted="state == 'done'">
+                <header>
+                    <button name="%(action_aic_hrm_rollover_wizard)d"
+                            type="action" string="From Previous Cycle"
+                            display="always"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                </header>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="cycle_id"/>
                 <field name="level" optional="show"/>
                 <field name="employee_id" optional="show"/>
                 <field name="department_id" optional="hide"/>
+                <field name="team_id" optional="hide"/>
+                <field name="branch_id" optional="hide"/>
                 <field name="weight" optional="show"/>
                 <field name="kr_count" string="KRs"/>
                 <field name="score" widget="percentage" optional="show"/>
@@ -64,8 +72,14 @@
                             <field name="visibility"/>
                         </group>
                         <group>
-                            <field name="employee_id"/>
-                            <field name="department_id"/>
+                            <field name="branch_id" invisible="level != 'branch'"
+                                   required="level == 'branch'"/>
+                            <field name="team_id" invisible="level != 'team'"
+                                   required="level == 'team'"/>
+                            <field name="employee_id"
+                                   required="level == 'individual'"/>
+                            <field name="department_id"
+                                   required="level == 'department'"/>
                             <field name="weight"/>
                             <field name="score" widget="percentage"/>
                             <field name="rag"/>
@@ -120,7 +134,22 @@
                 <filter string="In Progress" name="in_progress"
                         domain="[('state', '=', 'in_progress')]"/>
                 <filter string="At Risk" name="at_risk" domain="[('rag', '=', 'red')]"/>
+                <separator/>
+                <filter string="Company" name="level_company"
+                        domain="[('level', '=', 'company')]"/>
+                <filter string="Branch" name="level_branch"
+                        domain="[('level', '=', 'branch')]"/>
+                <filter string="Department" name="level_department"
+                        domain="[('level', '=', 'department')]"/>
+                <filter string="Team" name="level_team"
+                        domain="[('level', '=', 'team')]"/>
+                <filter string="Individual" name="level_individual"
+                        domain="[('level', '=', 'individual')]"/>
                 <group>
+                    <filter string="Level" name="group_level" domain="[]"
+                            context="{'group_by': 'level'}"/>
+                    <filter string="Team" name="group_team" domain="[]"
+                            context="{'group_by': 'team_id'}"/>
                     <filter string="Cycle" name="group_cycle" domain="[]"
                             context="{'group_by': 'cycle_id'}"/>
                     <filter string="Department" name="group_department" domain="[]"
@@ -193,6 +222,18 @@
                             <field name="rag"/>
                             <field name="deadline"/>
                             <field name="focus_quarters"/>
+                        </group>
+                    </group>
+                    <group string="Progress Diagnosis">
+                        <group>
+                            <field name="pace_status" widget="badge"
+                                   decoration-danger="pace_status == 'behind'"
+                                   decoration-success="pace_status == 'ahead'"/>
+                            <field name="expected_progress" widget="percentage"/>
+                            <field name="required_run_rate_factor"/>
+                        </group>
+                        <group>
+                            <field name="recommendations" nolabel="1" colspan="2"/>
                         </group>
                     </group>
                     <notebook>

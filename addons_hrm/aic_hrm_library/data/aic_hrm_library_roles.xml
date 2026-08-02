@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from industry research (own wording; see
+     Docs/library-sources.md). Regenerate: scratchpad generator. -->
+<odoo>
+
+    <record id="industry_mfg" model="aic.hrm.library.industry">
+        <field name="name">Manufacturing</field>
+        <field name="code">MFG</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="industry_trade" model="aic.hrm.library.industry">
+        <field name="name">Trading / Distribution / Retail</field>
+        <field name="code">TRADE</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="industry_svc" model="aic.hrm.library.industry">
+        <field name="name">Professional Services</field>
+        <field name="code">SVC</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="industry_soft" model="aic.hrm.library.industry">
+        <field name="name">Software / SaaS</field>
+        <field name="code">SOFT</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="role_sales" model="aic.hrm.library.role">
+        <field name="name">Sales</field>
+        <field name="code">SALES</field>
+        <field name="sequence">10</field>
+        <field name="description">Owns revenue delivery, pipeline health and deal quality.</field>
+        <field name="collection_playbook">Bookings, win rate and cycle length come from the CRM/quotation system: connect them as automatic metric sources (in Odoo, the Sales bridge collects quotations, confirmed orders and posted invoices per salesperson daily). Quota attainment is reviewed monthly by the sales manager; correct any automated figure by manual entry - manual always wins.</field>
+    </record>
+
+    <record id="role_mkt" model="aic.hrm.library.role">
+        <field name="name">Marketing</field>
+        <field name="code">MKT</field>
+        <field name="sequence">20</field>
+        <field name="description">Owns demand generation, brand reach and funnel conversion.</field>
+        <field name="collection_playbook">Lead counts and conversion rates export from the marketing automation / web analytics tools as CSV - import them monthly with the actuals import wizard. Cost per lead and CAC are computed by finance from campaign spend reports; entered manually at month close by the marketing lead.</field>
+    </record>
+
+    <record id="role_eng" model="aic.hrm.library.role">
+        <field name="name">Engineering</field>
+        <field name="code">ENG</field>
+        <field name="sequence">30</field>
+        <field name="description">Owns delivery speed, production stability and platform health.</field>
+        <field name="collection_playbook">Deployment frequency, change failure rate, MTTR and lead time come from the CI/CD and incident tooling - export monthly (CSV) or record at the sprint retro. Uptime and open critical bugs are read from the monitoring dashboard and issue tracker on the last working day of each month by the engineering manager.</field>
+    </record>
+
+    <record id="role_pm" model="aic.hrm.library.role">
+        <field name="name">Product Management</field>
+        <field name="code">PM</field>
+        <field name="sequence">40</field>
+        <field name="description">Owns roadmap delivery, adoption and product growth loops.</field>
+        <field name="collection_playbook">Active users, adoption, retention and activation come from the product analytics tool - export the monthly cohort report as CSV and import it. Roadmap delivery and discovery interviews are counted manually by the product manager at each monthly review.</field>
+    </record>
+
+    <record id="role_hr" model="aic.hrm.library.role">
+        <field name="name">HR (People)</field>
+        <field name="code">HR</field>
+        <field name="sequence">50</field>
+        <field name="description">Owns hiring speed, retention and people development.</field>
+        <field name="collection_playbook">Time to fill, offer acceptance and retention are computed from the recruitment pipeline and employee register (in Odoo: Recruitment and Employees apps). Attrition and absenteeism are calculated monthly from HR records; engagement scores import from the survey tool after each survey wave.</field>
+    </record>
+
+    <record id="role_cs" model="aic.hrm.library.role">
+        <field name="name">Customer Success / Support</field>
+        <field name="code">CS</field>
+        <field name="sequence">60</field>
+        <field name="description">Owns response quality, satisfaction and revenue retention.</field>
+        <field name="collection_playbook">Response and resolution times, backlog and satisfaction come from the helpdesk system - schedule a monthly CSV export and import it. Churn and revenue retention are computed by finance from the subscription/invoice ledger at month close; the CS manager confirms each period.</field>
+    </record>
+
+    <record id="role_fin" model="aic.hrm.library.role">
+        <field name="name">Finance</field>
+        <field name="code">FIN</field>
+        <field name="sequence">70</field>
+        <field name="description">Owns close discipline, forecast accuracy and cash health.</field>
+        <field name="collection_playbook">Close duration, margins, DSO and cash flow come from the accounting system itself - most can be wired as automatic metric sources against posted journal entries. Budget variance and forecast accuracy are computed in the planning spreadsheet and entered manually by the controller at each close.</field>
+    </record>
+
+    <record id="role_ops" model="aic.hrm.library.role">
+        <field name="name">Operations</field>
+        <field name="code">OPS</field>
+        <field name="sequence">80</field>
+        <field name="description">Owns process reliability, cost discipline and scale readiness.</field>
+        <field name="collection_playbook">Throughput, utilization and cost per transaction come from the operations/ERP system - export the monthly operations report or connect a metric source. SLA fulfilment and incidents are logged in the ticketing/QMS tool and confirmed monthly by the operations manager.</field>
+    </record>
+
+    <record id="role_data" model="aic.hrm.library.role">
+        <field name="name">Data / Analytics</field>
+        <field name="code">DATA</field>
+        <field name="sequence">90</field>
+        <field name="description">Owns trusted data delivery and self-serve insight.</field>
+        <field name="collection_playbook">Pipeline success rate, incidents and MTTR come from the orchestrator and observability tooling - export monthly. Dashboard usage comes from the BI platform's own usage statistics; request backlog is read from the team's ticket queue on the last day of each month.</field>
+    </record>
+
+    <record id="role_ux" model="aic.hrm.library.role">
+        <field name="name">Design / UX</field>
+        <field name="code">UX</field>
+        <field name="sequence">100</field>
+        <field name="description">Owns usability, consistency and accessibility of the product.</field>
+        <field name="collection_playbook">Task success, error rates and time-on-task are recorded per usability test session in the research repository - enter them after each study. Satisfaction ratings import from the in-app survey tool monthly; design-system compliance is audited quarterly by the design lead.</field>
+    </record>
+
+    <record id="role_prod" model="aic.hrm.library.role">
+        <field name="name">Production Manager (Manufacturing)</field>
+        <field name="code">PROD</field>
+        <field name="sequence">110</field>
+        <field name="description">Owns output volume, equipment effectiveness, quality and plant safety.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_mfg')])]"/>
+        <field name="collection_playbook">OEE, units produced, scrap and downtime come from the MES/SCADA line reports - export the daily production report and import it weekly, or connect a metric source if the MES writes into the ERP. Safety incidents and maintenance compliance are logged in the EHS/CMMS registers and confirmed monthly by the plant manager.</field>
+    </record>
+
+    <record id="role_purch" model="aic.hrm.library.role">
+        <field name="name">Purchasing &amp; Inventory (Trading)</field>
+        <field name="code">PURCH</field>
+        <field name="sequence">120</field>
+        <field name="description">Owns stock availability, turnover, margins and supplier performance.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_trade')])]"/>
+        <field name="collection_playbook">Turnover, stockouts, days on hand and GMROI are computed from the inventory valuation and sales reports in the ERP - schedule a monthly export and import it. Supplier OTIF and defect rates are tracked per receipt in the purchasing log; the purchasing lead confirms each month.</field>
+    </record>
+
+    <record id="role_deliv" model="aic.hrm.library.role">
+        <field name="name">Service Delivery (Professional Services)</field>
+        <field name="code">DELIV</field>
+        <field name="sequence">130</field>
+        <field name="description">Owns billable utilization, on-time delivery and engagement margins.</field>
+        <field name="industry_ids" eval="[(6, 0, [ref('industry_svc')])]"/>
+        <field name="collection_playbook">Utilization and margins come from the timesheet and project accounting system - export the monthly utilization report as CSV and import it. On-time delivery is recorded per project at closure; client satisfaction imports from the post-engagement survey tool.</field>
+    </record>
+
+</odoo>

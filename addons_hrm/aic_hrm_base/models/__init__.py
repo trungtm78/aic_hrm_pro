@@ -5,4 +5,5 @@ from . import aic_hrm_mixins
 from . import aic_hrm_rag_profile
 from . import aic_hrm_cycle
 from . import aic_hrm_target_revision
+from . import aic_hrm_team
 from . import aic_hrm_metric_source

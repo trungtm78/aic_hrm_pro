@@ -14,6 +14,11 @@
               parent="menu_aic_hrm_root" sequence="90"
               groups="aic_hrm_base.group_hrm_manager"/>
 
+    <menuitem id="menu_aic_hrm_teams" name="Teams"
+              parent="menu_aic_hrm_config" sequence="5"
+              action="action_aic_hrm_team"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
     <menuitem id="menu_aic_hrm_rag_profiles" name="RAG Profiles"
               parent="menu_aic_hrm_config" sequence="10"
               action="action_aic_hrm_rag_profile"

@@ -15,7 +15,7 @@ class TestTaskProgress(TransactionCase):
             'date_start': '2026-01-01', 'date_end': '2026-12-31'})
         cls.objective = env['aic.hrm.objective'].create({
             'name': 'Ship the platform', 'cycle_id': cls.cycle.id,
-            'weight': 100})
+            'level': 'company', 'weight': 100})
         cls.project = env['project.project'].create({'name': 'Platform'})
         cls.tasks = env['project.task'].create([
             {'name': f'Task {index}', 'project_id': cls.project.id}

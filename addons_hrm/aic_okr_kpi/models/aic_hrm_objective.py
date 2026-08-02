@@ -44,10 +44,20 @@ class AicHrmObjective(models.Model):
         related='cycle_id.company_id', store=True, index=True)
     level = fields.Selection([
         ('company', 'Company'),
+        ('branch', 'Branch'),
         ('department', 'Department'),
         ('team', 'Team'),
         ('individual', 'Individual'),
     ], default='department', required=True)
+    branch_id = fields.Many2one(
+        'res.company', string='Branch',
+        domain="['|', ('id', '=', company_id),"
+               " ('id', 'child_of', company_id)]",
+        help="Branch or subsidiary this objective belongs to "
+             "(for branch-level objectives).")
+    team_id = fields.Many2one(
+        'aic.hrm.team', string='Team', index=True, ondelete='restrict',
+        help="Team this objective belongs to (for team-level objectives).")
     objective_type = fields.Selection([
         ('committed', 'Committed'),
         ('aspirational', 'Aspirational'),
@@ -125,6 +135,27 @@ class AicHrmObjective(models.Model):
                 raise ValidationError(_(
                     "Objective weight must be between 0 and 100 (got "
                     "%(weight)s).", weight=objective.weight))
+
+    @api.constrains('level', 'branch_id', 'department_id', 'team_id',
+                    'employee_id')
+    def _check_level_anchor(self):
+        """Each level anchors to its own organizational unit, so filters
+        and roll-ups by branch/department/team/person stay trustworthy."""
+        requirements = {
+            'branch': ('branch_id', _("a branch")),
+            'department': ('department_id', _("a department")),
+            'team': ('team_id', _("a team")),
+            'individual': ('employee_id', _("an owner (employee)")),
+        }
+        for objective in self:
+            requirement = requirements.get(objective.level)
+            if requirement and not objective[requirement[0]]:
+                raise ValidationError(_(
+                    "%(level)s-level objectives must be linked to "
+                    "%(unit)s.",
+                    level=dict(objective._fields['level'].selection)[
+                        objective.level],
+                    unit=requirement[1]))
 
     def _check_alignment_cycle(self, other, link_label):
         """1A rule: aligned objectives live in the same cycle or in the

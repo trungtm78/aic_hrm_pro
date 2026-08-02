@@ -66,6 +66,7 @@
         <field name="code">DO1</field>
         <field name="cycle_id" ref="demo_cycle"/>
         <field name="level">department</field>
+        <field name="department_id" ref="demo_dept_product"/>
         <field name="objective_type">committed</field>
         <field name="weight">25</field>
         <field name="priority">high</field>
@@ -75,6 +76,7 @@
         <field name="code">DO2</field>
         <field name="cycle_id" ref="demo_cycle"/>
         <field name="level">department</field>
+        <field name="department_id" ref="demo_dept_product"/>
         <field name="objective_type">committed</field>
         <field name="weight">20</field>
         <field name="priority">high</field>
@@ -84,6 +86,7 @@
         <field name="code">DO3</field>
         <field name="cycle_id" ref="demo_cycle"/>
         <field name="level">department</field>
+        <field name="department_id" ref="demo_dept_product"/>
         <field name="objective_type">committed</field>
         <field name="weight">20</field>
         <field name="priority">high</field>
@@ -93,6 +96,7 @@
         <field name="code">DO4</field>
         <field name="cycle_id" ref="demo_cycle"/>
         <field name="level">department</field>
+        <field name="department_id" ref="demo_dept_product"/>
         <field name="objective_type">aspirational</field>
         <field name="weight">15</field>
     </record>
@@ -101,6 +105,7 @@
         <field name="code">DO5</field>
         <field name="cycle_id" ref="demo_cycle"/>
         <field name="level">department</field>
+        <field name="department_id" ref="demo_dept_product"/>
         <field name="objective_type">committed</field>
         <field name="weight">10</field>
     </record>
@@ -109,8 +114,15 @@
         <field name="code">DO6</field>
         <field name="cycle_id" ref="demo_cycle"/>
         <field name="level">department</field>
+        <field name="department_id" ref="demo_dept_product"/>
         <field name="objective_type">committed</field>
         <field name="weight">10</field>
+    </record>
+
+    <record id="demo_team_launch" model="aic.hrm.team">
+        <field name="name">Launch Squad</field>
+        <field name="department_id" ref="demo_dept_product"/>
+        <field name="lead_id" ref="demo_emp_pm"/>
     </record>
 
     <!-- A Q2 objective cascading into the annual one (cross-cycle 1A) -->
@@ -119,6 +131,7 @@
         <field name="code">DO1-Q2</field>
         <field name="cycle_id" ref="demo_cycle_q2"/>
         <field name="level">team</field>
+        <field name="team_id" ref="demo_team_launch"/>
         <field name="weight">10</field>
         <field name="parent_id" ref="demo_obj_1"/>
         <field name="employee_id" ref="demo_emp_pm"/>

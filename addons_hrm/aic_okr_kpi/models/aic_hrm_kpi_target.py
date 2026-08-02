@@ -34,6 +34,10 @@ class AicHrmKpiTarget(models.Model):
     objective_id = fields.Many2one(
         'aic.hrm.objective', index=True, ondelete='set null',
         help="Objective this KPI reports under, if any.")
+    team_id = fields.Many2one(
+        'aic.hrm.team', string='Team', index=True, ondelete='restrict',
+        help="Team this target is tracked for, when the KPI is a team "
+             "number rather than a personal one.")
     display_label = fields.Char(
         compute='_compute_display_label', store=True)
     weight = fields.Float(
@@ -63,6 +67,12 @@ class AicHrmKpiTarget(models.Model):
     metric_source_id = fields.Many2one(
         'aic.hrm.metric.source',
         help="Optional automated pull for period actuals.")
+    collection_method = fields.Selection(
+        related='kpi_id.collection_method')
+    collection_guideline = fields.Text(
+        related='kpi_id.collection_guideline',
+        help="How to collect this number - defined once on the KPI, "
+             "shown here so the owner knows the operating procedure.")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),

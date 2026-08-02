@@ -59,9 +59,13 @@ class AicHrmReviewMeeting(models.Model):
                         title, Markup('').join(
                             Markup('<li>%s</li>') % line for line in lines)))
 
-            section(_("Red key results"), [
-                f'{kr.code} {kr.name} — {kr.employee_id.name or "-"}'
-                for kr in red_krs])
+            red_lines = []
+            for kr in red_krs:
+                red_lines.append(
+                    f'{kr.code} {kr.name} — {kr.employee_id.name or "-"}')
+                red_lines.extend(
+                    Markup('&#8627; %s') % tip for tip in kr._diagnose()[:2])
+            section(_("Red key results (with suggested actions)"), red_lines)
             section(_("Stale key results (no recent check-in)"), [
                 f'{kr.code} {kr.name} — last {kr.last_checkin_date or "-"}'
                 for kr in stale_krs])

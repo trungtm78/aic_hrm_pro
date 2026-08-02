@@ -49,6 +49,9 @@
                         <field name="definition" placeholder="Business definition every reader agrees on"/>
                         <field name="formula" placeholder="How the number is computed (documentation)"/>
                         <field name="data_source" placeholder="System or report the actuals come from"/>
+                        <field name="collection_method"/>
+                        <field name="collection_guideline"
+                               placeholder="Step-by-step: which system/report, export or query, cadence, responsible person"/>
                     </group>
                 </sheet>
             </form>
@@ -87,9 +90,20 @@
         <field name="model">aic.hrm.kpi.target</field>
         <field name="arch" type="xml">
             <list>
+                <header>
+                    <button name="%(action_aic_hrm_rollover_wizard)d"
+                            type="action" string="From Previous Cycle"
+                            display="always"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="%(action_aic_hrm_actuals_import_wizard)d"
+                            type="action" string="Import Actuals"
+                            display="always"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                </header>
                 <field name="kpi_id"/>
                 <field name="cycle_id"/>
                 <field name="employee_id"/>
+                <field name="team_id" optional="hide"/>
                 <field name="department_id" optional="hide"/>
                 <field name="weight"/>
                 <field name="target_value"/>
@@ -125,6 +139,7 @@
                             <field name="kpi_id"/>
                             <field name="cycle_id"/>
                             <field name="employee_id"/>
+                            <field name="team_id"/>
                             <field name="objective_id"/>
                             <field name="weight"/>
                         </group>
@@ -141,6 +156,14 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="How to Collect" name="collection">
+                            <group>
+                                <field name="collection_method"/>
+                                <field name="metric_source_id"/>
+                            </group>
+                            <field name="collection_guideline" nolabel="1"
+                                   placeholder="No guideline documented yet - define it on the KPI so the owner knows how to collect this number."/>
+                        </page>
                         <page string="Period Results" name="periods">
                             <field name="period_result_ids">
                                 <list editable="bottom">

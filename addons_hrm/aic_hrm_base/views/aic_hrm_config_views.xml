@@ -147,4 +147,52 @@
         <field name="view_mode">list,form</field>
     </record>
 
+    <record id="view_aic_hrm_team_list" model="ir.ui.view">
+        <field name="name">aic.hrm.team.list</field>
+        <field name="model">aic.hrm.team</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="department_id" optional="show"/>
+                <field name="lead_id" optional="show"/>
+                <field name="member_ids" widget="many2many_tags" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_team_form" model="ir.ui.view">
+        <field name="name">aic.hrm.team.form</field>
+        <field name="model">aic.hrm.team</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Growth Squad"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="lead_id"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="member_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_team" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="res_model">aic.hrm.team</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first team</p>
+            <p>Teams are the delivery units team-level objectives anchor to; departments stay the org chart.</p>
+        </field>
+    </record>
+
 </odoo>

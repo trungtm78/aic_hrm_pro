@@ -54,6 +54,19 @@ class AicHrmKpi(models.Model):
     ], default='monthly', required=True)
     data_source = fields.Char(
         help="Where the actuals come from (report, system, meeting minutes).")
+    collection_method = fields.Selection([
+        ('manual', 'Manual entry'),
+        ('import', 'File import (Excel/CSV)'),
+        ('auto', 'Automatic (metric source)'),
+    ], default='manual', required=True,
+        help="Primary way actuals for this KPI are expected to arrive. "
+             "Manual entry stays allowed regardless and always wins over "
+             "automatic collection.")
+    collection_guideline = fields.Text(
+        string='Collection Guideline',
+        help="Operating instructions for whoever collects this number: "
+             "which system or report to pull from, the exact query or "
+             "export steps, cadence, and who is responsible.")
     flag_type = fields.Selection([
         ('leading', 'Leading indicator'),
         ('lagging', 'Lagging indicator'),
