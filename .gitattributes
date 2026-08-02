@@ -1,0 +1,10 @@
+# The sentinel on line 1 of PROGRESS.md is matched by tooling with an
+# end-of-line anchor. On Windows a checkout would otherwise rewrite the
+# file with CRLF, leaving a stray \r that breaks the match while the
+# file looks correct in every editor.
+PROGRESS.md text eol=lf
+
+# Same reasoning for the translation catalogues: gettext tooling and the
+# .po/.pot merge compare line by line.
+*.po text eol=lf
+*.pot text eol=lf
