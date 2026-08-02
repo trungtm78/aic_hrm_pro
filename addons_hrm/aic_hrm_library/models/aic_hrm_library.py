@@ -73,6 +73,11 @@ class AicHrmObjectiveTemplate(models.Model):
         ('committed', 'Committed'),
         ('aspirational', 'Aspirational'),
     ], default='committed', required=True)
+    perspective_id = fields.Many2one(
+        'aic.hrm.perspective', string='BSC Perspective',
+        ondelete='set null',
+        help="Balanced Scorecard perspective this template serves; "
+             "carried onto objectives created from it.")
     description = fields.Text()
     kr_line_ids = fields.One2many(
         'aic.hrm.kr.template', 'template_id')
@@ -103,6 +108,7 @@ class AicHrmObjectiveTemplate(models.Model):
                 'cycle_id': cycle.id,
                 'level': level,
                 'objective_type': template.objective_type,
+                'perspective_id': template.perspective_id.id or False,
                 'employee_id': employee.id if employee else False,
                 'team_id': team.id if team else False,
                 'department_id': department.id if department else False,
@@ -156,6 +162,43 @@ class AicHrmKrTemplate(models.Model):
                 raise ValidationError(_(
                     "Template key results need a non-zero suggested "
                     "target."))
+
+
+class AicHrmKnowledgeArticle(models.Model):
+    """In-product management knowledge: how to run goals well.
+
+    Short, practical articles on the operating method (OKR cadence, BSC
+    reads, success factors, data collection, fair scoring), optionally
+    scoped to roles and industries. Built-ins ship with the product;
+    administrators add company/market-specific knowledge alongside.
+    """
+    _name = 'aic.hrm.knowledge.article'
+    _description = 'Management Knowledge Article'
+    _order = 'category, sequence, id'
+
+    name = fields.Char(required=True, translate=True)
+    sequence = fields.Integer(default=10)
+    category = fields.Selection([
+        ('method', 'Operating Method'),
+        ('measure', 'Measurement Design'),
+        ('cadence', 'Cadence & Check-ins'),
+        ('data', 'Data Collection'),
+        ('review', 'Review & Scoring'),
+        ('library', 'Using the Library'),
+    ], required=True, default='method')
+    content = fields.Html(translate=True, sanitize=True)
+    role_ids = fields.Many2many(
+        'aic.hrm.library.role', string='Relevant Roles',
+        help="Empty = relevant to everyone.")
+    industry_ids = fields.Many2many(
+        'aic.hrm.library.industry', string='Relevant Industries',
+        help="Empty = relevant across industries.")
+    is_builtin = fields.Boolean(
+        help="Shipped with the product; updates with the module.")
+    company_id = fields.Many2one(
+        'res.company',
+        help="Empty on shared built-ins; set on company knowledge.")
+    active = fields.Boolean(default=True)
 
 
 class AicHrmKpiLibraryRole(models.Model):

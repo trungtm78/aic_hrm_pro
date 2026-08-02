@@ -1,0 +1,527 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_library
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-02 02:05+0000\n"
+"PO-Revision-Date: 2026-08-02 02:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
+msgid ""
+"%(objectives)s objectives, %(krs)s key results, %(kpis)s KPIs added to "
+"%(role)s."
+msgstr ""
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
+msgid "A KR: line appeared before any OBJ: line."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__active
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__active
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__active
+msgid "Active"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_industries
+msgid "Add an industry"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_capture_wizard_form
+msgid "Add to Library"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_apply_wizard__include_kpis
+msgid "Also create KPI targets from the role's template KPIs."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.actions.act_window,name:aic_hrm_library.action_library_apply
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_apply_wizard
+#: model:ir.ui.menu,name:aic_hrm_library.menu_library_apply
+msgid "Apply Library Pack"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_objective_template__objective_type__aspirational
+msgid "Aspirational"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_roles
+msgid "Browse the role library"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_apply_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.actions.act_window,name:aic_hrm_library.action_library_capture
+#: model:ir.ui.menu,name:aic_hrm_library.menu_library_capture
+msgid "Capture Knowledge"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_capture_wizard
+msgid "Capture Library Knowledge"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_capture_wizard_form
+msgid "Close"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__code
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__code
+msgid "Code"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_objective_template__objective_type__committed
+msgid "Committed"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__company_id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__company_id
+msgid "Company"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_apply_wizard_form
+msgid "Create Draft Goals"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__created_summary
+msgid "Created Summary"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__create_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__create_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__create_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__create_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__create_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_search
+msgid "Cross-industry"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__cycle_id
+msgid "Cycle"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__collection_playbook
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
+msgid "Data Collection Playbook"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__default_target
+msgid "Default Target"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__department_id
+msgid "Department"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__description
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__description
+msgid "Description"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__direction
+msgid "Direction"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kpi__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__metric_type__boolean
+msgid "Done / Not done"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_roles
+msgid ""
+"Each role ships with objective templates and KPI templates. Apply a pack "
+"into a cycle, then tailor targets to your context."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__industry_ids
+msgid "Empty = the role applies across industries."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__company_id
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_objective_template__company_id
+msgid "Empty on shared built-ins; set on company knowledge."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_apply_wizard__industry_id
+msgid ""
+"Filter roles to your industry; cross-industry roles always stay available."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_kpi_target_list_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_objective_list_library
+msgid "From Library"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__direction__higher
+msgid "Higher is better"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kpi__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__id
+msgid "ID"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__include_kpis
+msgid "Include Kpis"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__industry_ids
+msgid "Industries"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_industries
+msgid ""
+"Industries filter the role library: roles tagged with an industry surface "
+"for companies in that industry; untagged roles apply everywhere."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__industry_id
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_search
+msgid "Industry"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.constraint,message:aic_hrm_library.constraint_aic_hrm_library_industry_code_uniq
+msgid "Industry codes must be unique."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__is_builtin
+msgid "Is Builtin"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_kpi
+msgid "KPI Definition"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
+msgid "KPI Templates"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_kr_template
+msgid "Key Result Template Line"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__kpi_template_ids
+msgid "Kpi Template"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__kr_line_ids
+msgid "Kr Line"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__write_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__write_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__write_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__write_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__write_date
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.ui.menu,name:aic_hrm_library.menu_library
+msgid "Library"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.actions.act_window,name:aic_hrm_library.action_library_industries
+#: model:ir.ui.menu,name:aic_hrm_library.menu_library_industries
+msgid "Library Industries"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_industry
+msgid "Library Industry"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_role
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kpi__library_role_id
+msgid "Library Role"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__direction__lower
+msgid "Lower is better"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__metric_type
+msgid "Metric Type"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__metric_type__milestone
+msgid "Milestones"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__name
+msgid "Name"
+msgstr ""
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
+msgid "No OBJ:/KPI: lines recognized - check the format help."
+msgstr ""
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
+msgid "Nothing selected to apply."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__metric_type__number
+msgid "Number"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_capture_wizard_form
+msgid ""
+"OBJ: Win the enterprise segment | aspirational\n"
+"KR: Enterprise deals closed | number | higher | 12 | deals\n"
+"KPI: Pipeline coverage ratio | x | higher | last | 3"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.actions.act_window,name:aic_hrm_library.action_library_roles
+msgid "OKR/KPI Library"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_objective_template
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__objective_template_ids
+msgid "Objective Template"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
+msgid "Objective Templates"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__objective_type
+msgid "Objective Type"
+msgstr ""
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
+msgid "Objectives from the library"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__collection_playbook
+msgid ""
+"Operating guide for this role: where each number lives, how to pull it "
+"(auto, file import or manual entry) and on what cadence, so operators know "
+"exactly how to collect actuals."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_capture_wizard__raw_text
+msgid "Paste structured lines (OBJ:/KR:/KPI:) from your research notes."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__metric_type__percent
+msgid "Percentage"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__raw_text
+msgid "Raw Text"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__role_id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__role_id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__role_id
+msgid "Role"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.constraint,message:aic_hrm_library.constraint_aic_hrm_library_role_code_uniq
+msgid "Role codes must be unique."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_kpi__library_role_id
+msgid "Role this template KPI belongs to in the library."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__sequence
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__sequence
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__sequence
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_objective_template__is_builtin
+msgid ""
+"Shipped with the product. Company knowledge stays editable; built-ins update"
+" with the module."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__team_id
+msgid "Team"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__template_id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__template_ids
+msgid "Template"
+msgstr ""
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/models/aic_hrm_library.py:0
+msgid "Template key results need a non-zero suggested target."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__unit
+msgid "Unit"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__weight
+msgid "Weight"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__description
+msgid ""
+"What this role typically owns; helps users pick the right starting pack."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_objective_template_form
+msgid "When to use this objective"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
+msgid ""
+"Where does each number live, how is it pulled (auto / file import / manual) "
+"and on what cadence?"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
+msgid "e.g. Sales"
+msgstr ""
+
+#. module: aic_hrm_library
+#. odoo-python
+#: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
+msgid "id"
+msgstr ""

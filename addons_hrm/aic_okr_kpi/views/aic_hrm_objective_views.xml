@@ -68,6 +68,8 @@
                             <field name="cycle_id"/>
                             <field name="level"/>
                             <field name="objective_type"/>
+                            <field name="perspective_id"/>
+                            <field name="ksf_id"/>
                             <field name="priority"/>
                             <field name="visibility"/>
                         </group>
@@ -146,6 +148,9 @@
                 <filter string="Individual" name="level_individual"
                         domain="[('level', '=', 'individual')]"/>
                 <group>
+                    <filter string="BSC Perspective" name="group_perspective"
+                            domain="[]"
+                            context="{'group_by': 'perspective_id'}"/>
                     <filter string="Level" name="group_level" domain="[]"
                             context="{'group_by': 'level'}"/>
                     <filter string="Team" name="group_team" domain="[]"

@@ -77,6 +77,41 @@ class TestLibrary(TransactionCase):
              ('employee_id', '=', self.employee.id)])
         self.assertTrue(targets, 'role KPI templates became targets')
 
+    def test_templates_carry_bsc_perspective(self):
+        templates = self.env['aic.hrm.objective.template'].search(
+            [('is_builtin', '=', True)])
+        self.assertTrue(templates)
+        self.assertTrue(
+            all(template.perspective_id for template in templates),
+            'every built-in objective template is tagged with a BSC '
+            'perspective')
+        kpis = self.env['aic.hrm.kpi'].search(
+            [('is_template', '=', True),
+             ('library_role_id', '!=', False)])
+        self.assertTrue(
+            all(kpi.perspective_id for kpi in kpis),
+            'every library KPI template is tagged with a BSC perspective')
+
+    def test_knowledge_guide_seeded(self):
+        articles = self.env['aic.hrm.knowledge.article'].search(
+            [('is_builtin', '=', True)])
+        self.assertGreaterEqual(len(articles), 10)
+        categories = set(articles.mapped('category'))
+        self.assertEqual(
+            categories,
+            {'method', 'measure', 'cadence', 'data', 'review', 'library'},
+            'the built-in guide covers every knowledge category')
+
+    def test_apply_carries_perspective_onto_objective(self):
+        sales = self.env['aic.hrm.library.role'].search(
+            [('code', '=', 'SALES')], limit=1)
+        template = sales.objective_template_ids[:1]
+        objectives = template.action_apply(self.cycle)
+        self.assertEqual(objectives.perspective_id,
+                         template.perspective_id,
+                         'the BSC perspective travels from template to '
+                         'objective')
+
     def test_apply_pack_for_team(self):
         team = self.env['aic.hrm.team'].create({
             'name': 'Library Squad'})

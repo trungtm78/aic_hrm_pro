@@ -9,6 +9,7 @@
         <field name="role_id" ref="role_sales"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -47,6 +48,7 @@
         <field name="role_id" ref="role_sales"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -85,6 +87,7 @@
         <field name="code">LIB-SALES-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_sales"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">currency</field>
         <field name="direction">higher</field>
         <field name="aggregation">sum</field>
@@ -96,6 +99,7 @@
         <field name="code">LIB-SALES-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_sales"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -107,6 +111,7 @@
         <field name="code">LIB-SALES-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_sales"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">days</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -118,6 +123,7 @@
         <field name="code">LIB-SALES-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_sales"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -129,6 +135,7 @@
         <field name="role_id" ref="role_mkt"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -167,6 +174,7 @@
         <field name="role_id" ref="role_mkt"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -205,6 +213,7 @@
         <field name="code">LIB-MKT-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_mkt"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">currency</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -216,6 +225,7 @@
         <field name="code">LIB-MKT-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_mkt"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -227,6 +237,7 @@
         <field name="code">LIB-MKT-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_mkt"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">currency</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -238,6 +249,7 @@
         <field name="code">LIB-MKT-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_mkt"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -249,6 +261,7 @@
         <field name="role_id" ref="role_eng"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -287,6 +300,7 @@
         <field name="role_id" ref="role_eng"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -325,6 +339,7 @@
         <field name="code">LIB-ENG-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_eng"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -336,6 +351,7 @@
         <field name="code">LIB-ENG-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_eng"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">lower</field>
         <field name="aggregation">last</field>
@@ -347,6 +363,7 @@
         <field name="code">LIB-ENG-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_eng"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -358,6 +375,7 @@
         <field name="code">LIB-ENG-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_eng"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">lower</field>
         <field name="aggregation">sum</field>
@@ -369,6 +387,7 @@
         <field name="role_id" ref="role_pm"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -407,6 +426,7 @@
         <field name="role_id" ref="role_pm"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -445,6 +465,7 @@
         <field name="code">LIB-PM-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_pm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">count</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -456,6 +477,7 @@
         <field name="code">LIB-PM-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_pm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -467,6 +489,7 @@
         <field name="code">LIB-PM-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_pm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">days</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -478,6 +501,7 @@
         <field name="code">LIB-PM-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_pm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">days</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -489,6 +513,7 @@
         <field name="role_id" ref="role_hr"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -527,6 +552,7 @@
         <field name="role_id" ref="role_hr"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -565,6 +591,7 @@
         <field name="code">LIB-HR-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_hr"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">last</field>
@@ -576,6 +603,7 @@
         <field name="code">LIB-HR-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_hr"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="unit">score</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -587,6 +615,7 @@
         <field name="code">LIB-HR-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_hr"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="unit">hours</field>
         <field name="direction">higher</field>
         <field name="aggregation">sum</field>
@@ -598,6 +627,7 @@
         <field name="code">LIB-HR-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_hr"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -609,6 +639,7 @@
         <field name="role_id" ref="role_cs"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -647,6 +678,7 @@
         <field name="role_id" ref="role_cs"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -685,6 +717,7 @@
         <field name="code">LIB-CS-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_cs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -696,6 +729,7 @@
         <field name="code">LIB-CS-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_cs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">hours</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -707,6 +741,7 @@
         <field name="code">LIB-CS-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_cs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">lower</field>
         <field name="aggregation">last</field>
@@ -718,6 +753,7 @@
         <field name="code">LIB-CS-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_cs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">score</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -729,6 +765,7 @@
         <field name="role_id" ref="role_fin"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -767,6 +804,7 @@
         <field name="role_id" ref="role_fin"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -805,6 +843,7 @@
         <field name="code">LIB-FIN-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_fin"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">currency</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -816,6 +855,7 @@
         <field name="code">LIB-FIN-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_fin"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -827,6 +867,7 @@
         <field name="code">LIB-FIN-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_fin"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">currency</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -838,6 +879,7 @@
         <field name="code">LIB-FIN-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_fin"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -849,6 +891,7 @@
         <field name="role_id" ref="role_ops"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -887,6 +930,7 @@
         <field name="role_id" ref="role_ops"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -925,6 +969,7 @@
         <field name="code">LIB-OPS-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ops"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">higher</field>
         <field name="aggregation">sum</field>
@@ -936,6 +981,7 @@
         <field name="code">LIB-OPS-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ops"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -947,6 +993,7 @@
         <field name="code">LIB-OPS-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ops"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">currency</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -958,6 +1005,7 @@
         <field name="code">LIB-OPS-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ops"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">lower</field>
         <field name="aggregation">sum</field>
@@ -969,6 +1017,7 @@
         <field name="role_id" ref="role_data"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1007,6 +1056,7 @@
         <field name="role_id" ref="role_data"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1045,6 +1095,7 @@
         <field name="code">LIB-DATA-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_data"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -1056,6 +1107,7 @@
         <field name="code">LIB-DATA-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_data"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">lower</field>
         <field name="aggregation">sum</field>
@@ -1067,6 +1119,7 @@
         <field name="code">LIB-DATA-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_data"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">hours</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -1078,6 +1131,7 @@
         <field name="code">LIB-DATA-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_data"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">lower</field>
         <field name="aggregation">last</field>
@@ -1089,6 +1143,7 @@
         <field name="role_id" ref="role_ux"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1127,6 +1182,7 @@
         <field name="role_id" ref="role_ux"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1165,6 +1221,7 @@
         <field name="code">LIB-UX-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ux"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -1176,6 +1233,7 @@
         <field name="code">LIB-UX-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ux"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">days</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -1187,6 +1245,7 @@
         <field name="code">LIB-UX-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ux"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">score</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -1198,6 +1257,7 @@
         <field name="code">LIB-UX-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_ux"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
         <field name="unit">count</field>
         <field name="direction">higher</field>
         <field name="aggregation">sum</field>
@@ -1209,6 +1269,7 @@
         <field name="role_id" ref="role_prod"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1247,6 +1308,7 @@
         <field name="role_id" ref="role_prod"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1285,6 +1347,7 @@
         <field name="code">LIB-PROD-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_prod"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -1296,6 +1359,7 @@
         <field name="code">LIB-PROD-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_prod"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -1307,6 +1371,7 @@
         <field name="code">LIB-PROD-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_prod"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">count</field>
         <field name="direction">higher</field>
         <field name="aggregation">sum</field>
@@ -1318,6 +1383,7 @@
         <field name="code">LIB-PROD-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_prod"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -1329,6 +1395,7 @@
         <field name="role_id" ref="role_purch"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1367,6 +1434,7 @@
         <field name="role_id" ref="role_purch"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1405,6 +1473,7 @@
         <field name="code">LIB-PURCH-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_purch"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">turns</field>
         <field name="direction">higher</field>
         <field name="aggregation">last</field>
@@ -1416,6 +1485,7 @@
         <field name="code">LIB-PURCH-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_purch"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -1427,6 +1497,7 @@
         <field name="code">LIB-PURCH-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_purch"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">days</field>
         <field name="direction">lower</field>
         <field name="aggregation">last</field>
@@ -1438,6 +1509,7 @@
         <field name="code">LIB-PURCH-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_purch"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>
@@ -1449,6 +1521,7 @@
         <field name="role_id" ref="role_deliv"/>
         <field name="sequence">10</field>
         <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1487,6 +1560,7 @@
         <field name="role_id" ref="role_deliv"/>
         <field name="sequence">20</field>
         <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
         <field name="is_builtin" eval="True"/>
     </record>
 
@@ -1525,6 +1599,7 @@
         <field name="code">LIB-DELIV-01</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_deliv"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -1536,6 +1611,7 @@
         <field name="code">LIB-DELIV-02</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_deliv"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">%</field>
         <field name="direction">higher</field>
         <field name="aggregation">average</field>
@@ -1547,6 +1623,7 @@
         <field name="code">LIB-DELIV-03</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_deliv"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
         <field name="unit">currency</field>
         <field name="direction">higher</field>
         <field name="aggregation">sum</field>
@@ -1558,6 +1635,7 @@
         <field name="code">LIB-DELIV-04</field>
         <field name="is_template" eval="True"/>
         <field name="library_role_id" ref="role_deliv"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
         <field name="unit">%</field>
         <field name="direction">lower</field>
         <field name="aggregation">average</field>

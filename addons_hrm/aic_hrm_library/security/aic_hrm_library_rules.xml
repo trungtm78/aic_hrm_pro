@@ -13,4 +13,10 @@
         <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>
 
+    <record id="rule_knowledge_article_company" model="ir.rule">
+        <field name="name">Knowledge article: shared built-ins or own company</field>
+        <field name="model_id" ref="model_aic_hrm_knowledge_article"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>

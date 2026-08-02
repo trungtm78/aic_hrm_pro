@@ -58,6 +58,16 @@ class AicHrmObjective(models.Model):
     team_id = fields.Many2one(
         'aic.hrm.team', string='Team', index=True, ondelete='restrict',
         help="Team this objective belongs to (for team-level objectives).")
+    perspective_id = fields.Many2one(
+        'aic.hrm.perspective', string='BSC Perspective', index=True,
+        ondelete='set null',
+        help="Balanced Scorecard perspective this objective serves; "
+             "leadership uses it to check the portfolio is balanced.")
+    ksf_id = fields.Many2one(
+        'aic.hrm.ksf', string='Key Success Factor', index=True,
+        ondelete='set null',
+        help="Success factor this objective drives - the strategy-level "
+             "'must go right' it exists for.")
     objective_type = fields.Selection([
         ('committed', 'Committed'),
         ('aspirational', 'Aspirational'),

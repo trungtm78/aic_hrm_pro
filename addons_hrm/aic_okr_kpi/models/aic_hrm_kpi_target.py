@@ -67,6 +67,8 @@ class AicHrmKpiTarget(models.Model):
     metric_source_id = fields.Many2one(
         'aic.hrm.metric.source',
         help="Optional automated pull for period actuals.")
+    perspective_id = fields.Many2one(
+        related='kpi_id.perspective_id', store=True, index=True)
     collection_method = fields.Selection(
         related='kpi_id.collection_method')
     collection_guideline = fields.Text(

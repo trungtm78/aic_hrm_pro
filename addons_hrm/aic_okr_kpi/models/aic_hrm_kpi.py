@@ -33,6 +33,14 @@ class AicHrmKpi(models.Model):
         help="Templates are shared across companies and copied into real "
              "KPIs; they never carry live targets themselves.")
     group_id = fields.Many2one('aic.hrm.kpi.group')
+    perspective_id = fields.Many2one(
+        'aic.hrm.perspective', string='BSC Perspective', index=True,
+        ondelete='set null',
+        help="Balanced Scorecard perspective this KPI reports under.")
+    ksf_id = fields.Many2one(
+        'aic.hrm.ksf', string='Key Success Factor', index=True,
+        ondelete='set null',
+        help="Success factor this KPI measures.")
     definition = fields.Text(
         help="What exactly does this KPI measure, in business language?")
     formula = fields.Text(

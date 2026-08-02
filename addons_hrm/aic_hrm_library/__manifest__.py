@@ -33,6 +33,7 @@ Provides:
         'security/aic_hrm_library_rules.xml',
         'data/aic_hrm_library_roles.xml',
         'data/aic_hrm_library_templates.xml',
+        'data/aic_hrm_knowledge.xml',
         'views/aic_hrm_library_views.xml',
     ],
     'installable': True,

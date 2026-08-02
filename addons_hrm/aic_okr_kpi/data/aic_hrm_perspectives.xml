@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The four classic Balanced Scorecard perspectives (Kaplan-Norton),
+     own wording. Companies rename or extend them freely. -->
+<odoo noupdate="1">
+
+    <record id="perspective_financial" model="aic.hrm.perspective">
+        <field name="name">Financial</field>
+        <field name="code">FIN</field>
+        <field name="sequence">10</field>
+        <field name="description">How do we look to shareholders? Revenue, margin, cost discipline, cash.</field>
+    </record>
+
+    <record id="perspective_customer" model="aic.hrm.perspective">
+        <field name="name">Customer</field>
+        <field name="code">CUST</field>
+        <field name="sequence">20</field>
+        <field name="description">How do customers see us? Satisfaction, retention, market share, brand.</field>
+    </record>
+
+    <record id="perspective_process" model="aic.hrm.perspective">
+        <field name="name">Internal Process</field>
+        <field name="code">PROC</field>
+        <field name="sequence">30</field>
+        <field name="description">What must we excel at? Quality, speed, reliability, cost of operations.</field>
+    </record>
+
+    <record id="perspective_learning" model="aic.hrm.perspective">
+        <field name="name">Learning &amp; Growth</field>
+        <field name="code">LEARN</field>
+        <field name="sequence">40</field>
+        <field name="description">Can we keep improving? People capability, culture, systems, innovation.</field>
+    </record>
+
+</odoo>

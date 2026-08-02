@@ -6,14 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-01 20:23+0000\n"
-"PO-Revision-Date: 2026-08-01 20:23+0000\n"
+"POT-Creation-Date: 2026-08-02 02:05+0000\n"
+"PO-Revision-Date: 2026-08-02 02:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
+msgid ""
+"%(count)d linked project task(s) still open — walk the list with the team "
+"and split or reassign the oldest ones."
+msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -37,6 +45,20 @@ msgstr ""
 msgid ""
 "%(fields)s on key results of approved objectives change only through an "
 "approved target revision."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid ""
+"%(kpi)s KPI period value(s) and %(kr)s key-result check-in(s) ready to "
+"import into cycle %(cycle)s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "%(level)s-level objectives must be linked to %(unit)s."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -140,6 +162,16 @@ msgid "Actual Value"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__pace_gap
+msgid "Actual minus expected progress. Negative = behind schedule."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_actuals_import_wizard
+msgid "Actuals Import (Excel/CSV)"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__agenda
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_review_meeting_form
 msgid "Agenda"
@@ -157,6 +189,20 @@ msgid "Aggregation method"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__ahead
+msgid "Ahead of pace"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
+msgid ""
+"Ahead of pace (+%(gap)d%%): consider raising the target through a target "
+"revision if this is an aspirational goal, or reallocating effort to red key "
+"results."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_alert_rule
 msgid "Alert Rule"
 msgstr ""
@@ -170,6 +216,8 @@ msgstr ""
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+#: model:ir.actions.client,name:aic_okr_kpi.action_aic_hrm_alignment_tree
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_alignment_tree
 msgid "Alignment Tree"
 msgstr ""
 
@@ -275,6 +323,11 @@ msgid "Auto-generated agenda"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__collection_method__auto
+msgid "Automatic (metric source)"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_department_scorecard__avg_objective_score
 msgid "Average department-level objective score."
 msgstr ""
@@ -311,8 +364,35 @@ msgid "Baseline Value"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__behind
+msgid "Behind pace"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
+msgid ""
+"Behind pace: progress %(actual)d%% vs %(expected)d%% expected. The remaining"
+" work needs %(factor).1fx the average pace so far to still hit the target."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__blocker
 msgid "Blocker"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__branch_id
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__branch
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
+msgid "Branch"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__branch_id
+msgid ""
+"Branch or subsidiary this objective belongs to (for branch-level "
+"objectives)."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -358,10 +438,16 @@ msgid "Child"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_actuals_import_wizard_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_import_wizard_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_review_meeting_form
 msgid "Close"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_cockpit
+msgid "Cockpit"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -370,6 +456,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__code
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__code
 msgid "Code"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__collection_guideline
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__collection_guideline
+msgid "Collection Guideline"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__collection_method
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__collection_method
+msgid "Collection Method"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -405,6 +503,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__company_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__company
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Company"
 msgstr ""
 
@@ -495,6 +594,7 @@ msgid "Created Objective Count"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__create_uid
@@ -515,6 +615,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__create_date
@@ -549,6 +650,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__cycle_id
@@ -565,6 +667,11 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_rollover_wizard
 msgid "Cycle Rollover"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__not_started
+msgid "Cycle not started"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -630,6 +737,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__department_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__department_id
@@ -645,6 +753,13 @@ msgstr ""
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_department_scorecard
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_department_scorecard
 msgid "Department Scorecard"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_import_wizard__department_id
+msgid ""
+"Department the imported objectives belong to. Empty = company-level "
+"objectives."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -668,6 +783,7 @@ msgid "Display Label"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__display_name
@@ -700,6 +816,7 @@ msgid "Documented calculation formula (for humans, not executed)."
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_actuals_import_wizard__state__done
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_import_wizard__state__done
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_assignment__state__done
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__state__done
@@ -762,11 +879,23 @@ msgid "Escalation Days"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__expected_progress
+msgid "Expected Progress"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__file
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__file
 msgid "File"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__collection_method__import
+msgid "File import (Excel/CSV)"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__filename
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__filename
 msgid "Filename"
 msgstr ""
@@ -785,6 +914,18 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__flag_type
 msgid "Flag Type"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_actuals_import_wizard_form
+msgid ""
+"Flat table, one measurement per row. Columns:\n"
+"                            <code>type</code> (kpi/kr, default kpi),\n"
+"                            <code>code</code>, <code>employee</code>,\n"
+"                            <code>date_from</code>, <code>date_to</code>,\n"
+"                            <code>value</code>, <code>note</code>.\n"
+"                            Confirmed periods and manual entries are never\n"
+"                            overwritten."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -846,6 +987,12 @@ msgid "Fresh check-ins"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_list
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_list
+msgid "From Previous Cycle"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_checkin__rag_snapshot__green
 msgid "Green"
 msgstr ""
@@ -894,6 +1041,13 @@ msgid "How many consecutive falling check-ins trigger the confidence rule."
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__required_run_rate_factor
+msgid ""
+"How much faster than the average pace so far the remaining work must move to"
+" still hit the target (1.0 = keep pace)."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__aggregation
 msgid "How period results combine into the cycle-level actual."
 msgstr ""
@@ -904,6 +1058,19 @@ msgid "How the number is computed (documentation)"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+msgid "How to Collect"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__collection_guideline
+msgid ""
+"How to collect this number - defined once on the KPI, shown here so the "
+"owner knows the operating procedure."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__id
@@ -970,8 +1137,20 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_actuals_import_wizard_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_import_wizard_form
 msgid "Import"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_actuals_import
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_list
+msgid "Import Actuals"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_actuals_import_wizard
+msgid "Import Actuals (Excel/CSV)"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -990,6 +1169,7 @@ msgid "Import Term Mapping"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_actuals_import_wizard_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_import_wizard_form
 msgid "Import finished."
 msgstr ""
@@ -1000,6 +1180,22 @@ msgid "Imported"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__imported_checkin_count
+msgid "Imported Checkin Count"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__imported_period_count
+msgid "Imported Period Count"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Imported from %s"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__state__in_progress
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "In Progress"
@@ -1007,6 +1203,7 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__individual
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Individual"
 msgstr ""
 
@@ -1224,6 +1421,7 @@ msgid "Last Checkin Date"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__write_uid
@@ -1244,6 +1442,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__write_date
@@ -1271,6 +1470,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: model:ir.actions.client,name:aic_okr_kpi.action_aic_hrm_cockpit
 msgid "Leadership Cockpit"
 msgstr ""
 
@@ -1281,12 +1481,83 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__level
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Level"
 msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__line_ids
 msgid "Line"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s (%(code)s): KPI rows need date_from."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid ""
+"Line %(line)s (%(code)s): no KPI target in cycle %(cycle)s for this owner."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s (%(code)s): no employee named %(name)s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid ""
+"Line %(line)s (%(code)s): period %(date)s is already confirmed - skipped."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid ""
+"Line %(line)s (%(code)s): period %(date)s was entered manually - manual "
+"wins, skipped."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s (%(code)s): unknown type %(type)s - skipped."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s (%(code)s): unreadable date - skipped."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s (%(code)s): value is not a number - skipped."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s: no KPI with code %(code)s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %(line)s: no key result with code %(code)s in cycle %(cycle)s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "Line %s: no code - skipped."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1336,6 +1607,7 @@ msgid "Manager Review"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__collection_method__manual
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_period_result__source__manual
 msgid "Manual entry"
 msgstr ""
@@ -1414,6 +1686,14 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid ""
+"Missing column(s): %(columns)s. Expected a header row with at least: code, "
+"value (and optionally: type, employee, date_from, date_to, note)."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid "Missing sheet(s): %(sheets)s. Expected %(expected)s."
 msgstr ""
@@ -1485,6 +1765,14 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
+msgid ""
+"No check-in recorded yet: without a cadence the score is a guess. Ask the "
+"owner for a first check-in (value + confidence + blockers)."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__is_stale
 msgid "No check-in within the cycle's stale threshold."
 msgstr ""
@@ -1493,6 +1781,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
 msgid "No department"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+msgid ""
+"No guideline documented yet - define it on the KPI so the owner knows how to"
+" collect this number."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1685,6 +1980,11 @@ msgid "Off track"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__on_pace
+msgid "On pace"
+msgstr ""
+
+#. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
 msgid "On track"
@@ -1732,6 +2032,14 @@ msgid "Open blockers from check-ins"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__collection_guideline
+msgid ""
+"Operating instructions for whoever collects this number: which system or "
+"report to pull from, the exact query or export steps, cadence, and who is "
+"responsible."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__metric_source_id
 msgid "Optional automated pull for period actuals."
 msgstr ""
@@ -1769,6 +2077,24 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Owner"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
+msgid ""
+"Owner confidence is falling (%(series)s): schedule a 1-1 and decide between "
+"unblocking support or a target revision with a documented reason."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__pace_gap
+msgid "Pace Gap"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__pace_status
+msgid "Pace Status"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1840,10 +2166,21 @@ msgid "Position / Team"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__preview
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__preview
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_actuals_import_wizard__state__preview
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_import_wizard__state__preview
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_actuals_import_wizard_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_import_wizard_form
 msgid "Preview"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__collection_method
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__collection_method
+msgid ""
+"Primary way actuals for this KPI are expected to arrive. Manual entry stays "
+"allowed regardless and always wins over automatic collection."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1861,6 +2198,11 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress
 msgid "Progress"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
+msgid "Progress Diagnosis"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1906,6 +2248,20 @@ msgid "Rag Snapshot"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__rating_ids
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__rating_ids
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__rating_ids
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__rating_ids
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__recommendations
+msgid "Recommendations"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_checkin__rag_snapshot__red
 msgid "Red"
 msgstr ""
@@ -1913,7 +2269,7 @@ msgstr ""
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_review_meeting.py:0
-msgid "Red key results"
+msgid "Red key results (with suggested actions)"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1924,6 +2280,19 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__weight
 msgid "Relative weight of this key result inside its objective."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__required_run_rate_factor
+msgid "Required Run Rate Factor"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
+msgid ""
+"Resolve the blocker reported on %(date)s: \"%(blocker)s\" — bring it to the "
+"next review meeting if it is outside the owner's control."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2091,6 +2460,7 @@ msgid "Start"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__state
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__state
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__state
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__state
@@ -2111,6 +2481,13 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_form
+msgid ""
+"Step-by-step: which system/report, export or query, cadence, responsible "
+"person"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2161,8 +2538,23 @@ msgid "Target Value"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__team_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__team_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__team
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Team"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__team_id
+msgid "Team this objective belongs to (for team-level objectives)."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__team_id
+msgid ""
+"Team this target is tracked for, when the KPI is a team number rather than a"
+" personal one."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2195,10 +2587,17 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid ""
 "The Python library 'openpyxl' is required to read Excel files. Ask your "
 "administrator to install it (pip install openpyxl)."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "The file is empty."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2269,6 +2668,7 @@ msgid "Unit"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_actuals_import_wizard__state__upload
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_import_wizard__state__upload
 msgid "Upload"
 msgstr ""
@@ -2289,11 +2689,13 @@ msgid "Visibility"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__warning_log
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__warning_log
 msgid "Warning Log"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_actuals_import_wizard_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_import_wizard_form
 msgid "Warnings"
 msgstr ""
@@ -2356,13 +2758,68 @@ msgid "What must change this cycle?"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__expected_progress
+msgid ""
+"Where progress should stand if the key result moved linearly across the "
+"cycle's calendar."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__data_source
 msgid "Where the actuals come from (report, system, meeting minutes)."
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "a branch"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "a department"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "a team"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "an owner (employee)"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "department_id"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_review_meeting_form
 msgid "e.g. Monthly performance review"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "employee_id"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
+msgid "file"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "team_id"
 msgstr ""
 
 #. module: aic_okr_kpi

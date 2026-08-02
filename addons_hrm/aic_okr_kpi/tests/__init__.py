@@ -14,4 +14,5 @@ from . import test_objective_scoring
 from . import test_objective_workflow
 from . import test_perf_enterprise
 from . import test_security
+from . import test_strategy
 from . import test_tour

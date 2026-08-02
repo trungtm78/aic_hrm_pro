@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Starter catalog of key success factors (own wording, after the
+     critical-success-factor method), one small set per BSC perspective.
+     Companies rename, deactivate or extend freely. -->
+<odoo noupdate="1">
+
+    <record id="ksf_revenue_growth" model="aic.hrm.ksf">
+        <field name="name">Revenue growth and mix</field>
+        <field name="code">KSF-FIN-01</field>
+        <field name="sequence">10</field>
+        <field name="perspective_id" ref="perspective_financial"/>
+        <field name="description">New and recurring revenue grows on plan, with a healthy mix across products and segments.</field>
+    </record>
+    <record id="ksf_cost_discipline" model="aic.hrm.ksf">
+        <field name="name">Cost discipline</field>
+        <field name="code">KSF-FIN-02</field>
+        <field name="sequence">20</field>
+        <field name="perspective_id" ref="perspective_financial"/>
+        <field name="description">Operating costs stay inside budget and unit economics keep improving.</field>
+    </record>
+    <record id="ksf_cash_health" model="aic.hrm.ksf">
+        <field name="name">Cash and working-capital health</field>
+        <field name="code">KSF-FIN-03</field>
+        <field name="sequence">30</field>
+        <field name="perspective_id" ref="perspective_financial"/>
+        <field name="description">Collections, inventory and payables keep cash available for the plan.</field>
+    </record>
+
+    <record id="ksf_customer_loyalty" model="aic.hrm.ksf">
+        <field name="name">Customer satisfaction and loyalty</field>
+        <field name="code">KSF-CUST-01</field>
+        <field name="sequence">10</field>
+        <field name="perspective_id" ref="perspective_customer"/>
+        <field name="description">Customers are satisfied, stay, and recommend us.</field>
+    </record>
+    <record id="ksf_service_quality" model="aic.hrm.ksf">
+        <field name="name">Service and delivery quality</field>
+        <field name="code">KSF-CUST-02</field>
+        <field name="sequence">20</field>
+        <field name="perspective_id" ref="perspective_customer"/>
+        <field name="description">What we promise is what we deliver - on time, complete, correct.</field>
+    </record>
+    <record id="ksf_market_position" model="aic.hrm.ksf">
+        <field name="name">Market position and brand</field>
+        <field name="code">KSF-CUST-03</field>
+        <field name="sequence">30</field>
+        <field name="perspective_id" ref="perspective_customer"/>
+        <field name="description">The brand is known and preferred in the segments we compete in.</field>
+    </record>
+
+    <record id="ksf_operational_excellence" model="aic.hrm.ksf">
+        <field name="name">Operational excellence</field>
+        <field name="code">KSF-PROC-01</field>
+        <field name="sequence">10</field>
+        <field name="perspective_id" ref="perspective_process"/>
+        <field name="description">Core processes run reliably, fast and at low defect rates.</field>
+    </record>
+    <record id="ksf_innovation_pipeline" model="aic.hrm.ksf">
+        <field name="name">Innovation pipeline</field>
+        <field name="code">KSF-PROC-02</field>
+        <field name="sequence">20</field>
+        <field name="perspective_id" ref="perspective_process"/>
+        <field name="description">New products and improvements move from idea to market on a steady cadence.</field>
+    </record>
+    <record id="ksf_supply_reliability" model="aic.hrm.ksf">
+        <field name="name">Supply and partner reliability</field>
+        <field name="code">KSF-PROC-03</field>
+        <field name="sequence">30</field>
+        <field name="perspective_id" ref="perspective_process"/>
+        <field name="description">Suppliers and partners deliver in full, on time, to spec.</field>
+    </record>
+    <record id="ksf_safety_compliance" model="aic.hrm.ksf">
+        <field name="name">Safety and compliance</field>
+        <field name="code">KSF-PROC-04</field>
+        <field name="sequence">40</field>
+        <field name="perspective_id" ref="perspective_process"/>
+        <field name="description">People are safe and obligations are met - no incidents, no findings.</field>
+    </record>
+
+    <record id="ksf_talent" model="aic.hrm.ksf">
+        <field name="name">Talent attraction and retention</field>
+        <field name="code">KSF-LEARN-01</field>
+        <field name="sequence">10</field>
+        <field name="perspective_id" ref="perspective_learning"/>
+        <field name="description">The right people join, grow and stay.</field>
+    </record>
+    <record id="ksf_leadership" model="aic.hrm.ksf">
+        <field name="name">Leadership and management capability</field>
+        <field name="code">KSF-LEARN-02</field>
+        <field name="sequence">20</field>
+        <field name="perspective_id" ref="perspective_learning"/>
+        <field name="description">Managers set goals, coach and review well at every level.</field>
+    </record>
+    <record id="ksf_digital_capability" model="aic.hrm.ksf">
+        <field name="name">Data and digital capability</field>
+        <field name="code">KSF-LEARN-03</field>
+        <field name="sequence">30</field>
+        <field name="perspective_id" ref="perspective_learning"/>
+        <field name="description">Decisions run on trusted data and fit-for-purpose systems.</field>
+    </record>
+
+</odoo>
