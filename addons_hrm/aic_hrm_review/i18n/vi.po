@@ -20,31 +20,31 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
 msgid "(score confirmed unchanged)"
-msgstr ""
+msgstr "(điểm được xác nhận giữ nguyên)"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid "30-day checkpoint: agree the improvement goals"
-msgstr ""
+msgstr "Mốc 30 ngày: thống nhất các mục tiêu cải thiện"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid "60-day checkpoint: review progress evidence"
-msgstr ""
+msgstr "Mốc 60 ngày: rà soát bằng chứng tiến bộ"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid "90-day checkpoint: final decision"
-msgstr ""
+msgstr "Mốc 90 ngày: quyết định cuối cùng"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review_template.py:0
 msgid "A review template needs a final stage."
-msgstr ""
+msgstr "Mẫu đánh giá phải có một bước cuối cùng."
 
 #. module: aic_hrm_review
 #. odoo-python
@@ -52,12 +52,12 @@ msgstr ""
 msgid ""
 "A scoped department has fewer than 6 people: anonymous feedback can often be"
 " guessed. Prefer department-level aggregates."
-msgstr ""
+msgstr "Phòng ban trong phạm vi có dưới 6 người: phản hồi ẩn danh thường bị suy ngược ra danh tính. Nên dùng số liệu tổng hợp ở cấp phòng ban."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__action_ids
 msgid "Action"
-msgstr ""
+msgstr "Hành động"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction
@@ -65,17 +65,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_needaction
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Cần xử lý"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__action_type
 msgid "Action Type"
-msgstr ""
+msgstr "Loại hành động"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_idp_form
 msgid "Activate"
-msgstr ""
+msgstr "Kích hoạt"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__active
@@ -88,57 +88,57 @@ msgstr "Đang dùng"
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Hoạt động"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_exception_decoration
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Trang trí ngoại lệ hoạt động"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_state
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Trạng thái hoạt động"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_type_icon
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Biểu tượng loại hoạt động"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
 msgid "An answer references a question outside this review's form."
-msgstr ""
+msgstr "Có câu trả lời trỏ tới câu hỏi không thuộc biểu mẫu của phiếu này."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__small_team_warning
 msgid "Anonymity is arithmetically weak in very small teams."
-msgstr ""
+msgstr "Tính ẩn danh yếu về mặt số học trong các đội quá nhỏ."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_stage__min_raters
 msgid "Anonymous aggregates only appear once this many raters have submitted."
-msgstr ""
+msgstr "Số liệu tổng hợp ẩn danh chỉ hiện khi đủ số người đánh giá này đã gửi."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_line__state__applied
 msgid "Applied"
-msgstr ""
+msgstr "Đã áp dụng"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
 msgid "Applied calibration lines are immutable audit records."
-msgstr ""
+msgstr "Dòng hiệu chỉnh đã áp dụng là bản ghi kiểm toán bất biến."
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_calibration_session_form
 msgid "Apply"
-msgstr ""
+msgstr "Áp dụng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_attachment_count
@@ -146,66 +146,66 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_attachment_count
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Số tệp đính kèm"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__peer_score_avg
 msgid "Average anonymous peer rating, only once enough raters submitted."
-msgstr ""
+msgstr "Điểm đồng nghiệp ẩn danh bình quân, chỉ hiện khi đủ số người đã gửi."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__calibrated_score
 msgid "Calibrated Score"
-msgstr ""
+msgstr "Điểm sau hiệu chỉnh"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__calibration
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__calibration
 #: model:ir.ui.menu,name:aic_hrm_review.menu_calibration
 msgid "Calibration"
-msgstr ""
+msgstr "Hiệu chỉnh"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_calibration_line
 msgid "Calibration Line"
-msgstr ""
+msgstr "Dòng hiệu chỉnh"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_calibration_session
 msgid "Calibration Session"
-msgstr ""
+msgstr "Phiên hiệu chỉnh"
 
 #. module: aic_hrm_review
 #: model:ir.actions.act_window,name:aic_hrm_review.action_calibration_session
 msgid "Calibration Sessions"
-msgstr ""
+msgstr "Phiên hiệu chỉnh"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
 msgid "Calibration by %(who)s: final score %(before)s -> %(after)s. %(why)s"
-msgstr ""
+msgstr "Hiệu chỉnh bởi %(who)s: điểm cuối %(before)s -> %(after)s. %(why)s"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__state__cancelled
 msgid "Cancelled"
-msgstr ""
+msgstr "Đã hủy"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
 msgid "Changing a score in calibration requires a written justification."
-msgstr ""
+msgstr "Thay đổi điểm trong phiên hiệu chỉnh phải kèm lý giải bằng văn bản."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__checkpoint
 msgid "Checkpoint"
-msgstr ""
+msgstr "Mốc kiểm tra"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_idp_form
 msgid "Close"
-msgstr ""
+msgstr "Đóng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__closed
@@ -229,17 +229,17 @@ msgstr "Công ty"
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__competency
 msgid "Competency"
-msgstr ""
+msgstr "Năng lực"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_idp_form
 msgid "Context and success criteria"
-msgstr ""
+msgstr "Bối cảnh và tiêu chí thành công"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__core_player
 msgid "Core player"
-msgstr ""
+msgstr "Nhân sự nòng cốt"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__create_uid
@@ -256,7 +256,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Người tạo"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__create_date
@@ -273,7 +273,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__create_date
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Ngày tạo"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__date
@@ -283,7 +283,7 @@ msgstr "Ngày"
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__date_due
 msgid "Date Due"
-msgstr ""
+msgstr "Ngày đến hạn"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__date_end
@@ -303,7 +303,7 @@ msgstr "Hạn chót"
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__state__declined
 msgid "Declined"
-msgstr ""
+msgstr "Đã từ chối"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__department_id
@@ -314,29 +314,29 @@ msgstr "Phòng ban"
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_idp
 msgid "Development / Improvement Plan"
-msgstr ""
+msgstr "Kế hoạch phát triển / cải thiện"
 
 #. module: aic_hrm_review
 #: model:ir.actions.act_window,name:aic_hrm_review.action_idp
 #: model:ir.ui.menu,name:aic_hrm_review.menu_idp
 msgid "Development Plans"
-msgstr ""
+msgstr "Kế hoạch phát triển"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__plan_type__development
 msgid "Development plan"
-msgstr ""
+msgstr "Kế hoạch phát triển"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__upward
 msgid "Direct report"
-msgstr ""
+msgstr "Cấp dưới trực tiếp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__display_label
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__display_label
 msgid "Display Label"
-msgstr ""
+msgstr "Nhãn hiển thị"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__display_name
@@ -353,7 +353,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__display_name
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Tên hiển thị"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_session__state__done
@@ -372,7 +372,7 @@ msgstr "Nháp"
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__duration_days
 msgid "Duration Days"
-msgstr ""
+msgstr "Số ngày thực hiện"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__employee_id
@@ -382,48 +382,48 @@ msgstr "Nhân viên"
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__external
 msgid "External"
-msgstr ""
+msgstr "Bên ngoài"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__facilitator_id
 msgid "Facilitator"
-msgstr ""
+msgstr "Người điều phối"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__feedback_invited_count
 msgid "Feedback Invited Count"
-msgstr ""
+msgstr "Số người được mời phản hồi"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_feedback_request
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__feedback_request_ids
 msgid "Feedback Request"
-msgstr ""
+msgstr "Yêu cầu phản hồi"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_feedback_response
 msgid "Feedback Response"
-msgstr ""
+msgstr "Phản hồi nhận được"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__feedback_submitted_count
 msgid "Feedback Submitted Count"
-msgstr ""
+msgstr "Số phản hồi đã gửi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__final
 msgid "Final"
-msgstr ""
+msgstr "Cuối cùng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__final_score
 msgid "Final Score"
-msgstr ""
+msgstr "Điểm cuối cùng"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
 msgid "Finalize"
-msgstr ""
+msgstr "Chốt"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_follower_ids
@@ -431,7 +431,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_follower_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Người theo dõi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_partner_ids
@@ -439,39 +439,39 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_partner_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Người theo dõi (đối tác)"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_type_icon
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Biểu tượng Font Awesome, ví dụ fa-tasks"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__form_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__form_id
 msgid "Form"
-msgstr ""
+msgstr "Biểu mẫu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__text
 msgid "Free text"
-msgstr ""
+msgstr "Văn bản tự do"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
 msgid "Generate Reviews"
-msgstr ""
+msgstr "Sinh phiếu đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_score
 msgid "Goal Score"
-msgstr ""
+msgstr "Điểm mục tiêu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__growth_talent
 msgid "Growth talent"
-msgstr ""
+msgstr "Nhân tài đang lên"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__has_message
@@ -479,17 +479,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__has_message
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Có tin nhắn"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__potential_rating__3
 msgid "High"
-msgstr ""
+msgstr "Cao"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__high_performer
 msgid "High performer"
-msgstr ""
+msgstr "Hiệu suất cao"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__id
@@ -506,24 +506,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_exception_icon
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Biểu tượng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_exception_icon
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Biểu tượng cho biết hoạt động ngoại lệ."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp_action__idp_id
 msgid "Idp"
-msgstr ""
+msgstr "Kế hoạch phát triển cá nhân"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction
@@ -531,7 +531,7 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_needaction
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Nếu bật, tin nhắn mới cần bạn xử lý."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error
@@ -543,7 +543,7 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Nếu bật, có tin nhắn gặp lỗi gửi."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_session__state__in_progress
@@ -553,22 +553,22 @@ msgstr "Đang thực hiện"
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__state__in_progress
 msgid "In progress"
-msgstr ""
+msgstr "Đang thực hiện"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__inconsistent
 msgid "Inconsistent"
-msgstr ""
+msgstr "Thiếu ổn định"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__state__invited
 msgid "Invited"
-msgstr ""
+msgstr "Đã mời"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__is_final
 msgid "Is Final"
-msgstr ""
+msgstr "Là bước cuối"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_is_follower
@@ -576,17 +576,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_is_follower
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Đang theo dõi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__is_required
 msgid "Is Required"
-msgstr ""
+msgstr "Bắt buộc"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__justification
 msgid "Justification"
-msgstr ""
+msgstr "Lý giải"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__write_uid
@@ -603,7 +603,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Người cập nhật cuối"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__write_date
@@ -620,53 +620,53 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__write_date
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ngày cập nhật cuối"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__line_ids
 msgid "Line"
-msgstr ""
+msgstr "Dòng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__potential_rating__1
 msgid "Low"
-msgstr ""
+msgstr "Thấp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__manager_id
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__manager
 msgid "Manager"
-msgstr ""
+msgstr "Quản lý"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__manager_score
 msgid "Manager Score"
-msgstr ""
+msgstr "Điểm quản lý chấm"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__manager
 msgid "Manager assessment"
-msgstr ""
+msgstr "Quản lý đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__potential_rating
 msgid "Manager's potential estimate, feeds the 9-box grid."
-msgstr ""
+msgstr "Ước lượng tiềm năng của quản lý, dùng cho lưới 9 ô."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__potential_rating__2
 msgid "Medium"
-msgstr ""
+msgstr "Trung bình"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__mentor_id
 msgid "Mentor"
-msgstr ""
+msgstr "Người kèm cặp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__mentoring
 msgid "Mentoring"
-msgstr ""
+msgstr "Kèm cặp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error
@@ -674,7 +674,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_has_error
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Lỗi gửi tin nhắn"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_ids
@@ -682,18 +682,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Tin nhắn"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__min_raters
 msgid "Min Raters"
-msgstr ""
+msgstr "Số người đánh giá tối thiểu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__my_activity_date_deadline
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Hạn hoạt động của tôi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__name
@@ -711,29 +711,29 @@ msgstr "Tên"
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_date_deadline
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Hạn hoạt động kế tiếp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_summary
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Tóm tắt hoạt động kế tiếp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_type_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Loại hoạt động kế tiếp"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
 msgid "Next Stage"
-msgstr ""
+msgstr "Bước kế tiếp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__nine_box_position
 msgid "Nine Box Position"
-msgstr ""
+msgstr "Vị trí trên lưới 9 ô"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__note
@@ -747,7 +747,7 @@ msgstr "Ghi chú"
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_needaction_counter
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Số hành động"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error_counter
@@ -755,7 +755,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_has_error_counter
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Số lỗi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_needaction_counter
@@ -763,7 +763,7 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_needaction_counter
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Số tin nhắn cần xử lý"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__message_has_error_counter
@@ -771,20 +771,20 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__message_has_error_counter
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Số tin nhắn bị lỗi gửi"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid ""
 "Only performance managers may set manager, potential or calibrated ratings."
-msgstr ""
+msgstr "Chỉ quản lý hiệu suất mới được đặt điểm quản lý, tiềm năng hoặc điểm sau hiệu chỉnh."
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
 msgid "Only the invited rater may submit this feedback."
-msgstr ""
+msgstr "Chỉ người được mời mới gửi được phản hồi này."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_cycle__state__open
@@ -794,7 +794,7 @@ msgstr "Mở"
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_question__competency
 msgid "Optional competency label this question maps to."
-msgstr ""
+msgstr "Nhãn năng lực tùy chọn mà câu hỏi này ánh xạ tới."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__employee_id
@@ -804,22 +804,22 @@ msgstr "Chủ sở hữu"
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__rater_role__peer
 msgid "Peer"
-msgstr ""
+msgstr "Đồng nghiệp"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__peer_feedback_ready
 msgid "Peer Feedback Ready"
-msgstr ""
+msgstr "Đủ điều kiện tổng hợp phản hồi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__peer_score_avg
 msgid "Peer Score Avg"
-msgstr ""
+msgstr "Điểm đồng nghiệp bình quân"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__peer_feedback
 msgid "Peer feedback"
-msgstr ""
+msgstr "Phản hồi đồng nghiệp"
 
 #. module: aic_hrm_review
 #. odoo-python
@@ -827,99 +827,99 @@ msgstr ""
 msgid ""
 "People do not rate themselves through 360 feedback; self-assessment has its "
 "own stage."
-msgstr ""
+msgstr "Không ai tự đánh giá mình qua phản hồi 360; tự đánh giá có bước riêng."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__perf_cycle_id
 msgid "Perf Cycle"
-msgstr ""
+msgstr "Chu kỳ hiệu suất"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review
 msgid "Performance Review"
-msgstr ""
+msgstr "Đánh giá hiệu suất"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__perf_cycle_id
 msgid "Performance cycle whose goal scores feed the reviews."
-msgstr ""
+msgstr "Chu kỳ hiệu suất cung cấp điểm mục tiêu cho các phiếu đánh giá."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp__plan_type__pip
 msgid "Performance improvement plan"
-msgstr ""
+msgstr "Kế hoạch cải thiện hiệu suất"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__pip_suggested
 msgid "Pip Suggested"
-msgstr ""
+msgstr "Đề xuất kế hoạch cải thiện"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_idp_action
 msgid "Plan Action"
-msgstr ""
+msgstr "Hành động của kế hoạch"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__plan_type
 msgid "Plan Type"
-msgstr ""
+msgstr "Loại kế hoạch"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__potential_rating
 msgid "Potential Rating"
-msgstr ""
+msgstr "Đánh giá tiềm năng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_line__state__proposed
 msgid "Proposed"
-msgstr ""
+msgstr "Đề xuất"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__question_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_section__question_ids
 msgid "Question"
-msgstr ""
+msgstr "Câu hỏi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__question_type
 msgid "Question Type"
-msgstr ""
+msgstr "Loại câu hỏi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_employee_id
 msgid "Rater Employee"
-msgstr ""
+msgstr "Nhân viên đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_role
 msgid "Rater Role"
-msgstr ""
+msgstr "Vai trò người đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_user_id
 msgid "Rater User"
-msgstr ""
+msgstr "Tài khoản người đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__rating
 msgid "Rating"
-msgstr ""
+msgstr "Mức đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__rating_10
 msgid "Rating 1-10"
-msgstr ""
+msgstr "Thang điểm 1-10"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__rating_5
 msgid "Rating 1-5"
-msgstr ""
+msgstr "Thang điểm 1-5"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
 msgid "Rating out of range for question %(name)s."
-msgstr ""
+msgstr "Điểm nằm ngoài khoảng cho phép ở câu hỏi %(name)s."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__rating_ids
@@ -932,18 +932,18 @@ msgstr "Đánh giá"
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__request_id
 msgid "Request"
-msgstr ""
+msgstr "Yêu cầu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__response_ids
 msgid "Response"
-msgstr ""
+msgstr "Phản hồi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__activity_user_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Người phụ trách"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__review_id
@@ -958,56 +958,56 @@ msgstr "Rà soát"
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__review_cycle_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__review_cycle_id
 msgid "Review Cycle"
-msgstr ""
+msgstr "Chu kỳ đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.actions.act_window,name:aic_hrm_review.action_review_cycle
 #: model:ir.ui.menu,name:aic_hrm_review.menu_review_cycles
 msgid "Review Cycles"
-msgstr ""
+msgstr "Chu kỳ đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_form
 msgid "Review Form"
-msgstr ""
+msgstr "Biểu mẫu đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_section
 msgid "Review Form Section"
-msgstr ""
+msgstr "Phần của biểu mẫu đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_question
 msgid "Review Question"
-msgstr ""
+msgstr "Câu hỏi đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_stage
 msgid "Review Stage"
-msgstr ""
+msgstr "Bước đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_template
 msgid "Review Template"
-msgstr ""
+msgstr "Mẫu đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.actions.act_window,name:aic_hrm_review.action_review_template
 #: model:ir.ui.menu,name:aic_hrm_review.menu_review_templates
 msgid "Review Templates"
-msgstr ""
+msgstr "Mẫu đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.actions.act_window,name:aic_hrm_review.action_review
 #: model:ir.ui.menu,name:aic_hrm_review.menu_reviews
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
 msgid "Reviews"
-msgstr ""
+msgstr "Phiếu đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__rough_diamond
 msgid "Rough diamond"
-msgstr ""
+msgstr "Viên ngọc thô"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_has_sms_error
@@ -1015,55 +1015,55 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_has_sms_error
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Lỗi gửi SMS"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__department_ids
 msgid "Scope; empty covers every active employee of the company."
-msgstr ""
+msgstr "Phạm vi; để trống là áp cho mọi nhân viên đang hoạt động của công ty."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__score_after
 msgid "Score After"
-msgstr ""
+msgstr "Điểm sau"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__score_before
 msgid "Score Before"
-msgstr ""
+msgstr "Điểm trước"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
 msgid "Scores"
-msgstr ""
+msgstr "Điểm"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__section_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__section_id
 msgid "Section"
-msgstr ""
+msgstr "Phần"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__self_score
 msgid "Self Score"
-msgstr ""
+msgstr "Điểm tự đánh giá"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__self
 msgid "Self-assessment"
-msgstr ""
+msgstr "Tự đánh giá"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid ""
 "Self-assessment is written by the employee, during the self stage only."
-msgstr ""
+msgstr "Phần tự đánh giá do nhân viên viết, chỉ trong bước tự đánh giá."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__reading
 msgid "Self-study"
-msgstr ""
+msgstr "Tự học"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__sequence
@@ -1075,40 +1075,40 @@ msgstr "Thứ tự"
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__session_id
 msgid "Session"
-msgstr ""
+msgstr "Phiên"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__small_team_warning
 msgid "Small Team Warning"
-msgstr ""
+msgstr "Cảnh báo đội nhỏ"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__goal_score
 msgid ""
 "Snapshot of the composite goal score when the review was generated; later "
 "goal edits never rewrite history."
-msgstr ""
+msgstr "Ảnh chụp điểm mục tiêu tổng hợp tại thời điểm sinh phiếu; các chỉnh sửa mục tiêu sau đó không bao giờ viết lại lịch sử."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__solid_contributor
 msgid "Solid contributor"
-msgstr ""
+msgstr "Đóng góp vững vàng"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__stage_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_template__stage_ids
 msgid "Stage"
-msgstr ""
+msgstr "Bước"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__stage_type
 msgid "Stage Type"
-msgstr ""
+msgstr "Loại bước"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__star
 msgid "Star"
-msgstr ""
+msgstr "Ngôi sao"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_line__state
@@ -1128,12 +1128,12 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr ""
+msgstr "Trạng thái theo hoạt động\nQuá hạn: đã qua ngày đến hạn\nHôm nay: hoạt động đến hạn hôm nay\nĐã lên lịch: hoạt động trong tương lai."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__project
 msgid "Stretch project"
-msgstr ""
+msgstr "Dự án thử thách"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_feedback_request__state__submitted
@@ -1143,87 +1143,87 @@ msgstr "Đã gửi"
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__feedback_submitted_count
 msgid "Submitted 360 invitations — aggregate only, never per-rater."
-msgstr ""
+msgstr "Các lời mời 360 đã gửi — chỉ xem tổng hợp, không bao giờ theo từng người."
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
 msgid "Talent"
-msgstr ""
+msgstr "Nhân tài"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__template_id
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_stage__template_id
 msgid "Template"
-msgstr ""
+msgstr "Mẫu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__text
 msgid "Text"
-msgstr ""
+msgstr "Văn bản"
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid "The review is already at its final stage."
-msgstr ""
+msgstr "Phiếu đánh giá đã ở bước cuối cùng."
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_calibration.py:0
 msgid "This calibration session is closed."
-msgstr ""
+msgstr "Phiên hiệu chỉnh này đã đóng."
 
 #. module: aic_hrm_review
 #: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_review_cycle_employee_uniq
 msgid "This employee already has a review in this cycle."
-msgstr ""
+msgstr "Nhân viên này đã có phiếu đánh giá trong chu kỳ."
 
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
 msgid "This feedback was already submitted."
-msgstr ""
+msgstr "Phản hồi này đã được gửi."
 
 #. module: aic_hrm_review
 #: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_feedback_request_review_rater_uniq
 msgid "This person was already invited to this review."
-msgstr ""
+msgstr "Người này đã được mời tham gia đánh giá."
 
 #. module: aic_hrm_review
 #: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_calibration_line_session_review_uniq
 msgid "This review is already on the session."
-msgstr ""
+msgstr "Phiếu đánh giá này đã có trong phiên."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__state__todo
 msgid "To do"
-msgstr ""
+msgstr "Cần làm"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__training
 msgid "Training"
-msgstr ""
+msgstr "Đào tạo"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_idp__activity_exception_decoration
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Loại hoạt động ngoại lệ trên bản ghi."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__underperformer
 msgid "Underperformer"
-msgstr ""
+msgstr "Chưa đạt yêu cầu"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_stage__stage_type__upward_feedback
 msgid "Upward feedback"
-msgstr ""
+msgstr "Phản hồi lên cấp trên"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_feedback_request__rater_employee_id
 msgid "Visible to HR administrators only."
-msgstr ""
+msgstr "Chỉ quản trị viên nhân sự nhìn thấy."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__website_message_ids
@@ -1231,7 +1231,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__website_message_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Tin nhắn từ website"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_calibration_session__website_message_ids
@@ -1239,19 +1239,19 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__website_message_ids
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Lịch sử trao đổi qua website"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__workhorse
 msgid "Workhorse"
-msgstr ""
+msgstr "Cần mẫn ổn định"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review_question__question_type__boolean
 msgid "Yes / No"
-msgstr ""
+msgstr "Có / Không"
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
 msgid "e.g. 2026 annual review"
-msgstr ""
+msgstr "ví dụ: Đánh giá năm 2026"

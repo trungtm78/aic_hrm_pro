@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The automation account authors every tracking message in the
+        chatter ("target_value revised from 100 to 110"), so its name is
+        read far more often than any menu label. Renaming it here means
+        the white label ships with the module instead of being a manual
+        step someone has to remember on each new database.
+
+        noupdate is off deliberately: a customer who renames it again
+        would want their own name back on the next upgrade, and this
+        record is the module's whole point.
+    -->
+    <record id="base.partner_root" model="res.partner">
+        <field name="name">AIC HRM</field>
+    </record>
+</odoo>

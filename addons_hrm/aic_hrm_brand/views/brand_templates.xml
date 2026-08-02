@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        The browser tab is the first thing a demo audience reads, and the
+        core layout falls back to the platform name whenever a page sets
+        no title of its own (the login screen is exactly that case).
+    -->
+    <template id="layout_brand_title" inherit_id="web.layout">
+        <xpath expr="//title" position="replace">
+            <title t-esc="title or 'AIC HRM Pro'"/>
+        </xpath>
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <link type="image/png" rel="shortcut icon"
+                  t-att-href="x_icon or '/aic_hrm_brand/static/description/icon.png'"/>
+        </xpath>
+    </template>
+
+    <!--
+        The footer promotion carries the platform logo and an outbound
+        link. Replaced by the product's own line rather than deleted, so
+        the footer keeps its layout and the page stays balanced.
+    -->
+    <!--
+        The login screen carries its own promotion line, separate from
+        the footer one, plus a database-manager link that no end user
+        should be offered. Both are replaced by the product line.
+    -->
+    <template id="login_layout_brand" inherit_id="web.login_layout">
+        <xpath expr="//div[hasclass('border-top')]" position="replace">
+            <div class="text-center small mt-4 pt-3 border-top"
+                 t-if="not disable_footer">
+                <span class="text-muted">AIC HRM Pro — AIPOWER CO.,LTD</span>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+        The two login placeholders have no Vietnamese translation in the
+        platform's own language pack, so a Vietnamese login screen shows
+        "Enter your email" under "Mật khẩu". Re-declaring them here puts
+        them in this module's catalogue, where i18n/vi.po can carry them.
+    -->
+    <template id="login_placeholders" inherit_id="web.login">
+        <xpath expr="//input[@name='login']" position="attributes">
+            <attribute name="placeholder">Your email address</attribute>
+        </xpath>
+        <xpath expr="//input[@name='password']" position="attributes">
+            <attribute name="placeholder">Your password</attribute>
+        </xpath>
+    </template>
+
+    <template id="brand_promotion_message" inherit_id="web.brand_promotion_message">
+        <xpath expr="//t[@t-set='odoo_logo']" position="replace">
+            <t t-set="odoo_logo">
+                <span class="badge text-bg-light">AIC HRM Pro</span>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-set='final_message']" position="replace">
+            <t t-set="final_message">%s%s</t>
+        </xpath>
+    </template>
+
+</odoo>
