@@ -3349,3 +3349,21 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 msgid "Σ Weight (must equal 100%)"
 msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Cycle health, department heatmap and the risk queue"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Department heatmap"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "How every key result rolls up into the company plan"
+msgstr ""
