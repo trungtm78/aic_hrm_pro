@@ -22,12 +22,12 @@ msgstr ""
 
 #. module: aic_hrm_brand
 #: model_terms:ir.ui.view,arch_db:aic_hrm_brand.brand_promotion_message
-msgid "<span class=\"badge text-bg-light\">AIC HRM Pro</span>"
+msgid "<span class=\"badge text-bg-light\">AIConnect HRM Pro</span>"
 msgstr ""
 
 #. module: aic_hrm_brand
 #: model_terms:ir.ui.view,arch_db:aic_hrm_brand.login_layout_brand
-msgid "<span class=\"text-muted\">AIC HRM Pro — AIPOWER CO.,LTD</span>"
+msgid "<span class=\"text-muted\">AIConnect HRM Pro — AIPOWER CO.,LTD</span>"
 msgstr ""
 
 #. module: aic_hrm_brand

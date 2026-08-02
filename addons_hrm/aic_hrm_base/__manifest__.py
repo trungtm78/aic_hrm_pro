@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIC HRM Base',
+    'name': 'AIConnect HRM Base - Cycles, Scoring & Access',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
-    'summary': 'Foundation for the AIC HRM Pro suite: performance cycles, RAG profiles, scoring engine, security',
+    'summary': 'Foundation for the AIConnect HRM Pro suite: performance cycles, RAG profiles, scoring engine, security',
     'description': """
-Foundation module for the AIC HRM Pro performance management suite.
+Foundation module for the AIConnect HRM Pro performance management suite.
 
 Provides:
 
@@ -17,7 +17,7 @@ Provides:
 - Shared owner / scoring mixins and pure scoring math utilities
 - Security groups and manager-chain record rules
 """,
-    'author': 'AIPOWER CO.,LTD',
+    'author': 'AIPOWER CO., LTD',
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
     'depends': ['hr', 'mail', 'web'],

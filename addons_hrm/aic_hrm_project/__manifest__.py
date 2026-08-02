@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIC HRM Pro - Project Bridge',
+    'name': 'AIConnect HRM - Project Bridge',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Key results measured by real project work: task links and automatic progress',
     'description': """
-Connects AIC HRM Pro key results to Odoo Projects.
+Connects AIConnect HRM Pro key results to Odoo Projects.
 
 Provides:
 
@@ -15,7 +15,7 @@ Provides:
   synced on task state changes and by a daily safety-net cron
 - project.task allowlisted for auto-metric sources out of the box
 """,
-    'author': 'AIPOWER CO.,LTD',
+    'author': 'AIPOWER CO., LTD',
     'website': 'https://github.com/trungtm78/aic_hrm_pro',
     'license': 'OPL-1',
     'depends': ['aic_okr_kpi', 'project'],

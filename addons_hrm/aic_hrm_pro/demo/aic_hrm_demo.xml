@@ -355,6 +355,35 @@
         reader wants to try.
     -->
     <!--
+        The alert engine is a headline capability and the demo shipped none,
+        so a fresh install opened its screen on an empty list. These are the
+        four rule types, configured the way a first cycle usually is.
+    -->
+    <record id="demo_alert_stale" model="aic.hrm.alert.rule">
+        <field name="name">No check-in for two weeks</field>
+        <field name="rule_type">stale_kr</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="escalation_days">3</field>
+    </record>
+    <record id="demo_alert_red" model="aic.hrm.alert.rule">
+        <field name="name">Key result sitting in the red band</field>
+        <field name="rule_type">rag_red</field>
+        <field name="cycle_id" ref="demo_cycle"/>
+        <field name="escalation_days">5</field>
+    </record>
+    <record id="demo_alert_confidence" model="aic.hrm.alert.rule">
+        <field name="name">Owner confidence falling three check-ins running</field>
+        <field name="rule_type">confidence_drop</field>
+        <field name="streak_length">3</field>
+        <field name="escalation_days">2</field>
+    </record>
+    <record id="demo_alert_weight" model="aic.hrm.alert.rule">
+        <field name="name">Scorecard weights not reaching 100%</field>
+        <field name="rule_type">weight_incomplete</field>
+        <field name="escalation_days">7</field>
+    </record>
+
+    <!--
         Only the annual cycle opens. The cockpit lists open cycles newest
         first, so opening the quarter as well made it the default view -
         and the quarter carries one objective and no check-ins, so a first

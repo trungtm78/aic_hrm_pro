@@ -58,7 +58,19 @@
 .aicp figure figcaption{font-size:.82rem;color:var(--muted);margin-top:8px}
 .aicp .diagram img{border:none;border-radius:0}
 .aicp .shots{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:700px){.aicp .shots{grid-template-columns:1fr}}
+/* A 1440px screenshot scaled into a 264px column is a grey smudge. Below
+   the desktop widths each figure keeps a legible minimum and scrolls
+   inside itself - the page body never scrolls sideways. */
+@media(max-width:900px){
+  .aicp .shots{grid-template-columns:1fr}
+  .aicp figure{overflow-x:auto;-webkit-overflow-scrolling:touch;
+               border:1px solid var(--rule);border-radius:8px;
+               background:#fff}
+  .aicp figure img{min-width:660px;border:none;border-radius:0}
+  .aicp figure figcaption{position:sticky;left:0;padding:8px 12px 10px;
+                          margin-top:0;background:#fff}
+  .aicp .diagram img{min-width:820px}
+}
 
 @media(max-width:700px){
   .aicp .hero,.aicp .band,.aicp .foot{padding:28px 20px}
@@ -67,7 +79,7 @@
 </style>
 
 <div class="hero">
-  <h1>AIC HRM Pro — OKR, KPI and Performance Management</h1>
+  <h1>AIConnect HRM Pro — OKR, KPI and Performance Management</h1>
   <p class="lede">A complete goal-management system for Odoo Community: objectives at five
   levels, a real KPI engine, a check-in rhythm that produces evidence, and a review cycle that
   ends in a calibrated score somebody can defend.</p>
@@ -273,9 +285,9 @@
     <tr><th>Dependencies</th><td>Employees (hr), Discuss (mail), Web &mdash; Community only. No
       Enterprise app required. Excel import uses the <code>openpyxl</code> Python package, with a
       clear message if it is not installed.</td></tr>
-    <tr><th>Installed by this app</th><td>AIC HRM Base &middot; AIC OKR &amp; KPI &middot;
-      AIC HRM Review &middot; AIC HRM Library</td></tr>
-    <tr><th>Optional bridges</th><td>AIC HRM Project and AIC HRM Sale, installed separately when
+    <tr><th>Installed by this app</th><td>AIConnect HRM Base &middot; AIConnect OKR &amp; KPI &middot;
+      AIConnect HRM Review &middot; AIConnect HRM Library</td></tr>
+    <tr><th>Optional bridges</th><td>AIConnect HRM Project and AIConnect HRM Sale, installed separately when
       the matching Odoo app is present</td></tr>
     <tr><th>Languages</th><td>English and Vietnamese. Japanese ships as a flagged draft, marked as
       needing native review rather than presented as finished.</td></tr>
@@ -291,6 +303,7 @@
   <p>We build Odoo systems for companies that intend to run on them. If you want this suite
   configured against your own cycles, industries and reporting lines, that is work we do as
   well.</p>
+  <p>Part of the <b>AIConnect</b> range for Odoo, alongside AIConnect AI Agent Helpdesk.</p>
   <p><b>Website:</b> <a href="https://aipower.vn/en">aipower.vn/en</a><br>
   <b>Sales and support:</b> <a href="mailto:sales@aipower.vn">sales@aipower.vn</a></p>
   <p class="note" style="color:#93a2c2">Questions before buying are welcome &mdash; including the

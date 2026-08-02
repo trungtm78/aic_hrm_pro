@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIC HRM Pro',
+    'name': 'AIConnect HRM Pro - OKR, KPI & Performance Management',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
-    'summary': 'Enterprise OKR/KPI performance management suite: goals, scoring, monitoring, reviews, talent',
+    'summary': 'AIConnect performance suite for Odoo: OKR, KPI, BSC, check-ins, 360 feedback, calibration and 9-box',
     'description': """
-AIC HRM Pro — the complete enterprise performance management suite.
+AIConnect HRM Pro — the complete enterprise performance management suite.
 
 Installs the full stack:
 
-- AIC HRM Base: cycles, RAG profiles, scoring engine, security
-- AIC OKR & KPI: objectives at five levels, key results, KPI engine,
+- AIConnect HRM Base: cycles, RAG profiles, scoring engine, security
+- AIConnect OKR & KPI: objectives at five levels, key results, KPI engine,
   check-ins, alert rules, review meetings, pace diagnosis, leadership
   cockpit, alignment tree, Excel/CSV import, rollover
-- AIC HRM Review: review route maps, anonymous 360 feedback, calibration,
+- AIConnect HRM Review: review route maps, anonymous 360 feedback, calibration,
   9-box, IDP/PIP
-- AIC HRM Library: 10 industries x 25 roles of ready-made objective and
+- AIConnect HRM Library: 10 industries x 25 roles of ready-made objective and
   KPI packs, per-role data-collection playbooks, and a built-in guide to
   OKR, the Balanced Scorecard and key success factors
 
 Optional bridges, installed separately when the matching app is present:
-AIC HRM Project (task progress feeds key results) and AIC HRM Sale
+AIConnect HRM Project (task progress feeds key results) and AIConnect HRM Sale
 (quotations, orders and invoices feed sales KPIs).
 
 Ships a fictional demo dataset modelled on a real digital-product

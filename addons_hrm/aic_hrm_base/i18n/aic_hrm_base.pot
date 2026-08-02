@@ -48,7 +48,7 @@ msgstr ""
 
 #. module: aic_hrm_base
 #: model:res.groups.privilege,name:aic_hrm_base.privilege_aic_hrm
-msgid "AIC HRM Pro"
+msgid "AIConnect HRM Pro"
 msgstr ""
 
 #. module: aic_hrm_base
