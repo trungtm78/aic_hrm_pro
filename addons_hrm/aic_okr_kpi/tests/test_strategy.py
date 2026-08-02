@@ -53,6 +53,36 @@ class TestStrategyLayer(OkrCase):
         self.assertIn(objective, growth.objective_ids)
         self.assertIn(kpi, growth.kpi_ids)
 
+    def test_frameworks_seeded_with_dimensions(self):
+        frameworks = self.env['aic.hrm.framework'].search(
+            [('company_id', '=', False)])
+        codes = set(frameworks.mapped('code'))
+        self.assertTrue({'BSC', 'HOSHIN', '4DX'} <= codes)
+        for framework in frameworks:
+            self.assertTrue(
+                framework.perspective_ids,
+                f'{framework.name}: every built-in framework brings its '
+                'own dimensions')
+        bsc = frameworks.filtered(lambda f: f.code == 'BSC')
+        self.assertGreaterEqual(len(bsc.perspective_ids), 4)
+
+    def test_objective_readable_through_multiple_frameworks(self):
+        customer = self.env['aic.hrm.perspective'].search(
+            [('code', '=', 'CUST')], limit=1)
+        breakthrough = self.env['aic.hrm.perspective'].search(
+            [('code', '=', 'HOSHIN-BT')], limit=1)
+        wig = self.env['aic.hrm.perspective'].search(
+            [('code', '=', '4DX-WIG')], limit=1)
+        objective = self._make_objective(
+            perspective_id=customer.id,
+            framework_dimension_ids=[(6, 0, [breakthrough.id, wig.id])])
+        self.assertEqual(objective.perspective_id, customer)
+        frameworks = objective.framework_dimension_ids.mapped(
+            'framework_id.code')
+        self.assertEqual(set(frameworks), {'HOSHIN', '4DX'},
+                         'one objective reads through BSC, Hoshin and '
+                         '4DX at the same time')
+
     def test_balance_read_by_perspective(self):
         financial = self.env['aic.hrm.perspective'].search(
             [('code', '=', 'FIN')], limit=1)

@@ -1,7 +1,16 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-02T03:10:00+07:00 | Milestone: CP7/CP9 | Task: 0/5 của CP7
+Cập nhật: 2026-08-02T09:40:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS (đợt 3/3)
+
+## MỞ RỘNG SAU BÀN GIAO (2026-08-02, theo loạt yêu cầu mới của user)
+- [x] Đợt 1 — commit 76987c7 (214 test xanh): diagnosis engine (pace/run-rate/khuyến nghị); module MỚI aic_hrm_library (13 vai trò × 4 ngành, 26 obj templates + 78 KR + 52 KPI, playbook thu thập dữ liệu/vai trò, wizard Apply + Capture); nút "From Previous Cycle"/"From Library" trên list Objectives & KPI Targets; collection_method/guideline trên KPI + tab "How to Collect" trên target; wizard Import Actuals (CSV/XLSX, manual thắng, không đụng confirmed); 5 cấp mục tiêu (company/branch/department/team/individual) + model aic.hrm.team + constraint anchor theo level.
+- [x] Đợt 2 — commit c06a071 (221 test xanh): BSC perspectives (model + 4 seed, tag toàn bộ thư viện, related stored trên target); KSF catalog (13 yếu tố seed, objective drive / KPI measure); Knowledge Guide (11 bài phương pháp luận, menu riêng).
+- [~] Đợt 3 — ĐANG CHẠY SUITE (task bzl6gczki): multi-framework (aic.hrm.framework: BSC/Hoshin/4DX + 5 dimension mới, m2m framework_dimension_ids trên objective); 6 ngành mới từ agent research (F&B, Xây dựng, Logistics, Y tế, Giáo dục, TMĐT — 12 vai trò; seed giờ 10 ngành/25 vai trò/50 obj/150 KR/100 KPI); vi.po cập nhật (~385 chuỗi dịch cả 3 module, gồm 11 bài Knowledge Guide dịch full).
+
+BƯỚC TIẾP THEO (nếu mất context): đợi suite bzl6gczki (log scratchpad/suite3_run.log) → xanh thì: commit đợt 3 (message qua -F file, verify git log) → python tools/backport_18.py + test 18 → sync branch 18.0 (chỉ checkout khi porcelain rỗng) → push CẢ 2 nhánh (user đã duyệt push trong stream này) → cập nhật UAT-COVERAGE.md (thêm dòng: library/industry/playbook, actuals import, levels+team, BSC/KSF/framework, Knowledge Guide) → STATUS: ALL_MILESTONES_DONE.
+LƯU Ý DB DEV: noupdate đã clear cho aic_hrm_library + aic_okr_kpi (perspective/ksf/framework); 4 perspective BSC đã backfill framework_id bằng SQL (file noupdate="1" không update record cũ ở chế độ -u — bản cài mới không bị).
+QUYẾT ĐỊNH USER 2026-08-02: **Odoo 19 là version bán chính** — dev/test/demo/marketing ưu tiên 19; 18.0 chỉ là backport phụ, không để vấn đề 18 chặn giao hàng 19.
 
 Spec gốc: `C:\Users\Than Minh Trung\.claude\plans\t-i-mu-n-t-o-1-noble-moler.md` (plan đã duyệt qua brainstorming + eng-review + codex + hallmark).
 Protocol: AUTONOMOUS EXECUTION PROTOCOL (user cung cấp 2026-08-02) — không dừng hỏi, TDD, DoD 6 mục, UAT 100% cuối.

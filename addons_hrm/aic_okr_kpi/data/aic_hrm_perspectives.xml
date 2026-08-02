@@ -3,10 +3,32 @@
      own wording. Companies rename or extend them freely. -->
 <odoo noupdate="1">
 
+    <record id="framework_bsc" model="aic.hrm.framework">
+        <field name="name">Balanced Scorecard</field>
+        <field name="code">BSC</field>
+        <field name="sequence">10</field>
+        <field name="description">Kaplan-Norton: read the goal portfolio through four balanced perspectives.</field>
+    </record>
+
+    <record id="framework_hoshin" model="aic.hrm.framework">
+        <field name="name">Hoshin Kanri</field>
+        <field name="code">HOSHIN</field>
+        <field name="sequence">20</field>
+        <field name="description">Policy deployment: separate the few breakthrough bets from daily management and continuous improvement.</field>
+    </record>
+
+    <record id="framework_4dx" model="aic.hrm.framework">
+        <field name="name">4 Disciplines of Execution</field>
+        <field name="code">4DX</field>
+        <field name="sequence">30</field>
+        <field name="description">Focus on wildly important goals, act on lead measures, keep a compelling scoreboard, hold a cadence of accountability.</field>
+    </record>
+
     <record id="perspective_financial" model="aic.hrm.perspective">
         <field name="name">Financial</field>
         <field name="code">FIN</field>
         <field name="sequence">10</field>
+        <field name="framework_id" ref="framework_bsc"/>
         <field name="description">How do we look to shareholders? Revenue, margin, cost discipline, cash.</field>
     </record>
 
@@ -14,6 +36,7 @@
         <field name="name">Customer</field>
         <field name="code">CUST</field>
         <field name="sequence">20</field>
+        <field name="framework_id" ref="framework_bsc"/>
         <field name="description">How do customers see us? Satisfaction, retention, market share, brand.</field>
     </record>
 
@@ -21,6 +44,7 @@
         <field name="name">Internal Process</field>
         <field name="code">PROC</field>
         <field name="sequence">30</field>
+        <field name="framework_id" ref="framework_bsc"/>
         <field name="description">What must we excel at? Quality, speed, reliability, cost of operations.</field>
     </record>
 
@@ -28,7 +52,48 @@
         <field name="name">Learning &amp; Growth</field>
         <field name="code">LEARN</field>
         <field name="sequence">40</field>
+        <field name="framework_id" ref="framework_bsc"/>
         <field name="description">Can we keep improving? People capability, culture, systems, innovation.</field>
+    </record>
+
+    <record id="dimension_hoshin_breakthrough" model="aic.hrm.perspective">
+        <field name="name">Breakthrough</field>
+        <field name="code">HOSHIN-BT</field>
+        <field name="sequence">110</field>
+        <field name="framework_id" ref="framework_hoshin"/>
+        <field name="description">The 3-5 bets that change the business this year; reviewed by leadership every month.</field>
+    </record>
+
+    <record id="dimension_hoshin_daily" model="aic.hrm.perspective">
+        <field name="name">Daily Management</field>
+        <field name="code">HOSHIN-DM</field>
+        <field name="sequence">120</field>
+        <field name="framework_id" ref="framework_hoshin"/>
+        <field name="description">Run-the-business standards that must stay healthy while the breakthroughs happen.</field>
+    </record>
+
+    <record id="dimension_hoshin_kaizen" model="aic.hrm.perspective">
+        <field name="name">Continuous Improvement</field>
+        <field name="code">HOSHIN-CI</field>
+        <field name="sequence">130</field>
+        <field name="framework_id" ref="framework_hoshin"/>
+        <field name="description">Local improvement work owned by teams, below the leadership review line.</field>
+    </record>
+
+    <record id="dimension_4dx_wig" model="aic.hrm.perspective">
+        <field name="name">Wildly Important Goal</field>
+        <field name="code">4DX-WIG</field>
+        <field name="sequence">210</field>
+        <field name="framework_id" ref="framework_4dx"/>
+        <field name="description">The one or two goals where a miss makes everything else irrelevant.</field>
+    </record>
+
+    <record id="dimension_4dx_sustain" model="aic.hrm.perspective">
+        <field name="name">Sustaining Operation</field>
+        <field name="code">4DX-SUS</field>
+        <field name="sequence">220</field>
+        <field name="framework_id" ref="framework_4dx"/>
+        <field name="description">The whirlwind: necessary operational work that must not crowd out the wildly important.</field>
     </record>
 
 </odoo>

@@ -1642,4 +1642,1516 @@
         <field name="default_target">15</field>
     </record>
 
+    <record id="tpl_resto_1" model="aic.hrm.objective.template">
+        <field name="name">Run consistently profitable store operations across the chain</field>
+        <field name="role_id" ref="role_resto"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_resto_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_resto_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Hold chain-wide prime cost (food + labor) at or below target</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">60</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_resto_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_resto_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Grow same-store sales versus prior year</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">5</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_resto_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_resto_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Achieve pass rate on internal store operations audits</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">95</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_resto_2" model="aic.hrm.objective.template">
+        <field name="name">Make every guest visit worth a return trip</field>
+        <field name="role_id" ref="role_resto"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_resto_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_resto_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Lift average online review rating across all locations</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">4.6</field>
+        <field name="unit">stars</field>
+    </record>
+
+    <record id="tpl_resto_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_resto_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Reach mystery-guest program score across stores</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">90</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_resto_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_resto_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Increase average table turns per service period (full-service)</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">2.5</field>
+        <field name="unit">turns</field>
+    </record>
+
+    <record id="kpi_resto_1" model="aic.hrm.kpi">
+        <field name="name">Average daily sales per store</field>
+        <field name="code">LIB-RESTO-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_resto"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">3000</field>
+    </record>
+
+    <record id="kpi_resto_2" model="aic.hrm.kpi">
+        <field name="name">Labor cost as % of revenue</field>
+        <field name="code">LIB-RESTO-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_resto"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">28</field>
+    </record>
+
+    <record id="kpi_resto_3" model="aic.hrm.kpi">
+        <field name="name">Average order-to-serve time</field>
+        <field name="code">LIB-RESTO-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_resto"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">minutes</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">12</field>
+    </record>
+
+    <record id="kpi_resto_4" model="aic.hrm.kpi">
+        <field name="name">Guest satisfaction score</field>
+        <field name="code">LIB-RESTO-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_resto"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">90</field>
+    </record>
+
+    <record id="tpl_fbcost_1" model="aic.hrm.objective.template">
+        <field name="name">Keep cost of goods under tight, predictable control</field>
+        <field name="role_id" ref="role_fbcost"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_fbcost_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fbcost_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Hold blended food cost as a share of food revenue</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">30</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fbcost_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fbcost_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Keep kitchen waste value as a share of food purchases</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">2</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fbcost_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fbcost_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Keep monthly stock count variance versus system inventory</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">1</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fbcost_2" model="aic.hrm.objective.template">
+        <field name="name">Build a best-in-class costing and procurement engine</field>
+        <field name="role_id" ref="role_fbcost"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_fbcost_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fbcost_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Complete recipe costing cards for the active menu</field>
+        <field name="metric_type">milestone</field>
+        <field name="direction">higher</field>
+        <field name="default_target">100</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fbcost_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fbcost_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Close the gap between theoretical and actual food cost</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">1.5</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fbcost_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fbcost_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Raise share of purchase value under negotiated supplier contracts</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">85</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="kpi_fbcost_1" model="aic.hrm.kpi">
+        <field name="name">Food cost as % of food revenue</field>
+        <field name="code">LIB-FBCOST-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fbcost"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">30</field>
+    </record>
+
+    <record id="kpi_fbcost_2" model="aic.hrm.kpi">
+        <field name="name">Beverage cost as % of beverage revenue</field>
+        <field name="code">LIB-FBCOST-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fbcost"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">20</field>
+    </record>
+
+    <record id="kpi_fbcost_3" model="aic.hrm.kpi">
+        <field name="name">Inventory days on hand (perishables)</field>
+        <field name="code">LIB-FBCOST-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fbcost"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">days</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">5</field>
+    </record>
+
+    <record id="kpi_fbcost_4" model="aic.hrm.kpi">
+        <field name="name">Stock turnover of F&amp;B inventory</field>
+        <field name="code">LIB-FBCOST-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fbcost"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">turns/year</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">24</field>
+    </record>
+
+    <record id="tpl_site_1" model="aic.hrm.objective.template">
+        <field name="name">Deliver the project on schedule and on budget</field>
+        <field name="role_id" ref="role_site"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_site_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_site_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Maintain schedule performance index (earned vs planned)</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">0.95</field>
+        <field name="unit">x</field>
+    </record>
+
+    <record id="tpl_site_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_site_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Maintain cost performance index (earned vs actual cost)</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">1.0</field>
+        <field name="unit">x</field>
+    </record>
+
+    <record id="tpl_site_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_site_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Complete contract milestones on or before their baseline dates</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">90</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_site_2" model="aic.hrm.objective.template">
+        <field name="name">Build a zero-harm, right-first-time site culture</field>
+        <field name="role_id" ref="role_site"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_site_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_site_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Keep total recordable incident rate per 200,000 hours</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">1.5</field>
+        <field name="unit">rate</field>
+    </record>
+
+    <record id="tpl_site_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_site_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Keep rework cost as a share of total project value</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">2</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_site_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_site_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Deliver safety training hours per worker per year</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">12</field>
+        <field name="unit">hours</field>
+    </record>
+
+    <record id="kpi_site_1" model="aic.hrm.kpi">
+        <field name="name">Schedule performance index (SPI)</field>
+        <field name="code">LIB-SITE-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_site"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">x</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">0.95</field>
+    </record>
+
+    <record id="kpi_site_2" model="aic.hrm.kpi">
+        <field name="name">Budget cost variance</field>
+        <field name="code">LIB-SITE-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_site"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">5</field>
+    </record>
+
+    <record id="kpi_site_3" model="aic.hrm.kpi">
+        <field name="name">Total recordable incident rate (per 200k hours)</field>
+        <field name="code">LIB-SITE-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_site"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
+        <field name="unit">rate</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">1.5</field>
+    </record>
+
+    <record id="kpi_site_4" model="aic.hrm.kpi">
+        <field name="name">First-time quality inspection pass rate</field>
+        <field name="code">LIB-SITE-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_site"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">95</field>
+    </record>
+
+    <record id="tpl_qs_1" model="aic.hrm.objective.template">
+        <field name="name">Protect project margin through disciplined commercial control</field>
+        <field name="role_id" ref="role_qs"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_qs_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_qs_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Keep cost forecast deviation versus final account</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">3</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_qs_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_qs_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Certify and submit interim valuations within the contract cycle</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">30</field>
+        <field name="unit">days</field>
+    </record>
+
+    <record id="tpl_qs_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_qs_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Win approval on submitted variation and claim value</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">80</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_qs_2" model="aic.hrm.objective.template">
+        <field name="name">Digitize and de-risk the contract administration workflow</field>
+        <field name="role_id" ref="role_qs"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_qs_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_qs_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Migrate live BOQs and subcontracts into the cost system</field>
+        <field name="metric_type">milestone</field>
+        <field name="direction">higher</field>
+        <field name="default_target">100</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_qs_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_qs_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Cut average subcontract tender-to-award lead time</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">21</field>
+        <field name="unit">days</field>
+    </record>
+
+    <record id="tpl_qs_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_qs_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Cap open commercial disputes per project at year end</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">2</field>
+        <field name="unit">count</field>
+    </record>
+
+    <record id="kpi_qs_1" model="aic.hrm.kpi">
+        <field name="name">Project gross margin (certified)</field>
+        <field name="code">LIB-QS-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_qs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">10</field>
+    </record>
+
+    <record id="kpi_qs_2" model="aic.hrm.kpi">
+        <field name="name">Unbilled work in progress value</field>
+        <field name="code">LIB-QS-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_qs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">500000</field>
+    </record>
+
+    <record id="kpi_qs_3" model="aic.hrm.kpi">
+        <field name="name">Average payment collection cycle</field>
+        <field name="code">LIB-QS-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_qs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">days</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">45</field>
+    </record>
+
+    <record id="kpi_qs_4" model="aic.hrm.kpi">
+        <field name="name">Variation/claim approval success rate</field>
+        <field name="code">LIB-QS-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_qs"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">75</field>
+    </record>
+
+    <record id="tpl_fleet_1" model="aic.hrm.objective.template">
+        <field name="name">Deliver reliable, cost-efficient transport service</field>
+        <field name="role_id" ref="role_fleet"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_fleet_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fleet_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Achieve on-time-in-full delivery rate across all lanes</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">95</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fleet_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fleet_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Sustain fleet utilization of available vehicle capacity</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">85</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fleet_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fleet_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Keep empty-running share of total kilometers driven</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">15</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fleet_2" model="aic.hrm.objective.template">
+        <field name="name">Run the safest, cleanest fleet in the market</field>
+        <field name="role_id" ref="role_fleet"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_fleet_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fleet_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Keep at-fault accidents per one million kilometers</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">1.5</field>
+        <field name="unit">rate</field>
+    </record>
+
+    <record id="tpl_fleet_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fleet_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Reduce average fuel consumption per 100 km</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">28</field>
+        <field name="unit">liters</field>
+    </record>
+
+    <record id="tpl_fleet_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fleet_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Raise average driver telematics safety score</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">85</field>
+        <field name="unit">points</field>
+    </record>
+
+    <record id="kpi_fleet_1" model="aic.hrm.kpi">
+        <field name="name">On-time delivery rate</field>
+        <field name="code">LIB-FLEET-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fleet"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">95</field>
+    </record>
+
+    <record id="kpi_fleet_2" model="aic.hrm.kpi">
+        <field name="name">Fleet utilization rate</field>
+        <field name="code">LIB-FLEET-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fleet"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">85</field>
+    </record>
+
+    <record id="kpi_fleet_3" model="aic.hrm.kpi">
+        <field name="name">Vehicle maintenance downtime</field>
+        <field name="code">LIB-FLEET-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fleet"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">5</field>
+    </record>
+
+    <record id="kpi_fleet_4" model="aic.hrm.kpi">
+        <field name="name">Transport cost per kilometer</field>
+        <field name="code">LIB-FLEET-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fleet"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">1.5</field>
+    </record>
+
+    <record id="tpl_wh_1" model="aic.hrm.objective.template">
+        <field name="name">Ship every order fast and right the first time</field>
+        <field name="role_id" ref="role_wh"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_wh_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_wh_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Sustain order picking accuracy across all shipped lines</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">99.5</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_wh_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_wh_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Achieve order fill rate against confirmed demand</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">98</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_wh_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_wh_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Keep dock-to-stock time for inbound receipts</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">24</field>
+        <field name="unit">hours</field>
+    </record>
+
+    <record id="tpl_wh_2" model="aic.hrm.objective.template">
+        <field name="name">Turn the warehouse into a productivity benchmark</field>
+        <field name="role_id" ref="role_wh"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_wh_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_wh_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Raise storage location utilization without service loss</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">85</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_wh_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_wh_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Increase picker productivity in lines per labor hour</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">60</field>
+        <field name="unit">lines/hr</field>
+    </record>
+
+    <record id="tpl_wh_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_wh_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Cut fully loaded cost per order shipped versus baseline</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">10</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="kpi_wh_1" model="aic.hrm.kpi">
+        <field name="name">Inventory record accuracy</field>
+        <field name="code">LIB-WH-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_wh"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">99.5</field>
+    </record>
+
+    <record id="kpi_wh_2" model="aic.hrm.kpi">
+        <field name="name">Order fill rate</field>
+        <field name="code">LIB-WH-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_wh"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">98</field>
+    </record>
+
+    <record id="kpi_wh_3" model="aic.hrm.kpi">
+        <field name="name">Fulfillment cost per order shipped</field>
+        <field name="code">LIB-WH-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_wh"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">4</field>
+    </record>
+
+    <record id="kpi_wh_4" model="aic.hrm.kpi">
+        <field name="name">Inventory shrinkage rate</field>
+        <field name="code">LIB-WH-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_wh"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">0.5</field>
+    </record>
+
+    <record id="tpl_clinic_1" model="aic.hrm.objective.template">
+        <field name="name">Run smooth, high-throughput clinic operations</field>
+        <field name="role_id" ref="role_clinic"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_clinic_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_clinic_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Keep average patient wait time from check-in to consult</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">15</field>
+        <field name="unit">minutes</field>
+    </record>
+
+    <record id="tpl_clinic_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_clinic_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Keep appointment no-show rate across all clinics</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">5</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_clinic_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_clinic_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Sustain consult-room and practitioner utilization</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">80</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_clinic_2" model="aic.hrm.objective.template">
+        <field name="name">Grow each clinic into a self-funding growth unit</field>
+        <field name="role_id" ref="role_clinic"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_clinic_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_clinic_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Grow patient visit volume versus prior year</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">10</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_clinic_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_clinic_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Increase average revenue captured per patient visit</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">8</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_clinic_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_clinic_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Keep days in accounts receivable for billed services</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">30</field>
+        <field name="unit">days</field>
+    </record>
+
+    <record id="kpi_clinic_1" model="aic.hrm.kpi">
+        <field name="name">Patient visits per clinic per day</field>
+        <field name="code">LIB-CLINIC-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_clinic"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">count</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">60</field>
+    </record>
+
+    <record id="kpi_clinic_2" model="aic.hrm.kpi">
+        <field name="name">Average patient wait time</field>
+        <field name="code">LIB-CLINIC-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_clinic"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">minutes</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">15</field>
+    </record>
+
+    <record id="kpi_clinic_3" model="aic.hrm.kpi">
+        <field name="name">Practitioner schedule utilization</field>
+        <field name="code">LIB-CLINIC-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_clinic"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">80</field>
+    </record>
+
+    <record id="kpi_clinic_4" model="aic.hrm.kpi">
+        <field name="name">Average revenue per patient visit</field>
+        <field name="code">LIB-CLINIC-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_clinic"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">75</field>
+    </record>
+
+    <record id="tpl_patexp_1" model="aic.hrm.objective.template">
+        <field name="name">Make patients measurably happier at every visit</field>
+        <field name="role_id" ref="role_patexp"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_patexp_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_patexp_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Reach net promoter score across the clinic chain</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">60</field>
+        <field name="unit">points</field>
+    </record>
+
+    <record id="tpl_patexp_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_patexp_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Achieve overall patient satisfaction survey score</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">90</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_patexp_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_patexp_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Resolve formal patient complaints within the service window</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">3</field>
+        <field name="unit">days</field>
+    </record>
+
+    <record id="tpl_patexp_2" model="aic.hrm.objective.template">
+        <field name="name">Build lifelong patient relationships across channels</field>
+        <field name="role_id" ref="role_patexp"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_patexp_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_patexp_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Raise 12-month patient retention / return rate</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">85</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_patexp_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_patexp_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Lift average public review rating across locations</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">4.7</field>
+        <field name="unit">stars</field>
+    </record>
+
+    <record id="tpl_patexp_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_patexp_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Grow active patient-portal or app adoption</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">60</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="kpi_patexp_1" model="aic.hrm.kpi">
+        <field name="name">Patient net promoter score</field>
+        <field name="code">LIB-PATEXP-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_patexp"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">points</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">60</field>
+    </record>
+
+    <record id="kpi_patexp_2" model="aic.hrm.kpi">
+        <field name="name">Complaints per 1,000 patient visits</field>
+        <field name="code">LIB-PATEXP-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_patexp"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">rate</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">5</field>
+    </record>
+
+    <record id="kpi_patexp_3" model="aic.hrm.kpi">
+        <field name="name">Average public review rating</field>
+        <field name="code">LIB-PATEXP-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_patexp"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">stars</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">last</field>
+        <field name="default_target">4.6</field>
+    </record>
+
+    <record id="kpi_patexp_4" model="aic.hrm.kpi">
+        <field name="name">Patient survey response rate</field>
+        <field name="code">LIB-PATEXP-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_patexp"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">30</field>
+    </record>
+
+    <record id="tpl_acad_1" model="aic.hrm.objective.template">
+        <field name="name">Deliver programs learners actually finish and value</field>
+        <field name="role_id" ref="role_acad"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_acad_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_acad_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Achieve course completion rate across active cohorts</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">80</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_acad_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_acad_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Sustain average learner satisfaction rating per course</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">4.5</field>
+        <field name="unit">stars</field>
+    </record>
+
+    <record id="tpl_acad_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_acad_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Launch scheduled courses and intakes on their planned dates</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">95</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_acad_2" model="aic.hrm.objective.template">
+        <field name="name">Prove learning outcomes the market recognizes</field>
+        <field name="role_id" ref="role_acad"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_acad_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_acad_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Reach graduate employment or placement within 6 months</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">80</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_acad_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_acad_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Achieve first-attempt certification exam pass rate</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">85</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_acad_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_acad_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Launch new market-driven courses during the year</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">12</field>
+        <field name="unit">count</field>
+    </record>
+
+    <record id="kpi_acad_1" model="aic.hrm.kpi">
+        <field name="name">Course completion rate</field>
+        <field name="code">LIB-ACAD-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_acad"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">80</field>
+    </record>
+
+    <record id="kpi_acad_2" model="aic.hrm.kpi">
+        <field name="name">Average course rating by learners</field>
+        <field name="code">LIB-ACAD-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_acad"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">stars</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">4.5</field>
+    </record>
+
+    <record id="kpi_acad_3" model="aic.hrm.kpi">
+        <field name="name">Cohort dropout rate</field>
+        <field name="code">LIB-ACAD-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_acad"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">15</field>
+    </record>
+
+    <record id="kpi_acad_4" model="aic.hrm.kpi">
+        <field name="name">Final assessment pass rate</field>
+        <field name="code">LIB-ACAD-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_acad"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_learning"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">85</field>
+    </record>
+
+    <record id="tpl_enroll_1" model="aic.hrm.objective.template">
+        <field name="name">Hit enrollment targets with an efficient funnel</field>
+        <field name="role_id" ref="role_enroll"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_enroll_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_enroll_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Enroll new students against the intake plan</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">500</field>
+        <field name="unit">count</field>
+    </record>
+
+    <record id="tpl_enroll_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_enroll_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Convert qualified inquiries into paid enrollments</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">12</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_enroll_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_enroll_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Keep blended cost per acquired student within budget</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">100</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_enroll_2" model="aic.hrm.objective.template">
+        <field name="name">Build an admissions experience competitors cannot match</field>
+        <field name="role_id" ref="role_enroll"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_enroll_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_enroll_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Respond to every new inquiry within the service window</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">2</field>
+        <field name="unit">hours</field>
+    </record>
+
+    <record id="tpl_enroll_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_enroll_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Raise show rate for booked admissions consultations</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">70</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_enroll_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_enroll_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Grow share of enrollments from referrals and alumni</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">25</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="kpi_enroll_1" model="aic.hrm.kpi">
+        <field name="name">New enrollments per period</field>
+        <field name="code">LIB-ENROLL-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_enroll"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">count</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">sum</field>
+        <field name="default_target">150</field>
+    </record>
+
+    <record id="kpi_enroll_2" model="aic.hrm.kpi">
+        <field name="name">Inquiry-to-enrollment conversion rate</field>
+        <field name="code">LIB-ENROLL-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_enroll"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">12</field>
+    </record>
+
+    <record id="kpi_enroll_3" model="aic.hrm.kpi">
+        <field name="name">Cost per acquired student</field>
+        <field name="code">LIB-ENROLL-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_enroll"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">200</field>
+    </record>
+
+    <record id="kpi_enroll_4" model="aic.hrm.kpi">
+        <field name="name">Average first-response time to inquiries</field>
+        <field name="code">LIB-ENROLL-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_enroll"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">hours</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">2</field>
+    </record>
+
+    <record id="tpl_ecomm_1" model="aic.hrm.objective.template">
+        <field name="name">Grow online revenue profitably</field>
+        <field name="role_id" ref="role_ecomm"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_ecomm_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_ecomm_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Grow online revenue versus the same period last year</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">25</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_ecomm_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_ecomm_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Lift sitewide conversion rate from session to order</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">2.5</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_ecomm_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_ecomm_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Sustain blended return on ad spend across paid channels</field>
+        <field name="metric_type">number</field>
+        <field name="direction">higher</field>
+        <field name="default_target">4</field>
+        <field name="unit">x</field>
+    </record>
+
+    <record id="tpl_ecomm_2" model="aic.hrm.objective.template">
+        <field name="name">Turn one-time buyers into a loyal customer base</field>
+        <field name="role_id" ref="role_ecomm"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_ecomm_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_ecomm_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Raise 90-day repeat purchase rate</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">35</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_ecomm_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_ecomm_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Reduce checkout cart abandonment rate</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">68</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_ecomm_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_ecomm_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Grow revenue share from owned channels (email, app, loyalty)</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">30</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="kpi_ecomm_1" model="aic.hrm.kpi">
+        <field name="name">Sitewide conversion rate</field>
+        <field name="code">LIB-ECOMM-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_ecomm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">2.5</field>
+    </record>
+
+    <record id="kpi_ecomm_2" model="aic.hrm.kpi">
+        <field name="name">Average order value</field>
+        <field name="code">LIB-ECOMM-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_ecomm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">60</field>
+    </record>
+
+    <record id="kpi_ecomm_3" model="aic.hrm.kpi">
+        <field name="name">Cart abandonment rate</field>
+        <field name="code">LIB-ECOMM-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_ecomm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">70</field>
+    </record>
+
+    <record id="kpi_ecomm_4" model="aic.hrm.kpi">
+        <field name="name">Blended return on ad spend</field>
+        <field name="code">LIB-ECOMM-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_ecomm"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">x</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">4</field>
+    </record>
+
+    <record id="tpl_fulfil_1" model="aic.hrm.objective.template">
+        <field name="name">Fulfill every order fast, accurately, and on time</field>
+        <field name="role_id" ref="role_fulfil"/>
+        <field name="sequence">10</field>
+        <field name="objective_type">committed</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_fulfil_1_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fulfil_1"/>
+        <field name="sequence">10</field>
+        <field name="name">Ship confirmed orders within the processing window</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">12</field>
+        <field name="unit">hours</field>
+    </record>
+
+    <record id="tpl_fulfil_1_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fulfil_1"/>
+        <field name="sequence">20</field>
+        <field name="name">Achieve on-time delivery rate to customer promise date</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">96</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fulfil_1_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fulfil_1"/>
+        <field name="sequence">30</field>
+        <field name="name">Sustain shipped-order accuracy (right item, right quantity)</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">99.5</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fulfil_2" model="aic.hrm.objective.template">
+        <field name="name">Make last-mile delivery a competitive advantage</field>
+        <field name="role_id" ref="role_fulfil"/>
+        <field name="sequence">20</field>
+        <field name="objective_type">aspirational</field>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="is_builtin" eval="True"/>
+    </record>
+
+    <record id="tpl_fulfil_2_kr1" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fulfil_2"/>
+        <field name="sequence">10</field>
+        <field name="name">Raise first-attempt delivery success rate</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">higher</field>
+        <field name="default_target">95</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fulfil_2_kr2" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fulfil_2"/>
+        <field name="sequence">20</field>
+        <field name="name">Cut average last-mile cost per delivered order versus baseline</field>
+        <field name="metric_type">percent</field>
+        <field name="direction">lower</field>
+        <field name="default_target">10</field>
+        <field name="unit">%</field>
+    </record>
+
+    <record id="tpl_fulfil_2_kr3" model="aic.hrm.kr.template">
+        <field name="template_id" ref="tpl_fulfil_2"/>
+        <field name="sequence">30</field>
+        <field name="name">Process customer returns to refund or restock</field>
+        <field name="metric_type">number</field>
+        <field name="direction">lower</field>
+        <field name="default_target">3</field>
+        <field name="unit">days</field>
+    </record>
+
+    <record id="kpi_fulfil_1" model="aic.hrm.kpi">
+        <field name="name">Orders shipped same day</field>
+        <field name="code">LIB-FULFIL-01</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fulfil"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_process"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">90</field>
+    </record>
+
+    <record id="kpi_fulfil_2" model="aic.hrm.kpi">
+        <field name="name">On-time delivery rate</field>
+        <field name="code">LIB-FULFIL-02</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fulfil"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">higher</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">96</field>
+    </record>
+
+    <record id="kpi_fulfil_3" model="aic.hrm.kpi">
+        <field name="name">Last-mile delivery cost per order</field>
+        <field name="code">LIB-FULFIL-03</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fulfil"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_financial"/>
+        <field name="unit">currency</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">5</field>
+    </record>
+
+    <record id="kpi_fulfil_4" model="aic.hrm.kpi">
+        <field name="name">Order return rate</field>
+        <field name="code">LIB-FULFIL-04</field>
+        <field name="is_template" eval="True"/>
+        <field name="library_role_id" ref="role_fulfil"/>
+        <field name="perspective_id" ref="aic_okr_kpi.perspective_customer"/>
+        <field name="unit">%</field>
+        <field name="direction">lower</field>
+        <field name="aggregation">average</field>
+        <field name="default_target">8</field>
+    </record>
+
 </odoo>

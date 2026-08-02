@@ -68,6 +68,12 @@ class AicHrmObjective(models.Model):
         ondelete='set null',
         help="Success factor this objective drives - the strategy-level "
              "'must go right' it exists for.")
+    framework_dimension_ids = fields.Many2many(
+        'aic.hrm.perspective', 'aic_hrm_objective_dimension_rel',
+        'objective_id', 'perspective_id', string='Framework Tags',
+        help="Read this objective through additional frameworks - e.g. "
+             "Hoshin 'Breakthrough' or 4DX 'Wildly Important Goal' on "
+             "top of its BSC perspective.")
     objective_type = fields.Selection([
         ('committed', 'Committed'),
         ('aspirational', 'Aspirational'),

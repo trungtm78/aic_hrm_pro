@@ -10,10 +10,11 @@ msgstr ""
 "PO-Revision-Date: 2026-08-02 02:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: aic_hrm_library
 #. odoo-python
@@ -39,6 +40,12 @@ msgid ""
 "for. Blockers written down become the agenda of the next review meeting\n"
 "automatically; blockers kept in heads become December surprises."
 msgstr ""
+"<p>Một check-in tốt mất hai phút: giá trị hiện tại, độ tự tin 1–10 rằng sẽ "
+"đạt chỉ tiêu, và một vướng mắc đang cản đường. Xu hướng độ tự tin quan trọng"
+" hơn giá trị đơn lẻ — ba lần check-in giảm liên tiếp là cảnh báo sớm mà máy "
+"cảnh báo đang canh. Vướng mắc được ghi lại tự động thành chương trình nghị "
+"sự của phiên rà soát kế tiếp; vướng mắc giữ trong đầu thành bất ngờ tháng "
+"Chạp.</p>"
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_good_krs
@@ -50,6 +57,11 @@ msgid ""
 "results per objective is usually enough; if you need six, the objective is\n"
 "two objectives."
 msgstr ""
+"<p>Kết quả then chốt là một con số, không phải một hoạt động. \"Ra mắt luồng"
+" onboarding mới\" là một cột mốc; \"nâng tỷ lệ kích hoạt từ 30% lên 50%\" là"
+" một kết quả then chốt. Đặt baseline trung thực, chọn chiều tốt (cao/thấp), "
+"và chọn chỉ tiêu mà đạt ~70% vẫn là một quý tốt. Ba kết quả then chốt mỗi "
+"mục tiêu thường là đủ; nếu cần sáu, mục tiêu đó thực ra là hai mục tiêu.</p>"
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_ksf
@@ -62,6 +74,12 @@ msgid ""
 "flying blind on something you called critical. When a KPI measures no\n"
 "factor, ask why you track it at all."
 msgstr ""
+"<p>Yếu tố thành công then chốt là lĩnh vực buộc phải làm đúng để chiến lược "
+"thành công — \"chất lượng dịch vụ và giao hàng\", \"giữ chân nhân tài\". Giữ"
+" danh sách ngắn (một công ty có 5–8, không phải 30). Mỗi mục tiêu nên khai "
+"báo nó thúc đẩy yếu tố nào; mỗi KPI nên khai báo nó đo yếu tố nào. Yếu tố "
+"không có KPI đo nghĩa là bạn đang bay mù trên thứ mình gọi là then chốt. KPI"
+" không đo yếu tố nào thì hãy tự hỏi vì sao còn theo dõi nó.</p>"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__active
@@ -74,12 +92,12 @@ msgstr ""
 #. module: aic_hrm_library
 #: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_industries
 msgid "Add an industry"
-msgstr ""
+msgstr "Thêm ngành nghề"
 
 #. module: aic_hrm_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_capture_wizard_form
 msgid "Add to Library"
-msgstr ""
+msgstr "Thêm vào thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_apply_wizard__include_kpis
@@ -91,7 +109,7 @@ msgstr ""
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_apply_wizard
 #: model:ir.ui.menu,name:aic_hrm_library.menu_library_apply
 msgid "Apply Library Pack"
-msgstr ""
+msgstr "Áp dụng gói thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_objective_template__objective_type__aspirational
@@ -101,7 +119,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__perspective_id
 msgid "BSC Perspective"
-msgstr ""
+msgstr "Góc nhìn BSC"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_objective_template__perspective_id
@@ -109,21 +127,23 @@ msgid ""
 "Balanced Scorecard perspective this template serves; carried onto objectives"
 " created from it."
 msgstr ""
+"Góc nhìn Balanced Scorecard của mẫu này; được mang theo sang mục tiêu tạo từ"
+" mẫu."
 
 #. module: aic_hrm_library
 #: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_roles
 msgid "Browse the role library"
-msgstr ""
+msgstr "Duyệt thư viện vai trò"
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_using_library
 msgid "Building your company knowledge on top of the library"
-msgstr ""
+msgstr "Xây tri thức công ty trên nền thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__cadence
 msgid "Cadence & Check-ins"
-msgstr ""
+msgstr "Nhịp điệu & Check-in"
 
 #. module: aic_hrm_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_apply_wizard_form
@@ -134,12 +154,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:aic_hrm_library.action_library_capture
 #: model:ir.ui.menu,name:aic_hrm_library.menu_library_capture
 msgid "Capture Knowledge"
-msgstr ""
+msgstr "Thu nạp tri thức"
 
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_capture_wizard
 msgid "Capture Library Knowledge"
-msgstr ""
+msgstr "Thu nạp tri thức thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__category
@@ -161,7 +181,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_collecting_actuals
 msgid "Collecting actuals: automatic, imported, manual"
-msgstr ""
+msgstr "Thu thập số liệu thực tế: tự động, import, nhập tay"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_objective_template__objective_type__committed
@@ -215,7 +235,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_search
 msgid "Cross-industry"
-msgstr ""
+msgstr "Liên ngành"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__cycle_id
@@ -225,13 +245,13 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__data
 msgid "Data Collection"
-msgstr ""
+msgstr "Thu thập dữ liệu"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__collection_playbook
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
 msgid "Data Collection Playbook"
-msgstr ""
+msgstr "Sổ tay thu thập dữ liệu"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__default_target
@@ -269,7 +289,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_kpi_documentation
 msgid "Documenting a KPI so any reader trusts it"
-msgstr ""
+msgstr "Tài liệu hóa KPI để mọi người đọc đều tin"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__metric_type__boolean
@@ -282,6 +302,8 @@ msgid ""
 "Each role ships with objective templates and KPI templates. Apply a pack "
 "into a cycle, then tailor targets to your context."
 msgstr ""
+"Mỗi vai trò có sẵn mẫu mục tiêu và mẫu KPI. Áp gói vào một chu kỳ rồi tinh "
+"chỉnh chỉ tiêu theo bối cảnh của bạn."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__employee_id
@@ -291,24 +313,24 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_knowledge_article__industry_ids
 msgid "Empty = relevant across industries."
-msgstr ""
+msgstr "Để trống = liên quan mọi ngành nghề."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_knowledge_article__role_ids
 msgid "Empty = relevant to everyone."
-msgstr ""
+msgstr "Để trống = liên quan tới mọi người."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__industry_ids
 msgid "Empty = the role applies across industries."
-msgstr ""
+msgstr "Để trống = vai trò áp dụng cho mọi ngành nghề."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_knowledge_article__company_id
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__company_id
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_objective_template__company_id
 msgid "Empty on shared built-ins; set on company knowledge."
-msgstr ""
+msgstr "Để trống với mẫu dùng chung có sẵn; đặt giá trị với tri thức công ty."
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_kpi_documentation
@@ -320,23 +342,28 @@ msgid ""
 "\"How to collect\" guideline on each KPI tells the operator exactly which\n"
 "system or report the number comes from and who confirms it."
 msgstr ""
+"<p>Mỗi KPI trong thư viện mang một hồ sơ tài liệu: định nghĩa kinh doanh, "
+"công thức tính, đơn vị, chiều tốt, cách tổng hợp (cuối kỳ / bình quân / lũy "
+"kế), tần suất, nguồn dữ liệu, và là chỉ báo dẫn dắt hay trễ. Điền một lần, "
+"khỏi tranh cãi mãi. Hướng dẫn \"Cách thu thập\" trên từng KPI nói chính xác "
+"con số đến từ hệ thống hay báo cáo nào và ai xác nhận.</p>"
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_fair_scoring
 msgid "Fair scoring: calibration and the anonymity rules"
-msgstr ""
+msgstr "Chấm điểm công bằng: calibration và quy tắc ẩn danh"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_apply_wizard__industry_id
 msgid ""
 "Filter roles to your industry; cross-industry roles always stay available."
-msgstr ""
+msgstr "Lọc vai trò theo ngành của bạn; vai trò liên ngành luôn khả dụng."
 
 #. module: aic_hrm_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_kpi_target_list_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_objective_list_library
 msgid "From Library"
-msgstr ""
+msgstr "Từ thư viện"
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_diagnosis
@@ -349,6 +376,13 @@ msgid ""
 "manager approval, or accept the miss consciously in the review meeting.\n"
 "Acting in month two is cheap; discovering in month twelve is not."
 msgstr ""
+"<p>Nửa chặng chu kỳ, một kết quả then chốt ở mức 20% không phải \"đang tiến "
+"triển\" mà là đang chậm — bảng chẩn đoán so tiến độ thực với phần lịch đã "
+"trôi qua và tính run-rate cần thiết từ giờ trở đi. Run-rate cần thiết vượt "
+"~1.5 lần nhịp hiện tại là tín hiệu phải hành động: gỡ vướng mắc đã ghi, điều"
+" chỉnh phạm vi qua phiếu sửa chỉ tiêu có quản lý duyệt, hoặc chấp nhận hụt "
+"một cách có ý thức trong phiên rà soát. Hành động ở tháng thứ hai thì rẻ; "
+"phát hiện ở tháng mười hai thì không.</p>"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__direction__higher
@@ -375,7 +409,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__industry_ids
 msgid "Industries"
-msgstr ""
+msgstr "Ngành nghề"
 
 #. module: aic_hrm_library
 #: model_terms:ir.actions.act_window,help:aic_hrm_library.action_library_industries
@@ -383,17 +417,19 @@ msgid ""
 "Industries filter the role library: roles tagged with an industry surface "
 "for companies in that industry; untagged roles apply everywhere."
 msgstr ""
+"Ngành nghề dùng để lọc thư viện vai trò: vai trò gắn ngành hiện với công ty "
+"thuộc ngành đó; vai trò không gắn ngành áp dụng mọi nơi."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__industry_id
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_search
 msgid "Industry"
-msgstr ""
+msgstr "Ngành nghề"
 
 #. module: aic_hrm_library
 #: model:ir.model.constraint,message:aic_hrm_library.constraint_aic_hrm_library_industry_code_uniq
 msgid "Industry codes must be unique."
-msgstr ""
+msgstr "Mã ngành nghề phải duy nhất."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__is_builtin
@@ -422,6 +458,12 @@ msgid ""
 "every KPI into an OKR — a scorecard full of \"business as usual\"\n"
 "drowns the few changes that matter."
 msgstr ""
+"<p>KPI giám sát cỗ máy: có mức bình thường, chiều tốt, người phụ trách, và "
+"phải khỏe mạnh mọi kỳ. OKR thay đổi cỗ máy: mô tả số ít cải tiến mà chu kỳ "
+"này tồn tại vì chúng. Nếu một con số chỉ cần giữ trên 95%, đó là KPI. Nếu "
+"đạt được nó đòi hỏi cách làm mới, nó thuộc về một mục tiêu với các kết quả "
+"then chốt. Giữ cả hai, và đừng biến mọi KPI thành OKR — một bảng điểm toàn "
+"\"việc thường ngày\" sẽ nhấn chìm số ít thay đổi thực sự quan trọng.</p>"
 
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_kr_template
@@ -431,13 +473,13 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_ksf
 msgid "Key success factors: from strategy to measures"
-msgstr ""
+msgstr "Yếu tố thành công then chốt: từ chiến lược tới thước đo"
 
 #. module: aic_hrm_library
 #: model:ir.actions.act_window,name:aic_hrm_library.action_knowledge_articles
 #: model:ir.ui.menu,name:aic_hrm_library.menu_knowledge_guide
 msgid "Knowledge Guide"
-msgstr ""
+msgstr "Cẩm nang tri thức"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__kpi_template_ids
@@ -474,24 +516,24 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.ui.menu,name:aic_hrm_library.menu_library
 msgid "Library"
-msgstr ""
+msgstr "Thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.actions.act_window,name:aic_hrm_library.action_library_industries
 #: model:ir.ui.menu,name:aic_hrm_library.menu_library_industries
 msgid "Library Industries"
-msgstr ""
+msgstr "Ngành nghề thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_industry
 msgid "Library Industry"
-msgstr ""
+msgstr "Ngành nghề thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_role
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kpi__library_role_id
 msgid "Library Role"
-msgstr ""
+msgstr "Vai trò thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_kr_template__direction__lower
@@ -501,12 +543,12 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_knowledge_article
 msgid "Management Knowledge Article"
-msgstr ""
+msgstr "Bài viết tri thức quản trị"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__measure
 msgid "Measurement Design"
-msgstr ""
+msgstr "Thiết kế đo lường"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__metric_type
@@ -536,7 +578,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model_terms:ir.actions.act_window,help:aic_hrm_library.action_knowledge_articles
 msgid "No articles yet"
-msgstr ""
+msgstr "Chưa có bài viết"
 
 #. module: aic_hrm_library
 #. odoo-python
@@ -561,6 +603,14 @@ msgid ""
 "never silently changed by any collector. Each role's collection playbook\n"
 "in the library says where its numbers live."
 msgstr ""
+"<p>Con số về theo ba đường. <b>Tự động</b>: nguồn số liệu và cầu nối bán "
+"hàng/dự án kéo từ dữ liệu Odoo theo lịch. <b>Import</b>: file CSV/Excel xuất"
+" hàng tháng từ hệ thống ngoài (MES, helpdesk, analytics) vào qua wizard "
+"import số liệu thực tế. <b>Nhập tay</b>: phần còn lại gõ vào lúc chốt kỳ. "
+"Hai quy tắc giữ dữ liệu đáng tin: nhập tay luôn thắng tự động, và kỳ đã được"
+" quản lý xác nhận không bao giờ bị bất kỳ bộ thu thập nào âm thầm sửa. Sổ "
+"tay thu thập của từng vai trò trong thư viện nói rõ số của vai trò đó nằm ở "
+"đâu.</p>"
 
 #. module: aic_hrm_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_capture_wizard_form
@@ -583,16 +633,24 @@ msgid ""
 "written in January and reopened in December. The check-in cadence is what\n"
 "keeps this system alive."
 msgstr ""
+"<p>OKR là một nhịp điệu, không phải một biểu mẫu. Mỗi chu kỳ: <b>lập kế "
+"hoạch</b> (ít mục tiêu, mỗi mục tiêu 2–4 kết quả then chốt đo được, quản lý "
+"phê duyệt), <b>thực thi</b> (check-in ngắn mỗi 1–2 tuần: giá trị hiện tại, "
+"độ tự tin, vướng mắc), <b>chấm điểm</b> (0.0–1.0 cuối kỳ; đạt ~0.7 với mục "
+"tiêu khát vọng đã là kết quả tốt, mục tiêu cam kết phải về đích), và <b>khởi"
+" động lại</b> (nhìn lại, rồi cuộn việc dở dang sang kỳ mới). Thất bại phổ "
+"biến nhất là \"đặt rồi quên\" — mục tiêu viết tháng Giêng, mở lại tháng "
+"Chạp. Nhịp check-in chính là thứ giữ hệ thống này sống.</p>"
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_okr_vs_kpi
 msgid "OKR vs KPI: change the business vs run the business"
-msgstr ""
+msgstr "OKR vs KPI: thay đổi doanh nghiệp vs vận hành doanh nghiệp"
 
 #. module: aic_hrm_library
 #: model:ir.actions.act_window,name:aic_hrm_library.action_library_roles
 msgid "OKR/KPI Library"
-msgstr ""
+msgstr "Thư viện OKR/KPI"
 
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_objective_template
@@ -614,12 +672,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
 msgid "Objectives from the library"
-msgstr ""
+msgstr "Mục tiêu từ thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__method
 msgid "Operating Method"
-msgstr ""
+msgstr "Phương pháp vận hành"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_role__collection_playbook
@@ -628,6 +686,9 @@ msgid ""
 "(auto, file import or manual entry) and on what cadence, so operators know "
 "exactly how to collect actuals."
 msgstr ""
+"Cẩm nang vận hành cho vai trò này: mỗi con số nằm ở đâu, lấy bằng cách nào "
+"(tự động, import file hay nhập tay) và theo chu kỳ nào, để người vận hành "
+"biết chính xác cách thu thập số liệu thực tế."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_library_capture_wizard__raw_text
@@ -647,22 +708,22 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_diagnosis
 msgid "Reading pace: expected progress and run-rate"
-msgstr ""
+msgstr "Đọc nhịp tiến độ: tiến độ kỳ vọng và run-rate"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__industry_ids
 msgid "Relevant Industries"
-msgstr ""
+msgstr "Ngành nghề liên quan"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__role_ids
 msgid "Relevant Roles"
-msgstr ""
+msgstr "Vai trò liên quan"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__review
 msgid "Review & Scoring"
-msgstr ""
+msgstr "Đánh giá & Chấm điểm"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__role_id
@@ -679,12 +740,12 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_kpi__library_role_id
 msgid "Role this template KPI belongs to in the library."
-msgstr ""
+msgstr "Vai trò trong thư viện mà KPI mẫu này thuộc về."
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_okr_rhythm
 msgid "Running goals with OKR: the operating rhythm"
-msgstr ""
+msgstr "Vận hành mục tiêu bằng OKR: nhịp điệu vận hành"
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_fair_scoring
@@ -697,6 +758,13 @@ msgid ""
 "pay against committed KPIs, learn from aspirational OKRs — the\n"
 "moment a stretch goal decides a bonus, everyone stops stretching."
 msgstr ""
+"<p>Điểm số được so ngang giữa các team trong phiên calibration trước khi "
+"chốt; mọi thay đổi buộc phải có lý giải bằng văn bản, và thay đổi đã áp thì "
+"đóng băng — với tất cả mọi người. Phản hồi 360° chỉ được tổng hợp khi đủ số "
+"người đánh giá tối thiểu, và danh tính người đánh giá không bao giờ hiển "
+"thị. Giữ điểm OKR tránh xa công thức thưởng: trả thưởng theo KPI cam kết, "
+"học hỏi từ OKR khát vọng — khoảnh khắc mục tiêu vươn tầm quyết định tiền "
+"thưởng, mọi người ngừng vươn.</p>"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_knowledge_article__sequence
@@ -713,11 +781,13 @@ msgid ""
 "Shipped with the product. Company knowledge stays editable; built-ins update"
 " with the module."
 msgstr ""
+"Đóng gói theo sản phẩm. Tri thức công ty vẫn sửa được; mẫu có sẵn cập nhật "
+"cùng module."
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,help:aic_hrm_library.field_aic_hrm_knowledge_article__is_builtin
 msgid "Shipped with the product; updates with the module."
-msgstr ""
+msgstr "Đóng gói theo sản phẩm; cập nhật cùng module."
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_using_library
@@ -731,6 +801,13 @@ msgid ""
 "market. Over cycles, the library becomes your organization's own\n"
 "management playbook."
 msgstr ""
+"<p>Khởi động team hay chu kỳ mới từ thư viện vai trò: chọn ngành, chọn vai "
+"trò, áp gói, rồi biên tập bản nháp — mẫu là điểm tham chiếu, không phải mệnh"
+" lệnh. Thu nạp lại điều bạn học được: wizard thu nạp biến mục tiêu và KPI đã"
+" chứng minh hiệu quả của chính bạn thành mẫu công ty (giữ theo từng công ty,"
+" không trộn vào mẫu chung), và quản trị viên có thể thêm bài viết như bài "
+"này cho thị trường của bạn. Qua các chu kỳ, thư viện trở thành cẩm nang quản"
+" trị của riêng tổ chức bạn.</p>"
 
 #. module: aic_hrm_library
 #: model_terms:aic.hrm.knowledge.article,content:aic_hrm_library.article_bsc_read
@@ -743,11 +820,18 @@ msgid ""
 "is not being built. The balance check takes one minute per cycle and\n"
 "catches strategic blind spots early."
 msgstr ""
+"<p>Gắn thẻ mục tiêu và KPI theo góc nhìn — <b>Tài chính</b>, <b>Khách "
+"hàng</b>, <b>Quy trình nội bộ</b>, <b>Học hỏi &amp; Phát triển</b> — rồi "
+"nhóm bất kỳ danh sách mục tiêu nào theo góc nhìn và nhìn vào hình dáng của "
+"nó. Danh mục toàn Tài chính là đang vay mượn của năm sau; trống Học hỏi "
+"&amp; Phát triển nghĩa là năng lực tạo ra kết quả tương lai không được xây. "
+"Phép kiểm cân bằng mất một phút mỗi chu kỳ và bắt sớm các điểm mù chiến "
+"lược.</p>"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__team_id
 msgid "Team"
-msgstr ""
+msgstr "Team"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__template_id
@@ -764,7 +848,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_bsc_read
 msgid "The Balanced Scorecard read: four perspectives"
-msgstr ""
+msgstr "Đọc theo Balanced Scorecard: bốn góc nhìn"
 
 #. module: aic_hrm_library
 #: model_terms:ir.actions.act_window,help:aic_hrm_library.action_knowledge_articles
@@ -773,11 +857,14 @@ msgid ""
 "measurement design, cadence, data collection and fair scoring. "
 "Administrators add company- and market-specific knowledge alongside."
 msgstr ""
+"Cẩm nang có sẵn bao quát phương pháp vận hành (OKR, BSC, yếu tố thành công),"
+" thiết kế đo lường, nhịp điệu, thu thập dữ liệu và chấm điểm công bằng. Quản"
+" trị viên bổ sung tri thức riêng của công ty và thị trường bên cạnh."
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_checkin_habit
 msgid "The check-in habit: value, confidence, blockers"
-msgstr ""
+msgstr "Thói quen check-in: giá trị, độ tự tin, vướng mắc"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__unit
@@ -787,7 +874,7 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model.fields.selection,name:aic_hrm_library.selection__aic_hrm_knowledge_article__category__library
 msgid "Using the Library"
-msgstr ""
+msgstr "Sử dụng thư viện"
 
 #. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kr_template__weight
@@ -811,11 +898,13 @@ msgid ""
 "Where does each number live, how is it pulled (auto / file import / manual) "
 "and on what cadence?"
 msgstr ""
+"Mỗi con số nằm ở đâu, lấy bằng cách nào (tự động / import file / nhập tay) "
+"và theo chu kỳ nào?"
 
 #. module: aic_hrm_library
 #: model:aic.hrm.knowledge.article,name:aic_hrm_library.article_good_krs
 msgid "Writing key results that can be scored"
-msgstr ""
+msgstr "Viết kết quả then chốt chấm điểm được"
 
 #. module: aic_hrm_library
 #: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_library_role_form
