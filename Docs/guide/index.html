@@ -1,0 +1,199 @@
+<meta charset="utf-8">
+<title>Staffing Match — Hướng dẫn sử dụng</title>
+<style>
+  :root {
+    --ink: #1b1b1f; --muted: #5b5b66; --line: #e3e3e8; --bg: #ffffff;
+    --accent: #6b4f9e; --code-bg: #f6f6f8; --warn-bg: #fff8e6; --warn-line: #e8c86a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.65 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  }
+  .wrap { max-width: 60rem; margin: 0 auto; padding: 3rem 1.25rem 6rem; }
+  header.title { border-bottom: 2px solid var(--ink); padding-bottom: 1.5rem; margin-bottom: 2.5rem; }
+  h1 { font-size: 2.1rem; line-height: 1.2; margin: 0 0 .4rem; letter-spacing: -.02em; }
+  .sub { color: var(--muted); font-size: 1.05rem; margin: 0; }
+  h2 {
+    font-size: 1.45rem; margin: 3.5rem 0 .5rem; letter-spacing: -.01em;
+    padding-top: 1.25rem; border-top: 1px solid var(--line);
+  }
+  h2 .step {
+    display: inline-block; min-width: 1.9rem; height: 1.9rem; line-height: 1.9rem;
+    text-align: center; background: var(--accent); color: #fff; border-radius: 50%;
+    font-size: .95rem; margin-right: .6rem; vertical-align: .1rem;
+  }
+  h3 { font-size: 1.1rem; margin: 2rem 0 .4rem; }
+  p { margin: .8rem 0; }
+  .lede { color: var(--muted); margin-top: .2rem; }
+  figure { margin: 1.5rem 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--line); border-radius: 6px;
+  }
+  figcaption { color: var(--muted); font-size: .9rem; margin-top: .5rem; }
+  table { border-collapse: collapse; width: 100%; margin: 1.25rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--line); }
+  th { font-weight: 600; border-bottom: 2px solid var(--line); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  code { background: var(--code-bg); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
+  pre { background: var(--code-bg); padding: .9rem 1rem; border-radius: 6px; overflow-x: auto; font-size: .87rem; }
+  .note {
+    background: var(--warn-bg); border-left: 3px solid var(--warn-line);
+    padding: .9rem 1.1rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0;
+  }
+  .note strong { display: block; margin-bottom: .25rem; }
+  .toc { background: var(--code-bg); border-radius: 6px; padding: 1.1rem 1.4rem; margin: 2rem 0; }
+  .toc ol { margin: .4rem 0 0; padding-left: 1.3rem; }
+  .toc li { margin: .3rem 0; }
+  .toc a { color: var(--ink); }
+  footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  @media (max-width: 640px) { .wrap { padding: 2rem 1rem 4rem; } h1 { font-size: 1.6rem; } }
+</style>
+
+<div class="wrap">
+<header class="title">
+  <h1>Staffing Match — Hướng dẫn sử dụng</h1>
+  <p class="sub">Từ danh mục tiêu chí đến quyết định bố trí nhân sự, theo đúng thứ tự dữ liệu hình thành.</p>
+</header>
+
+<p>Tài liệu này đi theo <strong>trật tự trưởng thành của dữ liệu</strong>: mỗi bước chỉ dùng những gì bước trước đã tạo ra. Đọc từ trên xuống là dựng được một hệ thống chạy thật.</p>
+
+<p class="lede">Mọi ảnh chụp dưới đây lấy từ một hệ thống đang chạy với dữ liệu thật — 16 nhân sự, 28 dòng kỹ năng, 10 dòng lịch sử dự án, 3 yêu cầu đã xếp hạng. Không có ảnh dựng, không có số bịa.</p>
+
+<div class="toc">
+  <strong>Nội dung</strong>
+  <ol>
+    <li><a href="#b1">Danh mục tiêu chí — hệ thống chấm theo cái gì</a></li>
+    <li><a href="#b2">Chính sách chấm điểm — trọng số của từng tiêu chí</a></li>
+    <li><a href="#b3">Hồ sơ năng lực — nguồn cung</a></li>
+    <li><a href="#b4">Yêu cầu nhân sự — nhu cầu</a></li>
+    <li><a href="#b5">Bảng xếp hạng — ai làm được</a></li>
+    <li><a href="#b6">Ai bị loại và vì sao</a></li>
+    <li><a href="#b7">Phân rã điểm — con số đến từ đâu</a></li>
+  </ol>
+</div>
+
+<h2 id="b1"><span class="step">1</span>Danh mục tiêu chí</h2>
+<p class="lede">Trước khi chấm được ai, hệ thống phải biết nó chấm theo cái gì.</p>
+
+<p>Module ship sẵn <strong>12 tiêu chí</strong>, <strong>7 cái bật mặc định</strong>. Đây là danh mục sản phẩm — từ vựng chung của cả hệ thống — chứ không phải dữ liệu của bạn. Bạn không cần tạo gì ở bước này.</p>
+
+<figure>
+  <img src="img/01-criteria.png" alt="Màn hình Scoring Criteria với 12 tiêu chí">
+  <figcaption><strong>Staffing ▸ Configuration ▸ Scoring Criteria.</strong> Cột <em>Mode</em> phân biệt hai loại hoàn toàn khác nhau: <em>Ranks only</em> chỉ ảnh hưởng thứ hạng, còn <em>Eliminates</em> thì loại người khỏi danh sách. Cột <em>Implemented</em> cho biết tiêu chí đó có mã chấm điểm thật đứng sau hay không.</figcaption>
+</figure>
+
+<p>Chân bảng cộng tổng trọng số ra <strong>100.00</strong>. Con số đó không trang trí: nếu tổng lệch, bảng xếp hạng vẫn chạy nhưng ý nghĩa của từng trọng số không còn như bạn nghĩ.</p>
+
+<div class="note">
+  <strong>Vì sao 5 tiêu chí tắt mặc định</strong>
+  Chi phí, địa điểm, múi giờ, dự án cũ và nguyện vọng đều cần dữ liệu mà công ty phải nhập trước, hoặc là quyết định chính sách mà nhà cung cấp không nên thay khách hàng quyết. Một tiêu chí âm thầm chấm điểm dựa trên trường chưa ai điền còn tệ hơn một tiêu chí bị tắt.
+</div>
+
+<h2 id="b2"><span class="step">2</span>Chính sách chấm điểm</h2>
+<p class="lede">Cùng một bộ tiêu chí, mỗi công ty cân nặng nhẹ khác nhau.</p>
+
+<figure>
+  <img src="img/02-policy.png" alt="Form chính sách Delivery staffing">
+  <figcaption><strong>Staffing ▸ Configuration ▸ Scoring Policies.</strong> Tab <em>Weights</em> liệt kê cả 12 tiêu chí và bật 7 — bật thêm một cái là một cú tích, không phải đi tìm trong danh mục.</figcaption>
+</figure>
+
+<p>Chú ý thanh trạng thái <strong>Draft → Active → Archived</strong> và nút <strong>New version</strong>. Chính sách đang hoạt động <strong>không sửa được</strong>. Muốn đổi trọng số, bạn tạo phiên bản mới.</p>
+
+<div class="note">
+  <strong>Vì sao không cho sửa</strong>
+  Một bảng xếp hạng phải giải thích được về sau. Nếu bộ trọng số đứng sau nó sửa được sau khi đã ra quyết định, thì lời giải thích “cô ấy được chọn vì kỹ năng nặng 30%” là chuyện hư cấu — không ai còn biết lúc đó nó nặng bao nhiêu.
+</div>
+
+<h2 id="b3"><span class="step">3</span>Hồ sơ năng lực</h2>
+<p class="lede">Nguồn cung: hệ thống biết gì về từng người.</p>
+
+<p>Hồ sơ được tạo <strong>tự động</strong> cho mỗi nhân sự khi lần đầu được đưa vào một lượt xếp hạng — bạn không phải tạo tay. Việc của bạn là điền những gì ảnh hưởng tới kết quả.</p>
+
+<figure>
+  <img src="img/03-profiles.png" alt="Danh sách hồ sơ năng lực">
+  <figcaption><strong>Staffing ▸ Configuration ▸ Capability profiles.</strong> <em>Staffable</em> và <em>Opt out</em> là hai điều kiện loại: tắt <em>Staffable</em> nghĩa là người này không tham gia bố trí dự án; <em>Opt out</em> là chính người đó xin không tham gia, kèm lý do của họ.</figcaption>
+</figure>
+
+<table>
+  <tr><th>Trường</th><th>Ảnh hưởng tới</th></tr>
+  <tr><td>Seniority</td><td>tiêu chí <code>seniority_fit</code> — đạt cấp yêu cầu thì đủ điểm, vượt cấp <em>không</em> được cộng thêm</td></tr>
+  <tr><td>Utilization target</td><td>tiêu chí <code>workload_balance</code> — so với mục tiêu của chính người đó, không so giữa người này với người kia</td></tr>
+  <tr><td>Cost hourly</td><td>tiêu chí <code>cost_fit</code>; chỉ quản trị viên xem được</td></tr>
+  <tr><td>Available from</td><td>điều kiện loại: bắt đầu sau ngày công việc khởi động thì bị loại</td></tr>
+</table>
+
+<h2 id="b4"><span class="step">4</span>Yêu cầu nhân sự</h2>
+<p class="lede">Nhu cầu: cần ai, trong khoảng thời gian nào, làm được gì.</p>
+
+<figure>
+  <img src="img/04-request.png" alt="Form yêu cầu Migrate the ACME billing API">
+  <figcaption><strong>Staffing ▸ Requests ▸ New.</strong> Một yêu cầu chứa nhiều <em>slot</em>, và <strong>slot mới là đơn vị bố trí</strong>. “Cần 3 người” không phải một yêu cầu nhân ba: ba ghế có yêu cầu khác nhau, giờ công khác nhau, và không thể lấp cả ba bằng cùng một người.</figcaption>
+</figure>
+
+<p>Trên mỗi slot, khai kỹ năng cần và mức tối thiểu. Cột <em>Requirement</em> quyết định hành vi:</p>
+
+<table>
+  <tr><th>Requirement</th><th>Thiếu thì sao</th></tr>
+  <tr><td><code>mandatory</code></td><td><strong>Loại khỏi danh sách.</strong> Việc không làm được nếu thiếu kỹ năng này.</td></tr>
+  <tr><td><code>important</code></td><td>Trừ điểm theo mức thiếu, vẫn nằm trong danh sách.</td></tr>
+  <tr><td><code>nice_to_have</code></td><td>Có thì cộng, không có thì thôi.</td></tr>
+</table>
+
+<h2 id="b5"><span class="step">5</span>Bảng xếp hạng</h2>
+<p class="lede">Bấm <strong>Re-rank</strong> trên yêu cầu. Kết quả là một bản ghi lưu vĩnh viễn, không phải màn hình tạm.</p>
+
+<figure>
+  <img src="img/05-run-shortlist.png" alt="Bảng xếp hạng RUN-2026-00001 với 7 ứng viên">
+  <figcaption><strong>Staffing ▸ Requests ▸ Rankings.</strong> 16 người được xét, 7 vào danh sách, 9 bị loại. Hạng chạy liền từ 1 đến 7.</figcaption>
+</figure>
+
+<p>Hai trường ở khối <em>Under which rules</em> là thứ làm cho kết quả giải trình được về sau:</p>
+
+<table>
+  <tr><th>Trường</th><th>Ý nghĩa</th></tr>
+  <tr><td><strong>As Of</strong></td><td>Thời điểm đóng băng. Mọi phép suy giảm theo thời gian và mọi kiểm tra hiệu lực đều đo theo mốc này, không theo hiện tại — nên mở lại lượt chạy này tháng sau vẫn thấy đúng những điểm số cũ.</td></tr>
+  <tr><td><strong>Policy Version</strong></td><td>Phiên bản chính sách đã dùng. Trọng số có đổi về sau cũng không viết lại lịch sử.</td></tr>
+  <tr><td><strong>Input Hash</strong></td><td>Dấu vân tay dữ liệu đầu vào. Hai lượt chạy cùng dấu vân tay bắt buộc cho ra cùng thứ tự.</td></tr>
+</table>
+
+<p>Bấm <strong>Re-rank</strong> lần nữa sẽ tạo <em>lượt chạy mới</em> chứ không ghi đè lượt cũ.</p>
+
+<h2 id="b6"><span class="step">6</span>Ai bị loại và vì sao</h2>
+<p class="lede">Đây là phần khác biệt nhất so với việc chọn người theo trí nhớ.</p>
+
+<figure>
+  <img src="img/06-run-excluded.png" alt="Tab Excluded với 9 người bị loại kèm lý do">
+  <figcaption>Tab <strong>Excluded</strong>. Mỗi người bị loại đều có <em>mã lý do</em> để nhóm lại và <em>con số cụ thể</em> để đối chiếu: “Python at 22, below the 60 this seat requires”.</figcaption>
+</figure>
+
+<div class="note">
+  <strong>Không ai bị bỏ rơi trong im lặng</strong>
+  Một danh sách âm thầm bỏ sót người còn tệ hơn không có danh sách, vì nó <em>trông như đã đầy đủ</em>. Hệ thống giữ bản ghi cho mọi người nó đã xét, kèm đúng cái cổng đã loại họ.
+</div>
+
+<p>Đọc tab này còn để phát hiện cấu hình sai. Một điều kiện loại gần hết mọi người thường là một điều kiện đặt sai, chứ không phải một đội ngũ yếu.</p>
+
+<h2 id="b7"><span class="step">7</span>Phân rã điểm</h2>
+<p class="lede">Bấm vào một ứng viên để xem con số đến từ đâu.</p>
+
+<figure>
+  <img src="img/07-breakdown.png" alt="Phân rã điểm của Le Thi Ha">
+  <figcaption>Từng tiêu chí một: <em>giá trị gốc → chuẩn hoá → nhân trọng số → điểm đóng góp</em>. Cộng các dòng lại đúng bằng tổng điểm ở trên.</figcaption>
+</figure>
+
+<p>Khối <em>Availability</em> hiển thị phép tính đầy đủ để bạn tự kiểm: <code>Capacity − Leave − Booked = Free</code>. Người có 80 giờ công, không nghỉ, chưa bị đặt lịch thì còn 80 giờ.</p>
+
+<p>Tab <strong>Evidence</strong> bên cạnh liệt kê bằng chứng của từng tiêu chí — bao nhiêu lần làm cho khách này, kỹ năng ở mức nào — và mỗi dòng mở được đúng bản ghi đứng sau nó.</p>
+
+<div class="note">
+  <strong>Điểm 0.00 không có nghĩa là kém</strong>
+  Tiêu chí <em>Customer history</em> bằng 0 nghĩa là người đó <em>chưa từng làm cho khách này</em>. Đó là dữ kiện, không phải lời chê. Chỉ có điều kiện loại mới nói ai không làm được việc.
+</div>
+
+<footer>
+  <p>Ảnh chụp từ hệ thống đang chạy Odoo 19, dữ liệu tạo qua giao diện. Bộ dữ liệu mẫu: 16 nhân sự, 15 hồ sơ năng lực, 28 dòng kỹ năng, 10 dòng lịch sử dự án, 5 lịch bận, 3 yêu cầu đã xếp hạng.</p>
+  <p>AIPOWER CO., LTD · Staffing Match · giấy phép OPL-1</p>
+</footer>
+</div>
