@@ -136,6 +136,82 @@ class AicHrmMatchRequest(models.Model):
                     vals.get('request_company_id') or self.env.company.id])]
         return super().create(vals_list)
 
+    # -- the buttons on the form --------------------------------------------
+
+    _RANKABLE_STATES = ('draft', 'ranked', 'decided')
+    _CANCELLABLE_STATES = ('draft', 'ranked')
+
+    def action_rank(self):
+        """Rank the pool for the first slot and open the result.
+
+        Always a new run, never a rewrite of the last one. Re-ranking after the
+        weights moved is the normal case, and a decision taken this morning has
+        to stay explainable this afternoon - which it is not if the run behind
+        it was overwritten by the second press of the same button.
+        """
+        self.ensure_one()
+        if self.state not in self._RANKABLE_STATES:
+            raise UserError(_(
+                "%(name)s is %(state)s. Ranking it now would produce a "
+                "shortlist for work that is already over, and the screen would "
+                "give no sign that is what happened.",
+                name=self.display_name,
+                state=dict(self._fields['state'].selection)[self.state]))
+
+        run = self.env['aic.hrm.match.engine'].run_match(self)
+        if self.state == 'draft':
+            self.state = 'ranked'
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'aic.hrm.match.run',
+            'res_id': run.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
+
+    def action_close(self):
+        """Finish a request whose staffing has run its course."""
+        for request in self:
+            if request.state not in ('decided', 'staffed'):
+                raise UserError(_(
+                    "%(name)s has not been staffed yet. Closing it now would "
+                    "record the seat as dealt with while it is still open.",
+                    name=request.display_name))
+        self.state = 'closed'
+
+    def action_cancel(self):
+        """Call off work that never happened.
+
+        Refused once somebody has been assigned: cancellation says the seat was
+        never filled, and every report that counts unfilled demand would then
+        be counting a seat that somebody actually worked. Closing is the honest
+        ending for that one.
+        """
+        for request in self:
+            if request.state not in request._CANCELLABLE_STATES:
+                raise UserError(_(
+                    "%(name)s already carries a staffing decision. Close it "
+                    "instead - cancelling would record a seat somebody worked "
+                    "as one that was never filled.",
+                    name=request.display_name))
+        self.state = 'cancelled'
+
+    def action_reset_to_draft(self):
+        """Put a cancelled request back in play.
+
+        The runs it already produced stay where they are. They are the record
+        of what was true when they were taken, and a request coming back to
+        life does not make them untrue.
+        """
+        for request in self:
+            if request.state != 'cancelled':
+                raise UserError(_(
+                    "Only a cancelled request goes back to draft. %(name)s is "
+                    "in progress, and resetting it would hide the stage it "
+                    "actually reached.",
+                    name=request.display_name))
+        self.state = 'draft'
+
     def unlink(self):
         """A request that reached a decision is evidence, not scratch work.
 

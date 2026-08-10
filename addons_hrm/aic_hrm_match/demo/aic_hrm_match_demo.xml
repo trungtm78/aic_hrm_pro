@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!-- Demo Sentinel: marks that demo was installed -->
+    <record id="demo_sentinel" model="aic.hrm.match.demo.sentinel">
+        <field name="name">Demo Staffing Data</field>
+        <field name="generated">False</field>
+    </record>
+
+    <!-- Demo Metadata (minimal XML; bulk created in post_init_hook) -->
+    <record id="demo_company" model="res.company">
+        <field name="name">Acme Digital (Demo)</field>
+    </record>
+
+</odoo>

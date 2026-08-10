@@ -14,7 +14,7 @@ Deleting a task must not delete the record of who was considered and why.
 """
 from psycopg2 import IntegrityError
 
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tools import mute_logger
 
@@ -261,3 +261,99 @@ class StaffingProfileCase(MatchCase):
     def test_an_administrator_sees_the_rates(self):
         admin = self._make_user('Rate Owner', ['group_match_admin'])
         self.assertIn('cost_hourly', self.Profile.with_user(admin).fields_get())
+
+
+@tagged('post_install', '-at_install', 'aic_hrm_match')
+class RequestActionCase(MatchCase):
+    """The buttons on the request, and what they are allowed to do.
+
+    Every one of these is reachable from the form header, so a method the view
+    names but the model does not have is not a missing feature - Odoo refuses
+    to load the view at all, and the whole module fails to install.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
+            'code': 'availability', 'name': 'Availability',
+            'category': 'availability', 'normalization': 'ratio'})
+        cls.policy = cls.env['aic.hrm.match.policy'].create({
+            'name': 'Actions', 'code': 'actions_policy', 'is_default': True})
+        cls.env['aic.hrm.match.policy.line'].create({
+            'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id})
+        cls.policy.action_activate()
+
+    def _request(self, with_slot=True):
+        request = self.env['aic.hrm.match.request'].create({
+            'name': 'Buttons',
+            'date_start': '2026-09-14 00:00:00',
+            'date_end': '2026-09-18 23:59:59'})
+        if with_slot:
+            self.env['aic.hrm.match.request.slot'].create({
+                'request_id': request.id, 'name': 'Dev',
+                'required_hours': 8.0})
+        return request
+
+    def test_ranking_a_draft_request_moves_it_on_and_opens_the_result(self):
+        request = self._request()
+        action = request.action_rank()
+        self.assertEqual(request.state, 'ranked')
+        self.assertTrue(request.latest_run_id)
+        self.assertEqual(action['res_model'], 'aic.hrm.match.run')
+        self.assertEqual(action['res_id'], request.latest_run_id.id)
+
+    def test_re_ranking_leaves_the_earlier_run_readable(self):
+        """The button says re-rank, and that has to mean a second run rather
+        than the first one being rewritten: a decision taken this morning must
+        still be explainable this afternoon."""
+        request = self._request()
+        request.action_rank()
+        first = request.latest_run_id
+        request.action_rank()
+        self.assertNotEqual(request.latest_run_id, first)
+        self.assertEqual(len(request.run_ids), 2)
+        self.assertTrue(first.exists())
+
+    def test_ranking_a_request_with_no_slot_says_what_is_missing(self):
+        with self.assertRaises(UserError):
+            self._request(with_slot=False).action_rank()
+
+    def test_closing_a_staffed_request_ends_it(self):
+        request = self._request()
+        request.state = 'staffed'
+        request.action_close()
+        self.assertEqual(request.state, 'closed')
+
+    def test_a_closed_request_cannot_be_re_ranked(self):
+        """Ranking a finished request would produce a shortlist for work that
+        is over, and the screen gives no hint that is what happened."""
+        request = self._request()
+        request.state = 'closed'
+        with self.assertRaises(UserError):
+            request.action_rank()
+
+    def test_closing_something_that_never_started_is_refused(self):
+        request = self._request()
+        with self.assertRaises(UserError):
+            request.action_close()
+
+    def test_cancelling_keeps_the_request_rather_than_deleting_it(self):
+        request = self._request()
+        request.action_cancel()
+        self.assertEqual(request.state, 'cancelled')
+
+    def test_a_decided_request_cannot_be_cancelled_away(self):
+        """Cancellation is for work that never happened. Once somebody has
+        been assigned, the honest ending is closing it - cancelling would erase
+        the reason the request existed from every report that counts it."""
+        request = self._request()
+        request.state = 'decided'
+        with self.assertRaises(UserError):
+            request.action_cancel()
+
+    def test_reopening_a_cancelled_request_puts_it_back_in_draft(self):
+        request = self._request()
+        request.action_cancel()
+        request.action_reset_to_draft()
+        self.assertEqual(request.state, 'draft')
