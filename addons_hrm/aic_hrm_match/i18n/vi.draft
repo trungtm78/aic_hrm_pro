@@ -2240,3 +2240,6 @@ msgstr "Số giờ làm việc còn lại trong khoảng thời gian, so với k
 
 msgid "Workload"
 msgstr "Tải công việc"
+
+msgid "%(policy)s is set to rank with %(engine)s, which is not installed. Ranking with the built-in engine instead would make the decision under code this policy did not authorise, so the run is refused. Install the module that provides it, or allow the fallback on the policy."
+msgstr "%(policy)s được đặt để xếp hạng bằng %(engine)s, mà engine đó chưa được cài. Nếu vẫn xếp hạng bằng engine mặc định thì quyết định sẽ do đoạn mã mà chính sách này không hề uỷ quyền đưa ra, nên lượt chạy bị từ chối. Hãy cài module cung cấp engine đó, hoặc cho phép quay về engine mặc định trên chính sách."

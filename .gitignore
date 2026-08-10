@@ -32,7 +32,17 @@ Thumbs.db
 Docs/Requirements/
 
 # Local tooling
-.claude/
+# Local session state, except the stop hook. That one is repository behaviour
+# rather than a local preference: a clone without it gets no guard at all, and
+# a clone carrying the old copy gets one that blocks forever on a doubled
+# caret. See Docs/stop-hook-encoding.md.
+#
+# Written as .claude/* rather than .claude/ because git does not descend into
+# an excluded directory, so a negation under one never matches.
+.claude/*
+!.claude/hooks/
+.claude/hooks/*
+!.claude/hooks/*.bat
 setup-claude-autonomous.bat
 test-claude-hook.bat
 
@@ -67,3 +77,5 @@ DEADLOCK_REPORT.txt
 EXECUTION_DEADLOCK_REPORT.txt
 FINAL_EXECUTION_REPORT.txt
 FINAL_WORK_SUMMARY.txt
+NEXT_STEPS.md
+WORK_STATUS.txt

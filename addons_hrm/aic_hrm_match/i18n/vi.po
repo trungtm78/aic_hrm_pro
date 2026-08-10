@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 06:39+0000\n"
-"PO-Revision-Date: 2026-08-10 06:39+0000\n"
+"POT-Creation-Date: 2026-08-10 08:01+0000\n"
+"PO-Revision-Date: 2026-08-10 08:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -190,6 +190,20 @@ msgid ""
 msgstr ""
 "%(names)s đã phát hành nên trọng số bị khoá. Hãy tạo phiên bản mới nếu muốn "
 "đổi cách xếp hạng ứng viên."
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid ""
+"%(policy)s is set to rank with %(engine)s, which is not installed. Ranking "
+"with the built-in engine instead would make the decision under code this "
+"policy did not authorise, so the run is refused. Install the module that "
+"provides it, or allow the fallback on the policy."
+msgstr ""
+"%(policy)s được đặt để xếp hạng bằng %(engine)s, mà engine đó chưa được cài."
+" Nếu vẫn xếp hạng bằng engine mặc định thì quyết định sẽ do đoạn mã mà chính"
+" sách này không hề uỷ quyền đưa ra, nên lượt chạy bị từ chối. Hãy cài module"
+" cung cấp engine đó, hoặc cho phép quay về engine mặc định trên chính sách."
 
 #. module: aic_hrm_match
 #. odoo-python

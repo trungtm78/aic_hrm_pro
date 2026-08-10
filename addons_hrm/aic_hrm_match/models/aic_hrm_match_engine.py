@@ -52,9 +52,18 @@ class AicHrmMatchEngine(models.AbstractModel):
                 name=request.display_name))
 
         policy = policy or self._resolve_policy(request)
+
+        # A policy naming another engine is handing the decision to it. Doing
+        # that here, before anything is computed, is what makes the setting
+        # real rather than decorative.
+        delegate, fell_back = self._resolve_engine(policy)
+        if delegate is not None:
+            return delegate.run_match(request, slot=slot, policy=policy)
+
         as_of = fields.Datetime.now()
 
         ctx = self._build_context(request, slot, policy, as_of)
+        ctx.data['engine_fallback'] = fell_back
 
         self._prefetch(ctx)
         # Resolved once, here, because both the gate and the normalisation
@@ -69,6 +78,7 @@ class AicHrmMatchEngine(models.AbstractModel):
         # criterion measures.
         self._apply_score_gates(ctx, normalized)
         totals = self._aggregate(ctx, normalized)
+        self._apply_fairness(ctx, totals)
         ordered = self._rank(ctx, totals)
 
         run = self._persist(request, slot, policy, ctx, normalized,
@@ -111,6 +121,128 @@ class AicHrmMatchEngine(models.AbstractModel):
             "No active scoring policy applies to %(name)s. Ranking without "
             "one would judge people under rules nobody chose.",
             name=request.display_name))
+
+    @api.model
+    def _resolve_engine(self, policy):
+        """The engine this policy says should decide, if it is not this one.
+
+        Returns ``(delegate_or_None, fell_back)``. A missing engine is refused
+        rather than quietly handled: ranking with the built-in code when the
+        policy names something else produces a staffing decision made by code
+        nobody authorised, and no screen would ever say so. That is the same
+        fail-closed rule the criterion registry follows, for the same reason.
+
+        A policy may opt into the fallback explicitly. When it does, the choice
+        is written into the run's snapshot, so the record says which engine
+        actually decided rather than which one was asked for.
+        """
+        name = policy.engine_model
+        if not name or name == self._name:
+            return None, False
+        if name in self.env:
+            return self.env[name], False
+        if policy.engine_fallback_allowed:
+            _logger.warning(
+                "Policy %s names engine %r, which is not installed. Falling "
+                "back to %s because the policy allows it.",
+                policy.display_name, name, self._name)
+            return None, True
+        raise UserError(_(
+            "%(policy)s is set to rank with %(engine)s, which is not "
+            "installed. Ranking with the built-in engine instead would make "
+            "the decision under code this policy did not authorise, so the "
+            "run is refused. Install the module that provides it, or allow "
+            "the fallback on the policy.",
+            policy=policy.display_name, engine=name))
+
+    @api.model
+    def _apply_fairness(self, ctx, totals):
+        """Move the score for fairness, visibly and within a bound.
+
+        Kept as its own term rather than folded into the merit. An adjustment
+        buried inside the total is indistinguishable from the criteria having
+        produced that number, and the whole argument for adjusting at all is
+        that somebody can see it was done and by how much.
+
+        Bounded because an unbounded correction stops being a tie-break and
+        becomes the ranking, while the weights on screen still claim otherwise.
+        """
+        policy = ctx.policy_lines[:1].policy_id
+        mode = policy.fairness_mode
+        if mode == 'off' or not totals:
+            return
+
+        cap = utils.clamp(policy.fairness_strength, 0.0, 1.0) * self._FAIRNESS_CAP
+        adjustments = self._fairness_adjustments(ctx, totals, mode)
+        for employee_id, row in totals.items():
+            adjustment = utils.clamp(adjustments.get(employee_id, 0.0),
+                                     -cap, cap)
+            row['fairness_adjustment'] = adjustment
+            row['total_score'] = utils.clamp(row['raw_score'] + adjustment)
+            if adjustment:
+                ctx.add_evidence(
+                    employee_id, 'fairness',
+                    '%+.3f for %s' % (adjustment,
+                                      dict(policy._fields['fairness_mode']
+                                           .selection)[mode].lower()))
+
+    # The most an adjustment may move a score, before strength scales it down.
+    # Fifteen points on a [0, 1] scale reorders neighbours and leaves the merit
+    # ordering recognisable; more than that and the criteria stop deciding.
+    _FAIRNESS_CAP = 0.15
+
+    @api.model
+    def _fairness_adjustments(self, ctx, totals, mode):
+        """``{employee_id: raw adjustment}`` before the cap is applied.
+
+        Split out so a customer adding a fairness mode overrides one method
+        with an obvious contract, rather than reaching into the clamping and
+        evidence-writing around it.
+        """
+        if mode == 'load_balance':
+            # Favour whoever has more of their week left. Measured against the
+            # pool's own median rather than an absolute, so a team that is
+            # uniformly busy does not get everybody adjusted in the same
+            # direction - which would change no ordering and only add noise.
+            breakdown = ctx.data.get('availability_breakdown', {})
+            shares = {}
+            for employee_id in totals:
+                row = breakdown.get(employee_id)
+                if not row or row['capacity_hours'] <= 0.0:
+                    continue
+                shares[employee_id] = row['free_hours'] / row['capacity_hours']
+            if not shares:
+                return {}
+            ordered = sorted(shares.values())
+            middle = len(ordered) // 2
+            median = (ordered[middle] if len(ordered) % 2
+                      else (ordered[middle - 1] + ordered[middle]) / 2.0)
+            return {employee_id: share - median
+                    for employee_id, share in shares.items()}
+
+        if mode == 'rotation':
+            # Favour whoever has been chosen least recently. The ledger already
+            # knows; this only turns it into a nudge.
+            profiles = ctx.data.get('profiles', {})
+            picked = {}
+            for employee_id in totals:
+                profile = profiles.get(employee_id)
+                picked[employee_id] = (profile.last_assigned_date
+                                       if profile and hasattr(
+                                           profile, 'last_assigned_date')
+                                       else None)
+            never = [e for e, when in picked.items() if not when]
+            return {employee_id: (1.0 if employee_id in never else -0.2)
+                    for employee_id in totals}
+
+        if mode == 'development':
+            # Favour the people the seat was opened to as a stretch. Nobody
+            # else moves: this is not a general handicap, it is the other half
+            # of a decision the seat already made.
+            return {employee_id: (1.0 if employee_id in ctx.stretch_ids else 0.0)
+                    for employee_id in totals}
+
+        return {}
 
     @api.model
     def _build_context(self, request, slot, policy, as_of=None):
@@ -398,6 +530,7 @@ class AicHrmMatchEngine(models.AbstractModel):
             'ranked_only' else set(ctx.scoped_ids)
 
         breakdown = ctx.data.get('availability_breakdown', {})
+        blind = policy.anonymize_until_decision
         candidate_values = []
         for employee_id in ctx.scoped_ids:
             eligible = employee_id not in ctx.rejections
@@ -407,7 +540,13 @@ class AicHrmMatchEngine(models.AbstractModel):
                 'run_id': run.id,
                 'slot_id': slot.id,
                 'identity_ref': '%s-%s' % (run.reference, employee_id),
-                'employee_id': employee_id,
+                # Left empty when the policy ranks blind. Not hidden - empty.
+                # A field a view hides is still there for RPC, export, pivot
+                # and developer mode, so hiding it would make the promise true
+                # only for people who take the screen at its word.
+                'employee_id': False if blind else employee_id,
+                'fairness_adjustment': totals_row.get(
+                    'fairness_adjustment', 0.0),
                 'eligible': eligible,
                 'is_stretch': employee_id in ctx.stretch_ids,
                 'rank': ranks.get(employee_id, 0),
@@ -425,7 +564,12 @@ class AicHrmMatchEngine(models.AbstractModel):
         candidates = self.env['aic.hrm.match.candidate'].with_context(
             tracking_disable=True, mail_create_nolog=True).create(
                 candidate_values)
-        by_employee = {c.employee_id.id: c for c in candidates}
+        # Written before anything else needs it: the rest of persistence keys
+        # off the employee, and on a blind run the candidate no longer carries
+        # one. The mapping is the only place the two are connected, and it sits
+        # behind its own access list.
+        by_employee = self._persist_identities(
+            run, candidates, ctx.scoped_ids, blind)
 
         self._persist_score_lines(ctx, normalized, by_employee, detailed)
         run.sudo().write({
@@ -434,6 +578,32 @@ class AicHrmMatchEngine(models.AbstractModel):
             'rejected_count': len(ctx.rejections),
         })
         return run
+
+    @api.model
+    def _persist_identities(self, run, candidates, scoped_ids, blind):
+        """Record who each candidate is, and return the lookup persistence uses.
+
+        Anonymous to the planner, never to the record. A ranking nobody can
+        ever resolve is not privacy - it is a decision that cannot be audited,
+        and the people it affected have no way to ask about it. So the mapping
+        is always written; what changes is who may read it.
+        """
+        if not blind:
+            return {c.employee_id.id: c for c in candidates}
+
+        # Same order as the values that created them, which is the only thing
+        # connecting a blind candidate back to a person at this point.
+        pairs = list(zip(scoped_ids, candidates))
+        self.env['aic.hrm.match.identity'].sudo().create([
+            {
+                'run_id': run.id,
+                'candidate_id': candidate.id,
+                'employee_id': employee_id,
+                'company_id': run.company_id.id,
+            }
+            for employee_id, candidate in pairs
+        ])
+        return {employee_id: candidate for employee_id, candidate in pairs}
 
     @api.model
     def _persist_score_lines(self, ctx, normalized, by_employee, detailed):
@@ -504,7 +674,17 @@ class AicHrmMatchEngine(models.AbstractModel):
                      'fte_ratio': slot.fte_ratio},
             'policy': {'code': policy.code, 'version': policy.version,
                        'aggregation': policy.aggregation,
-                       'tiebreak_version': policy.tiebreak_version},
+                       'tiebreak_version': policy.tiebreak_version,
+                       'fairness_mode': policy.fairness_mode,
+                       'fairness_strength': policy.fairness_strength,
+                       'anonymized': policy.anonymize_until_decision},
+            # Which engine actually decided, and whether that was the one the
+            # policy named. A run that fell back has to say so: otherwise the
+            # record claims a decision was made by code that never ran.
+            'engine': {'model': policy.engine_model or self._name,
+                       'ran': self._name,
+                       'engine_fallback': bool(
+                           ctx.data.get('engine_fallback'))},
             'weights': [
                 {'code': line.criterion_code, 'weight': line.weight,
                  'provider': line.criterion_provider}
