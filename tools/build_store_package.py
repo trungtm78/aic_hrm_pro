@@ -28,6 +28,7 @@ import shutil
 import zipfile
 
 STORE_MODULES = [
+    # Performance suite: one paid listing plus the modules it installs.
     'aic_hrm_base',
     'aic_okr_kpi',
     'aic_hrm_library',
@@ -35,11 +36,26 @@ STORE_MODULES = [
     'aic_hrm_project',
     'aic_hrm_sale',
     'aic_hrm_pro',
+    # Staffing: a second paid listing that shares no dependency with the suite,
+    # plus two free connectors. The connectors are published separately because
+    # auto_install only fires once the code is on disk - buying the app does not
+    # fetch a module the app does not depend on.
+    'aic_hrm_match',
+    'aic_hrm_match_okr',
+    'aic_hrm_match_timesheet',
 ]
 # Listings a customer actually buys. Everything else in STORE_MODULES is
 # installed BY a listing and must never carry a price of its own, or the store
 # shows one product at two prices.
-PRICED_APPS = {'aic_hrm_pro'}
+PRICED_APPS = {'aic_hrm_pro', 'aic_hrm_match'}
+
+# The staffing app is sold to a different buyer and must stay installable on
+# its own. Nothing here may appear in its dependency tree.
+PERFORMANCE_SUITE = {'aic_hrm_base', 'aic_okr_kpi', 'aic_hrm_review',
+                     'aic_hrm_library', 'aic_hrm_pro'}
+STANDALONE_APPS = {
+    'aic_hrm_match': {'hr', 'hr_skills', 'project', 'mail', 'web'},
+}
 WITHHELD = {'aic_hrm_brand': 'debrands the platform vendor - direct delivery only'}
 
 # Odoo Apps vendor guidelines: "the name of the app must be explicit and should

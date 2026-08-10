@@ -39,21 +39,29 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
 | aic_hrm_pro | AIConnect HRM Pro - OKR, KPI & Performance Management (53) | OKR KPI Performance | 19 |
 | aic_hrm_brand | AIConnect HRM - White Label (27) | HRM White Label | 15 |
 
+- [x] **CP0b** Scaffold 3 module mới + gate packaging mở rộng cho 10 module:
+      `aic_hrm_match` (Staffing Match, 25 USD, `application=True`, depends
+      `hr,hr_skills,project,mail,web`), `aic_hrm_match_okr`, `aic_hrm_match_timesheet`
+      (miễn phí, `auto_install=True`). Icon + banner sinh bằng `tools/make_match_icons.py`
+      (generator, không phải PNG mờ ám). `index.html` 10 section theo luật sanitiser của store.
+      Test mới: standalone không chạm suite hiệu suất · connector free+auto_install ·
+      RST của mọi `description` hợp lệ.
+      **Bằng chứng chạy thật**: `aic_hrm_match` cài trên DB TRỐNG Odoo 19 (49 module, suite hiệu
+      suất vẫn `uninstalled`) **và** bản backport cài trên **Odoo 18 thật** (44 module).
+
 ### Đang làm dở
-Task: CP0b — scaffold 3 module mới
+Task: CP1 — khung schema + ACL/record rule cho toàn bộ model
 Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: tạo `addons_hrm/aic_hrm_match/` với `__manifest__.py` (name `Staffing Match`,
-price 25.0 USD, depends `['hr','hr_skills','project','mail','web']`), `__init__.py`, `LICENSE`,
-`static/description/icon.png`, `static/description/index.html` tối thiểu; rồi thêm 3 module vào
-`STORE_MODULES`/`PRICED_APPS` của `tools/build_store_package.py` và chạy lại
-`python -m unittest discover -s tools/tests -t .`
-File liên quan: plan §2 (manifest chốt), §9.6 (tên), `tools/build_store_package.py:33-48`
+BƯỚC TIẾP THEO: tạo `addons_hrm/aic_hrm_match/models/utils.py` (hàm toán ORM-free: `clamp`,
+`weighted_average`, 6 kiểu normalisation §4.3 của plan) cùng `tools/`-style unit test ORM-free
+trước, vì đó là phần duy nhất của CP1 kiểm được không cần DB.
+File liên quan: plan §4.3 (bảng chuẩn hoá đủ nhánh), §3 (danh mục model), §8 (ACL + record rule)
 
 ### Hàng đợi task kế tiếp
-1. CP0b scaffold + bật gate packaging cho 10 module
-2. CP1 khung schema + ACL/record rule toàn bộ model + `utils.py` + `match_context.py` + `skill.compat`
-3. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
+1. CP1 `utils.py` + `match_context.py` + taxonomy + `skill.compat` + toàn bộ ACL/record rule
+2. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
    experience ledger, certification)
+3. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
@@ -92,6 +100,11 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 - `gstack-review-log` từ chối JSON hợp lệ trên Git-Bash/Windows ⇒ dashboard review không ghi được.
   Chỉ là bookkeeping, không chặn. Chưa điều tra.
 - Listing `aic_hrm_pro` đã publish trên store; đổi display name cần xác nhận với Odoo trước khi submit.
+- **Hai venv riêng** (`.venv` cho Odoo 19, `.venv18` cho Odoo 18): Odoo 18 cần `decorator`, 19 đã bỏ.
+  Dùng chung một venv sẽ hỏng một trong hai. Đã ghi vào `CLAUDE.md`.
+- Warning `<string>:38: (ERROR/3) Unexpected indentation` trong mọi log cài đặt đến từ **module lõi
+  `mail` của Odoo**, không phải code của dự án (đã quét toàn bộ 631 module lõi + 11 module nhà: đúng
+  1 hit, là `mail`). Không sửa được từ phía ta; ghi lại để lần sau không chẩn đoán nhầm.
 
 ---
 

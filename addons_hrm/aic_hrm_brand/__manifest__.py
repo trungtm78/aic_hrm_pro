@@ -7,7 +7,7 @@
     'summary': 'Present the suite under the customer-facing product identity',
     'description': """
 AIConnect HRM Pro — white label
-=========================
+===============================
 
 A performance suite is sold as a product, not as a stack. This module
 replaces the platform's own identity on the surfaces an end user sees:

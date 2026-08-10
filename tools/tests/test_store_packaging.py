@@ -123,6 +123,40 @@ class StoreListingCase(unittest.TestCase):
                          'mixed series across the upload set: %s' % series)
 
 
+class ManifestDescriptionCase(unittest.TestCase):
+    """Odoo renders `description` as reStructuredText on the module page and in
+    Apps. Malformed markup does not raise - it renders wrong and logs a warning
+    nobody reads, so the check belongs in CI."""
+
+    def test_every_description_is_valid_rst(self):
+        from docutils.core import publish_string
+
+        offenders = []
+        for module in sorted(p.name for p in _ADDONS.iterdir() if p.is_dir()):
+            manifest_path = _ADDONS / module / '__manifest__.py'
+            if not manifest_path.exists():
+                continue
+            description = ast.literal_eval(
+                manifest_path.read_text(encoding='utf-8')).get('description', '')
+            if not description.strip():
+                continue
+            messages = []
+            publish_string(
+                source=description, writer_name='html4css1',
+                settings_overrides={
+                    'report_level': 2, 'halt_level': 5,
+                    'warning_stream': type(
+                        'Sink', (object,),
+                        {'write': lambda self, text: messages.append(text.strip())}
+                    )()})
+            noise = [m for m in messages if m]
+            if noise:
+                offenders.append('%s: %s' % (module, noise[0].splitlines()[0]))
+        self.assertFalse(offenders,
+                         'malformed reStructuredText in manifests:\n  %s'
+                         % '\n  '.join(offenders))
+
+
 class BuilderContractCase(unittest.TestCase):
     """The builder is the only thing that produces the upload, so its own
     knobs are part of the packaging contract."""
@@ -153,6 +187,30 @@ class BuilderContractCase(unittest.TestCase):
             {'license': 'OPL-1', 'version': '19.0.1.0.0'},
             is_app=False, series='19.0')
         self.assertTrue(any('LICENSE' in p for p in problems), problems)
+
+    def test_standalone_apps_never_reach_into_the_performance_suite(self):
+        """The staffing app is sold to a delivery lead, not an HR director.
+        The moment it depends on the suite it stops being buyable on its own,
+        and the 25 USD listing silently requires a 130 USD prerequisite."""
+        for module, allowed in builder.STANDALONE_APPS.items():
+            depends = set(_manifest(module)['depends'])
+            self.assertFalse(
+                depends & builder.PERFORMANCE_SUITE,
+                '%s depends on the performance suite: %s'
+                % (module, sorted(depends & builder.PERFORMANCE_SUITE)))
+            self.assertTrue(
+                depends <= allowed,
+                '%s gained a dependency outside its allowed set: %s'
+                % (module, sorted(depends - allowed)))
+
+    def test_connectors_auto_install_and_stay_free(self):
+        for module in ('aic_hrm_match_okr', 'aic_hrm_match_timesheet'):
+            manifest = _manifest(module)
+            self.assertTrue(manifest['auto_install'],
+                            '%s is a connector; it should install itself once '
+                            'both sides are present' % module)
+            self.assertFalse(manifest.get('price'), module)
+            self.assertIn('aic_hrm_match', manifest['depends'], module)
 
     def test_modules_that_define_ui_ship_a_translation_catalogue(self):
         """Whoever defines the screens owes the translation. A bundle module

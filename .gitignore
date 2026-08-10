@@ -54,3 +54,4 @@ dist/
 
 # Local Python virtualenv (Odoo runtime deps)
 .venv/
+.venv18/
