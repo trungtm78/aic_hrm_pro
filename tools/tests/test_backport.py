@@ -112,7 +112,21 @@ class BackportTransformCase(unittest.TestCase):
         result = self._transform(source)
         self.assertIn("'version': '18.0.1.0.0'", result)
         self.assertIn("'groups_id': [(6, 0,", result)
-        self.assertNotIn("'group_ids': [(6, 0,", result)
+        self.assertNotIn("'group_ids'", result)
+
+    def test_group_ids_is_rewritten_whatever_follows_the_key(self):
+        """The rewrite keys on the field name, not on the command tuple that
+        happens to follow it. Keying on "[(6, 0, [" missed every call that
+        passed a recordset's ids instead of a literal list - which is most of
+        them - and the 18 build then failed at runtime on an unknown field."""
+        for tail in ("[(6, 0, group_records.ids)]",
+                     "[(4, group.id)]",
+                     "group_records.ids",
+                     "[(6, 0, [1, 2])]"):
+            source = "vals = {'group_ids': %s}\n" % tail
+            result = self._transform(source)
+            self.assertNotIn("'group_ids'", result, tail)
+            self.assertIn("'groups_id':", result, tail)
 
 
 class BackportVerifyCase(unittest.TestCase):

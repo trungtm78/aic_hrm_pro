@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Layer 1 - GLOBAL rules. No `groups` attribute, so Odoo intersects them
+        with whatever the group rules allow. Every company restriction in this
+        module belongs here and nowhere else: given a `groups` attribute it
+        would be ORed against the other group rules and stop restricting
+        anything the moment a user holds one of them, which is always.
+
+        Layer 2 rules (per group) arrive with the models they protect, in the
+        checkpoint that introduces them. A model with no applicable rule is
+        unrestricted, so every model that gains rows also gains its row here.
+    -->
+
+    <record id="rule_match_tag_company_global" model="ir.rule">
+        <field name="name">Staffing tag: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_tag"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+</odoo>

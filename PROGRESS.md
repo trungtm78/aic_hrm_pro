@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP1/10 (aic_hrm_match) | Task: CP1c xong, CP1d tiếp theo
+Cập nhật: 2026-08-10 | Milestone: CP1/10 (aic_hrm_match) | Task: CP1d xong — CP1 HOÀN TẤT, CP2 tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -66,20 +66,29 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       **74 test, 0 fail, xanh trên cả 19 và 18**; coverage 99% (2 dòng còn lại chính là nhánh 18,
       được phủ bởi lần chạy trên 18). i18n **54/54**.
 
+- [x] **CP1d+CP1e** `security/aic_hrm_match_rules.xml` lớp **global** (không khai `groups` ⇒ được AND)
+      cho `aic.hrm.match.tag` + `tests/test_security.py` (12 case: quyền ghi cấu hình, cô lập đa công ty
+      qua `search`/`read`/`read_group`, admin **không** vượt ranh giới công ty).
+      **86 test, 0 fail, xanh trên cả 19 và 18.**
+      **Fault-seeding đã chạy** (bằng chứng test không rỗng): thêm một rule `[(1,'=',1)]` cho
+      `group_match_planner` ⇒ **4/4 test cô lập công ty FAIL đúng như mong đợi**; gỡ fault thì xanh lại.
+      (Fault đầu tiên thử — đổi rule global thành group-scoped trên `group_match_user` — **không**
+      phải fault thật vì mọi group staffing đều implies `group_match_user`, nên rule vẫn áp. Ghi lại
+      để lần sau không tự lừa mình bằng một phép tiêm lỗi vô hiệu.)
+
 ### Đang làm dở
-Task: CP1d — khung schema toàn bộ model + record rule 2 lớp
+Task: CP2 — cung & cầu
 Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: tạo `security/aic_hrm_match_rules.xml` với **lớp global** (không khai `groups`,
-được AND) cho mọi model đã có, rồi mở rộng dần theo từng model mới. Ngay sau đó viết
-`tests/test_security.py` bắt đầu bằng case S17 (đa công ty) vì đó là case duy nhất kiểm được với
-schema hiện tại.
-File liên quan: plan §8.3 (3 luật Odoo: group OR / global AND / không rule = cho phép)
+BƯỚC TIẾP THEO: viết `tests/test_availability.py` (RED) cho **đại số khoảng** §4.4 của plan —
+`gross` lấy `_work_intervals_batch(..., compute_leaves=False)`, trừ `leave_iv` và `booked_iv` bằng
+**phép trừ tập khoảng**, quy ra giờ đúng MỘT lần ở bước cuối. Ưu tiên case
+"allocation chồng lấn kỳ nghỉ" vì đó là chỗ phép cộng/trừ tổng giờ cho kết quả sai.
+File liên quan: plan §4.4 (cảnh báo trừ nghỉ hai lần), §3.4 (allocation + advisory lock)
 
 ### Hàng đợi task kế tiếp
-1. CP1d record rule 2 lớp + mở rộng ACL khi thêm model
-2. CP1e `test_security.py` các case ACL/rule (S01–S08, S16–S22)
-3. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
-   experience ledger, certification)
+1. CP2 `aic.hrm.match.availability` (đại số khoảng) + `allocation` (advisory lock) + `profile`
+2. CP2 `request`/`slot` + experience ledger + certification workflow
+3. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
@@ -106,9 +115,9 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 ```
 
 ## Trạng thái test
-- Tooling (không cần DB): `python -m unittest discover -s tools/tests -t .` → **38/38 PASS**
-- `aic_hrm_match` trên **Odoo 19**: **74/74 PASS**, coverage `models/` = **99%**
-- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **74/74 PASS**
+- Tooling: **39/39 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **86/86 PASS**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **86/86 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

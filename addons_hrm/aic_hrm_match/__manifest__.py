@@ -41,6 +41,7 @@ Two free connectors extend it when the matching apps are installed.
     'data': [
         'security/aic_hrm_match_groups.xml',
         'security/ir.model.access.csv',
+        'security/aic_hrm_match_rules.xml',
     ],
     'assets': {
     },

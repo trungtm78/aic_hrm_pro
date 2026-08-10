@@ -154,9 +154,17 @@ def _transform_constraints(text):
     return ''.join(lines)
 
 
+_GROUP_IDS_RE = re.compile(r"'group_ids'\s*:")
+
+
 def transform_python(text):
     text = _transform_constraints(text)
-    text = text.replace("'group_ids': [(6, 0, [", "'groups_id': [(6, 0, [")
+    # Matched on the key alone, not on the command tuple that follows it. The
+    # previous version keyed on "'group_ids': [(6, 0, [" and so ignored
+    # "'group_ids': [(6, 0, records.ids)]" - the same literal shape it happened
+    # to be written in first. verify() looks for exactly this key, so transform
+    # and verifier now agree on what the construct is.
+    text = _GROUP_IDS_RE.sub("'groups_id':", text)
     text = text.replace("'version': '19.0.", "'version': '18.0.")
     return text
 

@@ -56,6 +56,26 @@ class MatchCase(TransactionCase):
         return cls.Seniority.create(values)
 
     @classmethod
+    def _make_user(cls, name, groups, company=None, companies=None):
+        """A user with exactly the staffing groups named, and nothing else.
+
+        Built from ``base.group_user`` upwards rather than by copying an
+        existing user: inheriting somebody else's groups is how a security test
+        ends up proving that an administrator can read something.
+        """
+        company = company or cls.company
+        group_records = cls.env['res.groups'].browse([
+            cls.env.ref('aic_hrm_match.%s' % group).id for group in groups])
+        group_records |= cls.env.ref('base.group_user')
+        return cls.env['res.users'].create({
+            'name': name,
+            'login': 'staffing_%s' % name.lower().replace(' ', '_'),
+            'company_id': company.id,
+            'company_ids': [(6, 0, (companies or company).ids)],
+            'group_ids': [(6, 0, group_records.ids)],
+        })
+
+    @classmethod
     def _make_employee(cls, name, **kwargs):
         values = {'name': name, 'company_id': cls.company.id}
         values.update(kwargs)
