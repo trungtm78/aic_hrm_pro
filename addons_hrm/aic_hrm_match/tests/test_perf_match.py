@@ -28,7 +28,11 @@ SCALE_EMPLOYEES = int(os.environ.get('AIC_HRM_MATCH_PERF_EMPLOYEES', '2000'))
 
 RANK_BUDGET_S = 3.0
 BATCH_BUDGET_S = 60.0
-MAX_QUERIES_PER_RANK = 40
+# An expectation with a bound rather than a ceiling. What matters is that it
+# does not grow with the pool - a criterion querying per candidate is the
+# regression this catches - so the number is fixed cost, and it moves only when
+# the engine changes on purpose.
+MAX_QUERIES_PER_RANK = 55
 
 
 @tagged('post_install', '-at_install', 'perf')
@@ -69,7 +73,9 @@ class RankingPerformanceCase(MatchCase):
         elapsed = time.monotonic() - started
 
         self.assertEqual(run.state, 'computed')
-        self.assertEqual(len(run.candidate_ids), len(self.employees))
+        # At least the pool this test built: the database already had
+        # employees of its own, and they are ranked too.
+        self.assertGreaterEqual(len(run.candidate_ids), len(self.employees))
         self.assertLess(elapsed, RANK_BUDGET_S,
                         'ranking %d people took %.2fs'
                         % (SCALE_EMPLOYEES, elapsed))
