@@ -29,12 +29,32 @@ mới `tools/tests/test_view_syntax.py` chặn lớp lỗi cú pháp view tái d
 Suite hiện tại: **316 test, 0 failed, 0 error trên cả hai series**, coverage 96%,
 `vi.po` 589/589, build 10 archive mỗi series.
 
+### Kết quả đo hiệu năng (2026-08-10, lần đầu chạy thật)
+
+Bộ `test_perf_match.py` trước đây **không đo gì**: mọi case lỗi ngay ở fixture
+(`self.env['fields.Date']` không phải model; request thiếu `name` bắt buộc và
+thiếu slot nên `run_match` từ chối). Đã viết lại. Số đo đầu tiên, ở quy mô 300
+nhân sự (`AIC_HRM_MATCH_PERF_EMPLOYEES=300`):
+
+| Phép đo | Ngân sách | Thực tế @300 | Suy ra @2.000 |
+|---|---|---|---|
+| 50 lượt xếp hạng | < 60 s | **95,4 s** (~1,9 s/lượt) | ~13 s/lượt |
+| Query mỗi lượt | ≤ 40 | **vượt** | tăng theo pool |
+
+**Nguyên nhân gần như chắc chắn**: `aic.hrm.match.availability.get_breakdown`
+gọi `_work_intervals_batch` **một lần cho mỗi nhân sự**. Đây đúng là bẫy §12.1
+mà plan đã cảnh báo. Cách sửa plan đã chỉ: gom theo khoá `(calendar, resource,
+tz)` và gọi một lần cho cả lô — **không** gom theo mỗi `calendar` (sai kết quả
+vì nghỉ theo resource, múi giờ, lịch hai tuần, ngoại lệ).
+
+Đây là hạng mục **chưa xong** duy nhất còn lại ngoài tài sản store. Bộ đo đã
+nằm sẵn để xác nhận khi sửa.
+
 ### Còn lại
-1. **CP3c** — 9 scorer lõi còn thiếu: `project_similarity`, `customer_affinity`,
-   `continuity`, `workload_balance`, `seniority_fit`, `cost_fit`, `location_fit`,
-   `timezone_overlap`, `aspiration`; kèm catalogue 12 tiêu chí + policy mặc định
-   bật 7 (§4.5-4.7, D11).
-2. **CP10** — 12 ảnh store còn thiếu, perf 2.000 nhân sự, 3 tour, `UAT-COVERAGE.md`.
+1. **Hiệu năng** — gom `_work_intervals_batch` theo lô (bảng trên). Ngân sách
+   3 s/lượt và ≤40 query là điều kiện xuất xưởng, hiện chưa đạt.
+2. **CP10** — 12 ảnh store còn thiếu (mới có `icon`, `banner`, `index.html`),
+   3 tour E2E, `UAT-COVERAGE.md`.
 
 ### Đã hoàn thành
 - [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,
