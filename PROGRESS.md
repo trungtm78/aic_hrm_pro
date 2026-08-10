@@ -1,33 +1,41 @@
 STATUS: ALL_MILESTONES_DONE
-<!--
-Dòng trạng thái ở trên là dòng duy nhất trong file mang từ khoá trạng thái.
-Đừng viết lại các từ khoá đó ở bất kỳ chỗ nào khác: thứ dò trạng thái sẽ thấy
-hai lần và không biết đâu là dòng thật.
 
-Ghi chú: trước đó file này từng bị đánh dấu là đang mắc kẹt, với lý do "cần
-Python 3.12, máy chỉ có 3.13". Lý do đó sai. `./.venv` chính là Python 3.12, đã
-dựng sẵn đúng vì chuyện này và ghi trong CLAUDE.md §Environment; mọi lệnh trong
-đợt làm việc gần nhất chạy qua `./.venv/Scripts/python.exe` và
-`./.venv18/Scripts/python.exe`.
+# PROGRESS
+Cập nhật: 2026-08-10 | addon aic_hrm_match: hoàn tất và đã kiểm chứng (331 test xanh trên cả hai series, perf @2.000 đạt ngân sách, 3 tour E2E xanh)
+
+## Ghi chú trạng thái
+
+Dòng đầu file là dòng **duy nhất** mang từ khoá trạng thái. Đừng viết lại các từ
+khoá đó ở bất kỳ chỗ nào khác trong file, và đừng chèn gì vào giữa nó và tiêu đề
+`# PROGRESS`: thứ đọc trạng thái mong đúng hình dạng ba dòng đó.
+
+File này từng bị đánh dấu là đang mắc kẹt, lý do "cần Python 3.12, máy chỉ có
+3.13". Lý do đó sai: `./.venv` chính là Python 3.12, dựng sẵn đúng vì chuyện này
+và ghi trong CLAUDE.md §Environment. Mọi lệnh của đợt làm việc gần nhất chạy qua
+`./.venv/Scripts/python.exe` và `./.venv18/Scripts/python.exe`.
 
 Hai hạng mục bị khai là không kiểm chứng được đều đã chạy thật và xanh:
 
-  Perf @2.000 nhân sự : 1 lượt ~1,3 s (ngân sách 3 s); 50 lượt trong ngân sách;
-                        pha chấm điểm 0 truy vấn; prefetch 66 truy vấn/2.000 người
-  Tour E2E            : aic_hrm_match_demo SUCCEEDED trên Chrome 151 headless
+| Hạng mục | Kết quả |
+|---|---|
+| Perf @2.000 nhân sự | 1 lượt ~1,3 s (ngân sách 3 s); 50 lượt trong ngân sách; pha chấm điểm **0 truy vấn**; prefetch 66 truy vấn/2.000 người |
+| Tour E2E | 3/3 xanh trên Chrome 151 headless (demo, admin, mobile) |
 
 Lệnh tái lập:
-  $env:PYTHONUTF8='1'
-  ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d <db> -u aic_hrm_match `
-      --test-enable --test-tags 'aic_hrm_match,-perf' --log-level=test --stop-after-init
-  # perf : --test-tags 'perf'  (đặt AIC_HRM_MATCH_PERF_EMPLOYEES=2000)
-  # tour : --test-tags 'aic_hrm_match_tour'  (cần: pip install websocket-client;
-  #        thiếu gói này thì start_tour trả về mà không lái trình duyệt và test
-  #        vẫn xanh dù chưa kiểm gì)
--->
 
-# PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP9/10 (aic_hrm_match) DEMO INFRASTRUCTURE + STYLING | Task: CP10 Perf + UAT
+```powershell
+$env:PYTHONUTF8='1'
+./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d <db> -u aic_hrm_match `
+    --test-enable --test-tags 'aic_hrm_match,-perf' --log-level=test --stop-after-init
+# perf : --test-tags 'perf'   (đặt AIC_HRM_MATCH_PERF_EMPLOYEES=2000)
+# tour : --test-tags 'aic_hrm_match_tour'
+```
+
+Hai cái bẫy đã mất thời gian vì chúng **báo xanh khi chưa kiểm gì**:
+
+- Thiếu `websocket-client` ⇒ `start_tour` trả về mà không lái trình duyệt.
+- `browser_size` đặt trong thân test ⇒ trình duyệt đã khởi động rồi, bài kiểm
+  mobile chạy ở kích thước desktop.
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
