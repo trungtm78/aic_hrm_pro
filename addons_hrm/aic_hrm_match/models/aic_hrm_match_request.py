@@ -190,6 +190,12 @@ class AicHrmMatchRequestSlot(models.Model):
 
     skill_line_ids = fields.One2many(
         'aic.hrm.match.request.slot.skill', 'slot_id', string='Skills required')
+    required_certification_skill_ids = fields.Many2many(
+        'hr.skill', string='Certifications required',
+        help="Credentials the work cannot be done without. Kept apart from the "
+             "skills above because they are not a matter of degree: somebody "
+             "holds a valid one for the whole window or they are not offered, "
+             "and no weighting makes an expired licence acceptable.")
     assigned_employee_id = fields.Many2one(
         'hr.employee', readonly=True, ondelete='set null',
         help="Filled from the decision, never typed.")

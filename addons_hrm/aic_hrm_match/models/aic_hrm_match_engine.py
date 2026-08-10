@@ -59,6 +59,10 @@ class AicHrmMatchEngine(models.AbstractModel):
             self._build_pool(request, policy).ids, as_of=as_of)
 
         self._prefetch(ctx)
+        # Resolved once, here, because both the gate and the normalisation
+        # ask what the seat needs and deriving it twice is how the two end
+        # up disagreeing about the same seat.
+        ctx.needed_hours = self._needed_hours(ctx)
         self._apply_hard_constraints(ctx)
         raw = self._score(ctx)
         normalized = self._normalize(ctx, raw)
@@ -180,16 +184,19 @@ class AicHrmMatchEngine(models.AbstractModel):
     def _apply_criterion_gates(self, ctx):
         """Gates that answer from the data rather than from a score.
 
-        Availability is the one shipped here: having no free hours is a fact
-        about somebody's calendar, not a weak showing, and saying so before
-        scoring is what lets the exclusion carry the hours instead of a number
-        between zero and one. Every other eliminating criterion is a threshold
-        on the normalised score and is applied in ``_apply_score_gates`` once
-        there is a score to compare.
+        Every enabled criterion is offered the chance, not only the ones a
+        policy marked as eliminating: what the seat itself declares - a
+        mandatory skill, a required licence - is not the policy's to soften by
+        weighting it lightly. A gate that only cares about the criterion's own
+        measurement, availability being the shipped example, checks the mode
+        itself.
+
+        Criteria with no gate of their own eliminate through the threshold on
+        their normalised score instead, once there is a score to compare.
         """
-        for line in self._eliminating_lines(ctx):
-            if line.criterion_code == 'availability':
-                self._gate_availability(ctx, line)
+        scorer = self.env['aic.hrm.match.scorer']
+        for line in ctx.policy_lines:
+            scorer.gate(line.criterion_code, ctx, line)
 
     @api.model
     def _apply_score_gates(self, ctx, normalized):
@@ -200,10 +207,14 @@ class AicHrmMatchEngine(models.AbstractModel):
         passing it, and the discrepancy is invisible unless somebody counts -
         which is the definition of a gate that fails open.
         """
+        scorer = self.env['aic.hrm.match.scorer']
         for line in self._eliminating_lines(ctx):
             code = line.criterion_code
-            if code == 'availability':
-                continue        # already decided, on hours rather than score
+            if scorer.has_gate(code):
+                # Already decided, on the facts rather than on a score. Running
+                # the threshold as well would eliminate twice and attribute the
+                # exclusion to whichever ran last.
+                continue
             threshold = line.threshold_override or (
                 line.criterion_id.threshold if line.criterion_id else 0.0)
             if threshold <= 0.0:
@@ -223,23 +234,6 @@ class AicHrmMatchEngine(models.AbstractModel):
                       'this policy requires.',
                       name=line.criterion_name or code,
                       score=score, threshold=threshold))
-
-    @api.model
-    def _gate_availability(self, ctx, line):
-        """Somebody with no free hours is not a low score, they are unavailable."""
-        free_hours = ctx.data.get('availability', {})
-        needed = self._needed_hours(ctx)
-        tolerance = ctx.policy_lines[:1].policy_id.partial_tolerance
-        if ctx.slot.allow_partial_availability:
-            tolerance = max(tolerance, 1.0)
-        floor = needed * (1.0 - tolerance)
-        for employee_id in ctx.scoped_ids:
-            free = free_hours.get(employee_id, 0.0)
-            if needed > 0.0 and free < floor:
-                ctx.reject(
-                    employee_id, 'availability', 'no_capacity',
-                    _('%(free).1f h free of %(needed).1f h needed.',
-                      free=free, needed=needed))
 
     @api.model
     def _needed_hours(self, ctx):
@@ -401,6 +395,7 @@ class AicHrmMatchEngine(models.AbstractModel):
                 'identity_ref': '%s-%s' % (run.reference, employee_id),
                 'employee_id': employee_id,
                 'eligible': eligible,
+                'is_stretch': employee_id in ctx.stretch_ids,
                 'rank': ranks.get(employee_id, 0),
                 'raw_score': totals_row.get('raw_score', 0.0),
                 'total_score': totals_row.get('total_score', 0.0),

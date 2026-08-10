@@ -16,7 +16,7 @@ by accident.
 """
 import logging
 
-from odoo import api, models
+from odoo import _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -42,12 +42,39 @@ class AicHrmMatchScorer(models.AbstractModel):
             if attribute.startswith(self._SCORE_PREFIX)
         }
 
+    _GATE_PREFIX = '_gate_'
+
     @api.model
     def prefetch(self, code, ctx):
         """Load everything the criterion needs, for the whole pool, once."""
         method = getattr(self, '%s%s' % (self._PREFETCH_PREFIX, code), None)
         if method is not None:
             method(ctx)
+
+    @api.model
+    def gate(self, code, ctx, line):
+        """Let a criterion remove people on its own terms, before scoring.
+
+        Some questions do not have a score. Having no free hours is a fact
+        about a calendar; an expired licence is a fact about a date. Turning
+        either into a number between zero and one and comparing it with a
+        threshold would let a high score elsewhere buy its way past, which on
+        regulated work is not a ranking flaw but an unlicensed person on site.
+
+        A criterion that defines ``_gate_<code>`` therefore eliminates through
+        that method instead of through the threshold on its aggregate score -
+        the same naming convention as scoring, so a connector adds a gating
+        criterion the way it adds any other.
+        """
+        method = getattr(self, '%s%s' % (self._GATE_PREFIX, code), None)
+        if method is not None:
+            method(ctx, line)
+            return True
+        return False
+
+    @api.model
+    def has_gate(self, code):
+        return hasattr(self, '%s%s' % (self._GATE_PREFIX, code))
 
     # -- shipped criteria ----------------------------------------------------
 
@@ -88,6 +115,228 @@ class AicHrmMatchScorer(models.AbstractModel):
                 employee_id, 'availability',
                 '%.1f free of %.1f hours needed' % (free, needed))
         return scores
+
+    @api.model
+    def _gate_availability(self, ctx, line):
+        """No free hours is not a low score, it is being unavailable.
+
+        Honours the criterion's mode, unlike the gates below: how much time
+        somebody has is this criterion's own measurement, so a policy that sets
+        it to rank only is entitled to say that a busy person should merely
+        sort lower. What the seat itself declares - a mandatory skill, a
+        required licence - is not the criterion's to soften.
+        """
+        mode = line.mode_override or (
+            line.criterion_id.mode if line.criterion_id else 'soft')
+        if mode not in ('hard', 'both'):
+            return
+        free_hours = ctx.data.get('availability', {})
+        needed = ctx.needed_hours
+        if needed <= 0.0:
+            return
+        tolerance = line.policy_id.partial_tolerance
+        if ctx.slot.allow_partial_availability:
+            tolerance = max(tolerance, 1.0)
+        floor = needed * (1.0 - tolerance)
+        for employee_id in ctx.scoped_ids:
+            free = free_hours.get(employee_id, 0.0)
+            if free < floor:
+                ctx.reject(
+                    employee_id, 'availability', 'no_capacity',
+                    _('%(free).1f h free of %(needed).1f h needed.',
+                      free=free, needed=needed))
+
+    # -- skills --------------------------------------------------------------
+
+    @api.model
+    def _prefetch_skill_match(self, ctx):
+        """Everybody's level in the skills this seat named, in one read.
+
+        Only the named skills: an employee with forty skill lines contributes
+        the two the seat asked about, and the rest never leave the database.
+        """
+        lines = ctx.slot.skill_line_ids
+        ctx.data['skill_requirements'] = [
+            {
+                'skill_id': line.skill_id.id,
+                'skill_name': line.skill_id.display_name,
+                'minimum': line.min_level_progress,
+                'requirement': line.requirement,
+                'weight': line.weight,
+                'stretch_allowed': line.stretch_allowed,
+            }
+            for line in lines
+        ]
+        if not lines:
+            ctx.data['skill_levels'] = {}
+            return
+
+        held = self.env['hr.employee.skill'].search([
+            ('employee_id', 'in', ctx.scoped_ids),
+            ('skill_id', 'in', lines.skill_id.ids),
+        ])
+        compat = self.env['aic.hrm.match.skill.compat']
+        levels = {}
+        for record in held:
+            # A skill somebody holds is theirs whether or not a validity window
+            # was ever filled in; only certifications are date-checked, and
+            # they are checked by their own gate. Date-checking every line here
+            # would exclude a ten-year developer whose record was entered this
+            # morning, because Odoo 19 defaults the start date to today.
+            key = (record.employee_id.id, record.skill_id.id)
+            progress = record.skill_level_id.level_progress
+            factor = 1.0 if record.verify_state == 'verified' else \
+                (ctx.policy_lines[:1].policy_id.unverified_factor or 1.0)
+            levels[key] = max(levels.get(key, 0.0), progress * factor)
+        ctx.data['skill_levels'] = levels
+        ctx.data['skill_compat'] = compat
+
+    @api.model
+    def _score_skill_match(self, ctx):
+        """How much of what the seat asked for each person covers.
+
+        A shortfall costs score in proportion rather than removing anybody: the
+        difference between "one level down" and "cannot do this" is the
+        difference between a shortlist somebody can staff from and one that
+        only ever offers the exact match, which in practice means offering the
+        same three people forever.
+        """
+        requirements = ctx.data.get('skill_requirements', [])
+        if not requirements:
+            # The seat named no skills, so this criterion has no question to
+            # answer. Missing, not zero: scoring everybody zero would flatten
+            # the ranking while still consuming the weight.
+            return {employee_id: None for employee_id in ctx.scoped_ids}
+
+        levels = ctx.data.get('skill_levels', {})
+        tolerance = ctx.param('skill_match', 'gap_tolerance', 25.0) or 25.0
+        scores = {}
+        for employee_id in ctx.scoped_ids:
+            total_weight, earned = 0.0, 0.0
+            for requirement in requirements:
+                weight = requirement['weight'] or 1.0
+                total_weight += weight
+                have = levels.get((employee_id, requirement['skill_id']), 0.0)
+                gap = have - requirement['minimum']
+                line_score = 1.0 if gap >= 0 else max(0.0, 1.0 + gap / tolerance)
+                earned += weight * line_score
+                ctx.add_evidence(
+                    employee_id, 'skill_match',
+                    '%s: %.0f of %.0f required'
+                    % (requirement['skill_name'], have,
+                       requirement['minimum']))
+            scores[employee_id] = (earned / total_weight) if total_weight else None
+        return scores
+
+    @api.model
+    def _gate_skill_match(self, ctx, line):
+        """A skill the seat called mandatory is the seat's own statement.
+
+        Deliberately not conditioned on the criterion's mode: a policy that
+        weights skills lightly is saying they matter less to the ranking, not
+        that a job needing a welder can be filled by somebody who cannot weld.
+        The one way past is a line the seat explicitly opened to stretching.
+        """
+        requirements = ctx.data.get('skill_requirements', [])
+        mandatory = [r for r in requirements if r['requirement'] == 'mandatory']
+        if not mandatory:
+            return
+        levels = ctx.data.get('skill_levels', {})
+        for employee_id in ctx.scoped_ids:
+            for requirement in mandatory:
+                have = levels.get((employee_id, requirement['skill_id']), 0.0)
+                if have >= requirement['minimum']:
+                    continue
+                if requirement['stretch_allowed']:
+                    ctx.stretch_ids.add(employee_id)
+                    continue
+                ctx.reject(
+                    employee_id, 'skill_match', 'missing_mandatory_skill',
+                    _('%(skill)s at %(have).0f, below the %(need).0f this '
+                      'seat requires.',
+                      skill=requirement['skill_name'], have=have,
+                      need=requirement['minimum']))
+
+    # -- certifications ------------------------------------------------------
+
+    @api.model
+    def _prefetch_certification(self, ctx):
+        """Who holds each required credential, and for how long.
+
+        Read as records rather than as a pre-computed flag on purpose. A field
+        a nightly cron refreshes would let a job starting tomorrow be staffed
+        from yesterday's picture of who is licensed, and the screen would look
+        identical either way.
+        """
+        required = ctx.slot.required_certification_skill_ids
+        ctx.data['certification_required'] = [
+            {'skill_id': skill.id, 'skill_name': skill.display_name}
+            for skill in required
+        ]
+        if not required:
+            ctx.data['certification_valid'] = set()
+            return
+
+        compat = self.env['aic.hrm.match.skill.compat']
+        window_start, window_end = ctx.window
+        held = self.env['hr.employee.skill'].search([
+            ('employee_id', 'in', ctx.scoped_ids),
+            ('skill_id', 'in', required.ids),
+            ('verify_state', '=', 'verified'),
+        ])
+        ctx.data['certification_valid'] = {
+            (record.employee_id.id, record.skill_id.id)
+            for record in held
+            if compat.certification_covers_window(
+                record, window_start, window_end)
+        }
+
+    @api.model
+    def _score_certification(self, ctx):
+        """The share of required credentials somebody actually holds.
+
+        Scored as well as gated so the breakdown says what was checked. The
+        gate is what decides; this number is what makes the decision readable.
+        """
+        required = ctx.data.get('certification_required', [])
+        if not required:
+            return {employee_id: None for employee_id in ctx.scoped_ids}
+        valid = ctx.data.get('certification_valid', set())
+        scores = {}
+        for employee_id in ctx.scoped_ids:
+            held = [r for r in required
+                    if (employee_id, r['skill_id']) in valid]
+            scores[employee_id] = len(held) / len(required)
+            for requirement in required:
+                covered = (employee_id, requirement['skill_id']) in valid
+                ctx.add_evidence(
+                    employee_id, 'certification',
+                    '%s: %s' % (requirement['skill_name'],
+                                'valid for the window' if covered
+                                else 'not valid for the window'))
+        return scores
+
+    @api.model
+    def _gate_certification(self, ctx, line):
+        """Holding every required credential, for the whole window.
+
+        Both ends of the validity are checked, not just the expiry. Comparing
+        only the end date passes a licence that begins after the job has
+        already started, and comparing it against today passes one that runs
+        out on the Wednesday.
+        """
+        required = ctx.data.get('certification_required', [])
+        if not required:
+            return
+        valid = ctx.data.get('certification_valid', set())
+        for employee_id in ctx.scoped_ids:
+            missing = [r['skill_name'] for r in required
+                       if (employee_id, r['skill_id']) not in valid]
+            if missing:
+                ctx.reject(
+                    employee_id, 'certification', 'certification_expired',
+                    _('No verified %(skills)s covering the whole window.',
+                      skills=', '.join(missing)))
 
     @api.model
     def score(self, code, ctx):

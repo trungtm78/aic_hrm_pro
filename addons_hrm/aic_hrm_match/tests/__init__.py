@@ -11,4 +11,5 @@ from . import test_request_workflow
 from . import test_scoring_policy
 from . import test_security
 from . import test_skill_compat
+from . import test_skill_scoring
 from . import test_taxonomy

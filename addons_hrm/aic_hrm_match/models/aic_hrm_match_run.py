@@ -155,6 +155,13 @@ class AicHrmMatchCandidate(models.Model):
              "person. Somebody judged on two criteria out of twelve must not "
              "quietly come first.")
 
+    is_stretch = fields.Boolean(
+        readonly=True, index=True,
+        help="Offered despite falling short of a requirement the seat marked "
+             "as open to it. Flagged rather than hidden: a development posting "
+             "nobody can find afterwards is indistinguishable from a mistake, "
+             "and the person deserves the credit either way.")
+
     capacity_hours = fields.Float(readonly=True)
     free_hours = fields.Float(readonly=True)
     score_line_ids = fields.One2many(

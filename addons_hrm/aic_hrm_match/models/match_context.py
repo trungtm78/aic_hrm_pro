@@ -20,7 +20,8 @@ class MatchContext:
 
     __slots__ = ('env', 'request', 'slot', 'policy_lines', 'employee_ids',
                  'data', 'params', 'as_of', 'window', 'evidence', 'rejections',
-                 'scoped_ids', 'allowed_company_ids')
+                 'scoped_ids', 'allowed_company_ids', 'needed_hours',
+                 'stretch_ids')
 
     def __init__(self, env, request, slot, policy_lines, employee_ids, as_of,
                  allowed_company_ids=None):
@@ -64,6 +65,17 @@ class MatchContext:
         self.data = {}
         self.evidence = {}
         self.rejections = {}
+
+        # How much effort the seat needs, resolved once the calendars have been
+        # read. Gates ask for it and so does normalisation, and deriving it
+        # twice is how the gate and the score end up disagreeing about the same
+        # seat.
+        self.needed_hours = 0.0
+
+        # Who is being offered despite falling short of something the seat
+        # marked as open to it. Carried through to the candidate so the posting
+        # is visible afterwards rather than looking like an oversight.
+        self.stretch_ids = set()
 
     # -- scorer-facing helpers ----------------------------------------------
 

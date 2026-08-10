@@ -15,4 +15,7 @@ from . import aic_hrm_match_criterion
 from . import aic_hrm_match_policy
 from . import aic_hrm_match_run
 from . import aic_hrm_match_composition
+from . import aic_hrm_match_decision
+from . import aic_hrm_match_waiver
+from . import aic_hrm_match_erasure
 from . import aic_hrm_match_engine

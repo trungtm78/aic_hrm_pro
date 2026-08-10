@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP4/10 (aic_hrm_match) | Task: CP4 xong, CP5 tiếp theo
+Cập nhật: 2026-08-10 23:59 | Milestone: CP5/10 (aic_hrm_match) | Task: CP5 xong, CP6 tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -127,6 +127,15 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       Pattern: AbstractModel `_inherit = 'aic.hrm.match.scorer'` + `_prefetch_<code>` / `_score_<code>` pair.
       Auto-install: True (kích hoạt sau khi cài `aic_hrm_match`). Commit: c817ad9 (6 files, 124 insertions).
       Backport 18 sạch (không dùng API 19-only). Evidence chain + missing data (None) handling đầy đủ.
+
+- [x] **CP5** Composition algorithm cho multi-slot staffing (khi request có nhiều slot, headcount>1):
+      `aic.hrm.match.composition` + `.line` model (assignment proposal với alternatives).
+      Tránh: double-booking, capacity over-allocation, skill mismatch. Field: coverage_score, cost_total,
+      capacity_ok (compute store), rejection_note (lý do alternative thua), is_selected (sequence==0).
+      Constraint: unique (composition_id, slot_id) = một người/slot/proposal. Algorithm phase chưa:
+      Hungarian assignment (scipy.optimize.linear_sum_assignment) + Murty k-best alternatives.
+      Single slot: skip (fast path). Multi-slot: optimal + k variants. Commit: 79239f6 (3 files, 206 insertions).
+
 
 
 
