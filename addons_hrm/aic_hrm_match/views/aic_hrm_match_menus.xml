@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="0">
+<odoo>
 
     <!-- Root Menu -->
     <menuitem id="menu_aic_hrm_match_root" name="Staffing" 
-              sequence="76" icon="fa-users"/>
+              sequence="76" web_icon="aic_hrm_match,static/description/icon.png"/>
 
     <!-- Request Menu -->
     <menuitem id="menu_aic_hrm_match_request" name="Requests" 

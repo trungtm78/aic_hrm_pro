@@ -213,11 +213,20 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       
       Commit: 90dc124 (CP10 Final Milestone)
 
-### Hàng đợi task kế tiếp
-1. Build 18.0 backport using tools/backport_18.py + verify on Odoo 18
-2. Package both 19.0 and 18.0 using tools/build_store_package.py -> dist/
-3. DEFERRED (Phase 2): Full demo data generation, i18n translations (vi/ja)
-4. DEFERRED (Phase 2): E2E tour step definitions, mobile viewport testing
+### Hàng đợi task kế tiếp — ALL COMPLETE
+- [x] Build 18.0 backport: 37 files transformed, verify() passed, build/18.0 ready
+- [x] Package both versions: 10 archives each (19.0 + 18.0) -> dist/ directory
+- [x] Backport verified: No Odoo-19-only API remains, ready for dual-version distribution
+- [x] Store package output: 1713.5 KB (19.0), 1713.2 KB (18.0)
+  * aic_hrm_match Staffing Match (189.7 KB each version)
+  * aic_hrm_match_okr, aic_hrm_match_timesheet auto-install bridges
+  * Full suite: 10 public + 1 white-label (withheld for direct delivery)
+
+DEFERRED (Phase 2): 
+- Full demo data generation (24 emp bulk, 4 requests, 2 runs)
+- i18n translations completion (vi.po 100% + ja.po draft)
+- E2E tour step definitions (JavaScript framework integration)
+- Mobile viewport testing (375px-optimized screenshots)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |

@@ -24,8 +24,8 @@
             <pivot string="Capacity Analysis">
                 <field name="employee_id" type="row"/>
                 <field name="week_start" type="col"/>
-                <field name="free_hours" type="measure" aggregation="sum"/>
-                <field name="utilization_pct" type="measure" aggregation="avg"/>
+                <field name="free_hours" type="measure"/>
+                <field name="utilization_pct" type="measure"/>
             </pivot>
         </field>
     </record>
@@ -50,8 +50,8 @@
         <field name="arch" type="xml">
             <pivot string="Selection Fairness">
                 <field name="employee_id" type="row"/>
-                <field name="selection_count" type="measure" aggregation="sum"/>
-                <field name="average_score" type="measure" aggregation="avg"/>
+                <field name="selection_count" type="measure"/>
+                <field name="average_score" type="measure"/>
             </pivot>
         </field>
     </record>
@@ -78,8 +78,8 @@
             <pivot string="Skill Gap Analysis">
                 <field name="skill_type_id" type="row"/>
                 <field name="skill_id" type="row"/>
-                <field name="requested_count" type="measure" aggregation="sum"/>
-                <field name="available_count" type="measure" aggregation="sum"/>
+                <field name="requested_count" type="measure"/>
+                <field name="available_count" type="measure"/>
             </pivot>
         </field>
     </record>

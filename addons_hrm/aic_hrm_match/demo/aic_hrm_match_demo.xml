@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="0">
+<odoo>
 
     <!-- Demo Sentinel: marks that demo was installed -->
     <record id="demo_sentinel" model="aic.hrm.match.demo.sentinel">
