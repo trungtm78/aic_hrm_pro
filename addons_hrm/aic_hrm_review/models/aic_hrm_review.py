@@ -129,10 +129,9 @@ class AicHrmReview(models.Model):
     feedback_request_ids = fields.One2many(
         'aic.hrm.feedback.request', 'review_id')
 
-    _cycle_employee_uniq = models.Constraint(
-        'unique (review_cycle_id, employee_id)',
-        'This employee already has a review in this cycle.',
-    )
+    _sql_constraints = [
+        ('cycle_employee_uniq', 'unique(review_cycle_id, employee_id)', 'This employee already has a review in this cycle.'),
+    ]
 
     @api.depends('employee_id', 'review_cycle_id')
     def _compute_display_label(self):

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Request Views -->
+    <record id="view_aic_hrm_match_request_form" model="ir.ui.view">
+        <field name="name">Staffing Request - Form</field>
+        <field name="model">aic.hrm.match.request</field>
+        <field name="arch" type="xml">
+            <form string="Staffing Request">
+                <header>
+                    <!-- `states` was removed in Odoo 17; the loader refuses the
+                         view outright rather than ignoring the attribute, so
+                         the whole module fails to install. The replacement is
+                         an `invisible` expression on the same condition. -->
+                    <button name="action_rank" type="object" string="Re-rank"
+                            invisible="state not in ('draft', 'ranked')"
+                            class="oe_highlight"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state not in ('decided', 'staffed')"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="draft,ranked,decided,staffed,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="reference" readonly="1"/></h1>
+                        <h2><field name="task_ref_snapshot" placeholder="Task"/></h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="request_type"/>
+                            <field name="task_id"/>
+                            <field name="project_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="priority"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Slots">
+                            <field name="slot_ids" mode="list">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="required_hours"/>
+                                    <field name="job_id"/>
+                                    <field name="assigned_employee_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Ranked Candidates" invisible="state == 'draft'">
+                            <field name="latest_run_id" readonly="1"/>
+                            <field name="run_ids" readonly="1" mode="list">
+                                <list>
+                                    <field name="reference"/>
+                                    <field name="as_of"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Decisions" invisible="state in ('draft')">
+                            <field name="decision_ids" readonly="1" mode="list">
+                                <list>
+                                    <field name="employee_id"/>
+                                    <field name="score_at_decision"/>
+                                    <field name="is_override"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Details">
+                            <group>
+                                <field name="request_company_id"/>
+                                <field name="company_ids" widget="many2many_tags"/>
+                                <field name="policy_id"/>
+                                <field name="work_location_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="remote_allowed"/>
+                                <field name="tz"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_request_list" model="ir.ui.view">
+        <field name="name">Staffing Request - List</field>
+        <field name="model">aic.hrm.match.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="reference"/>
+                <field name="task_ref_snapshot"/>
+                <field name="partner_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="priority"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_request_kanban" model="ir.ui.view">
+        <field name="name">Staffing Request - Kanban</field>
+        <field name="model">aic.hrm.match.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="false">
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card">
+                            <div class="oe_kanban_content">
+                                <strong><field name="reference"/></strong>
+                                <div><field name="task_ref_snapshot"/></div>
+                                <div><field name="partner_id"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

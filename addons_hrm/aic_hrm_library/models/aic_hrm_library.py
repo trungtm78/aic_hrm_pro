@@ -16,10 +16,9 @@ class AicHrmLibraryIndustry(models.Model):
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint(
-        'unique (code)',
-        'Industry codes must be unique.',
-    )
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'Industry codes must be unique.'),
+    ]
 
 
 class AicHrmLibraryRole(models.Model):
@@ -52,10 +51,9 @@ class AicHrmLibraryRole(models.Model):
         help="Empty on shared built-ins; set on company knowledge.")
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint(
-        'unique (code)',
-        'Role codes must be unique.',
-    )
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'Role codes must be unique.'),
+    ]
 
 
 class AicHrmObjectiveTemplate(models.Model):

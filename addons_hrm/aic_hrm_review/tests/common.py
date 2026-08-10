@@ -16,7 +16,7 @@ class ReviewCase(TransactionCase):
         def make_user(name, login, groups):
             return env['res.users'].create({
                 'name': name, 'login': login,
-                'group_ids': [(6, 0, [env.ref('base.group_user').id,
+                'groups_id': [(6, 0, [env.ref('base.group_user').id,
                                       env.ref(groups).id])],
             })
 

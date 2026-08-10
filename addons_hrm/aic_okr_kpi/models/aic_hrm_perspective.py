@@ -27,10 +27,9 @@ class AicHrmFramework(models.Model):
              "company-specific ones.")
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint(
-        'unique (code)',
-        'Framework codes must be unique.',
-    )
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'Framework codes must be unique.'),
+    ]
 
 
 class AicHrmPerspective(models.Model):
@@ -59,7 +58,6 @@ class AicHrmPerspective(models.Model):
              "company-specific ones.")
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint(
-        'unique (code)',
-        'Perspective codes must be unique.',
-    )
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'Perspective codes must be unique.'),
+    ]

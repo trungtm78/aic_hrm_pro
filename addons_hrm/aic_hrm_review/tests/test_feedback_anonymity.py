@@ -111,7 +111,7 @@ class TestFeedbackAnonymity(ReviewCase):
     def _hr_admin(self):
         return self.env['res.users'].create({
             'name': 'Rev HR Admin', 'login': 'rev_hr_admin',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 self.env.ref('base.group_user').id,
                 self.env.ref('aic_hrm_base.group_hrm_admin').id])],
         })

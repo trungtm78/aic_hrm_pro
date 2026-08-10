@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- NOTE(backport-18): res.groups.privilege is Odoo 19; the 18 build turns
+         this record into a category_id reference on each group. -->
+
+    <!-- Three tiers plus one orthogonal group. The fourth is deliberately NOT
+         part of the ladder: seeing performance figures is a separate decision
+         from being allowed to staff a project, and in several jurisdictions it
+         is a decision with legal weight. Stacking it into "manager" would hand
+         it to everybody who can run a ranking. -->
+
+    <record id="group_match_user" model="res.groups">
+        <field name="name">Staffing: Own profile</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Maintains their own capability profile and
+            certifications, and sees their own standing in a ranking when the
+            policy allows it. Never sees a colleague's score.</field>
+    </record>
+
+    <record id="group_match_planner" model="res.groups">
+        <field name="name">Staffing: Planner</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="implied_ids" eval="[(4, ref('group_match_user'))]"/>
+        <field name="comment">Raises staffing requests, runs rankings, verifies
+            certifications, records decisions and books people. Sees candidate
+            scores, but not the contribution of criteria flagged as sensitive
+            unless they also hold Performance Data Access.</field>
+    </record>
+
+    <record id="group_match_admin" model="res.groups">
+        <field name="name">Staffing: Administrator</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="implied_ids" eval="[(4, ref('group_match_planner'))]"/>
+        <field name="comment">Owns the criteria catalogue and the scoring
+            policies, the cost and billing rates, the identity mapping behind
+            blind ranking, and the personal-data erasure tool.</field>
+    </record>
+
+    <record id="group_match_performance_data" model="res.groups">
+        <field name="name">Staffing: Performance data access</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="comment">Orthogonal to the three tiers above, not a rung on
+            them. Grants the right to read the contribution of criteria marked
+            sensitive - typically appraisal-derived scores. A planner without it
+            still ranks candidates; they simply never see those figures.</field>
+    </record>
+
+    <record id="group_match_admin" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_match_performance_data'))]"/>
+    </record>
+</odoo>

@@ -12,21 +12,21 @@ class TestBaseSecurity(TransactionCase):
         super().setUpClass()
         cls.user_employee = cls.env['res.users'].create({
             'name': 'Perf User', 'login': 'perf_user',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('base.group_user').id,
                 cls.env.ref('aic_hrm_base.group_hrm_user').id,
             ])],
         })
         cls.user_manager = cls.env['res.users'].create({
             'name': 'Perf Manager', 'login': 'perf_manager',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('base.group_user').id,
                 cls.env.ref('aic_hrm_base.group_hrm_manager').id,
             ])],
         })
         cls.user_admin = cls.env['res.users'].create({
             'name': 'Perf Admin', 'login': 'perf_admin',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 cls.env.ref('base.group_user').id,
                 cls.env.ref('aic_hrm_base.group_hrm_admin').id,
             ])],

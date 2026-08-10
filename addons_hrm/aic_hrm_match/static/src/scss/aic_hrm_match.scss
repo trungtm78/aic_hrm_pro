@@ -1,0 +1,186 @@
+// AIC HRM Match — Muc & Thep Design System
+// Based on design.md: data tables, forms, buttons, responsive
+
+.o_aic_hrm_match_view {
+    // Typography: tabular numbers for all data
+    --font-data: "Courier Prime", monospace;
+    
+    // Status tokens (RAG)
+    --status-success: #28a745;
+    --status-warning: #ffc107;
+    --status-danger: #dc3545;
+    --status-info: #17a2b8;
+    
+    // Data table styling
+    .o_list_view {
+        tbody tr {
+            // Odd/even banding
+            &:nth-child(even) {
+                background-color: #f8f9fa;
+            }
+        }
+        
+        td {
+            // Tab spacer for row hierarchy
+            padding-left: 2.5rem;
+            font-family: var(--font-data);
+            
+            // Data cells use tabular numbers
+            &.o_data {
+                text-align: right;
+                font-variant-numeric: tabular-nums;
+            }
+            
+            // Status badge styling
+            &.o_status_success { color: var(--status-success); }
+            &.o_status_warning { color: var(--status-warning); }
+            &.o_status_danger { color: var(--status-danger); }
+        }
+    }
+    
+    // Form styling
+    .o_form_view {
+        .o_form_sheet {
+            max-width: 1200px;
+        }
+        
+        .o_group {
+            // Two-column layout
+            width: 50%;
+            float: left;
+            
+            &.o_group_col_full {
+                width: 100%;
+                clear: both;
+            }
+        }
+        
+        // Sheet divider lines
+        .oe_form_sheet_width {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 1rem;
+        }
+        
+        // Notebook tabs
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            
+            .nav-link {
+                border: none;
+                border-bottom: 2px solid transparent;
+                color: #666;
+                font-weight: 500;
+                margin-right: 1rem;
+                padding-bottom: 0.75rem;
+                
+                &.active {
+                    border-bottom-color: #007bff;
+                    color: #007bff;
+                    background: none;
+                }
+                
+                &:hover {
+                    border-bottom-color: #dee2e6;
+                }
+            }
+        }
+    }
+    
+    // Button sizing (min 40px touch target)
+    button, .btn {
+        min-height: 40px;
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        
+        &.oe_highlight {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+    }
+    
+    // Score display styling
+    .o_score_value {
+        font-family: var(--font-data);
+        font-size: 1.2rem;
+        font-weight: bold;
+        
+        // 3 decimal places only
+        &.o_three_decimal {
+            &::after { content: '000'; }
+        }
+    }
+    
+    // Ranking number (RAG shapes)
+    .o_rank_mark {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 2px;
+        font-weight: bold;
+        font-size: 0.85rem;
+        
+        &.o_pass {
+            background-color: var(--status-success);
+            color: white;
+            // Square shape
+        }
+        
+        &.o_waive {
+            background-color: var(--status-warning);
+            color: white;
+            // Triangle shape (clip-path)
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+        
+        &.o_fail {
+            background-color: var(--status-danger);
+            color: white;
+            // Circle shape
+            border-radius: 50%;
+        }
+    }
+    
+    // Responsive: < 768px
+    @media (max-width: 767px) {
+        .o_list_view {
+            // Reduce padding on mobile
+            td {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .o_form_view .o_group {
+            // Single column on mobile
+            width: 100%;
+            clear: both;
+        }
+        
+        .o_group > label {
+            // Stack labels vertically
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+    }
+    
+    // Responsive: < 414px (small phone)
+    @media (max-width: 413px) {
+        button, .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .o_list_view td {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+    }
+}

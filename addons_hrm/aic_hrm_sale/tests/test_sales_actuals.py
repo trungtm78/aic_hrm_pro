@@ -13,7 +13,7 @@ class TestSalesActuals(TransactionCase):
         env = cls.env
         cls.sales_user = env['res.users'].create({
             'name': 'Sale Rep', 'login': 'kpi_sale_rep',
-            'group_ids': [(6, 0, [
+            'groups_id': [(6, 0, [
                 env.ref('base.group_user').id,
                 env.ref('sales_team.group_sale_salesman').id,
                 env.ref('aic_hrm_base.group_hrm_user').id,
