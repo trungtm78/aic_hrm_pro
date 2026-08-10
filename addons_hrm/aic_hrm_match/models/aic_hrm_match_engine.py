@@ -54,9 +54,7 @@ class AicHrmMatchEngine(models.AbstractModel):
         policy = policy or self._resolve_policy(request)
         as_of = fields.Datetime.now()
 
-        ctx = MatchContext(
-            self.env, request, slot, policy.line_ids.filtered('enabled'),
-            self._build_pool(request, policy).ids, as_of=as_of)
+        ctx = self._build_context(request, slot, policy, as_of)
 
         self._prefetch(ctx)
         # Resolved once, here, because both the gate and the normalisation
@@ -113,6 +111,21 @@ class AicHrmMatchEngine(models.AbstractModel):
             "No active scoring policy applies to %(name)s. Ranking without "
             "one would judge people under rules nobody chose.",
             name=request.display_name))
+
+    @api.model
+    def _build_context(self, request, slot, policy, as_of=None):
+        """Everything one run reads, gathered before any of it is used.
+
+        Separate from ``run_match`` so the phases can be driven individually.
+        That is what lets a test assert the property the whole performance
+        budget rests on - that the scoring phase issues no queries at all -
+        which cannot be observed from the outside, because a scorer reaching
+        for something it did not prefetch still returns the right answer.
+        """
+        return MatchContext(
+            self.env, request, slot, policy.line_ids.filtered('enabled'),
+            self._build_pool(request, policy).ids,
+            as_of=as_of or fields.Datetime.now())
 
     @api.model
     def _build_pool(self, request, policy):

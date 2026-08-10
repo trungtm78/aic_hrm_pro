@@ -1,5 +1,11 @@
-STATUS: ALL_MILESTONES_DONE
-<!-- Updated at end of autonomous execution -->
+STATUS: IN_PROGRESS
+<!-- BƯỚC TIẾP THEO: Performance optimization task 1 -->
+<!-- Corrected from ALL_MILESTONES_DONE:
+  - Issue: Query count 131 at 2K employees (budget 40) due to per-employee get_leave_intervals calls
+  - Fix: Implement get_leave_intervals_batch + update get_breakdown_batch to use batch version
+  - Impact: Reduce from 131 to ~40 queries, batch 74.3s -> <60s, query overhead per-rank from sub-40 to <40
+-->
+-->
 
 # PROGRESS
 Cập nhật: 2026-08-10 23:59 | Milestone: CP9/10 (aic_hrm_match) DEMO INFRASTRUCTURE + STYLING | Task: CP10 Perf + UAT

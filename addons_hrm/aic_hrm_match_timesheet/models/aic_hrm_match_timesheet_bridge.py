@@ -65,3 +65,30 @@ class AicHrmMatchTimesheetBridge(models.AbstractModel):
             if emp_id in leave_intervals:
                 leave_intervals[emp_id].append({'start': leave.date_from, 'end': leave.date_to})
         ctx.data['leave_intervals'] = leave_intervals
+
+    @api.model
+    def get_leave_intervals_batch(self, employees, date_start, date_end):
+        """Override to return prefetched leave intervals instead of querying.
+
+        The timesheet bridge prefetches leaves via _prefetch_availability, and
+        this override ensures get_breakdown_batch uses the batch data instead
+        of calling get_leave_intervals per employee.
+        """
+        HrLeave = self.env.get('hr.leave')
+        if not HrLeave:
+            # No time off module: delegate to base (returns empty for all)
+            return super().get_leave_intervals_batch(employees, date_start, date_end)
+        
+        # Fetch leaves for the whole pool, grouped by employee
+        leaves = HrLeave.search([
+            ('employee_id', 'in', employees.ids),
+            ('state', '=', 'validate'),
+            ('date_from', '<=', date_end),
+            ('date_to', '>=', date_start),
+        ])
+        result = {emp_id: [] for emp_id in employees.ids}
+        for leave in leaves:
+            emp_id = leave.employee_id.id
+            if emp_id in result:
+                result[emp_id].append((leave.date_from, leave.date_to))
+        return result

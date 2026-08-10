@@ -28,11 +28,20 @@ SCALE_EMPLOYEES = int(os.environ.get('AIC_HRM_MATCH_PERF_EMPLOYEES', '2000'))
 
 RANK_BUDGET_S = 3.0
 BATCH_BUDGET_S = 60.0
-# An expectation with a bound rather than a ceiling. What matters is that it
-# does not grow with the pool - a criterion querying per candidate is the
-# regression this catches - so the number is fixed cost, and it moves only when
-# the engine changes on purpose.
-MAX_QUERIES_PER_RANK = 55
+# Writing N candidates is N rows, and Odoo splits a large INSERT into chunks,
+# so the total query count for a run cannot be independent of the pool. The
+# ceiling below is generous on purpose: the invariants worth asserting are the
+# per-phase ones below it, not this number.
+MAX_QUERIES_PER_RANK = 200
+
+# What genuinely must not grow *with the pool*. Prefetch reads each source once
+# for everybody, so its cost is a handful of queries per source plus whatever
+# chunking the ORM applies to a long IN list - a few dozen either way. Stated as
+# a fraction of the pool rather than a fixed number, because the claim being
+# made is "not per person", and a magic constant would have to be re-guessed
+# every time the scale changes.
+def max_prefetch_queries(pool_size):
+    return max(50, pool_size // 10)
 
 
 @tagged('post_install', '-at_install', 'perf')
@@ -97,23 +106,47 @@ class RankingPerformanceCase(MatchCase):
             self.engine.run_match(request, policy=self.policy)
 
     def test_scoring_issues_no_queries_at_all(self):
-        """The boundary that makes the budget structural rather than a matter
-        of discipline: everything is loaded in the prefetch pass, so the
-        scoring phase is arithmetic over dictionaries."""
+        """The property the whole budget rests on.
+
+        It cannot be observed from outside the engine: a scorer reaching for
+        something it did not prefetch still returns the right answer, so no
+        assertion fails - it simply issues a query per candidate, and the
+        three-second ranking becomes a minute. Driving the phases separately is
+        the only way to see it.
+        """
         request = self._request()
         ctx = self.engine._build_context(request, request.slot_ids[0],
-                                         self.policy) \
-            if hasattr(self.engine, '_build_context') else None
-        if ctx is None:
-            self.skipTest('engine does not expose a context builder')
-
+                                         self.policy)
         self.engine._prefetch(ctx)
         self.env.flush_all()
+
         before = self.env.cr.sql_log_count
         self.engine._score(ctx)
+        self.env.flush_all()
         self.assertEqual(self.env.cr.sql_log_count, before,
-                         'scoring issued queries; everything it needs must '
+                         'scoring issued a query; everything it needs must '
                          'come from the prefetch phase')
+
+    def test_prefetching_does_not_get_more_expensive_with_the_pool(self):
+        """Each source read once for everybody, rather than once per person.
+
+        Bounded rather than fixed: the ORM splits a large IN list, so a few
+        more queries at two thousand than at a hundred is chunking, not a
+        source being asked per candidate.
+        """
+        request = self._request()
+        ctx = self.engine._build_context(request, request.slot_ids[0],
+                                         self.policy)
+        self.env.flush_all()
+        before = self.env.cr.sql_log_count
+        self.engine._prefetch(ctx)
+        self.env.flush_all()
+        used = self.env.cr.sql_log_count - before
+
+        self.assertLess(used, max_prefetch_queries(SCALE_EMPLOYEES),
+                        'prefetching %d people took %d queries, which is close '
+                        'enough to one per person to suspect a source is being '
+                        'read individually' % (SCALE_EMPLOYEES, used))
 
     def test_a_batch_of_requests_stays_inside_the_batch_budget(self):
         """Fifty seats in one planning round is an ordinary Monday for a

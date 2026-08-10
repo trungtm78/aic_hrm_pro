@@ -142,6 +142,21 @@ class AicHrmMatchAvailability(models.AbstractModel):
         return []
 
     @api.model
+    def get_leave_intervals_batch(self, employees, date_start, date_end):
+        """Batch version of get_leave_intervals: ``{employee_id: intervals}``.
+
+        Called from get_breakdown_batch to avoid per-employee method calls in a
+        loop, which would scale poorly as pool size grows. At 2.000 employees,
+        calling get_leave_intervals once per person is 2.000 method invocations
+        even if each one is a no-op. Batch version amortises the cost.
+
+        Base implementation returns empty for all employees (no Time Off
+        integration). Connector that depends on hr_holidays overrides this to
+        fetch and return actual leave intervals.
+        """
+        return {employee_id: [] for employee_id in employees.ids}
+
+    @api.model
     def _blocking_allocations_batch(self, employees, window_start, window_end):
         """Every commitment that touches the window, for the whole pool, in one
         search - then grouped in Python. One query, not one per person."""
@@ -309,12 +324,13 @@ class AicHrmMatchAvailability(models.AbstractModel):
                                pytz.utc.localize(allocation.date_end))
         gross_by_employee = self.get_gross_intervals_batch(
             employees, span_start, span_end)
+        leave_by_employee = self.get_leave_intervals_batch(
+            employees, span_start, span_end)
 
         result = {}
         for employee in employees:
             gross_span = gross_by_employee.get(employee.id, [])
-            leave_span = self.get_leave_intervals(
-                employee, span_start, span_end)
+            leave_span = leave_by_employee.get(employee.id, [])
             working = utils.subtract_intervals(gross_span, leave_span)
 
             gross = utils.intersect_intervals(gross_span, window)
