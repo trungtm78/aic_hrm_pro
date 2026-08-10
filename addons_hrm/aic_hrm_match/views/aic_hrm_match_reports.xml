@@ -88,19 +88,19 @@
     <record id="action_aic_hrm_match_capacity_report" model="ir.actions.act_window">
         <field name="name">Capacity Report</field>
         <field name="res_model">aic.hrm.match.capacity.report</field>
-        <field name="view_mode">tree,pivot</field>
+        <field name="view_mode">list,pivot</field>
     </record>
 
     <record id="action_aic_hrm_match_fairness_report" model="ir.actions.act_window">
         <field name="name">Fairness Report</field>
         <field name="res_model">aic.hrm.match.fairness.report</field>
-        <field name="view_mode">tree,pivot</field>
+        <field name="view_mode">list,pivot</field>
     </record>
 
     <record id="action_aic_hrm_match_skill_demand_report" model="ir.actions.act_window">
         <field name="name">Skill Demand Report</field>
         <field name="res_model">aic.hrm.match.skill.demand.report</field>
-        <field name="view_mode">tree,pivot</field>
+        <field name="view_mode">list,pivot</field>
     </record>
 
 </odoo>

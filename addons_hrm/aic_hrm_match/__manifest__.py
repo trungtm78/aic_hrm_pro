@@ -56,6 +56,12 @@ Two free connectors extend it when the matching apps are installed.
         'web.assets_backend': [
             'aic_hrm_match/static/src/scss/aic_hrm_match.scss',
         ],
+        # Tours belong in the tests bundle, not the backend one: they are test
+        # code, and shipping them to every customer's browser costs them a
+        # download for something only CI runs.
+        'web.assets_tests': [
+            'aic_hrm_match/static/src/tours/aic_hrm_match_demo.js',
+        ],
     },
     'images': [
         'static/description/banner.png',

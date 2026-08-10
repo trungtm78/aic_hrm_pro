@@ -28,14 +28,27 @@ ADDONS = REPO_ROOT / 'addons_hrm'
 # and comments - a help text mentioning a tree of tags is not a defect.
 TREE_TAG = re.compile(r'<tree[\s>/]')
 VIEW_MODE_TREE = re.compile(r'view_mode="[^"]*\btree\b')
+# The same setting is written as element text on an ir.actions.act_window
+# record, which the attribute pattern above cannot see. Missing that form is how
+# a menu action kept asking for a view type Odoo 19 no longer has.
+VIEW_MODE_TREE_ELEMENT = re.compile(
+    r'<field\s+name="view_mode"\s*>[^<]*\btree\b')
 MODE_TREE = re.compile(r'\bmode="tree"')
+# Renamed in Odoo 19, and unlike the rest this one does not fail at install:
+# the view loads, and the browser throws "Missing 'card' template." when
+# somebody opens the kanban. Only a tour or a human would ever have found it.
+KANBAN_BOX = re.compile(r't-name="kanban-box"')
 ATTRS = re.compile(r'\battrs\s*=')
 STATES = re.compile(r'\bstates\s*=')
 
 FORBIDDEN = (
     (TREE_TAG, '<tree> was renamed to <list> in Odoo 17'),
     (VIEW_MODE_TREE, 'view_mode="tree" became view_mode="list" in Odoo 17'),
+    (VIEW_MODE_TREE_ELEMENT,
+     '<field name="view_mode">tree</field> became list in Odoo 17'),
     (MODE_TREE, 'mode="tree" on a One2many became mode="list" in Odoo 17'),
+    (KANBAN_BOX,
+     't-name="kanban-box" became t-name="card" in Odoo 19'),
     (ATTRS, 'attrs= was removed in Odoo 17; use invisible/readonly/required '
             'with a Python expression'),
     (STATES, 'states= was removed in Odoo 17; use invisible="state not in (...)"'),
@@ -71,6 +84,9 @@ class ViewSyntaxCase(unittest.TestCase):
             ('<tree editable="bottom">', TREE_TAG),
             ('<field name="x" view_mode="tree,form"/>', VIEW_MODE_TREE),
             ('<field name="ids" mode="tree">', MODE_TREE),
+            ('<t t-name="kanban-box">', KANBAN_BOX),
+            ('<field name="view_mode">kanban,tree,form</field>',
+             VIEW_MODE_TREE_ELEMENT),
             ("""<page attrs="{'invisible': [('state', '=', 'draft')]}">""", ATTRS),
             ('<button name="go" states="draft"/>', STATES),
         ]
@@ -86,6 +102,8 @@ class ViewSyntaxCase(unittest.TestCase):
             '<page invisible="state == \'draft\'">',
             '<button name="go" invisible="state not in (\'draft\',)"/>',
             '<field name="parent_id" help="Position in the tag tree"/>',
+            '<field name="view_mode">kanban,list,form</field>',
+            '<t t-name="card">',
         ]
         for line in allowed:
             for pattern, explanation in FORBIDDEN:

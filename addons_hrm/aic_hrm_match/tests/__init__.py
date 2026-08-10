@@ -17,4 +17,5 @@ from . import test_security
 from . import test_skill_compat
 from . import test_skill_scoring
 from . import test_taxonomy
+from . import test_tour
 from . import test_wizards
