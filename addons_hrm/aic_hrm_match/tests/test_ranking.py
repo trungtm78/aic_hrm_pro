@@ -28,7 +28,7 @@ class RankingCase(MatchCase):
 
         cls.criterion = cls._criterion('availability', category='availability', mode='both', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
-            'name': 'Ranking', 'code': 'ranking', 'is_default': True})
+            'name': 'Ranking', 'code': 'ranking', 'sequence': 1})
         cls.env['aic.hrm.match.policy.line'].create({
             'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id,
             'weight': 1.0})
@@ -288,7 +288,7 @@ class HardGateCase(MatchCase):
         cls.engine = cls.env['aic.hrm.match.engine']
         cls.criterion = cls._criterion('availability', category='availability', mode='both', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
-            'name': 'Gates', 'code': 'gates', 'is_default': True})
+            'name': 'Gates', 'code': 'gates', 'sequence': 1})
         cls.env['aic.hrm.match.policy.line'].create({
             'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id,
             'weight': 1.0})
@@ -387,7 +387,7 @@ class MissingDataCase(MatchCase):
         values.update(criterion_values)
         criterion = self.env['aic.hrm.match.criterion'].create(values)
         policy = self.env['aic.hrm.match.policy'].create({
-            'name': code, 'code': code, 'is_default': True,
+            'name': code, 'code': code, 'sequence': 1,
             # These cases read the breakdown of people who are deliberately at
             # the bottom, and the default mode keeps presentation lines only
             # for the shortlist. Without this the assertions would pass or fail
@@ -604,7 +604,7 @@ class CriterionGateCase(MissingDataCase):
 
         criterion = self._criterion('availability', category='availability', normalization='ratio')
         policy = self.env['aic.hrm.match.policy'].create({
-            'name': 'Partial', 'code': 'partial_cover', 'is_default': True,
+            'name': 'Partial', 'code': 'partial_cover', 'sequence': 1,
             # Full detail on purpose: the default keeps presentation lines only
             # for the shortlist, and somebody the connector said nothing about
             # ranks last by construction.

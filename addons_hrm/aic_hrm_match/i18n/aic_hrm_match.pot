@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 06:15+0000\n"
-"PO-Revision-Date: 2026-08-10 06:15+0000\n"
+"POT-Creation-Date: 2026-08-10 06:39+0000\n"
+"PO-Revision-Date: 2026-08-10 06:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -193,6 +193,15 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_match/models/aic_hrm_match_allocation.py:0
 msgid "A booking must end after it starts. Check %(name)s."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__avoid_partner_ids
+msgid ""
+"A hard exclusion, not a penalty. The reasons are usually ones nobody wants "
+"recorded - a conflict of interest, a past complaint - so this removes the "
+"person from the shortlist rather than lowering their score in a way that "
+"invites the question."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -415,6 +424,7 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_availability
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__availability
 #: model_terms:ir.ui.view,arch_db:aic_hrm_match.view_aic_hrm_match_candidate_form
 msgid "Availability"
@@ -433,6 +443,13 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__submitted
 msgid "Awaiting verification"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_location_fit
+msgid ""
+"Being where the work is, or being willing to travel to it. Says nothing at "
+"all when the seat allows remote, rather than giving everybody the same mark."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -567,6 +584,11 @@ msgid "Certification (staffing)"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_certification
+msgid "Certifications"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__required_certification_skill_ids
 msgid "Certifications required"
 msgstr ""
@@ -686,6 +708,7 @@ msgid "Correction Request"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_cost_fit
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__cost
 msgid "Cost"
 msgstr ""
@@ -839,8 +862,18 @@ msgid "Customer"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_customer_affinity
+msgid "Customer history"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__relationship
 msgid "Customer relationship"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__avoid_partner_ids
+msgid "Customers to avoid"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -905,6 +938,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_match/models/aic_hrm_match_decision.py:0
 msgid "Decisions cannot be deleted (audit trail)."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.policy,name:aic_hrm_match.policy_default
+msgid "Delivery staffing"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1413,8 +1451,32 @@ msgid "Higher is better"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_certification
+msgid ""
+"Holding every credential the work requires, verified, and valid for the "
+"whole window. Not a matter of degree: both ends of the validity are checked,"
+" so a licence that starts mid-job does not pass."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_cost_fit
+msgid ""
+"Hourly cost against the ceiling on the seat, converted at the run's own "
+"moment. Off by default because ranking people by cost is a decision a "
+"company should make on purpose."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__hours
 msgid "Hours"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_workload_balance
+msgid ""
+"How far below their own utilisation target this person currently sits. "
+"Against their target rather than against each other, because not everybody "
+"is meant to be fully booked."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1459,6 +1521,22 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_policy__unverified_factor
 msgid "How much an unverified skill claim is discounted."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_skill_match
+msgid ""
+"How much of what the seat asked for the person covers. A shortfall costs "
+"score in proportion rather than removing anybody - except on a line the seat"
+" marked mandatory, which is a gate."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_project_similarity
+msgid ""
+"How much of what this work involves the person has actually done. Rare "
+"domains count for more than common ones, related domains count for "
+"something, and older work counts for less."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1797,6 +1875,11 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_location_fit
+msgid "Location"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__logistics
 msgid "Location and time zone"
 msgstr ""
@@ -1852,6 +1935,14 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_policy__fairness_mode__off
 msgid "Measure only"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_seniority_fit
+msgid ""
+"Meeting the level the seat asked for. Exceeding it scores the same as "
+"meeting it - a seat that wanted a mid-level engineer is not better filled by"
+" a principal, only more expensively."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -2322,6 +2413,11 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__preferred_partner_ids
+msgid "Preferred customers"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__priority
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_wizard_find_fit__priority
 msgid "Priority"
@@ -2665,6 +2761,11 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_continuity
+msgid "Same project before"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__saturation_value
 msgid "Saturation Value"
 msgstr ""
@@ -2713,6 +2814,7 @@ msgid "Selection Fairness"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_seniority_fit
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__seniority_id
@@ -2761,6 +2863,11 @@ msgid "Show Own Candidacy"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_project_similarity
+msgid "Similar work"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
 msgid "Similarity Weight"
 msgstr ""
@@ -2805,6 +2912,7 @@ msgid "Skill level for employee"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_skill_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__skill
 #: model_terms:ir.ui.view,arch_db:aic_hrm_match.view_aic_hrm_match_slot_form
 msgid "Skills"
@@ -3206,6 +3314,14 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__utilization_target
+msgid ""
+"The share of working time this person is meant to be booked for. Not "
+"everybody is meant to be at a hundred: a lead who is fully allocated has no "
+"time left for the reviews and the mentoring that are also their job."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_allocation__decision_id
 msgid ""
 "The staffing decision this booking came out of. One decision usually books several stretches of time, so the link lives here rather than the other way round.\n"
@@ -3296,8 +3412,21 @@ msgid "Tiebreak Version"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_customer_affinity
+msgid ""
+"Time already spent with this customer, measured at the group rather than the"
+" individual company. Where a delivery outcome was recorded it counts; where "
+"none was, the component is left out rather than guessed."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__tz
 msgid "Time zone"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_timezone_overlap
+msgid "Time zone overlap"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -3411,6 +3540,11 @@ msgid "Utilization %"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__utilization_target
+msgid "Utilization Target"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_from
 msgid "Valid From (staffing)"
 msgstr ""
@@ -3480,6 +3614,21 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_match/models/aic_hrm_match_waiver.py:0
 msgid "Waivers cannot be edited after creation (audit trail)."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_aspiration
+msgid "Wants this work"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__aspiration_skill_ids
+msgid "Wants to learn"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__aspiration_tag_ids
+msgid "Wants to work on"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -3578,6 +3727,14 @@ msgid "Where the work has to happen. Empty means it does not matter."
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__aspiration_tag_ids
+msgid ""
+"Where this person wants to go, which is not the same as where they have "
+"been. Matching on history alone keeps somebody on the work they are already "
+"good at until they leave to get away from it."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_policy__engine_fallback_allowed
 msgid ""
 "Whether a broken engine may silently fall back to the built-in one. Off by "
@@ -3627,6 +3784,22 @@ msgstr ""
 msgid ""
 "Whether this booking consumes availability. Stored so the engine can filter "
 "on it in SQL rather than in Python."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_aspiration
+msgid ""
+"Whether this is work the person said they wanted. Ranking only on what "
+"somebody has already done keeps them on it until they leave to get away from"
+" it."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_continuity
+msgid ""
+"Whether this person has worked on this exact project before. Kept apart from"
+" customer history: knowing the customer is knowing who to call, knowing the "
+"codebase is not having to be shown round."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -3687,4 +3860,24 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__resource_calendar_id
 msgid "Working Hours"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_timezone_overlap
+msgid ""
+"Working hours a day this person shares with the time zone the work has to "
+"happen in. Only asked when the request names a zone."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_availability
+msgid ""
+"Working hours left in the window, against the effort the seat needs. "
+"Saturates at the requirement: somebody with a whole week spare and somebody "
+"with a day to spare both cover a four-hour job completely."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_workload_balance
+msgid "Workload"
 msgstr ""

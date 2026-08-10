@@ -101,9 +101,10 @@ class PolicyVersioningCase(MatchCase):
         super().setUpClass()
         cls.Policy = cls.env['aic.hrm.match.policy']
         cls.Criterion = cls.env['aic.hrm.match.criterion']
-        cls.availability = cls.Criterion.create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+        # The shipped catalogue entry, not a copy of it: the code is unique
+        # per company, so creating a second `availability` collides with the
+        # one every customer will have.
+        cls.availability = cls._criterion('availability')
 
     def _policy(self, **kwargs):
         values = {'name': 'Delivery Staffing', 'code': 'delivery'}
@@ -236,9 +237,7 @@ class PolicyActivationCase(MatchCase):
         """Only what will actually run has to be implemented. A criterion
         parked for later must not stop the policy it sits in from publishing.
         """
-        working = self.Criterion.create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+        working = self._criterion('availability')
         orphan = self.Criterion.create({
             'code': 'future_idea', 'name': 'Future', 'category': 'custom'})
         policy = self._policy_with(working)
@@ -252,8 +251,8 @@ class PolicyActivationCase(MatchCase):
         """Dividing by a zero weight sum is the crash; ranking everybody
         identically is the subtler failure it becomes if guarded carelessly."""
         criterion = self.Criterion.create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+            'code': 'weightless_test', 'name': 'Weightless',
+            'category': 'custom'})
         policy = self._policy_with(criterion, weight=0.0)
         with self.assertRaises(UserError):
             policy.action_activate()
@@ -266,9 +265,7 @@ class PolicyActivationCase(MatchCase):
     def test_load_balance_and_the_workload_criterion_are_mutually_exclusive(self):
         """Both measure the same thing. Running them together counts one
         signal twice, and neither screen says so."""
-        workload = self.Criterion.create({
-            'code': 'workload_balance', 'name': 'Workload balance',
-            'category': 'fairness'})
+        workload = self._criterion('workload_balance')
         policy = self._policy_with(workload, fairness_mode='load_balance')
         with self.assertRaises(UserError):
             policy.action_activate()
@@ -276,16 +273,12 @@ class PolicyActivationCase(MatchCase):
     def test_sensitivity_is_visible_on_the_policy(self):
         """The record rules that hide performance figures key on this, so it
         has to be stored rather than computed on the fly."""
-        sensitive = self.Criterion.create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'is_sensitive': True})
+        sensitive = self._criterion('availability', is_sensitive=True)
         policy = self._policy_with(sensitive)
         self.assertTrue(policy.has_sensitive_criterion)
 
     def test_a_policy_of_ordinary_criteria_is_not_sensitive(self):
-        plain = self.Criterion.create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+        plain = self._criterion('availability', is_sensitive=False)
         self.assertFalse(self._policy_with(plain).has_sensitive_criterion)
 
 

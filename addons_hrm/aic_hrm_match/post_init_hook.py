@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
-"""Demo data post-installation hook — idempotent."""
+"""Building the demo staffing history, once.
+
+Called from the module's single post-init hook rather than being
+one itself: two hooks with the same name in one module is how the
+manifest ends up pointing at a dotted path, which Odoo 18 cannot
+resolve.
+"""
 
 
-def post_init_hook(env):
+def build_demo_history(env):
     """Mark demo data as installed.
     
     The hook fires on EVERY install/upgrade (even --without-demo all).

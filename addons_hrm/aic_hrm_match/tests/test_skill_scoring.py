@@ -35,7 +35,7 @@ class SkillScoringCase(MatchCase):
 
         cls.criterion = cls._criterion('skill_match', category='skill', normalization='none')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
-            'name': 'Skills', 'code': 'skills_policy', 'is_default': True,
+            'name': 'Skills', 'code': 'skills_policy', 'sequence': 1,
             'persist_mode': 'full'})
         cls.env['aic.hrm.match.policy.line'].create({
             'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id})
@@ -259,7 +259,7 @@ class CertificationGateCase(MatchCase):
 
         cls.criterion = cls._criterion('certification', category='skill', mode='hard', normalization='none')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
-            'name': 'Certified', 'code': 'cert_policy', 'is_default': True,
+            'name': 'Certified', 'code': 'cert_policy', 'sequence': 1,
             'persist_mode': 'full'})
         cls.env['aic.hrm.match.policy.line'].create({
             'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id})

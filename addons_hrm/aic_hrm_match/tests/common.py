@@ -70,7 +70,7 @@ class MatchCase(TransactionCase):
                 'code': 'availability', 'name': 'Availability',
                 'category': 'availability', 'normalization': 'ratio'})
         policy = cls.env['aic.hrm.match.policy'].create({
-            'name': 'Shared test policy', 'code': code, 'is_default': True,
+            'name': 'Shared test policy', 'code': code, 'sequence': 1,
             'persist_mode': 'full'})
         cls.env['aic.hrm.match.policy.line'].create({
             'policy_id': policy.id, 'criterion_id': criterion.id,

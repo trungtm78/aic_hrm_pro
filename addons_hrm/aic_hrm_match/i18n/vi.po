@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 06:15+0000\n"
-"PO-Revision-Date: 2026-08-10 06:15+0000\n"
+"POT-Creation-Date: 2026-08-10 06:39+0000\n"
+"PO-Revision-Date: 2026-08-10 06:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -231,6 +231,19 @@ msgstr "Không thể đặt lịch với số giờ âm."
 #: code:addons/aic_hrm_match/models/aic_hrm_match_allocation.py:0
 msgid "A booking must end after it starts. Check %(name)s."
 msgstr "Lịch phải kết thúc sau khi bắt đầu. Kiểm tra lại %(name)s."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__avoid_partner_ids
+msgid ""
+"A hard exclusion, not a penalty. The reasons are usually ones nobody wants "
+"recorded - a conflict of interest, a past complaint - so this removes the "
+"person from the shortlist rather than lowering their score in a way that "
+"invites the question."
+msgstr ""
+"Đây là loại trừ dứt khoát chứ không phải trừ điểm. Lý do thường là những thứ"
+" không ai muốn ghi lại - xung đột lợi ích, một khiếu nại cũ - nên hệ thống "
+"loại người đó khỏi danh sách, thay vì hạ điểm theo cách khiến người khác "
+"phải hỏi vì sao."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request__request_type__role
@@ -459,6 +472,7 @@ msgid "Attachment Count"
 msgstr "Số tệp đính kèm"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_availability
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__availability
 #: model_terms:ir.ui.view,arch_db:aic_hrm_match.view_aic_hrm_match_candidate_form
 msgid "Availability"
@@ -478,6 +492,16 @@ msgstr "Điểm trung bình"
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__submitted
 msgid "Awaiting verification"
 msgstr "Chờ xác thực"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_location_fit
+msgid ""
+"Being where the work is, or being willing to travel to it. Says nothing at "
+"all when the seat allows remote, rather than giving everybody the same mark."
+msgstr ""
+"Có mặt ở nơi làm việc, hoặc sẵn sàng đi lại tới đó. Khi vị trí cho phép làm "
+"từ xa thì tiêu chí này không nói gì cả, thay vì chấm cho tất cả mọi người "
+"cùng một điểm."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_policy__min_effective_weight_pct
@@ -618,6 +642,11 @@ msgid "Certification (staffing)"
 msgstr "Chứng chỉ (bố trí nhân sự)"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_certification
+msgid "Certifications"
+msgstr "Chứng chỉ"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__required_certification_skill_ids
 msgid "Certifications required"
 msgstr "Chứng chỉ bắt buộc"
@@ -740,6 +769,7 @@ msgid "Correction Request"
 msgstr "Yêu cầu đính chính"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_cost_fit
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__cost
 msgid "Cost"
 msgstr "Chi phí"
@@ -897,9 +927,19 @@ msgid "Customer"
 msgstr "Khách hàng"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_customer_affinity
+msgid "Customer history"
+msgstr "Lịch sử với khách hàng"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__relationship
 msgid "Customer relationship"
 msgstr "Quan hệ khách hàng"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__avoid_partner_ids
+msgid "Customers to avoid"
+msgstr "Khách hàng cần tránh"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_end
@@ -964,6 +1004,11 @@ msgstr "Quyết định"
 #: code:addons/aic_hrm_match/models/aic_hrm_match_decision.py:0
 msgid "Decisions cannot be deleted (audit trail)."
 msgstr "Không được xoá quyết định (đây là vết kiểm toán)."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.policy,name:aic_hrm_match.policy_default
+msgid "Delivery staffing"
+msgstr "Bố trí nhân sự giao hàng"
 
 #. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_demo_sentinel
@@ -1497,9 +1542,43 @@ msgid "Higher is better"
 msgstr "Càng cao càng tốt"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_certification
+msgid ""
+"Holding every credential the work requires, verified, and valid for the "
+"whole window. Not a matter of degree: both ends of the validity are checked,"
+" so a licence that starts mid-job does not pass."
+msgstr ""
+"Có đủ mọi chứng chỉ công việc đòi hỏi, đã được xác thực, và còn hiệu lực "
+"suốt cả khoảng thời gian. Đây không phải chuyện nhiều hay ít: cả hai đầu "
+"hiệu lực đều được kiểm, nên một giấy phép bắt đầu giữa chừng công việc sẽ "
+"không qua."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_cost_fit
+msgid ""
+"Hourly cost against the ceiling on the seat, converted at the run's own "
+"moment. Off by default because ranking people by cost is a decision a "
+"company should make on purpose."
+msgstr ""
+"Chi phí theo giờ so với trần của vị trí, quy đổi theo đúng thời điểm của "
+"lượt chạy. Mặc định tắt, vì xếp hạng con người theo chi phí là quyết định mà"
+" doanh nghiệp nên đưa ra một cách có chủ ý."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__hours
 msgid "Hours"
 msgstr "Số giờ"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_workload_balance
+msgid ""
+"How far below their own utilisation target this person currently sits. "
+"Against their target rather than against each other, because not everybody "
+"is meant to be fully booked."
+msgstr ""
+"Người này hiện đang thấp hơn mục tiêu sử dụng thời gian của chính họ bao "
+"nhiêu. So với mục tiêu của từng người chứ không so giữa người này với người "
+"kia, vì không phải ai cũng được kỳ vọng kín lịch."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_res_company__match_over_allocation_tolerance
@@ -1558,6 +1637,28 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_policy__unverified_factor
 msgid "How much an unverified skill claim is discounted."
 msgstr "Kỹ năng chưa được xác thực bị chiết khấu bao nhiêu."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_skill_match
+msgid ""
+"How much of what the seat asked for the person covers. A shortfall costs "
+"score in proportion rather than removing anybody - except on a line the seat"
+" marked mandatory, which is a gate."
+msgstr ""
+"Người này đáp ứng được bao nhiêu phần những gì vị trí yêu cầu. Thiếu bao "
+"nhiêu thì trừ điểm tương ứng chứ không loại ai - trừ dòng mà vị trí đánh dấu"
+" bắt buộc, khi đó nó là điều kiện loại."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_project_similarity
+msgid ""
+"How much of what this work involves the person has actually done. Rare "
+"domains count for more than common ones, related domains count for "
+"something, and older work counts for less."
+msgstr ""
+"Người này đã thực sự làm bao nhiêu phần những việc mà công việc này bao gồm."
+" Lĩnh vực hiếm được tính cao hơn lĩnh vực phổ biến, lĩnh vực liên quan vẫn "
+"được tính một phần, và việc càng cũ thì càng ít giá trị."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
@@ -1916,6 +2017,11 @@ msgstr ""
 "bằng, không giữ cả hai."
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_location_fit
+msgid "Location"
+msgstr "Địa điểm"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__logistics
 msgid "Location and time zone"
 msgstr "Địa điểm và múi giờ"
@@ -1975,6 +2081,17 @@ msgstr "Trần chi phí theo giờ"
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_policy__fairness_mode__off
 msgid "Measure only"
 msgstr "Chỉ đo, không can thiệp"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_seniority_fit
+msgid ""
+"Meeting the level the seat asked for. Exceeding it scores the same as "
+"meeting it - a seat that wanted a mid-level engineer is not better filled by"
+" a principal, only more expensively."
+msgstr ""
+"Đạt đúng cấp bậc mà vị trí yêu cầu. Vượt cấp được chấm bằng đúng cấp - một "
+"vị trí cần kỹ sư trung cấp không phải được lấp tốt hơn khi giao cho kỹ sư "
+"trưởng, chỉ đắt hơn mà thôi."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_decision__message_has_error
@@ -2484,6 +2601,11 @@ msgstr ""
 "phía dưới."
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__preferred_partner_ids
+msgid "Preferred customers"
+msgstr "Khách hàng ưu tiên"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__priority
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_wizard_find_fit__priority
 msgid "Priority"
@@ -2838,6 +2960,11 @@ msgid "SMS Delivery error"
 msgstr "Lỗi gửi SMS"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_continuity
+msgid "Same project before"
+msgstr "Đã làm chính dự án này"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__saturation_value
 msgid "Saturation Value"
 msgstr "Giá trị bão hoà"
@@ -2889,6 +3016,7 @@ msgid "Selection Fairness"
 msgstr "Công bằng trong lựa chọn"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_seniority_fit
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__seniority_id
@@ -2942,6 +3070,11 @@ msgid "Show Own Candidacy"
 msgstr "Cho xem vị trí của chính mình"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_project_similarity
+msgid "Similar work"
+msgstr "Công việc tương tự"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
 msgid "Similarity Weight"
 msgstr "Trọng số tương đồng"
@@ -2986,6 +3119,7 @@ msgid "Skill level for employee"
 msgstr "Mức kỹ năng của nhân viên"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_skill_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__skill
 #: model_terms:ir.ui.view,arch_db:aic_hrm_match.view_aic_hrm_match_slot_form
 msgid "Skills"
@@ -3409,6 +3543,17 @@ msgstr ""
 "lợi ích giảm dần."
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__utilization_target
+msgid ""
+"The share of working time this person is meant to be booked for. Not "
+"everybody is meant to be at a hundred: a lead who is fully allocated has no "
+"time left for the reviews and the mentoring that are also their job."
+msgstr ""
+"Tỷ lệ thời gian làm việc mà người này được kỳ vọng có lịch. Không phải ai "
+"cũng nên ở mức một trăm phần trăm: một trưởng nhóm kín lịch thì không còn "
+"thời gian cho việc review và kèm cặp - vốn cũng là công việc của họ."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_allocation__decision_id
 msgid ""
 "The staffing decision this booking came out of. One decision usually books several stretches of time, so the link lives here rather than the other way round.\n"
@@ -3512,9 +3657,26 @@ msgid "Tiebreak Version"
 msgstr "Phiên bản quy tắc phá hoà"
 
 #. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_customer_affinity
+msgid ""
+"Time already spent with this customer, measured at the group rather than the"
+" individual company. Where a delivery outcome was recorded it counts; where "
+"none was, the component is left out rather than guessed."
+msgstr ""
+"Thời gian đã làm việc với khách hàng này, tính ở cấp tập đoàn chứ không ở "
+"từng pháp nhân. Nơi nào có ghi nhận kết quả giao hàng thì kết quả đó được "
+"tính; nơi nào không có thì thành phần đó bị loại khỏi công thức chứ không "
+"đoán bừa."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__tz
 msgid "Time zone"
 msgstr "Múi giờ"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_timezone_overlap
+msgid "Time zone overlap"
+msgstr "Trùng múi giờ"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_demand_report__requested_count
@@ -3634,6 +3796,11 @@ msgid "Utilization %"
 msgstr "Tỷ lệ sử dụng %"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__utilization_target
+msgid "Utilization Target"
+msgstr "Mục tiêu sử dụng thời gian"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_from
 msgid "Valid From (staffing)"
 msgstr "Hiệu lực từ (bố trí nhân sự)"
@@ -3704,6 +3871,21 @@ msgstr "Không được xoá bản ghi miễn trừ (đây là vết kiểm toá
 #: code:addons/aic_hrm_match/models/aic_hrm_match_waiver.py:0
 msgid "Waivers cannot be edited after creation (audit trail)."
 msgstr "Không được sửa bản ghi miễn trừ sau khi tạo (đây là vết kiểm toán)."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_aspiration
+msgid "Wants this work"
+msgstr "Mong muốn làm việc này"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__aspiration_skill_ids
+msgid "Wants to learn"
+msgstr "Muốn học"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__aspiration_tag_ids
+msgid "Wants to work on"
+msgstr "Muốn làm về"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_decision__website_message_ids
@@ -3811,6 +3993,17 @@ msgid "Where the work has to happen. Empty means it does not matter."
 msgstr "Công việc phải diễn ra ở đâu. Bỏ trống nghĩa là không quan trọng."
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__aspiration_tag_ids
+msgid ""
+"Where this person wants to go, which is not the same as where they have "
+"been. Matching on history alone keeps somebody on the work they are already "
+"good at until they leave to get away from it."
+msgstr ""
+"Nơi người này muốn đi tới, không giống với nơi họ đã đi qua. Chỉ ghép theo "
+"lịch sử sẽ giữ một người mãi ở mảng việc họ vốn đã giỏi, cho tới khi họ nghỉ"
+" việc để thoát khỏi nó."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_policy__engine_fallback_allowed
 msgid ""
 "Whether a broken engine may silently fall back to the built-in one. Off by "
@@ -3877,6 +4070,28 @@ msgid ""
 msgstr ""
 "Lịch này có chiếm thời gian rảnh hay không. Được lưu để engine lọc ngay "
 "trong SQL thay vì trong Python."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_aspiration
+msgid ""
+"Whether this is work the person said they wanted. Ranking only on what "
+"somebody has already done keeps them on it until they leave to get away from"
+" it."
+msgstr ""
+"Đây có phải công việc mà chính người đó nói là mình muốn làm hay không. Chỉ "
+"xếp hạng theo những gì một người đã làm sẽ giữ họ ở đó cho tới khi họ nghỉ "
+"việc để thoát khỏi nó."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_continuity
+msgid ""
+"Whether this person has worked on this exact project before. Kept apart from"
+" customer history: knowing the customer is knowing who to call, knowing the "
+"codebase is not having to be shown round."
+msgstr ""
+"Người này đã từng làm đúng dự án này hay chưa. Được tách khỏi lịch sử khách "
+"hàng: quen khách hàng là biết gọi cho ai, còn quen mã nguồn là không cần ai "
+"dẫn đi xem lại từ đầu."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__staffable
@@ -3947,3 +4162,28 @@ msgstr "Địa điểm làm việc"
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__resource_calendar_id
 msgid "Working Hours"
 msgstr "Lịch làm việc"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_timezone_overlap
+msgid ""
+"Working hours a day this person shares with the time zone the work has to "
+"happen in. Only asked when the request names a zone."
+msgstr ""
+"Mỗi ngày người này có bao nhiêu giờ làm việc trùng với múi giờ mà công việc "
+"phải diễn ra. Chỉ được hỏi tới khi yêu cầu có nêu múi giờ."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,description:aic_hrm_match.criterion_availability
+msgid ""
+"Working hours left in the window, against the effort the seat needs. "
+"Saturates at the requirement: somebody with a whole week spare and somebody "
+"with a day to spare both cover a four-hour job completely."
+msgstr ""
+"Số giờ làm việc còn lại trong khoảng thời gian, so với khối lượng công mà vị"
+" trí cần. Bão hoà ngay tại mức yêu cầu: người rảnh cả tuần và người chỉ rảnh"
+" một ngày đều đáp ứng trọn vẹn một việc bốn giờ."
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_workload_balance
+msgid "Workload"
+msgstr "Tải công việc"

@@ -20,7 +20,7 @@ class CompositionCase(MatchCase):
         super().setUpClass()
         cls.criterion = cls._criterion('availability', category='availability')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
-            'name': 'CompTest', 'code': 'comp_test', 'is_default': True})
+            'name': 'CompTest', 'code': 'comp_test', 'sequence': 1})
         cls.env['aic.hrm.match.policy.line'].create({
             'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id,
             'weight': 1.0})
