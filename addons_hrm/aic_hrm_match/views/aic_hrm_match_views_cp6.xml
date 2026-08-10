@@ -6,14 +6,14 @@
         <field name="name">Staffing Decision - List</field>
         <field name="model">aic.hrm.match.decision</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="request_id"/>
                 <field name="employee_id"/>
                 <field name="score_at_decision"/>
                 <field name="rank_at_decision"/>
                 <field name="is_override"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -56,13 +56,13 @@
         <field name="name">Hard Gate Waiver - List</field>
         <field name="model">aic.hrm.match.waiver</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="request_id"/>
                 <field name="employee_id"/>
                 <field name="criterion_id"/>
                 <field name="reason"/>
                 <field name="waived_by_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -97,12 +97,12 @@
         <field name="name">Erasure Record - List</field>
         <field name="model">aic.hrm.match.erasure.log</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="subject_key"/>
                 <field name="reason"/>
                 <field name="erased_by_id"/>
                 <field name="erased_date"/>
-            </tree>
+            </list>
         </field>
     </record>
 

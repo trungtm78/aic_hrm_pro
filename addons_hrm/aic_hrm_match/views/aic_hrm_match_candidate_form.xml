@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Candidate Views -->
+    <record id="view_aic_hrm_match_candidate_form" model="ir.ui.view">
+        <field name="name">Candidate - Form</field>
+        <field name="model">aic.hrm.match.candidate</field>
+        <field name="arch" type="xml">
+            <form string="Ranking Result">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_ref" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="run_id" readonly="1"/>
+                            <field name="slot_id" readonly="1"/>
+                            <field name="rank" readonly="1"/>
+                            <field name="raw_score" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="total_score" readonly="1"/>
+                            <field name="fairness_adjustment" readonly="1"/>
+                            <field name="eligible" readonly="1"/>
+                            <field name="low_confidence" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Availability">
+                        <field name="capacity_hours" readonly="1"/>
+                        <field name="booked_hours" readonly="1"/>
+                        <field name="free_hours" readonly="1"/>
+                        <field name="leave_hours" readonly="1"/>
+                    </group>
+                    <group string="Rejection" attrs="{'invisible': [('rejection_code', '=', False)]}">
+                        <field name="rejection_code" readonly="1"/>
+                        <field name="rejection_detail" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Score Breakdown">
+                            <field name="score_line_ids" readonly="1">
+                                <list>
+                                    <field name="criterion_code"/>
+                                    <field name="raw_value"/>
+                                    <field name="normalized_score"/>
+                                    <field name="weight"/>
+                                    <field name="weighted_score"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Evidence">
+                            <field name="score_line_ids" readonly="1">
+                                <list>
+                                    <field name="criterion_code"/>
+                                    <field name="evidence_ids">
+                                        <list>
+                                            <field name="label"/>
+                                            <field name="value"/>
+                                        </list>
+                                    </field>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_candidate_list" model="ir.ui.view">
+        <field name="name">Candidate - List</field>
+        <field name="model">aic.hrm.match.candidate</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="not eligible">
+                <field name="rank"/>
+                <field name="display_ref"/>
+                <field name="total_score"/>
+                <field name="eligible"/>
+                <field name="rejection_code"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Slot Views -->
+    <record id="view_aic_hrm_match_slot_form" model="ir.ui.view">
+        <field name="name">Staffing Slot - Form</field>
+        <field name="model">aic.hrm.match.request.slot</field>
+        <field name="arch" type="xml">
+            <form string="Slot">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="request_id"/>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="required_hours"/>
+                            <field name="fte_ratio"/>
+                            <field name="seniority_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="job_id"/>
+                        <field name="max_hourly_cost"/>
+                        <field name="cost_currency_id"/>
+                        <field name="allow_partial_availability"/>
+                    </group>
+                    <notebook>
+                        <page string="Skills">
+                            <field name="skill_line_ids">
+                                <list editable="bottom">
+                                    <field name="skill_id"/>
+                                    <field name="min_level_id"/>
+                                    <field name="requirement"/>
+                                    <field name="weight"/>
+                                    <field name="stretch_allowed"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Required Certifications">
+                            <field name="required_certification_skill_ids" 
+                                   widget="many2many_tags"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_slot_list" model="ir.ui.view">
+        <field name="name">Staffing Slot - List</field>
+        <field name="model">aic.hrm.match.request.slot</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="request_id"/>
+                <field name="name"/>
+                <field name="required_hours"/>
+                <field name="job_id"/>
+                <field name="assigned_employee_id"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

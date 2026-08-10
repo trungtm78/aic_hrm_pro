@@ -83,7 +83,7 @@ class SkillScoringCase(MatchCase):
 
     def test_meeting_the_requirement_scores_full_marks(self):
         employee = self._make_employee('Meets It')
-        self._make_employee_skill(employee, self.python, self.confirmed)
+        self._skill(employee, self.python, self.confirmed)
         _candidate, line = self._score_for(employee)
         self.assertAlmostEqual(line.normalized_score, 1.0, places=6)
 
@@ -93,8 +93,8 @@ class SkillScoringCase(MatchCase):
         senior person available and call it a match."""
         meets = self._make_employee('Meets')
         exceeds = self._make_employee('Exceeds')
-        self._make_employee_skill(meets, self.python, self.confirmed)
-        self._make_employee_skill(exceeds, self.python, self.expert)
+        self._skill(meets, self.python, self.confirmed)
+        self._skill(exceeds, self.python, self.expert)
         request = self._request()
         _c1, meets_line = self._score_for(meets, request)
         _c2, exceeds_line = self._score_for(exceeds, request)
@@ -106,7 +106,7 @@ class SkillScoringCase(MatchCase):
         down is a worse fit and still a candidate. Ranking them last is a
         judgement; removing them is a decision nobody asked for."""
         short = self._make_employee('One Level Down')
-        self._make_employee_skill(short, self.python, self.beginner)
+        self._skill(short, self.python, self.beginner)
         _candidate, line = self._score_for(short)
         self.assertGreater(line.normalized_score, 0.0)
         self.assertLess(line.normalized_score, 1.0)
@@ -117,7 +117,7 @@ class SkillScoringCase(MatchCase):
         that other criteria had legitimately earned."""
         request = self._request(level=self.expert)
         far = self._make_employee('Far Short')
-        self._make_employee_skill(far, self.python, self.beginner)
+        self._skill(far, self.python, self.beginner)
         _candidate, line = self._score_for(far, request)
         self.assertGreaterEqual(line.normalized_score, 0.0)
 
@@ -131,6 +131,23 @@ class SkillScoringCase(MatchCase):
         _candidate, line = self._score_for(nobody)
         self.assertFalse(line.is_missing)
         self.assertAlmostEqual(line.normalized_score, 0.0, places=6)
+
+    def test_a_skill_nobody_confirmed_counts_for_slightly_less(self):
+        """Somebody typed it in themselves. That is worth something - most
+        skills records start that way and are true - but not quite as much as
+        one a manager stood behind. Discounting rather than ignoring is what
+        keeps a company that has not started verifying anything from having an
+        unusable ranking on day one."""
+        claimed = self._make_employee('Self Reported')
+        confirmed = self._make_employee('Manager Confirmed')
+        self._skill(claimed, self.python, self.confirmed, verified=False)
+        self._skill(confirmed, self.python, self.confirmed)
+        request = self._request()
+        _c1, claimed_line = self._score_for(claimed, request)
+        _c2, confirmed_line = self._score_for(confirmed, request)
+        self.assertLess(claimed_line.normalized_score,
+                        confirmed_line.normalized_score)
+        self.assertGreater(claimed_line.normalized_score, 0.0)
 
     def test_a_slot_asking_for_nothing_says_nothing(self):
         """No skill lines on the seat means the criterion has no question to
@@ -158,10 +175,9 @@ class SkillScoringCase(MatchCase):
             'requirement': 'important', 'weight': 1.0})
 
         strong_where_it_counts = self._make_employee('Python Strong')
-        self._make_employee_skill(
-            strong_where_it_counts, self.python, self.confirmed)
+        self._skill(strong_where_it_counts, self.python, self.confirmed)
         strong_elsewhere = self._make_employee('SQL Strong')
-        self._make_employee_skill(strong_elsewhere, sql, sql_expert)
+        self._skill(strong_elsewhere, sql, sql_expert)
 
         _c1, heavy = self._score_for(strong_where_it_counts, request)
         _c2, light = self._score_for(strong_elsewhere, request)
@@ -171,7 +187,7 @@ class SkillScoringCase(MatchCase):
         """A score of 0.6 on "skills" tells a planner nothing. Which skill, how
         far short, is what they can act on."""
         short = self._make_employee('Evidenced')
-        self._make_employee_skill(short, self.python, self.beginner)
+        self._skill(short, self.python, self.beginner)
         _candidate, line = self._score_for(short)
         text = ' '.join(line.evidence_ids.mapped('label'))
         self.assertIn('Python', text)
@@ -184,7 +200,7 @@ class SkillScoringCase(MatchCase):
         they score elsewhere."""
         request = self._request(requirement='mandatory')
         short = self._make_employee('Mandatory Short')
-        self._make_employee_skill(short, self.python, self.beginner)
+        self._skill(short, self.python, self.beginner)
         candidate, _line = self._score_for(short, request)
         self.assertFalse(candidate.eligible)
         self.assertEqual(candidate.rejection_code, 'missing_mandatory_skill')
@@ -193,14 +209,14 @@ class SkillScoringCase(MatchCase):
     def test_a_mandatory_skill_that_is_met_does_not_remove_anybody(self):
         request = self._request(requirement='mandatory')
         fine = self._make_employee('Mandatory Met')
-        self._make_employee_skill(fine, self.python, self.confirmed)
+        self._skill(fine, self.python, self.confirmed)
         candidate, _line = self._score_for(fine, request)
         self.assertTrue(candidate.eligible)
 
     def test_an_important_skill_below_the_bar_only_costs_score(self):
         request = self._request(requirement='important')
         short = self._make_employee('Important Short')
-        self._make_employee_skill(short, self.python, self.beginner)
+        self._skill(short, self.python, self.beginner)
         candidate, line = self._score_for(short, request)
         self.assertTrue(candidate.eligible)
         self.assertLess(line.normalized_score, 1.0)
@@ -213,7 +229,7 @@ class SkillScoringCase(MatchCase):
         request = self._request(requirement='mandatory')
         request.slot_ids[0].skill_line_ids.stretch_allowed = True
         short = self._make_employee('Stretching')
-        self._make_employee_skill(short, self.python, self.beginner)
+        self._skill(short, self.python, self.beginner)
         candidate, _line = self._score_for(short, request)
         self.assertTrue(candidate.eligible)
         self.assertTrue(candidate.is_stretch)
