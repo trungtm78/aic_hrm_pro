@@ -47,6 +47,8 @@ Two free connectors extend it when the matching apps are installed.
         'views/aic_hrm_match_request_form.xml',
         'views/aic_hrm_match_candidate_form.xml',
         'views/aic_hrm_match_views_cp6.xml',
+        'views/aic_hrm_match_menus.xml',
+        'wizard/aic_hrm_match_wizard_views.xml',
     ],
     'assets': {
     },

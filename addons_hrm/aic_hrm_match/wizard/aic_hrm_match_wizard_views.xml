@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Find Best Fit Wizard -->
+    <record id="view_aic_hrm_match_wizard_find_fit_form" model="ir.ui.view">
+        <field name="name">Find Best Fit - Wizard</field>
+        <field name="model">aic.hrm.match.wizard.find_fit</field>
+        <field name="arch" type="xml">
+            <form string="Find Best Fit">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="task_id" required="1"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_start" required="1"/>
+                            <field name="date_end" required="1"/>
+                            <field name="required_hours"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="priority"/>
+                        <field name="policy_id"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_create_and_rank" type="object" 
+                            string="Find Best Fit" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Assign Decision Wizard -->
+    <record id="view_aic_hrm_match_wizard_assign_form" model="ir.ui.view">
+        <field name="name">Assign - Wizard</field>
+        <field name="model">aic.hrm.match.wizard.assign</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Assignment">
+                <sheet>
+                    <group>
+                        <field name="request_id" readonly="1"/>
+                        <field name="run_id" readonly="1"/>
+                    </group>
+                    <field name="decision_ids">
+                        <tree>
+                            <field name="slot_id"/>
+                            <field name="employee_id"/>
+                            <field name="score_at_decision"/>
+                            <field name="is_override"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <footer>
+                    <button name="action_assign" type="object" 
+                            string="Create Allocations" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

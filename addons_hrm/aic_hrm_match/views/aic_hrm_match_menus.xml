@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!-- Root Menu -->
+    <menuitem id="menu_aic_hrm_match_root" name="Staffing" 
+              sequence="76" icon="fa-users"/>
+
+    <!-- Request Menu -->
+    <menuitem id="menu_aic_hrm_match_request" name="Requests" 
+              parent="menu_aic_hrm_match_root" sequence="10"/>
+    
+    <record id="action_aic_hrm_match_request" model="ir.actions.act_window">
+        <field name="name">Staffing Requests</field>
+        <field name="res_model">aic.hrm.match.request</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref=""/>
+        <field name="context">{'search_default_state': 'open'}</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_request_list" name="All Requests" 
+              parent="menu_aic_hrm_match_request" sequence="1" 
+              action="action_aic_hrm_match_request"/>
+
+    <!-- Decision Menu -->
+    <menuitem id="menu_aic_hrm_match_decision" name="Decisions" 
+              parent="menu_aic_hrm_match_root" sequence="20"/>
+
+    <record id="action_aic_hrm_match_decision" model="ir.actions.act_window">
+        <field name="name">Staffing Decisions</field>
+        <field name="res_model">aic.hrm.match.decision</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_decision_list" name="All Decisions" 
+              parent="menu_aic_hrm_match_decision" sequence="1" 
+              action="action_aic_hrm_match_decision"/>
+
+    <!-- Wizard Menu -->
+    <menuitem id="menu_aic_hrm_match_wizard" name="Tools" 
+              parent="menu_aic_hrm_match_root" sequence="90"/>
+
+    <record id="action_aic_hrm_match_wizard_find_fit" model="ir.actions.act_window">
+        <field name="name">Find Best Fit</field>
+        <field name="res_model">aic.hrm.match.wizard.find_fit</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_wizard_find_fit" name="Find Best Fit" 
+              parent="menu_aic_hrm_match_wizard" sequence="1" 
+              action="action_aic_hrm_match_wizard_find_fit"/>
+
+    <!-- Allocation Menu -->
+    <menuitem id="menu_aic_hrm_match_allocation" name="Allocations" 
+              parent="menu_aic_hrm_match_root" sequence="30"/>
+
+    <record id="action_aic_hrm_match_allocation" model="ir.actions.act_window">
+        <field name="name">Allocations</field>
+        <field name="res_model">aic.hrm.match.allocation</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_allocation_list" name="All Allocations" 
+              parent="menu_aic_hrm_match_allocation" sequence="1" 
+              action="action_aic_hrm_match_allocation"/>
+
+    <!-- Waiver Menu -->
+    <menuitem id="menu_aic_hrm_match_waiver" name="Waivers" 
+              parent="menu_aic_hrm_match_root" sequence="40"/>
+
+    <record id="action_aic_hrm_match_waiver" model="ir.actions.act_window">
+        <field name="name">Hard Gate Waivers</field>
+        <field name="res_model">aic.hrm.match.waiver</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_waiver_list" name="All Waivers" 
+              parent="menu_aic_hrm_match_waiver" sequence="1" 
+              action="action_aic_hrm_match_waiver"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_aic_hrm_match_configuration" name="Configuration" 
+              parent="menu_aic_hrm_match_root" sequence="99"/>
+
+    <record id="action_aic_hrm_match_criterion" model="ir.actions.act_window">
+        <field name="name">Scoring Criteria</field>
+        <field name="res_model">aic.hrm.match.criterion</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_criterion_list" name="Criteria" 
+              parent="menu_aic_hrm_match_configuration" sequence="1" 
+              action="action_aic_hrm_match_criterion"/>
+
+    <record id="action_aic_hrm_match_policy" model="ir.actions.act_window">
+        <field name="name">Scoring Policies</field>
+        <field name="res_model">aic.hrm.match.policy</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_match_policy_list" name="Policies" 
+              parent="menu_aic_hrm_match_configuration" sequence="2" 
+              action="action_aic_hrm_match_policy"/>
+
+</odoo>
