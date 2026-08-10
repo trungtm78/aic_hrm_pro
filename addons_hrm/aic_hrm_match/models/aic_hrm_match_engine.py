@@ -384,6 +384,7 @@ class AicHrmMatchEngine(models.AbstractModel):
         detailed = set(ordered[:policy.top_n]) if policy.persist_mode == \
             'ranked_only' else set(ctx.scoped_ids)
 
+        breakdown = ctx.data.get('availability_breakdown', {})
         candidate_values = []
         for employee_id in ctx.scoped_ids:
             eligible = employee_id not in ctx.rejections
@@ -402,10 +403,11 @@ class AicHrmMatchEngine(models.AbstractModel):
                 'low_confidence': totals_row.get('low_confidence', False),
                 'rejection_code': reasons[0]['rejection_code'] if reasons else False,
                 'rejection_detail': '\n'.join(r['detail'] for r in reasons),
-                'free_hours': ctx.data.get('availability', {}).get(
-                    employee_id, 0.0),
-                'capacity_hours': ctx.data.get(
-                    'availability_capacity', {}).get(employee_id, 0.0),
+                **{
+                    key: breakdown.get(employee_id, {}).get(key, 0.0)
+                    for key in ('capacity_hours', 'leave_hours',
+                                'booked_hours', 'free_hours')
+                },
             })
         candidates = self.env['aic.hrm.match.candidate'].with_context(
             tracking_disable=True, mail_create_nolog=True).create(

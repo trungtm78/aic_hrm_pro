@@ -39,7 +39,7 @@
                         <field name="is_override"/>
                         <field name="decision_type"/>
                     </group>
-                    <group string="Override Details" attrs="{'invisible': [('is_override', '=', False)]}">
+                    <group string="Override Details" invisible="is_override == False">
                         <field name="override_category"/>
                         <field name="override_reason"/>
                     </group>

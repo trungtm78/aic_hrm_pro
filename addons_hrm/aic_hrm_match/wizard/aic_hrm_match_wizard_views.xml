@@ -46,12 +46,12 @@
                         <field name="run_id" readonly="1"/>
                     </group>
                     <field name="decision_ids">
-                        <tree>
+                        <list>
                             <field name="slot_id"/>
                             <field name="employee_id"/>
                             <field name="score_at_decision"/>
                             <field name="is_override"/>
-                        </tree>
+                        </list>
                     </field>
                 </sheet>
                 <footer>

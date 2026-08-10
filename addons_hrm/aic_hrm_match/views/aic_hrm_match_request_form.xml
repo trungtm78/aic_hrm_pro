@@ -40,7 +40,7 @@
                     </group>
                     <notebook>
                         <page string="Slots">
-                            <field name="slot_ids" mode="tree">
+                            <field name="slot_ids" mode="list">
                                 <list>
                                     <field name="name"/>
                                     <field name="required_hours"/>
@@ -49,9 +49,9 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Ranked Candidates" attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <page string="Ranked Candidates" invisible="state == 'draft'">
                             <field name="latest_run_id" readonly="1"/>
-                            <field name="run_ids" readonly="1" mode="tree">
+                            <field name="run_ids" readonly="1" mode="list">
                                 <list>
                                     <field name="reference"/>
                                     <field name="as_of"/>
@@ -59,8 +59,8 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Decisions" attrs="{'invisible': [('state', 'in', ['draft'])]}">
-                            <field name="decision_ids" readonly="1" mode="tree">
+                        <page string="Decisions" invisible="state in ('draft')">
+                            <field name="decision_ids" readonly="1" mode="list">
                                 <list>
                                     <field name="employee_id"/>
                                     <field name="score_at_decision"/>

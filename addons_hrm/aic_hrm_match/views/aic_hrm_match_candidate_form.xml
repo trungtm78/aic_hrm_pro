@@ -31,7 +31,7 @@
                         <field name="free_hours" readonly="1"/>
                         <field name="leave_hours" readonly="1"/>
                     </group>
-                    <group string="Rejection" attrs="{'invisible': [('rejection_code', '=', False)]}">
+                    <group string="Rejection" invisible="rejection_code == False">
                         <field name="rejection_code" readonly="1"/>
                         <field name="rejection_detail" readonly="1"/>
                     </group>
@@ -102,7 +102,7 @@
                     <group>
                         <field name="job_id"/>
                         <field name="max_hourly_cost"/>
-                        <field name="cost_currency_id"/>
+                        <field name="currency_id"/>
                         <field name="allow_partial_availability"/>
                     </group>
                     <notebook>

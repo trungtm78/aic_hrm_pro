@@ -12,7 +12,8 @@ A request also outlives the task that prompted it. It holds why somebody was
 chosen, so deleting a tidied-up task must not take the decision record with it.
 """
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.addons.base.models.res_partner import _tz_get
+from odoo.exceptions import UserError, ValidationError
 
 REQUEST_SEQUENCE = 'aic.hrm.match.request'
 
@@ -59,10 +60,46 @@ class AicHrmMatchRequest(models.Model):
              "requesting company; widening it is what cross-company staffing "
              "means, and it is deliberately opt-in.")
 
+    tag_ids = fields.Many2many(
+        'aic.hrm.match.tag', string='Domain',
+        help="What this work is about. Matched against what people have "
+             "actually done, which is why the same vocabulary is used on both "
+             "sides rather than free text on one of them.")
+    work_location_ids = fields.Many2many(
+        'hr.work.location', string='Work locations',
+        help="Where the work has to happen. Empty means it does not matter.")
+    remote_allowed = fields.Boolean(
+        default=True,
+        help="Turning this off is what makes location a real constraint "
+             "rather than a preference.")
+    tz = fields.Selection(
+        _tz_get, string='Time zone',
+        help="The time zone the work has to overlap with. Left empty for work "
+             "nobody has to be awake at the same time for.")
+    tz_overlap_hours_min = fields.Float(
+        string='Minimum overlap (h)', default=0.0,
+        help="How many working hours a day have to overlap with the time zone "
+             "above. Zero asks for none, which is the honest default for work "
+             "that is genuinely asynchronous.")
+
+    policy_id = fields.Many2one(
+        'aic.hrm.match.policy', ondelete='restrict', readonly=True,
+        help="Which scoring policy the last ranking ran under. Restricted "
+             "rather than set null: a policy still explaining a live request "
+             "is not something to delete out from under it.")
+    policy_version = fields.Integer(readonly=True)
+    weights_snapshot = fields.Text(
+        readonly=True,
+        help="The weights as they stood when this request was ranked. Kept on "
+             "the request as well as the run so the answer to \"what was this "
+             "judged on\" survives a run being vacuumed.")
+
     slot_ids = fields.One2many(
         'aic.hrm.match.request.slot', 'request_id', string='Slots')
     run_ids = fields.One2many(
         'aic.hrm.match.run', 'request_id', string='Rankings')
+    decision_ids = fields.One2many(
+        'aic.hrm.match.decision', 'request_id', string='Decisions')
     latest_run_id = fields.Many2one(
         'aic.hrm.match.run', compute='_compute_latest_run_id',
         help="The most recent ranking that actually produced something. "
@@ -159,6 +196,11 @@ class AicHrmMatchRequest(models.Model):
                 state=dict(self._fields['state'].selection)[self.state]))
 
         run = self.env['aic.hrm.match.engine'].run_match(self)
+        self.sudo().write({
+            'policy_id': run.policy_id.id,
+            'policy_version': run.policy_version,
+            'weights_snapshot': run.parameter_snapshot,
+        })
         if self.state == 'draft':
             self.state = 'ranked'
         return {

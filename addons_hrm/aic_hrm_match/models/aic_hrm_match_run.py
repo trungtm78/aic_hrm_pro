@@ -162,7 +162,11 @@ class AicHrmMatchCandidate(models.Model):
              "nobody can find afterwards is indistinguishable from a mistake, "
              "and the person deserves the credit either way.")
 
+    # capacity - leave - booked = free, so a reader can check the row
+    # rather than take the free hours on trust.
     capacity_hours = fields.Float(readonly=True)
+    leave_hours = fields.Float(readonly=True)
+    booked_hours = fields.Float(readonly=True)
     free_hours = fields.Float(readonly=True)
     score_line_ids = fields.One2many(
         'aic.hrm.match.score.line', 'candidate_id', string='Breakdown')

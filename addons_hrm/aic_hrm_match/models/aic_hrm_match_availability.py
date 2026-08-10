@@ -247,6 +247,45 @@ class AicHrmMatchAvailability(models.AbstractModel):
         return max(0.0, free)
 
     @api.model
+    def get_breakdown(self, employee, date_start, date_end):
+        """``capacity - leave - booked = free``, as the four numbers a reader
+        needs to check the arithmetic themselves.
+
+        Derived from the same interval algebra that produced the free hours
+        rather than recomputed alongside it. A second calculation that agrees
+        most of the time is worse than no second calculation: the row would
+        stop adding up in exactly the awkward cases - a booking overlapping a
+        public holiday - and look authoritative doing it.
+        """
+        window_start = self._to_datetime(date_start)
+        window_end = self._to_datetime(date_end)
+        window = [(window_start, window_end)]
+        gross = self.get_gross_intervals(employee, date_start, date_end)
+        leave = utils.intersect_intervals(
+            self.get_leave_intervals(employee, date_start, date_end), window)
+        available = utils.intersect_intervals(
+            utils.subtract_intervals(gross, leave), window)
+        free = self.get_free_hours(employee, date_start, date_end)
+        available_hours = self.to_hours(available)
+        return {
+            'capacity_hours': self.to_hours(gross),
+            'leave_hours': self.to_hours(leave),
+            # What the bookings took, by difference. Over-booking clamps the
+            # free hours at zero, so this is capped at what there was to take -
+            # a row reading "booked 60 of 40" invites the reader to conclude
+            # the report is broken rather than the schedule.
+            'booked_hours': max(0.0, available_hours - free),
+            'free_hours': free,
+        }
+
+    @api.model
+    def get_breakdown_batch(self, employees, date_start, date_end):
+        return {
+            employee.id: self.get_breakdown(employee, date_start, date_end)
+            for employee in employees
+        }
+
+    @api.model
     def get_free_hours_batch(self, employees, date_start, date_end):
         """``{employee_id: free_hours}`` for a whole pool.
 

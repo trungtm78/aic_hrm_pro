@@ -84,12 +84,16 @@ class AicHrmMatchScorer(models.AbstractModel):
         availability = self.env['aic.hrm.match.availability']
         employees = self.env['hr.employee'].browse(ctx.scoped_ids)
         window_start, window_end = ctx.window
-        ctx.data['availability'] = availability.get_free_hours_batch(
+        breakdown = availability.get_breakdown_batch(
             employees, window_start, window_end)
+        ctx.data['availability_breakdown'] = breakdown
+        ctx.data['availability'] = {
+            employee_id: row['free_hours']
+            for employee_id, row in breakdown.items()
+        }
         ctx.data['availability_capacity'] = {
-            employee.id: availability.get_gross_hours(
-                employee, window_start, window_end)
-            for employee in employees
+            employee_id: row['capacity_hours']
+            for employee_id, row in breakdown.items()
         }
 
     @api.model
