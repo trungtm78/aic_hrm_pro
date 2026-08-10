@@ -1,4 +1,4 @@
-STATUS: IN_PROGRESS
+STATUS: BLOCKED
 <!-- Final Status: All Phase 1 (CP0-CP10) checkpoints complete.
 Evidence verification (commit 74f421d):
 - 12/12 scorers implemented with matching _score_/_prefetch_ methods
@@ -112,7 +112,9 @@ version thay vì vòng lặp. Override ở bridge timesheet để batch-fetch hr
 **Kỳ vọng**: Query count từ 131 xuống <40 (tại hoặc dưới budget), batch 50 yêu cầu từ
 74.3s xuống <60s (tại hoặc dưới budget).
 
-Pending: Chạy test_perf_match.py quy mô 2.000 để xác minh kỳ vọng.
+Blocker: Chạy test_perf_match.py quy mô 2.000 để xác minh kỳ vọng.
+Điều kiện: Python venv thiếu dependency (babel, docutils). Cần cài đầy đủ dependencies từ odoo/requirements.txt hoặc cài thủ công: pip install babel docutils.
+Tầm quan trọng: Critical — toàn bộ value proposition của module phụ thuộc vào performance budget (<3s ở 2000 employees).
 
 ### Đã hoàn thành
 - [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,
