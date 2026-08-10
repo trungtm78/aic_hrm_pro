@@ -232,6 +232,71 @@ def ancestor_credit(distance, gamma=0.5):
     return gamma ** max(int(distance), 0)
 
 
+def merge_intervals(intervals):
+    """Normalise to a sorted, non-overlapping list of ``(start, end)``.
+
+    Overlaps are unioned rather than summed. Two four-hour bookings that share
+    an hour occupy seven hours of somebody's day, not eight, and every
+    arithmetic below depends on that being true before it starts.
+    """
+    ordered = sorted((start, end) for start, end in intervals if start < end)
+    merged = []
+    for start, end in ordered:
+        if merged and start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        else:
+            merged.append((start, end))
+    return merged
+
+
+def subtract_intervals(base, removed):
+    """``base`` minus ``removed``, as intervals.
+
+    The reason the whole availability calculation is expressed this way: a
+    booking that overlaps a public holiday costs the person that time once, but
+    subtracting hour totals charges them for it twice and reports somebody as
+    busier than they are.
+    """
+    result = []
+    removed = merge_intervals(removed)
+    for start, end in merge_intervals(base):
+        cursor = start
+        for cut_start, cut_end in removed:
+            if cut_end <= cursor or cut_start >= end:
+                continue
+            if cut_start > cursor:
+                result.append((cursor, cut_start))
+            cursor = max(cursor, cut_end)
+            if cursor >= end:
+                break
+        if cursor < end:
+            result.append((cursor, end))
+    return result
+
+
+def intersect_intervals(left, right):
+    """The overlap between two interval sets."""
+    result = []
+    right = merge_intervals(right)
+    for start, end in merge_intervals(left):
+        for other_start, other_end in right:
+            low = max(start, other_start)
+            high = min(end, other_end)
+            if low < high:
+                result.append((low, high))
+    return merge_intervals(result)
+
+
+def interval_hours(intervals):
+    """Total duration in hours. The single place where time becomes a number.
+
+    Kept to one function on purpose: every double-count in this area comes from
+    converting to hours early and then doing arithmetic on the totals.
+    """
+    return sum((end - start).total_seconds() for start, end
+               in merge_intervals(intervals)) / 3600.0
+
+
 def tiebreak_salt(request_reference, rotation_epoch, employee_id):
     """A stable pseudo-random number in [0, 1) for breaking exact ties.
 

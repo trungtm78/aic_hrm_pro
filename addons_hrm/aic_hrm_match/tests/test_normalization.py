@@ -8,6 +8,7 @@ cases below are written against the table in the design: each normalisation
 kind, both directions, and every degenerate input that has a defined answer.
 """
 import math
+from datetime import datetime
 
 from odoo.tests import BaseCase, tagged
 
@@ -156,6 +157,90 @@ class NormalizationCase(BaseCase):
     def test_zscore_without_pool_stats_is_a_configuration_error(self):
         with self.assertRaises(ValueError):
             utils.normalize(1.0, kind='zscore')
+
+
+@tagged('post_install', '-at_install', 'aic_hrm_match')
+class IntervalAlgebraCase(BaseCase):
+    """Availability is interval arithmetic, not hour arithmetic.
+
+    Adding and subtracting totals is correct only while nothing overlaps, and
+    in a real calendar things overlap constantly - a booking across a holiday,
+    two half-day bookings sharing an hour. Every one of those cases charges the
+    person twice if the conversion to hours happens before the set algebra.
+    """
+
+    @staticmethod
+    def _at(day, hour, minute=0):
+        return datetime(2026, 9, day, hour, minute)
+
+    def test_merge_unions_overlapping_intervals(self):
+        merged = utils.merge_intervals([
+            (self._at(14, 8), self._at(14, 12)),
+            (self._at(14, 10), self._at(14, 14)),
+        ])
+        self.assertEqual(merged, [(self._at(14, 8), self._at(14, 14))])
+
+    def test_merge_joins_intervals_that_touch(self):
+        merged = utils.merge_intervals([
+            (self._at(14, 8), self._at(14, 12)),
+            (self._at(14, 12), self._at(14, 17)),
+        ])
+        self.assertEqual(len(merged), 1)
+
+    def test_merge_drops_empty_and_inverted_intervals(self):
+        self.assertEqual(utils.merge_intervals([
+            (self._at(14, 9), self._at(14, 9)),
+            (self._at(14, 12), self._at(14, 8)),
+        ]), [])
+
+    def test_subtract_removes_the_middle(self):
+        remaining = utils.subtract_intervals(
+            [(self._at(14, 8), self._at(14, 17))],
+            [(self._at(14, 12), self._at(14, 13))])
+        self.assertEqual(remaining, [
+            (self._at(14, 8), self._at(14, 12)),
+            (self._at(14, 13), self._at(14, 17)),
+        ])
+
+    def test_subtract_an_overlapping_pair_only_costs_once(self):
+        """A booking sitting on top of a holiday takes that time once. Hour
+        totals would charge it twice and report the person as busier than the
+        day is long."""
+        working = [(self._at(14, 8), self._at(14, 17))]
+        holiday = [(self._at(14, 8), self._at(14, 12))]
+        booking = [(self._at(14, 10), self._at(14, 14))]
+        free = utils.subtract_intervals(
+            utils.subtract_intervals(working, holiday), booking)
+        self.assertAlmostEqual(utils.interval_hours(free), 3.0)
+
+    def test_subtract_everything_leaves_nothing(self):
+        self.assertEqual(utils.subtract_intervals(
+            [(self._at(14, 8), self._at(14, 17))],
+            [(self._at(14, 0), self._at(14, 23))]), [])
+
+    def test_subtract_nothing_leaves_the_base(self):
+        base = [(self._at(14, 8), self._at(14, 17))]
+        self.assertEqual(utils.subtract_intervals(base, []), base)
+
+    def test_intersect_finds_the_shared_part(self):
+        overlap = utils.intersect_intervals(
+            [(self._at(14, 8), self._at(14, 12))],
+            [(self._at(14, 10), self._at(14, 17))])
+        self.assertEqual(overlap, [(self._at(14, 10), self._at(14, 12))])
+
+    def test_intersect_of_disjoint_sets_is_empty(self):
+        self.assertEqual(utils.intersect_intervals(
+            [(self._at(14, 8), self._at(14, 9))],
+            [(self._at(14, 10), self._at(14, 11))]), [])
+
+    def test_hours_counts_overlap_once(self):
+        self.assertAlmostEqual(utils.interval_hours([
+            (self._at(14, 8), self._at(14, 12)),
+            (self._at(14, 10), self._at(14, 14)),
+        ]), 6.0)
+
+    def test_hours_of_nothing_is_zero(self):
+        self.assertEqual(utils.interval_hours([]), 0.0)
 
 
 @tagged('post_install', '-at_install', 'aic_hrm_match')

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 02:52+0000\n"
-"PO-Revision-Date: 2026-08-10 02:52+0000\n"
+"POT-Creation-Date: 2026-08-10 03:11+0000\n"
+"PO-Revision-Date: 2026-08-10 03:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,18 @@ msgstr ""
 msgid ""
 "%(child)s sits under %(parent)s, which belongs to a different category. "
 "Nesting across dimensions makes the distance between two tags meaningless."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_allocation.py:0
+msgid "A booking cannot commit negative hours."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_allocation.py:0
+msgid "A booking must end after it starts. Check %(name)s."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -38,6 +50,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__active
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__active
 msgid "Active"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__booking_type__actual
+msgid "Actual (already worked)"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__allocated_hours
+msgid "Allocated Hours"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__booking_type
+msgid "Booking Type"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__cancelled
+msgid "Cancelled"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -77,6 +109,7 @@ msgid "Color"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__company_id
 msgid "Company"
 msgstr ""
@@ -87,6 +120,12 @@ msgid "Complete Name"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__confirmed
+msgid "Confirmed"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__create_uid
@@ -94,6 +133,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__create_date
@@ -101,6 +141,23 @@ msgid "Created on"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_end
+msgid "Date End"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_start
+msgid "Date Start"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__task_sync
+msgid "Derived from a task"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_compat__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__display_name
@@ -111,8 +168,50 @@ msgid "Display Name"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__done
+msgid "Done"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_allocation__allocated_hours
+msgid ""
+"Effort committed inside the window. Prorated when only part of the booking "
+"falls inside the period being looked at."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_hr_employee_skill__match_valid_to
 msgid "End of the validity period; empty means open-ended."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__manual
+msgid "Entered by hand"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__bridge
+msgid "From a connector"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__match_run
+msgid "From a staffing decision"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__booking_type__hard
+msgid "Hard (committed)"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -124,6 +223,8 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_compat__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__id
@@ -134,11 +235,22 @@ msgid "ID"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__import
+msgid "Imported"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__is_blocking
+msgid "Is Blocking"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__is_hierarchical
 msgid "Is Hierarchical"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__write_uid
@@ -146,6 +258,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__write_date
@@ -202,11 +315,26 @@ msgid "Parent Tag"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_seniority__rank
 msgid ""
 "Position on the ladder. Only the ordering matters, so leave gaps (10, 20, "
 "30) and a grade can be inserted later without renumbering everything below "
 "it."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__project_id
+msgid "Project"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__proposed
+msgid "Proposed"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -221,6 +349,16 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__rank
 msgid "Rank"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__resource_id
+msgid "Resource"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__role_note
+msgid "Role Note"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -253,6 +391,16 @@ msgid "Skill level for employee"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__booking_type__soft
+msgid "Soft (pencilled in)"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__source
+msgid "Source"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__code
 msgid ""
 "Stable identifier used by imports and by scorer configuration. Changing it "
@@ -262,6 +410,16 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:res.groups.privilege,name:aic_hrm_match.privilege_aic_hrm_match
 msgid "Staffing"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_allocation
+msgid "Staffing Allocation"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_availability
+msgid "Staffing Availability Service"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -312,8 +470,23 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__state
+msgid "State"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__tag_ids
 msgid "Tags"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__task_id
+msgid "Task"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__task_ref_snapshot
+msgid "Task Ref Snapshot"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -328,6 +501,13 @@ msgstr ""
 msgid ""
 "The tag code %(code)s is already used in category %(category)s for this "
 "company."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_allocation__task_ref_snapshot
+msgid ""
+"The task this booking came from, captured at creation so the trail survives "
+"the task being deleted."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -353,4 +533,11 @@ msgstr ""
 msgid ""
 "Whether tags in this category form a tree. Technologies nest (React under "
 "Frontend); industries usually do not."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_allocation__is_blocking
+msgid ""
+"Whether this booking consumes availability. Stored so the engine can filter "
+"on it in SQL rather than in Python."
 msgstr ""

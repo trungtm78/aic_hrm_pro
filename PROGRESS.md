@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP1/10 (aic_hrm_match) | Task: CP1d xong — CP1 HOÀN TẤT, CP2 tiếp theo
+Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP2a xong, CP2b tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -76,19 +76,28 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       phải fault thật vì mọi group staffing đều implies `group_match_user`, nên rule vẫn áp. Ghi lại
       để lần sau không tự lừa mình bằng một phép tiêm lỗi vô hiệu.)
 
+- [x] **CP2a** `aic.hrm.match.availability` (AbstractModel service) + `aic.hrm.match.allocation`.
+      Toàn bộ tính bằng **đại số khoảng**, quy ra giờ đúng MỘT lần ở cuối:
+      `utils.merge_intervals/subtract_intervals/intersect_intervals/interval_hours` (thuần Python,
+      100% coverage). `get_gross_intervals` gọi `_work_intervals_batch(..., compute_leaves=False)` —
+      tham số này là chỗ chịu lực: để mặc định thì nghỉ phép bị trừ **hai lần**.
+      **116 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **88/88**.
+
 ### Đang làm dở
-Task: CP2 — cung & cầu
-Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: viết `tests/test_availability.py` (RED) cho **đại số khoảng** §4.4 của plan —
-`gross` lấy `_work_intervals_batch(..., compute_leaves=False)`, trừ `leave_iv` và `booked_iv` bằng
-**phép trừ tập khoảng**, quy ra giờ đúng MỘT lần ở bước cuối. Ưu tiên case
-"allocation chồng lấn kỳ nghỉ" vì đó là chỗ phép cộng/trừ tổng giờ cho kết quả sai.
-File liên quan: plan §4.4 (cảnh báo trừ nghỉ hai lần), §3.4 (allocation + advisory lock)
+Task: CP2b — advisory lock chống double-book trên `allocation`
+Đã làm: model `allocation` đã có (state/booking_type/is_blocking/snapshot task), **chưa có** khoá.
+BƯỚC TIẾP THEO: viết `tests/test_allocation_concurrency.py` (RED) dùng **hai cursor song song**
+(`odoo.sql_db.db_connect(...).cursor()`) cùng đặt lịch một người trong một cửa sổ, khẳng định đúng
+**một** bên `ValidationError`. Rồi cài `pg_advisory_xact_lock` theo §3.4 của plan:
+namespace riêng `0x41494331`, khoá theo id **đã sắp xếp tăng dần**, gom **hợp** employee cũ+mới khi
+`write`, `flush()` + invalidate rồi **đọc lại** trước khi validate.
+File liên quan: plan §3.4 (5 bước bắt buộc; `FOR UPDATE` KHÔNG đủ vì không khoá được hàng chưa tồn tại)
 
 ### Hàng đợi task kế tiếp
-1. CP2 `aic.hrm.match.availability` (đại số khoảng) + `allocation` (advisory lock) + `profile`
-2. CP2 `request`/`slot` + experience ledger + certification workflow
-3. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
+1. CP2b advisory lock + test hai cursor
+2. CP2c `profile` nhân sự + `request`/`slot`
+3. CP2d experience ledger + certification workflow
+4. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
@@ -116,8 +125,8 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 
 ## Trạng thái test
 - Tooling: **39/39 PASS**
-- `aic_hrm_match` trên **Odoo 19**: **86/86 PASS**
-- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **86/86 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **116/116 PASS**, coverage `models/` = **99%**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **116/116 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

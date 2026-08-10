@@ -265,3 +265,121 @@ msgstr ""
 "Kỹ năng thuộc loại này có hết hạn hay không, và do đó có phải phủ trọn khoảng "
 "thời gian đặt lịch hay không. Chỉ dùng ở những bản Odoo chưa tự quản lý chứng "
 "chỉ; xem dịch vụ tương thích kỹ năng."
+
+# --- Allocation and the availability service (CP2a).
+#     "booking" -> "đặt lịch" (the act) / "lịch đã đặt" (the record).
+#     "blocking" -> "chiếm chỗ": it consumes availability, it does not forbid.
+
+msgid "Staffing Allocation"
+msgstr "Lịch đã đặt"
+
+msgid "Staffing Availability Service"
+msgstr "Dịch vụ tính thời gian rảnh"
+
+msgid "Employee"
+msgstr "Nhân viên"
+
+msgid "Resource"
+msgstr "Nguồn lực"
+
+msgid "Date Start"
+msgstr "Bắt đầu"
+
+msgid "Date End"
+msgstr "Kết thúc"
+
+msgid "Allocated Hours"
+msgstr "Số giờ cam kết"
+
+msgid "Booking Type"
+msgstr "Loại đặt lịch"
+
+msgid "Soft (pencilled in)"
+msgstr "Tạm giữ chỗ"
+
+msgid "Hard (committed)"
+msgstr "Đã cam kết"
+
+msgid "Actual (already worked)"
+msgstr "Thực tế đã làm"
+
+msgid "State"
+msgstr "Trạng thái"
+
+msgid "Draft"
+msgstr "Nháp"
+
+msgid "Proposed"
+msgstr "Đã đề xuất"
+
+msgid "Confirmed"
+msgstr "Đã xác nhận"
+
+msgid "Done"
+msgstr "Hoàn thành"
+
+msgid "Cancelled"
+msgstr "Đã huỷ"
+
+msgid "Is Blocking"
+msgstr "Chiếm chỗ"
+
+msgid "Task"
+msgstr "Nhiệm vụ"
+
+msgid "Task Ref Snapshot"
+msgstr "Ảnh chụp tham chiếu nhiệm vụ"
+
+msgid "Project"
+msgstr "Dự án"
+
+msgid "Partner"
+msgstr "Đối tác"
+
+msgid "Source"
+msgstr "Nguồn"
+
+msgid "Entered by hand"
+msgstr "Nhập tay"
+
+msgid "From a staffing decision"
+msgstr "Từ quyết định bố trí"
+
+msgid "Derived from a task"
+msgstr "Suy ra từ nhiệm vụ"
+
+msgid "Imported"
+msgstr "Nhập khẩu dữ liệu"
+
+msgid "From a connector"
+msgstr "Từ module cầu nối"
+
+msgid "Role Note"
+msgstr "Ghi chú vai trò"
+
+msgid "A booking cannot commit negative hours."
+msgstr "Không thể đặt lịch với số giờ âm."
+
+msgid "A booking must end after it starts. Check %(name)s."
+msgstr "Lịch phải kết thúc sau khi bắt đầu. Kiểm tra lại %(name)s."
+
+msgid ""
+"Effort committed inside the window. Prorated when only part of the booking "
+"falls inside the period being looked at."
+msgstr ""
+"Số giờ cam kết trong khoảng thời gian này. Được chia theo tỷ lệ khi chỉ một "
+"phần của lịch nằm trong khoảng đang xét."
+
+msgid ""
+"The task this booking came from, captured at creation so the trail survives "
+"the task being deleted."
+msgstr ""
+"Nhiệm vụ sinh ra lịch này, được chụp lại lúc tạo để dấu vết vẫn còn kể cả khi "
+"nhiệm vụ bị xoá."
+
+msgid ""
+"Whether this booking consumes availability. Stored so the engine can filter "
+"on it in SQL rather than in Python."
+msgstr ""
+"Lịch này có chiếm thời gian rảnh hay không. Được lưu để engine lọc ngay trong "
+"SQL thay vì trong Python."
