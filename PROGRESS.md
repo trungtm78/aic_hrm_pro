@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP3b/10 (aic_hrm_match) | Task: CP3b xong, CP4 tiếp theo
+Cập nhật: 2026-08-10 23:59 | Milestone: CP4/10 (aic_hrm_match) | Task: CP4 xong, CP5 tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -119,6 +119,15 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       **218 test, 0 fail, xanh trên cả 19 và 18**; coverage 98%. i18n **359/359**.
 
 - [x] **CP3b** Engine orchestrator + 5 model: `aic.hrm.match.engine` (13-step pipeline: resolve_policy → build_pool → prefetch → apply_hard_constraints → score → normalize → aggregate → rank + tiebreak_salt) với `run_match()` entry point, `_persist()` batch create candidates + score.line + evidence (KHÔNG silent drop). `aic.hrm.match.run` (reference seq, policy_version, as_of frozen, feature_snapshot + input_hash + parameter_snapshot, state machine) · `aic.hrm.match.candidate` (identity_ref always, employee_id nullable để blind ranking, raw_score + fairness_adjustment, total_score, rank, rejection_code Selection, is_selected compute) · `aic.hrm.match.score.line` (criterion snapshots để survive uninstall, is_missing/is_knockout/passed flags, weighted_score) · `aic.hrm.match.evidence` (One2many cho plural proof/criterion) · `aic.hrm.match.identity` (admin-only ACL, reveal chỉ khi decision chốt). **308 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **382/382**. Commit: cdee427 (12 files, 1499 insertions). Bất biến khoá: `len(ranked) + len(excluded) == len(evaluated)` với MỌI persist_mode. Tie-break ổn định theo request.reference + rotation_epoch + employee_id. Pha chấm điểm: 0 query (khoá bằng test).
+
+- [x] **CP4** Hai bridge module mở rộng registry scorer:
+      `aic_hrm_match_okr` (depends `aic_okr_kpi`) + `aic_hrm_match_timesheet` (depends `hr_timesheet`, `hr_holidays`).
+      Scorers: `performance_score` = trung bình KPI/OKR từ `task.aic_kr_id.score`; `experience_hours` = tổng giờ
+      timesheet; `_prefetch_availability` override thêm kỳ nghỉ từ `hr_holidays` vào pool data.
+      Pattern: AbstractModel `_inherit = 'aic.hrm.match.scorer'` + `_prefetch_<code>` / `_score_<code>` pair.
+      Auto-install: True (kích hoạt sau khi cài `aic_hrm_match`). Commit: c817ad9 (6 files, 124 insertions).
+      Backport 18 sạch (không dùng API 19-only). Evidence chain + missing data (None) handling đầy đủ.
+
 
 
 ### Đang làm dở
