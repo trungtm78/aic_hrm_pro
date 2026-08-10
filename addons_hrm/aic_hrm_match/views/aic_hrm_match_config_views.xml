@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Views for the models that had actions and menus but no arch of their
+        own. Without these Odoo generates a list of one column, which is how a
+        configuration screen ends up showing a criterion's name and nothing
+        about what it does.
+    -->
+
+    <record id="view_criterion_list" model="ir.ui.view">
+        <field name="name">aic.hrm.match.criterion.list</field>
+        <field name="model">aic.hrm.match.criterion</field>
+        <field name="arch" type="xml">
+            <list string="Scoring criteria" default_order="category, sequence">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="mode"/>
+                <field name="normalization"/>
+                <field name="weight" sum="Catalogue weight"/>
+                <!-- The two that decide whether a criterion can be used at all,
+                     and who may see what it contributed. -->
+                <field name="implemented" widget="boolean_toggle" readonly="1"/>
+                <field name="is_sensitive" widget="boolean_toggle"/>
+                <field name="enabled" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_criterion_form" model="ir.ui.view">
+        <field name="name">aic.hrm.match.criterion.form</field>
+        <field name="model">aic.hrm.match.criterion</field>
+        <field name="arch" type="xml">
+            <form string="Scoring criterion">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Availability"/></h1>
+                        <h3><field name="code" placeholder="availability"/></h3>
+                    </div>
+                    <group>
+                        <group string="What it measures">
+                            <field name="category"/>
+                            <field name="description"/>
+                            <field name="unit"/>
+                        </group>
+                        <group string="How it is used">
+                            <field name="mode"/>
+                            <field name="direction"/>
+                            <field name="normalization"/>
+                            <field name="saturation_value"/>
+                            <field name="threshold"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="When data is missing">
+                            <field name="missing_policy"/>
+                        </group>
+                        <group string="Who may read it">
+                            <field name="is_sensitive"/>
+                            <field name="enabled"/>
+                        </group>
+                    </group>
+                    <group string="Implementation">
+                        <!-- Read from the class rather than a registry table, so
+                             installing a connector makes its criteria usable
+                             immediately and removing it makes them visibly
+                             unimplemented rather than silently inert. -->
+                        <field name="implemented"/>
+                        <field name="provider_module"/>
+                        <field name="provider_version"/>
+                        <field name="param_json" placeholder="{&quot;half_life_days&quot;: 540}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_policy_list" model="ir.ui.view">
+        <field name="name">aic.hrm.match.policy.list</field>
+        <field name="model">aic.hrm.match.policy</field>
+        <field name="arch" type="xml">
+            <list string="Scoring policies" default_order="sequence, id"
+                  decoration-muted="state == 'archived'"
+                  decoration-bf="state == 'active'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="version"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'draft'"/>
+                <field name="is_default" widget="boolean_toggle"/>
+                <field name="aggregation"/>
+                <field name="fairness_mode"/>
+                <field name="anonymize_until_decision" widget="boolean_toggle"/>
+                <field name="has_sensitive_criterion" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_policy_form" model="ir.ui.view">
+        <field name="name">aic.hrm.match.policy.form</field>
+        <field name="model">aic.hrm.match.policy</field>
+        <field name="arch" type="xml">
+            <form string="Scoring policy">
+                <header>
+                    <button name="action_activate" type="object" string="Activate"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <!-- The only way to change an active policy. A ranking has
+                         to stay explainable, so the weights behind one cannot
+                         be edited after the fact. -->
+                    <button name="action_new_version" type="object"
+                            string="New version" invisible="state != 'active'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Delivery staffing"/></h1>
+                        <h3>
+                            <field name="code" placeholder="delivery_staffing"/>
+                            <span> v</span><field name="version" readonly="1"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="When it applies">
+                            <field name="is_default"/>
+                            <field name="sequence"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="allow_cross_company"/>
+                        </group>
+                        <group string="How the score is built">
+                            <field name="aggregation"/>
+                            <field name="top_n"/>
+                            <field name="persist_mode"/>
+                            <field name="min_effective_weight_pct"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Weights">
+                            <!-- The checksum a planner reads before trusting the
+                                 ranking: the enabled weights have to total 100,
+                                 and a default that fails its own checksum
+                                 teaches every reader to ignore it. -->
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="criterion_id"/>
+                                    <field name="criterion_code" readonly="1" optional="hide"/>
+                                    <field name="weight" sum="Total weight"/>
+                                    <field name="mode_override"/>
+                                    <field name="threshold_override" optional="hide"/>
+                                    <field name="missing_policy_override" optional="hide"/>
+                                    <field name="enabled" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Fairness and privacy">
+                            <group>
+                                <group string="Fairness">
+                                    <field name="fairness_mode"/>
+                                    <field name="fairness_strength"/>
+                                </group>
+                                <group string="Privacy">
+                                    <field name="anonymize_until_decision"/>
+                                    <field name="show_own_candidacy"/>
+                                    <field name="has_sensitive_criterion" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Tolerances">
+                            <group>
+                                <group>
+                                    <field name="partial_tolerance"/>
+                                    <field name="unverified_factor"/>
+                                    <field name="rounding_digits"/>
+                                </group>
+                                <group>
+                                    <field name="explain_required"/>
+                                    <field name="tiebreak_version"/>
+                                    <field name="engine_model"/>
+                                    <field name="engine_fallback_allowed"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_profile_list" model="ir.ui.view">
+        <field name="name">aic.hrm.match.profile.list</field>
+        <field name="model">aic.hrm.match.profile</field>
+        <field name="arch" type="xml">
+            <list string="Capability profiles">
+                <field name="employee_id"/>
+                <field name="seniority_id"/>
+                <field name="staffable" widget="boolean_toggle"/>
+                <field name="match_opt_out" widget="boolean_toggle"/>
+                <field name="available_from"/>
+                <field name="utilization_target"/>
+                <field name="max_concurrent_requests" optional="hide"/>
+                <field name="cost_hourly" groups="aic_hrm_match.group_match_admin"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_profile_form" model="ir.ui.view">
+        <field name="name">aic.hrm.match.profile.form</field>
+        <field name="model">aic.hrm.match.profile</field>
+        <field name="arch" type="xml">
+            <form string="Capability profile">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="employee_id"/></h1>
+                    </div>
+                    <group>
+                        <group string="Availability for staffing">
+                            <field name="staffable"/>
+                            <field name="match_opt_out"/>
+                            <field name="opt_out_reason"
+                                   invisible="not match_opt_out"/>
+                            <field name="available_from"/>
+                            <field name="max_concurrent_requests"/>
+                            <field name="utilization_target"/>
+                        </group>
+                        <group string="Level and rates">
+                            <field name="seniority_id"/>
+                            <field name="experience_start_date"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="cost_hourly"
+                                   groups="aic_hrm_match.group_match_admin"/>
+                            <field name="billing_rate_hourly"
+                                   groups="aic_hrm_match.group_match_admin"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Where they can work">
+                            <field name="work_location_id"/>
+                            <field name="willing_to_travel"/>
+                            <field name="tz"/>
+                        </group>
+                        <group string="What they want next">
+                            <!-- Matching on history alone keeps somebody on the
+                                 work they are already good at until they leave
+                                 to get away from it. -->
+                            <field name="aspiration_tag_ids" widget="many2many_tags"/>
+                            <field name="aspiration_skill_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Customer preferences">
+                        <field name="preferred_partner_ids" widget="many2many_tags"/>
+                        <field name="avoid_partner_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_allocation_list" model="ir.ui.view">
+        <field name="name">aic.hrm.match.allocation.list</field>
+        <field name="model">aic.hrm.match.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Allocations" default_order="date_start desc"
+                  decoration-muted="state == 'cancelled'">
+                <field name="employee_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="allocated_hours" sum="Hours committed"/>
+                <field name="project_id" optional="show"/>
+                <field name="partner_id" optional="hide"/>
+                <field name="booking_type"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'confirmed'"
+                       decoration-info="state == 'proposed'"/>
+                <field name="is_blocking" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_allocation_form" model="ir.ui.view">
+        <field name="name">aic.hrm.match.allocation.form</field>
+        <field name="model">aic.hrm.match.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Allocation">
+                <sheet>
+                    <group>
+                        <group string="Who and when">
+                            <field name="employee_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="allocated_hours"/>
+                        </group>
+                        <group string="What for">
+                            <field name="project_id"/>
+                            <field name="task_id"/>
+                            <field name="partner_id"/>
+                            <field name="role_note"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Status">
+                            <field name="booking_type"/>
+                            <field name="state"/>
+                            <field name="is_blocking" readonly="1"/>
+                        </group>
+                        <group string="Where it came from">
+                            <field name="source"/>
+                            <field name="decision_id" readonly="1"/>
+                            <field name="task_ref_snapshot" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_allocation_calendar" model="ir.ui.view">
+        <field name="name">aic.hrm.match.allocation.calendar</field>
+        <field name="model">aic.hrm.match.allocation</field>
+        <field name="arch" type="xml">
+            <calendar string="Bookings" date_start="date_start"
+                      date_stop="date_end" color="employee_id" mode="month">
+                <field name="employee_id"/>
+                <field name="allocated_hours"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_run_list" model="ir.ui.view">
+        <field name="name">aic.hrm.match.run.list</field>
+        <field name="model">aic.hrm.match.run</field>
+        <field name="arch" type="xml">
+            <list string="Rankings" default_order="as_of desc"
+                  decoration-danger="state == 'failed'">
+                <field name="reference"/>
+                <field name="request_id"/>
+                <field name="as_of"/>
+                <field name="policy_id"/>
+                <field name="policy_version"/>
+                <field name="candidate_count"/>
+                <field name="eligible_count"/>
+                <field name="rejected_count"/>
+                <field name="duration_ms" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'computed'"
+                       decoration-danger="state == 'failed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_run_form" model="ir.ui.view">
+        <field name="name">aic.hrm.match.run.form</field>
+        <field name="model">aic.hrm.match.run</field>
+        <field name="arch" type="xml">
+            <form string="Ranking" create="false" edit="false">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,computed,decided"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="reference" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="What was asked">
+                            <field name="request_id" readonly="1"/>
+                            <field name="slot_id" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+                        <group string="Under which rules">
+                            <!-- The frozen moment. Every decay and validity
+                                 check inside the run is measured against it, so
+                                 reopening this tomorrow shows the same scores. -->
+                            <field name="as_of" readonly="1"/>
+                            <field name="policy_id" readonly="1"/>
+                            <field name="policy_version" readonly="1"/>
+                            <field name="input_hash" readonly="1" optional="hide"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Shortlist">
+                            <field name="candidate_ids" readonly="1"
+                                   domain="[('eligible', '=', True)]">
+                                <list default_order="rank">
+                                    <field name="rank"/>
+                                    <field name="display_ref"/>
+                                    <field name="total_score" widget="percentage"/>
+                                    <field name="raw_score" optional="hide"/>
+                                    <field name="fairness_adjustment" optional="hide"/>
+                                    <field name="free_hours"/>
+                                    <field name="capacity_hours" optional="hide"/>
+                                    <field name="is_stretch" widget="boolean_toggle"/>
+                                    <field name="low_confidence" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Excluded">
+                            <!-- Nobody is dropped silently: everyone the engine
+                                 looked at keeps a row, and every exclusion
+                                 carries the gate that produced it. -->
+                            <field name="candidate_ids" readonly="1"
+                                   domain="[('eligible', '=', False)]">
+                                <list default_order="rejection_code">
+                                    <field name="display_ref"/>
+                                    <field name="rejection_code"/>
+                                    <field name="rejection_detail"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="How it was configured">
+                            <field name="parameter_snapshot" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!--
+        The runs need a way in. Everything else here attaches to an action that
+        already existed.
+    -->
+    <record id="action_run" model="ir.actions.act_window">
+        <field name="name">Rankings</field>
+        <field name="res_model">aic.hrm.match.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_run" name="Rankings"
+              parent="menu_aic_hrm_match_request" sequence="5"
+              action="action_run"/>
+
+    <record id="action_profile" model="ir.actions.act_window">
+        <field name="name">Capability profiles</field>
+        <field name="res_model">aic.hrm.match.profile</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_profile" name="Capability profiles"
+              parent="menu_aic_hrm_match_configuration" sequence="5"
+              action="action_profile"/>
+
+</odoo>
