@@ -3,6 +3,7 @@
 """Erasure log — pseudonymization audit trail for GDPR Art.17 right-to-be-forgotten."""
 import hashlib
 from odoo import api, fields, models, _
+from odoo.exceptions import AccessError
 
 
 class AicHrmMatchErasureLog(models.Model):
