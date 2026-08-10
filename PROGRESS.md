@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP6/10 (aic_hrm_match) | Task: CP6 xong, CP7 tiếp theo
+Cập nhật: 2026-08-10 23:59 | Milestone: CP6/10 (aic_hrm_match) COMPLETE | Task: CP7 awaiting - 21 views
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -135,27 +135,34 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       Constraint: unique (composition_id, slot_id) = một người/slot/proposal. Algorithm phase chưa:
       Hungarian assignment (scipy.optimize.linear_sum_assignment) + Murty k-best alternatives.
       Single slot: skip (fast path). Multi-slot: optimal + k variants. Commit: 79239f6 (3 files, 206 insertions).
-- [x] **CP6** Decision log + waiver + erasure (audit trail cho GDPR):
-      `aic.hrm.match.decision` (mail.thread, allocation_ids One2many, rank_at_decision/score_at_decision snapshot,
-      is_override compute, override_category + reason, state draft/confirmed/cancelled, confirmed immutable + unlink
-      forbidden). `aic.hrm.match.waiver` (criterion + reason, immutable, sensitive admin-only).
-      `aic.hrm.match.erasure.log` (subject_key pseudonym unique, append-only, counts_before/after).
-      **8 test, 0 fail**. Commit: ea18d1f (4 files, 351 insertions).
+- [x] **CP6** Decision log + waiver + erasure (audit trail cho GDPR) — **COMPLETE**:
+      `aic.hrm.match.decision` (mail.thread + mail.activity.mixin, allocation_ids One2many,
+      rank_at_decision/score_at_decision snapshot, is_override compute, override_category + reason,
+      state draft/confirmed/cancelled, confirmed immutable via write() + unlink() forbidden,
+      action_confirm/action_cancel methods). `aic.hrm.match.waiver` (criterion + reason required,
+      immutable write/unlink, sensitive criteria admin-only via create()). `aic.hrm.match.erasure.log`
+      (subject_key pseudonym unique, append-only, counts_before/after JSON, evidence_checksum SHA256).
+      Security: global company isolation + group-scoped rules (planner read/write/create, admin read-only).
+      ACL: 9 entries (decision/waiver/erasure for user/planner/admin). Views: tree/form for all 3 models.
+      **8 test, 0 fail**. Commits: ea18d1f (models+test), c20fa41 (progress), 113f93e (imports),
+      b6e8b78 (security+ACL), 1371852 (views), d001e63 (actions). **Total: 5 files models, 3 test, 2 view,
+      1 security, 1 ACL = 12 files, 625 insertions**.
 
 
 
 
 ### Đang làm dở
 Task: CP7 — 21 views + 4 wizard + menu + QWeb templates
-Đã làm: CP6 xong; decision + waiver + erasure models + test suite đã commit.
-BƯỚC TIẾP THEO: Viết native views:
-  - Request form (với tab Ranked/Excluded/Composition/Decision)
-  - Candidate detail form (drill-down evidence chain)
-  - Composition form + lines (assignment visualization)
-  - Decision list + form (audit log)
-  - Wizard: Find Best Fit, Assign, Waive, Erasure
-  - Menus + security rules
-File liên quan: plan §7 (22 screens), design.md (Muc & Thep HRM)
+Đã làm: CP6 hoàn toàn xong (5 models, 3 test, 2 view XML, ACL, security rules).
+BƯỚC TIẾP THEO: Viết native views **thứ tự ưu tiên**:
+  1. Request form — core workflow (tab Ranked, Excluded, Composition, Decision)
+  2. Candidate detail form — evidence drill-down (score.line → evidence one2many)
+  3. Composition form + lines — assignment proposal UI
+  4. Decision list + form — audit log (đã có basic view ở CP6)
+  5. Waiver form — hard gate exception (đã có basic view ở CP6)
+  6. Wizard: Find Best Fit (link từ task.action), Assign, Waive
+  7. Menu + icons + security + i18n
+File liên quan: plan §7 (22 screens), design.md (Muc & Thep HRM), sample của aic_okr_kpi
 
 ### Hàng đợi task kế tiếp
 1. CP7 21 views + 4 wizard + menu + QWeb
