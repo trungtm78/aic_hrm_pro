@@ -49,19 +49,28 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       **Bằng chứng chạy thật**: `aic_hrm_match` cài trên DB TRỐNG Odoo 19 (49 module, suite hiệu
       suất vẫn `uninstalled`) **và** bản backport cài trên **Odoo 18 thật** (44 module).
 
+- [x] **CP1a** `models/utils.py` — toán chấm điểm, **không import Odoo**: `clamp`,
+      `weighted_average`, `normalize` (6 kiểu × 2 hướng, đủ nhánh suy biến theo §4.3 plan),
+      `rank_normalize` (**midrank** cho hoà), `half_life_decay`, `inverse_document_frequency`,
+      `ancestor_credit`, `tiebreak_salt`.
+      TDD RED→GREEN. **35 test, 0 fail; patch coverage `utils.py` = 100%** (`coverage report`).
+
 ### Đang làm dở
-Task: CP1 — khung schema + ACL/record rule cho toàn bộ model
+Task: CP1b — `match_context.py` + taxonomy (tag, tag.category, seniority)
 Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: tạo `addons_hrm/aic_hrm_match/models/utils.py` (hàm toán ORM-free: `clamp`,
-`weighted_average`, 6 kiểu normalisation §4.3 của plan) cùng `tools/`-style unit test ORM-free
-trước, vì đó là phần duy nhất của CP1 kiểm được không cần DB.
-File liên quan: plan §4.3 (bảng chuẩn hoá đủ nhánh), §3 (danh mục model), §8 (ACL + record rule)
+BƯỚC TIẾP THEO: viết `addons_hrm/aic_hrm_match/tests/test_taxonomy.py` (RED) cho
+`aic.hrm.match.tag` (`_parent_store`, unique `(code, category_id, company_id)`,
+`ancestor_distance()` dùng `parent_path`) rồi mới tạo
+`models/aic_hrm_match_tag.py` + `models/aic_hrm_match_seniority.py`.
+File liên quan: plan §3.1 (taxonomy), §4.5 (dùng tập id tổ tiên thay vì so tiền tố parent_path)
 
 ### Hàng đợi task kế tiếp
-1. CP1 `utils.py` + `match_context.py` + taxonomy + `skill.compat` + toàn bộ ACL/record rule
-2. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
+1. CP1b taxonomy + `match_context.py`
+2. CP1c `skill.compat` AbstractModel (dò `_fields`, không dò series) + `test_skill_compat.py`
+3. CP1d khung schema toàn bộ model + groups + ACL + record rule **2 lớp** (global AND + group OR)
+4. CP1e `test_security.py` các case ACL/rule (S01–S08, S16–S22)
+5. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
    experience ledger, certification)
-3. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
