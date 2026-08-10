@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP2d xong — CP2 HOÀN TẤT, CP3 tiếp theo
+Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP3a xong, CP3b tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -107,19 +107,30 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       **175 test, 0 fail, xanh trên cả 19 và 18**; coverage 98%. i18n **236/236**.
       Build store 10 archive/series.
 
+- [x] **CP3a** Danh mục tiêu chí + chính sách chấm điểm có **version**:
+      `aic.hrm.match.criterion` (code là khoá registry, `implemented` compute, `param_json` validate,
+      `is_sensitive`), `aic.hrm.match.policy` (+`.line`) với `state` draft/active/archived,
+      **active VÀ archived đều bất biến**, `action_new_version()` fork kèm trọng số,
+      partial unique index "một active per (code, company)" + "một default per company".
+      Kích hoạt **fail-closed**: từ chối tiêu chí enabled chưa có scorer, policy rỗng, tổng trọng số 0,
+      và `load_balance` trùng tiêu chí `workload_balance`.
+      Thêm `match_context.py` (biên chống query trong pha chấm điểm) + `aic.hrm.match.scorer`
+      (registry `_score_<code>` / `_prefetch_<code>`) + scorer `availability` đầu tiên.
+      **218 test, 0 fail, xanh trên cả 19 và 18**; coverage 98%. i18n **359/359**.
+
 ### Đang làm dở
-Task: CP3 — engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
-Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: viết `tests/test_scoring_policy.py` (RED) cho `aic.hrm.match.criterion` +
-`aic.hrm.match.policy` + `.policy.line` theo §3.6 của plan. Ba điểm dễ sai:
-(1) unique phải trên **`COALESCE(company_id, 0)`** cho `(code, version)`, và index partial
-"một active per (code, company)"; (2) policy `active` **và** `archived` đều bất biến — sửa phải fork
-version mới; (3) kích hoạt policy phải **từ chối** tiêu chí `enabled` mà chưa có scorer (fail-closed,
-D16), không được im lặng bỏ qua.
-File liên quan: plan §3.6, §4.1 (pipeline 13 bước), §5 (registry `_score_<code>`), D16
+Task: CP3b — engine + run/candidate/score.line/evidence/identity
+Đã làm: `match_context.py` và `aic.hrm.match.scorer` đã có; scorer `availability` đã chạy được và có
+test khẳng định **pha chấm điểm không phát sinh query nào**.
+BƯỚC TIẾP THEO: viết `tests/test_ranking.py` (RED) cho `aic.hrm.match.engine` theo §4.1 của plan
+(pipeline 13 bước). Bất biến quan trọng nhất phải khoá bằng test:
+**`len(ranked) + len(excluded) == len(evaluated)` với MỌI giá trị `persist_mode`** — không ai bị bỏ
+rơi trong im lặng. Kèm: muối phá hoà ổn định khi re-rank cùng request, khác nhau giữa hai request;
+`rotation_epoch` chỉ tăng khi có quyết định.
+File liên quan: plan §4.1 (pipeline), §4.2 (hard gate), §4.8 (tổng hợp + tie-break), §3.7 (run/candidate)
 
 ### Hàng đợi task kế tiếp
-1. CP3 engine
+1. CP3b engine + run/candidate/score.line/evidence/identity + 11 scorer còn lại
 2. CP4 hai bridge (okr, timesheet)
 3. CP5 composition nhiều slot
 
@@ -152,8 +163,8 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 
 ## Trạng thái test
 - Tooling: **43/43 PASS**
-- `aic_hrm_match` trên **Odoo 19**: **175/175 PASS**, coverage `models/` = **98%**
-- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **175/175 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **218/218 PASS**, coverage `models/` = **98%**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **218/218 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

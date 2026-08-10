@@ -964,3 +964,502 @@ msgstr ""
 "Hệ số suy giảm chỉ để hiển thị, làm mới hằng đêm. Việc xếp hạng không bao giờ "
 "đọc nó; engine tự tính lại suy giảm theo mốc thời gian đã đóng băng của lần "
 "chạy."
+
+# --- Reused from the suite glossary (CP3a).
+
+msgid "Aggregation"
+msgstr "Cách tổng hợp"
+
+msgid "Archived"
+msgstr "Đã lưu trữ"
+
+msgid "Description"
+msgstr "Mô tả"
+
+msgid "Direction"
+msgstr "Chiều đo"
+
+msgid "Higher is better"
+msgstr "Càng cao càng tốt"
+
+msgid "Lower is better"
+msgstr "Càng thấp càng tốt"
+
+msgid "Unit"
+msgstr "Đơn vị"
+
+
+# --- Criteria catalogue and scoring policies (CP3a).
+#   criterion  -> "tiêu chí"
+#   policy     -> "chính sách chấm điểm"
+#   normalise  -> "chuẩn hoá"
+#   eliminate  -> "loại" (removes the candidate), vs "trừ điểm" (costs points)
+
+msgid "Staffing Criterion"
+msgstr "Tiêu chí chấm điểm"
+
+msgid "Staffing Scoring Policy"
+msgstr "Chính sách chấm điểm"
+
+msgid "Staffing Policy Weight"
+msgstr "Trọng số trong chính sách"
+
+msgid "Staffing Criterion Scorers"
+msgstr "Bộ chấm điểm tiêu chí"
+
+msgid "Criterion"
+msgstr "Tiêu chí"
+
+msgid "Policy"
+msgstr "Chính sách"
+
+msgid "Weights"
+msgstr "Trọng số"
+
+msgid "Version"
+msgstr "Phiên bản"
+
+msgid "Criterion Code"
+msgstr "Mã tiêu chí"
+
+msgid "Criterion Name"
+msgstr "Tên tiêu chí"
+
+msgid "Criterion Provider"
+msgstr "Module cung cấp tiêu chí"
+
+msgid "Provider Module"
+msgstr "Module cung cấp"
+
+msgid "Provider Version"
+msgstr "Phiên bản module cung cấp"
+
+msgid "Implemented"
+msgstr "Đã có bộ chấm điểm"
+
+msgid "Enabled"
+msgstr "Đang bật"
+
+msgid "Mode"
+msgstr "Kiểu tác động"
+
+msgid "Mode Override"
+msgstr "Ghi đè kiểu tác động"
+
+msgid "Ranks only"
+msgstr "Chỉ xếp hạng"
+
+msgid "Eliminates"
+msgstr "Loại ứng viên"
+
+msgid "Eliminates and ranks"
+msgstr "Vừa loại vừa xếp hạng"
+
+msgid "Normalization"
+msgstr "Cách chuẩn hoá"
+
+msgid "Already 0 to 1"
+msgstr "Đã nằm trong 0 đến 1"
+
+msgid "Proportion of a target"
+msgstr "Tỷ lệ so với mục tiêu"
+
+msgid "Diminishing returns"
+msgstr "Lợi ích giảm dần"
+
+msgid "Spread across the pool"
+msgstr "Trải theo nhóm ứng viên"
+
+msgid "Standard score"
+msgstr "Điểm chuẩn hoá"
+
+msgid "Percentile"
+msgstr "Phân vị"
+
+msgid "Saturation Value"
+msgstr "Giá trị bão hoà"
+
+msgid "Missing Policy"
+msgstr "Xử lý khi thiếu dữ liệu"
+
+msgid "Missing Policy Override"
+msgstr "Ghi đè xử lý khi thiếu dữ liệu"
+
+msgid "Ignore the criterion for that person"
+msgstr "Bỏ qua tiêu chí đó với người này"
+
+msgid "Treat as the worst possible"
+msgstr "Coi như tệ nhất"
+
+msgid "Treat as the best possible"
+msgstr "Coi như tốt nhất"
+
+msgid "Remove the candidate"
+msgstr "Loại ứng viên"
+
+msgid "Threshold"
+msgstr "Ngưỡng"
+
+msgid "Threshold Override"
+msgstr "Ghi đè ngưỡng"
+
+msgid "Is Tiebreak"
+msgstr "Dùng để phá hoà"
+
+msgid "Tiebreak Sequence"
+msgstr "Thứ tự phá hoà"
+
+msgid "Tiebreak Version"
+msgstr "Phiên bản quy tắc phá hoà"
+
+msgid "Applies Domain"
+msgstr "Điều kiện áp dụng"
+
+msgid "Param Json"
+msgstr "Tham số (JSON)"
+
+msgid "Evidence Template"
+msgstr "Mẫu diễn giải"
+
+msgid "Is Sensitive"
+msgstr "Dữ liệu nhạy cảm"
+
+msgid "Has Sensitive Criterion"
+msgstr "Có tiêu chí nhạy cảm"
+
+msgid "Is Default"
+msgstr "Mặc định"
+
+msgid "Min Score"
+msgstr "Điểm tối thiểu"
+
+msgid "Top N"
+msgstr "Số ứng viên giữ chi tiết"
+
+msgid "Rejected Limit"
+msgstr "Giới hạn ứng viên bị loại"
+
+msgid "Persist Mode"
+msgstr "Mức lưu chi tiết"
+
+msgid "Every score line for everybody"
+msgstr "Lưu đủ mọi dòng điểm của mọi người"
+
+msgid "Full lines for the shortlist"
+msgstr "Lưu đủ cho danh sách rút gọn"
+
+msgid "Fairness Mode"
+msgstr "Chế độ công bằng"
+
+msgid "Fairness Strength"
+msgstr "Mức can thiệp công bằng"
+
+msgid "Measure only"
+msgstr "Chỉ đo, không can thiệp"
+
+msgid "Favour the less loaded"
+msgstr "Ưu tiên người ít tải hơn"
+
+msgid "Rotate between rounds"
+msgstr "Xoay vòng giữa các đợt"
+
+msgid "Favour development opportunities"
+msgstr "Ưu tiên cơ hội phát triển"
+
+msgid "Anonymize Until Decision"
+msgstr "Ẩn danh cho tới khi quyết định"
+
+msgid "Show Own Candidacy"
+msgstr "Cho xem vị trí của chính mình"
+
+msgid "Partial Tolerance"
+msgstr "Dung sai rảnh một phần"
+
+msgid "Unverified Factor"
+msgstr "Hệ số chưa xác thực"
+
+msgid "Min Effective Weight Pct"
+msgstr "Tỷ lệ trọng số hiệu dụng tối thiểu"
+
+msgid "Explain Required"
+msgstr "Bắt buộc diễn giải"
+
+msgid "Allow Cross Company"
+msgstr "Cho phép liên công ty"
+
+msgid "Rounding Digits"
+msgstr "Số chữ số làm tròn"
+
+msgid "Engine Model"
+msgstr "Model engine"
+
+msgid "Engine Fallback Allowed"
+msgstr "Cho phép engine dự phòng"
+
+msgid "Weighted average"
+msgstr "Trung bình có trọng số"
+
+msgid "Weighted geometric mean"
+msgstr "Trung bình nhân có trọng số"
+
+msgid "Strict priority order"
+msgstr "Ưu tiên theo thứ tự nghiêm ngặt"
+
+msgid "Availability"
+msgstr "Thời gian rảnh"
+
+msgid "Skills"
+msgstr "Kỹ năng"
+
+msgid "Experience"
+msgstr "Kinh nghiệm"
+
+msgid "Customer relationship"
+msgstr "Quan hệ khách hàng"
+
+msgid "Cost"
+msgstr "Chi phí"
+
+msgid "Location and time zone"
+msgstr "Địa điểm và múi giờ"
+
+msgid "Past performance"
+msgstr "Hiệu suất quá khứ"
+
+msgid "Development"
+msgstr "Phát triển"
+
+msgid "Fairness"
+msgstr "Công bằng"
+
+msgid "Custom"
+msgstr "Tuỳ chỉnh"
+
+msgid "%(name)s has no enabled criteria, so it would rank everybody identically."
+msgstr "%(name)s không bật tiêu chí nào, nên sẽ xếp hạng mọi người như nhau."
+
+msgid "%(name)s: the parameters must be a JSON object."
+msgstr "%(name)s: tham số phải là một đối tượng JSON."
+
+msgid "Leave empty to share across companies."
+msgstr "Để trống nếu muốn dùng chung cho mọi công ty."
+
+msgid "Names the policy across all of its versions."
+msgstr "Định danh chính sách xuyên suốt mọi phiên bản của nó."
+
+msgid "Used when no other policy claims a request."
+msgstr "Được dùng khi không chính sách nào khác nhận nhu cầu đó."
+
+msgid "How much an unverified skill claim is discounted."
+msgstr "Kỹ năng chưa được xác thực bị chiết khấu bao nhiêu."
+
+msgid "Whether a scorer exists for this code in the running database."
+msgstr "Trong database đang chạy có bộ chấm điểm cho mã này hay không."
+
+msgid "Normalised score below which an eliminating criterion removes the candidate."
+msgstr "Điểm đã chuẩn hoá thấp hơn mức này thì tiêu chí loại sẽ gạt ứng viên ra."
+
+msgid "The raw value that counts as a full score, for proportion and diminishing-returns normalisation."
+msgstr "Giá trị thô được coi là đạt điểm tối đa, dùng cho chuẩn hoá theo tỷ lệ và lợi ích giảm dần."
+
+msgid "How this criterion explains itself on a candidate's breakdown."
+msgstr "Tiêu chí này tự diễn giải thế nào trong bảng phân rã điểm của ứng viên."
+
+msgid "%(name)s gives no criterion any weight, so every candidate would score the same."
+msgstr "%(name)s không gán trọng số cho tiêu chí nào, nên mọi ứng viên sẽ cùng một điểm."
+
+msgid ""
+"%(name)s: a weight cannot be negative. A negative weight inverts what the "
+"criterion means rather than reducing its influence."
+msgstr ""
+"%(name)s: trọng số không được âm. Trọng số âm làm đảo ngược ý nghĩa của tiêu "
+"chí chứ không phải giảm ảnh hưởng của nó."
+
+msgid ""
+"%(name)s: the parameters are not valid JSON (%(error)s). Caught here rather "
+"than inside the scoring loop, where it would surface on one candidate and "
+"look like a data problem."
+msgstr ""
+"%(name)s: tham số không phải JSON hợp lệ (%(error)s). Bắt lỗi ở đây thay vì "
+"trong vòng chấm điểm — ở đó nó sẽ hiện ra trên đúng một ứng viên và trông "
+"giống lỗi dữ liệu."
+
+msgid ""
+"%(names)s cannot be changed: a ranking has to stay explainable, and if the "
+"weights behind it can be edited afterwards the explanation is fiction. "
+"Create a new version instead."
+msgstr ""
+"Không thể sửa %(names)s: một bảng xếp hạng phải luôn giải trình được, mà nếu "
+"trọng số phía sau nó còn sửa được về sau thì phần diễn giải chỉ là hư cấu. "
+"Hãy tạo phiên bản mới."
+
+msgid ""
+"%(names)s is published, so its weights are fixed. Create a new version to "
+"change how candidates are ranked."
+msgstr ""
+"%(names)s đã phát hành nên trọng số bị khoá. Hãy tạo phiên bản mới nếu muốn "
+"đổi cách xếp hạng ứng viên."
+
+msgid ""
+"No scorer is installed for: %(codes)s. Activating anyway would produce "
+"staffing decisions under a rule that never ran, with nothing on screen to "
+"say so. Disable the line or install the module that provides it."
+msgstr ""
+"Chưa cài bộ chấm điểm cho: %(codes)s. Vẫn kích hoạt sẽ tạo ra quyết định bố "
+"trí nhân sự dưới một quy tắc chưa hề chạy, mà màn hình không hề báo. Hãy tắt "
+"dòng đó hoặc cài module cung cấp nó."
+
+msgid ""
+"Load balancing and the workload criterion measure the same thing, so running "
+"both counts one signal twice. Keep the criterion, or the fairness mode, not "
+"both."
+msgstr ""
+"Cân bằng tải và tiêu chí khối lượng công việc đo cùng một thứ, nên bật cả hai "
+"là tính một tín hiệu hai lần. Hãy giữ tiêu chí, hoặc giữ chế độ công bằng, "
+"không giữ cả hai."
+
+msgid ""
+"Binds this criterion to the method that scores it. The registry looks for "
+"_score_<code>, so renaming a code silently detaches the criterion from its "
+"implementation."
+msgstr ""
+"Gắn tiêu chí này với phương thức chấm điểm nó. Registry tìm theo "
+"_score_<code>, nên đổi mã sẽ âm thầm tách tiêu chí khỏi phần cài đặt của nó."
+
+msgid ""
+"Eliminating criteria remove a candidate with a stated reason; ranking "
+"criteria only move the score. Somebody with no free hours is not a low "
+"score, they are unavailable."
+msgstr ""
+"Tiêu chí loại thì gạt ứng viên ra kèm lý do nêu rõ; tiêu chí xếp hạng chỉ làm "
+"dịch chuyển điểm. Người không còn giờ rảnh không phải là điểm thấp — họ là "
+"không sẵn sàng."
+
+msgid ""
+"Pool-independent kinds are preferred: a score that means the same thing "
+"across two runs is what makes them comparable."
+msgstr ""
+"Nên ưu tiên các kiểu không phụ thuộc nhóm ứng viên: điểm mang cùng một ý "
+"nghĩa qua hai lần chạy mới là thứ khiến hai lần chạy so sánh được với nhau."
+
+msgid ""
+"What to do when there is no data. Ignoring is the default because scoring an "
+"unknown as zero turns a gap in the HR record into a permanent disadvantage "
+"for the person it is missing for."
+msgstr ""
+"Làm gì khi không có dữ liệu. Mặc định là bỏ qua, vì chấm một điều chưa biết "
+"thành 0 sẽ biến một khoảng trống trong hồ sơ nhân sự thành bất lợi vĩnh viễn "
+"cho chính người bị thiếu dữ liệu đó."
+
+msgid ""
+"Domain on the staffing request. Lets a criterion switch itself on only where "
+"it is relevant - a security clearance matters on defence work and nowhere "
+"else."
+msgstr ""
+"Điều kiện lọc trên nhu cầu nhân sự. Cho phép một tiêu chí chỉ tự bật ở nơi nó "
+"thật sự liên quan — chứng nhận an ninh chỉ có ý nghĩa với công việc quốc "
+"phòng, không nơi nào khác."
+
+msgid ""
+"Domain on the staffing request. Lets one company run different weights for "
+"client-critical work and for internal projects."
+msgstr ""
+"Điều kiện lọc trên nhu cầu nhân sự. Cho phép một công ty dùng bộ trọng số "
+"khác nhau cho việc trọng yếu với khách và cho dự án nội bộ."
+
+msgid ""
+"Scorer parameters as a JSON object: half-life, similarity mode, and anything "
+"a third-party criterion needs. Kept open so adding a knob does not mean "
+"adding a column."
+msgstr ""
+"Tham số của bộ chấm điểm dưới dạng đối tượng JSON: chu kỳ bán rã, kiểu tính "
+"tương đồng, và bất cứ thứ gì một tiêu chí của bên thứ ba cần. Để mở như vậy "
+"nên thêm một tuỳ chọn không đồng nghĩa với thêm một cột."
+
+msgid ""
+"Whether the contribution of this criterion is restricted. Appraisal-derived "
+"scores are: a planner may rank a shortlist without being shown anybody's "
+"performance figures."
+msgstr ""
+"Phần đóng góp của tiêu chí này có bị hạn chế xem hay không. Điểm suy ra từ "
+"đánh giá hiệu suất thì có: người điều phối vẫn xếp hạng được danh sách rút "
+"gọn mà không cần thấy con số hiệu suất của bất kỳ ai."
+
+msgid ""
+"Which module supplies the scorer. Recorded on every run so an audit can "
+"answer whose code produced a decision."
+msgstr ""
+"Module nào cung cấp bộ chấm điểm. Được ghi lại ở mỗi lần chạy để khi audit "
+"còn trả lời được quyết định đó do mã của ai tạo ra."
+
+msgid ""
+"Geometric mean punishes any criterion near zero, which suits a role where "
+"being weak anywhere disqualifies."
+msgstr ""
+"Trung bình nhân phạt nặng bất kỳ tiêu chí nào gần 0, hợp với vị trí mà yếu ở "
+"đâu cũng là bị loại."
+
+msgid ""
+"How many candidates keep a full score breakdown. Everyone evaluated still "
+"keeps a record and, if excluded, their reason."
+msgstr ""
+"Bao nhiêu ứng viên được giữ bảng phân rã điểm đầy đủ. Mọi người đã được đánh "
+"giá vẫn có bản ghi, và nếu bị loại thì vẫn kèm lý do."
+
+msgid ""
+"Controls how much presentation detail is stored. It never drops a candidate "
+"or an exclusion reason."
+msgstr ""
+"Quyết định lưu bao nhiêu chi tiết để hiển thị. Nó không bao giờ bỏ rơi một "
+"ứng viên hay một lý do loại."
+
+msgid ""
+"Off by default. Fairness is always measured; adjusting the score for it is a "
+"policy choice a customer makes, not one a vendor makes for them."
+msgstr ""
+"Mặc định tắt. Công bằng thì luôn được đo; còn có can thiệp vào điểm hay không "
+"là lựa chọn chính sách của khách hàng, không phải của nhà cung cấp."
+
+msgid ""
+"Rank without showing names. The audit record always keeps the real identity; "
+"only the shortlist is blind."
+msgstr ""
+"Xếp hạng mà không hiện tên. Bản ghi audit luôn giữ danh tính thật; chỉ có "
+"danh sách rút gọn là ẩn danh."
+
+msgid "Let people see their own standing in a ranking. Never anybody else's."
+msgstr "Cho mọi người xem vị trí của chính họ trong một lần xếp hạng. Không bao giờ của người khác."
+
+msgid ""
+"Below this share of usable weight a candidate is flagged as low confidence. "
+"Somebody scored on two criteria out of twelve must not quietly come first."
+msgstr ""
+"Dưới tỷ lệ trọng số dùng được này thì ứng viên bị gắn cờ độ tin cậy thấp. "
+"Người chỉ được chấm trên 2 trong 12 tiêu chí không được lặng lẽ đứng nhất."
+
+msgid ""
+"Replaces the built-in ranking engine. A replacement still has to write runs, "
+"candidates and score lines: the contract is 'produce an explainable "
+"ranking', not 'do as you like'."
+msgstr ""
+"Thay thế engine xếp hạng mặc định. Bản thay thế vẫn phải ghi run, candidate "
+"và dòng điểm: hợp đồng ở đây là “tạo ra một bảng xếp hạng giải trình được”, "
+"không phải “muốn làm gì thì làm”."
+
+msgid ""
+"Whether a broken engine may silently fall back to the built-in one. Off by "
+"default: a staffing decision made by different code than the policy names is "
+"not the decision that was authorised."
+msgstr ""
+"Engine bị lỗi có được âm thầm quay về dùng engine mặc định hay không. Mặc "
+"định tắt: một quyết định bố trí nhân sự do đoạn mã khác với đoạn mã chính "
+"sách chỉ định tạo ra thì không phải quyết định đã được phê duyệt."
+
+msgid ""
+"Whether any enabled criterion is restricted. Stored because the record rules "
+"that hide performance figures filter on it, and a rule cannot evaluate a "
+"non-stored field."
+msgstr ""
+"Có tiêu chí nào đang bật bị hạn chế xem hay không. Được lưu vì các record "
+"rule dùng để giấu con số hiệu suất lọc theo trường này, mà rule thì không "
+"đánh giá được trường không lưu trữ."
