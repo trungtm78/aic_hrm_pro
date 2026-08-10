@@ -112,9 +112,17 @@ version thay vì vòng lặp. Override ở bridge timesheet để batch-fetch hr
 **Kỳ vọng**: Query count từ 131 xuống <40 (tại hoặc dưới budget), batch 50 yêu cầu từ
 74.3s xuống <60s (tại hoặc dưới budget).
 
-Blocker: Chạy test_perf_match.py quy mô 2.000 để xác minh kỳ vọng.
-Điều kiện: Python venv thiếu dependency (babel, docutils). Cần cài đầy đủ dependencies từ odoo/requirements.txt hoặc cài thủ công: pip install babel docutils.
-Tầm quan trọng: Critical — toàn bộ value proposition của module phụ thuộc vào performance budget (<3s ở 2000 employees).
+Blocker: ENVIRONMENTAL — Python version mismatch
+Điều kiện: Python 3.13.14 không compatible với Odoo 19. CLAUDE.md yêu cầu Python 3.12 (rl-renderPM==4.0.3 wheel không build được trên 3.13).
+Hành động: Xoá .venv hiện tại, tạo mới bằng Python 3.12: `py -3.12 -m venv .venv` rồi `pip install -r odoo/requirements.txt`
+Tầm quan trọng: Blocking — không thể chạy Odoo test suite (odoo-bin lỗi import passlib).
+Cập nhật: Đã install babel + docutils (2/N dependencies). Tất cả 46 tooling test xanh.
+
+Sau khi fix venv:
+1. Chạy test_perf_match.py quy mô 2.000 để xác minh performance optimization
+2. Chạy E2E tours (3 tests)
+3. Cập nhật PROGRESS.md với kết quả
+4. Đổi STATUS thành ALL_MILESTONES_DONE
 
 ### Đã hoàn thành
 - [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,
