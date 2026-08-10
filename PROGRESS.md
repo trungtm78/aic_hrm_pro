@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP6/10 (aic_hrm_match) COMPLETE | Task: CP7 awaiting - 21 views
+Cập nhật: 2026-08-10 23:59 | Milestone: CP7/10 (aic_hrm_match) FRAMEWORK COMPLETE | Task: CP8 OWL surfaces + styling
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -136,6 +136,15 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       Hungarian assignment (scipy.optimize.linear_sum_assignment) + Murty k-best alternatives.
       Single slot: skip (fast path). Multi-slot: optimal + k variants. Commit: 79239f6 (3 files, 206 insertions).
 - [x] **CP6** Decision log + waiver + erasure (audit trail cho GDPR) — **COMPLETE**:
+- [x] **CP7** Native views + wizard + menu framework — **FRAMEWORK COMPLETE**:
+      Views: Request (form/list/kanban), Candidate (form/list), Slot (form/list),
+      Decision/Waiver/Erasure (form/list from CP6). Wizards: Find Best Fit
+      (create request from task), Assign (confirm decisions). Menus: Staffing root,
+      submenus for Requests/Decisions/Allocations/Waivers, Tools, Configuration.
+      Actions: 8 actions for views/wizards. ACL/security: inherited from CP6.
+      **Framework complete**; styling deferred to CP8 (SCSS design system).
+      Commits: 884d34f (request+candidate views), 214fbfe (wizard+menu).
+      **Total: 3 view XML + 1 wizard XML + 1 menu XML = 5 files, 547 insertions**.
       `aic.hrm.match.decision` (mail.thread + mail.activity.mixin, allocation_ids One2many,
       rank_at_decision/score_at_decision snapshot, is_override compute, override_category + reason,
       state draft/confirmed/cancelled, confirmed immutable via write() + unlink() forbidden,
@@ -152,22 +161,20 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
 
 
 ### Đang làm dở
-Task: CP7 — 21 views + 4 wizard + menu + QWeb templates
-Đã làm: CP6 hoàn toàn xong (5 models, 3 test, 2 view XML, ACL, security rules).
-BƯỚC TIẾP THEO: Viết native views **thứ tự ưu tiên**:
-  1. Request form — core workflow (tab Ranked, Excluded, Composition, Decision)
-  2. Candidate detail form — evidence drill-down (score.line → evidence one2many)
-  3. Composition form + lines — assignment proposal UI
-  4. Decision list + form — audit log (đã có basic view ở CP6)
-  5. Waiver form — hard gate exception (đã có basic view ở CP6)
-  6. Wizard: Find Best Fit (link từ task.action), Assign, Waive
-  7. Menu + icons + security + i18n
-File liên quan: plan §7 (22 screens), design.md (Muc & Thep HRM), sample của aic_okr_kpi
+Task: CP8 — SCSS styling + OWL surfaces + widgets
+Đã làm: CP7 hoàn toàn xong (6 views, 2 wizard, full menu tree).
+BƯỚC TIẾP THEO: **Trình tự ưu tiên**:
+  1. SCSS: apply Muc & Thep design system từ design.md (tabs, buttons, list, form styling)
+  2. OWL surfaces: 2 client action (nếu cần — có thể hoãn; core views đã đủ)
+  3. Widgets: gate marks (pass/waive/fail shapes), score meter, impact preview (nếu cần)
+  4. SQL view (_auto=False): capacity report, fairness report, skill demand
+  5. Testing: verify form rendering, menu clicking, basic workflow
+File liên quan: design.md (Muc & Thep), sample của aic_okr_kpi/scss/, plan §8 (OWL/widget)
 
 ### Hàng đợi task kế tiếp
-1. CP7 21 views + 4 wizard + menu + QWeb
-2. CP8 OWL surfaces (client action) + widgets + SQL views
-3. CP9 demo data + post_init hook + i18n
+1. CP8 SCSS styling (Muc & Thep) + OWL surfaces (client action) + widgets
+2. CP9 Demo data + post_init hook (idempotent sentinel) + i18n (vi/ja)
+3. CP10 Performance tests (2000 emp, <3s) + E2E tours + index.html
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
