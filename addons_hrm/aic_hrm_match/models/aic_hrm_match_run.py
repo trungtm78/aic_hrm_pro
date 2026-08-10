@@ -68,6 +68,24 @@ class AicHrmMatchRun(models.Model):
 
     candidate_ids = fields.One2many(
         'aic.hrm.match.candidate', 'run_id', string='Candidates')
+    # Split in the model rather than by a domain on the view. A domain on a
+    # one2many filters what may be *selected*, not what is *displayed*, so the
+    # two tabs would both show everybody - and a shortlist showing the people
+    # who were excluded is worse than no tabs at all.
+    shortlist_ids = fields.One2many(
+        'aic.hrm.match.candidate', compute='_compute_split',
+        string='Shortlist')
+    excluded_ids = fields.One2many(
+        'aic.hrm.match.candidate', compute='_compute_split',
+        string='Excluded')
+
+    @api.depends('candidate_ids.eligible', 'candidate_ids.rank')
+    def _compute_split(self):
+        for run in self:
+            run.shortlist_ids = run.candidate_ids.filtered(
+                'eligible').sorted('rank')
+            run.excluded_ids = run.candidate_ids.filtered(
+                lambda c: not c.eligible)
     candidate_count = fields.Integer(readonly=True)
     eligible_count = fields.Integer(readonly=True)
     rejected_count = fields.Integer(readonly=True)

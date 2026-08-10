@@ -22,8 +22,15 @@
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1><field name="reference" readonly="1"/></h1>
-                        <h2><field name="task_ref_snapshot" placeholder="Task"/></h2>
+                        <!-- The reference is generated and read-only, so a form
+                             showing only that has no writable required field on
+                             it: nobody can create a request from this screen.
+                             The name is what a planner types and what the
+                             request is called everywhere else. -->
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Migrate the billing API"/></h1>
+                        <h3><field name="reference" readonly="1"/></h3>
+                        <h4><field name="task_ref_snapshot" placeholder="Task" readonly="1"/></h4>
                     </div>
                     <group>
                         <group>

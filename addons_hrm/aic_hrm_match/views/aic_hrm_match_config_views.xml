@@ -385,8 +385,7 @@
                     </group>
                     <notebook>
                         <page string="Shortlist">
-                            <field name="candidate_ids" readonly="1"
-                                   domain="[('eligible', '=', True)]">
+                            <field name="shortlist_ids" readonly="1">
                                 <list default_order="rank">
                                     <field name="rank"/>
                                     <field name="display_ref"/>
@@ -404,8 +403,7 @@
                             <!-- Nobody is dropped silently: everyone the engine
                                  looked at keeps a row, and every exclusion
                                  carries the gate that produced it. -->
-                            <field name="candidate_ids" readonly="1"
-                                   domain="[('eligible', '=', False)]">
+                            <field name="excluded_ids" readonly="1">
                                 <list default_order="rejection_code">
                                     <field name="display_ref"/>
                                     <field name="rejection_code"/>
