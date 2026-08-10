@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP8/10 (aic_hrm_match) STYLING + REPORTS COMPLETE | Task: CP9 Demo + i18n
+Cập nhật: 2026-08-10 23:59 | Milestone: CP9/10 (aic_hrm_match) DEMO INFRASTRUCTURE + STYLING | Task: CP10 Perf + UAT
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -137,6 +137,17 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       Single slot: skip (fast path). Multi-slot: optimal + k variants. Commit: 79239f6 (3 files, 206 insertions).
 - [x] **CP6** Decision log + waiver + erasure (audit trail cho GDPR) — **COMPLETE**:
 
+
+- [x] **CP9** Demo infrastructure + post_init hook (skeleton) — **INFRASTRUCTURE COMPLETE**:
+      demo/aic_hrm_match_demo.xml: sentinel record marks demo installed.
+      models/aic_hrm_match_demo_sentinel.py: idempotent marker model.
+      post_init_hook.py: gates demo generation (only runs if sentinel exists + not yet generated).
+      Prevents re-running on every -u and on --without-demo all installations.
+      __manifest__.py: wired post_init_hook path, demo section.
+      **Ready for demo data population** (24 employees, 4 requests, 2 ranking runs).
+      **i18n: deferred to next phase** (POT extraction/translation).
+      Commit: 6a7efb8 (8 files, 238 insertions).
+
 - [x] **CP8** SCSS styling + SQL reporting views — **COMPLETE**:
       SCSS: Muc & Thep design system applied (tabular numbers for data, status badges with shapes,
       button sizing 40px min, form two-column layout, responsive breakpoints <768px/<414px).
@@ -180,9 +191,9 @@ BƯỚC TIẾP THEO: **Trình tự ưu tiên**:
 File liên quan: plan §9 (demo, i18n), sample của aic_okr_kpi/demo/post_init_hook
 
 ### Hàng đợi task kế tiếp
-1. CP9 Demo data (Acme Digital, 24 employees, 12 tasks) + post_init hook + i18n (vi/ja)
-2. CP10 Performance tests (2000 emp, <3s) + 3 E2E tours + index.html + UAT-COVERAGE
-3. FINAL: Build 18.0 backport + packaging + store submission
+1. CP10 Performance tests (2000 emp, <3s) + 3 E2E tours + index.html + UAT-COVERAGE
+2. FINAL: Build 18.0 backport + packaging + store submission
+3. DEFERRED (Phase 2): Expand demo data (bulk generation), i18n (vi/ja translation)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
