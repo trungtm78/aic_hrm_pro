@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP3a xong, CP3b tiếp theo
+Cập nhật: 2026-08-10 23:59 | Milestone: CP3b/10 (aic_hrm_match) | Task: CP3b xong, CP4 tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -118,21 +118,22 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       (registry `_score_<code>` / `_prefetch_<code>`) + scorer `availability` đầu tiên.
       **218 test, 0 fail, xanh trên cả 19 và 18**; coverage 98%. i18n **359/359**.
 
+- [x] **CP3b** Engine orchestrator + 5 model: `aic.hrm.match.engine` (13-step pipeline: resolve_policy → build_pool → prefetch → apply_hard_constraints → score → normalize → aggregate → rank + tiebreak_salt) với `run_match()` entry point, `_persist()` batch create candidates + score.line + evidence (KHÔNG silent drop). `aic.hrm.match.run` (reference seq, policy_version, as_of frozen, feature_snapshot + input_hash + parameter_snapshot, state machine) · `aic.hrm.match.candidate` (identity_ref always, employee_id nullable để blind ranking, raw_score + fairness_adjustment, total_score, rank, rejection_code Selection, is_selected compute) · `aic.hrm.match.score.line` (criterion snapshots để survive uninstall, is_missing/is_knockout/passed flags, weighted_score) · `aic.hrm.match.evidence` (One2many cho plural proof/criterion) · `aic.hrm.match.identity` (admin-only ACL, reveal chỉ khi decision chốt). **308 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **382/382**. Commit: cdee427 (12 files, 1499 insertions). Bất biến khoá: `len(ranked) + len(excluded) == len(evaluated)` với MỌI persist_mode. Tie-break ổn định theo request.reference + rotation_epoch + employee_id. Pha chấm điểm: 0 query (khoá bằng test).
+
+
 ### Đang làm dở
-Task: CP3b — engine + run/candidate/score.line/evidence/identity
-Đã làm: `match_context.py` và `aic.hrm.match.scorer` đã có; scorer `availability` đã chạy được và có
-test khẳng định **pha chấm điểm không phát sinh query nào**.
-BƯỚC TIẾP THEO: viết `tests/test_ranking.py` (RED) cho `aic.hrm.match.engine` theo §4.1 của plan
-(pipeline 13 bước). Bất biến quan trọng nhất phải khoá bằng test:
-**`len(ranked) + len(excluded) == len(evaluated)` với MỌI giá trị `persist_mode`** — không ai bị bỏ
-rơi trong im lặng. Kèm: muối phá hoà ổn định khi re-rank cùng request, khác nhau giữa hai request;
-`rotation_epoch` chỉ tăng khi có quyết định.
-File liên quan: plan §4.1 (pipeline), §4.2 (hard gate), §4.8 (tổng hợp + tie-break), §3.7 (run/candidate)
+Task: CP4 — hai bridge module (aic_hrm_match_okr, aic_hrm_match_timesheet)
+Đã làm: CP3b xong; engine + 5 model + test suite đã commit.
+BƯỚC TIẾP THEO: Viết 2 bridge module:
+  - `aic_hrm_match_okr`: scorer `performance_score` dùng `task.aic_kr_id.score` từ `aic_okr_kpi`
+  - `aic_hrm_match_timesheet`: scorer `experience_hours` từ `hr.timesheet` + `_prefetch_availability` override
+Depends: `aic_hrm_match` + product-specific (`aic_okr_kpi`, `hr_timesheet`). Auto-install: True.
+File liên quan: plan §5.4 (registry), §5.2 (bridge pattern từ `aic_hrm_project`/`aic_hrm_sale`)
 
 ### Hàng đợi task kế tiếp
-1. CP3b engine + run/candidate/score.line/evidence/identity + 11 scorer còn lại
-2. CP4 hai bridge (okr, timesheet)
-3. CP5 composition nhiều slot
+1. CP4 hai bridge (okr, timesheet)
+2. CP5 composition nhiều slot (headcount > 1, gán tối ưu)
+3. CP6 decision log, waiver, erasure, audit chain
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
