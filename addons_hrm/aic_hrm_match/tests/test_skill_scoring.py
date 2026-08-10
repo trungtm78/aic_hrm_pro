@@ -57,6 +57,20 @@ class SkillScoringCase(MatchCase):
             'requirement': requirement, 'weight': weight})
         return request
 
+    def _skill(self, employee, skill=None, level=None, verified=True):
+        """Give somebody a skill, verified unless the test says otherwise.
+
+        Verified is the interesting default: an unverified line is discounted,
+        so a fixture that left it unverified would make every "meets the
+        requirement" assertion fail by a factor nobody was testing.
+        """
+        line = self._make_employee_skill(
+            employee, skill or self.python, level or self.confirmed)
+        if verified:
+            line.sudo().write({'verify_state': 'submitted'})
+            line.sudo().write({'verify_state': 'verified'})
+        return line
+
     def _score_for(self, employee, request=None):
         run = self.engine.run_match(request or self._request())
         candidate = run.candidate_ids.filtered(

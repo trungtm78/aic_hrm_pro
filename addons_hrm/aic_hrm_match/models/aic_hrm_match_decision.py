@@ -103,3 +103,19 @@ class AicHrmMatchDecision(models.Model):
                 raise UserError(_('Override reason is required when selecting non-top candidate.'))
         
         return recs
+    def action_confirm(self):
+        """Confirm the decision — create allocations and lock it."""
+        for rec in self:
+            rec.state = 'confirmed'
+            rec.message_post(body=_('Decision confirmed by %(user)s',
+                user=self.env.user.name))
+
+    def action_cancel(self):
+        """Cancel the decision — revert state to draft."""
+        for rec in self:
+            if rec.allocation_ids.filtered(lambda a: a.state in ('confirmed', 'done')):
+                raise UserError(_('Cannot cancel: allocations already confirmed.'))
+            rec.state = 'draft'
+            rec.message_post(body=_('Decision cancelled by %(user)s',
+                user=self.env.user.name))
+
