@@ -83,6 +83,14 @@ class AicHrmMatchAllocation(models.Model):
         ('bridge', 'From a connector'),
     ], default='manual', required=True)
     role_note = fields.Char()
+    decision_id = fields.Many2one(
+        'aic.hrm.match.decision', index=True, ondelete='set null',
+        help="The staffing decision this booking came out of. One decision "
+             "usually books several stretches of time, so the link lives here "
+             "rather than the other way round.\n"
+             "Set null rather than cascade: deleting the decision must not "
+             "quietly empty somebody's calendar, and the decision log refuses "
+             "deletion anyway - the booking is the thing that gets cancelled.")
 
     @api.depends('state')
     def _compute_is_blocking(self):

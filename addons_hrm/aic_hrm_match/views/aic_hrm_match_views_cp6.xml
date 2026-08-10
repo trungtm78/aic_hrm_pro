@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Decision Views -->
+    <record id="view_aic_hrm_match_decision_list" model="ir.ui.view">
+        <field name="name">Staffing Decision - List</field>
+        <field name="model">aic.hrm.match.decision</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="request_id"/>
+                <field name="employee_id"/>
+                <field name="score_at_decision"/>
+                <field name="rank_at_decision"/>
+                <field name="is_override"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_decision_form" model="ir.ui.view">
+        <field name="name">Staffing Decision - Form</field>
+        <field name="model">aic.hrm.match.decision</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="request_id"/>
+                        <field name="slot_id"/>
+                        <field name="run_id"/>
+                        <field name="employee_id"/>
+                        <field name="candidate_id"/>
+                    </group>
+                    <group>
+                        <field name="rank_at_decision"/>
+                        <field name="score_at_decision"/>
+                        <field name="is_override"/>
+                        <field name="decision_type"/>
+                    </group>
+                    <group string="Override Details" attrs="{'invisible': [('is_override', '=', False)]}">
+                        <field name="override_category"/>
+                        <field name="override_reason"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Waiver Views -->
+    <record id="view_aic_hrm_match_waiver_list" model="ir.ui.view">
+        <field name="name">Hard Gate Waiver - List</field>
+        <field name="model">aic.hrm.match.waiver</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="request_id"/>
+                <field name="employee_id"/>
+                <field name="criterion_id"/>
+                <field name="reason"/>
+                <field name="waived_by_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_waiver_form" model="ir.ui.view">
+        <field name="name">Hard Gate Waiver - Form</field>
+        <field name="model">aic.hrm.match.waiver</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="request_id"/>
+                        <field name="slot_id"/>
+                        <field name="employee_id"/>
+                    </group>
+                    <group>
+                        <field name="criterion_id"/>
+                        <field name="criterion_code"/>
+                        <field name="is_sensitive"/>
+                    </group>
+                    <field name="reason" placeholder="Why is this waiver necessary?"/>
+                    <group>
+                        <field name="waived_by_id"/>
+                        <field name="waived_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Erasure Log Views -->
+    <record id="view_aic_hrm_match_erasure_log_list" model="ir.ui.view">
+        <field name="name">Erasure Record - List</field>
+        <field name="model">aic.hrm.match.erasure.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="subject_key"/>
+                <field name="reason"/>
+                <field name="erased_by_id"/>
+                <field name="erased_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_erasure_log_form" model="ir.ui.view">
+        <field name="name">Erasure Record - Form</field>
+        <field name="model">aic.hrm.match.erasure.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="subject_key"/>
+                        <field name="reason"/>
+                    </group>
+                    <field name="reason_detail"/>
+                    <group>
+                        <field name="erased_by_id"/>
+                        <field name="erased_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
