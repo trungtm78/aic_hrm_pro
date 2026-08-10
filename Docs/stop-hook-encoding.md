@@ -1,8 +1,26 @@
-# The stop hook cannot read PROGRESS.md, and never could
+# Why the stop hook blocked forever (two separate bugs)
 
 Written in English and plain ASCII on purpose: the whole point of this note is
 that something in the toolchain cannot read non-ASCII text, so this file has to
 survive being read by it.
+
+## The one that actually blocked it
+
+`.claude/hooks/stop-guard.bat` searched for the sentinel with a doubled caret:
+
+    findstr /R /C:"^^STATUS: *ALL_MILESTONES_DONE" "%PF%"
+
+In a findstr regular expression the first caret anchors to the start of the
+line and the second is a literal caret character, so the pattern asks for a line
+beginning with `^STATUS`. No file has ever contained that. Measured directly:
+
+    doubled_caret_errorlevel=1   (no match)
+    single_caret_errorlevel=0    (match)
+
+One caret is correct. Fixed, and both directions verified: the hook is now
+silent when the sentinel is present and blocks when it is removed.
+
+## The second one, found on the way
 
 ## Symptom
 
@@ -44,9 +62,9 @@ was cloned at, all of them long before either session touched the file:
 `PROGRESS.md` has been Vietnamese since it was created. No edit to its contents
 can satisfy a reader that cannot decode it.
 
-## Fix
+## Fix for the encoding half
 
-One argument, in whatever reads the file:
+One argument, in anything that reads the file with Python:
 
 ```python
 open(path, encoding='utf-8')          # or Path(path).read_text(encoding='utf-8')
