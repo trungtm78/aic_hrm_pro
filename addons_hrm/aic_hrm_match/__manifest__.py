@@ -43,6 +43,7 @@ Two free connectors extend it when the matching apps are installed.
         'security/ir.model.access.csv',
         'security/aic_hrm_match_rules.xml',
         'security/aic_hrm_match_rules_cp6.xml',
+        'security/aic_hrm_match_rules_results.xml',
         'data/aic_hrm_match_data.xml',
         'data/aic_hrm_match_criteria.xml',
         'views/aic_hrm_match_request_form.xml',

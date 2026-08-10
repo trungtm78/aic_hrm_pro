@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Rules for the models that hold the ranking itself.
+
+        These were missing, and in Odoo a missing rule does not fail closed: a
+        model with no applicable record rule is readable by anyone the ACL lets
+        in. The ACL grants read to the "own profile" group so somebody can see
+        their own candidacy, so the absence of these rules meant every employee
+        could read every colleague's score - by search, by export, by RPC, or
+        by grouping - with nothing on any screen to show it.
+
+        Two layers, as everywhere else in this module:
+
+          Layer 1, global (no `groups`): the company boundary. Intersected with
+          everything below. Given a `groups` attribute it would be ORed instead
+          and stop restricting the moment a user holds any group, which is
+          always.
+
+          Layer 2, per group: ORed among themselves, then intersected with
+          layer 1. None of them is `[(1, '=', 1)]` - an allow-all rule attached
+          to a group cancels every other group rule on the same model.
+
+        `show_own_candidacy` is honoured inside the domain rather than by
+        toggling `rule.active`. Deactivating a rule *removes* a restriction, so
+        using it as a feature switch turns the setting upside down: "off" would
+        open the model to everybody.
+    -->
+
+    <!-- Layer 1: company scope -->
+
+    <record id="rule_match_run_company_global" model="ir.rule">
+        <field name="name">Staffing run: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_run"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_candidate_company_global" model="ir.rule">
+        <field name="name">Staffing candidate: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_candidate"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_score_line_company_global" model="ir.rule">
+        <field name="name">Staffing score line: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_score_line"/>
+        <field name="domain_force">[('candidate_id.company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_evidence_company_global" model="ir.rule">
+        <field name="name">Staffing evidence: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_evidence"/>
+        <field name="domain_force">[('score_line_id.candidate_id.company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <!-- Layer 2: the ordinary employee -->
+
+    <record id="rule_match_candidate_user" model="ir.rule">
+        <field name="name">Staffing candidate: own candidacy only</field>
+        <field name="model_id" ref="model_aic_hrm_match_candidate"/>
+        <field name="groups" eval="[(4, ref('group_match_user'))]"/>
+        <field name="domain_force">['&amp;', ('employee_id.user_id', '=', user.id), ('run_id.policy_id.show_own_candidacy', '=', True)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_score_line_user" model="ir.rule">
+        <field name="name">Staffing score line: own breakdown only</field>
+        <field name="model_id" ref="model_aic_hrm_match_score_line"/>
+        <field name="groups" eval="[(4, ref('group_match_user'))]"/>
+        <field name="domain_force">['&amp;', '&amp;', ('candidate_id.employee_id.user_id', '=', user.id), ('candidate_id.run_id.policy_id.show_own_candidacy', '=', True), ('criterion_sensitive', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_evidence_user" model="ir.rule">
+        <field name="name">Staffing evidence: own evidence only</field>
+        <field name="model_id" ref="model_aic_hrm_match_evidence"/>
+        <field name="groups" eval="[(4, ref('group_match_user'))]"/>
+        <field name="domain_force">['&amp;', '&amp;', ('score_line_id.candidate_id.employee_id.user_id', '=', user.id), ('score_line_id.candidate_id.run_id.policy_id.show_own_candidacy', '=', True), ('score_line_id.criterion_sensitive', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!--
+        No rule grants an ordinary employee the run. That is deliberate rather
+        than an omission: the run carries the counts - how many were considered,
+        how many excluded, how long it took - which is information about
+        colleagues even with no name attached. The ACL gives them no read on it
+        either; this comment exists so the next reader does not "fix" the gap.
+    -->
+
+    <!-- Layer 2: the planner -->
+
+    <record id="rule_match_run_planner" model="ir.rule">
+        <field name="name">Staffing run: planner</field>
+        <field name="model_id" ref="model_aic_hrm_match_run"/>
+        <field name="groups" eval="[(4, ref('group_match_planner'))]"/>
+        <field name="domain_force">[('policy_id.has_sensitive_criterion', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_candidate_planner" model="ir.rule">
+        <field name="name">Staffing candidate: planner</field>
+        <field name="model_id" ref="model_aic_hrm_match_candidate"/>
+        <field name="groups" eval="[(4, ref('group_match_planner'))]"/>
+        <field name="domain_force">[('run_id.policy_id.has_sensitive_criterion', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_score_line_planner" model="ir.rule">
+        <field name="name">Staffing score line: planner</field>
+        <field name="model_id" ref="model_aic_hrm_match_score_line"/>
+        <field name="groups" eval="[(4, ref('group_match_planner'))]"/>
+        <field name="domain_force">[('criterion_sensitive', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_evidence_planner" model="ir.rule">
+        <field name="name">Staffing evidence: planner</field>
+        <field name="model_id" ref="model_aic_hrm_match_evidence"/>
+        <field name="groups" eval="[(4, ref('group_match_planner'))]"/>
+        <field name="domain_force">[('score_line_id.criterion_sensitive', '=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!--
+        Layer 2: performance data. Orthogonal to the three staffing roles
+        rather than a rank above them - somebody may hold it alongside planner
+        or alongside nothing. It is what lifts the sensitive-criterion filter,
+        and only that.
+    -->
+
+    <record id="rule_match_run_sensitive" model="ir.rule">
+        <field name="name">Staffing run: performance data</field>
+        <field name="model_id" ref="model_aic_hrm_match_run"/>
+        <field name="groups" eval="[(4, ref('group_match_performance_data'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_candidate_sensitive" model="ir.rule">
+        <field name="name">Staffing candidate: performance data</field>
+        <field name="model_id" ref="model_aic_hrm_match_candidate"/>
+        <field name="groups" eval="[(4, ref('group_match_performance_data'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_score_line_sensitive" model="ir.rule">
+        <field name="name">Staffing score line: performance data</field>
+        <field name="model_id" ref="model_aic_hrm_match_score_line"/>
+        <field name="groups" eval="[(4, ref('group_match_performance_data'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_match_evidence_sensitive" model="ir.rule">
+        <field name="name">Staffing evidence: performance data</field>
+        <field name="model_id" ref="model_aic_hrm_match_evidence"/>
+        <field name="groups" eval="[(4, ref('group_match_performance_data'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Layer 2: the administrator -->
+
+    <record id="rule_match_run_admin" model="ir.rule">
+        <field name="name">Staffing run: administrator</field>
+        <field name="model_id" ref="model_aic_hrm_match_run"/>
+        <field name="groups" eval="[(4, ref('group_match_admin'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_candidate_admin" model="ir.rule">
+        <field name="name">Staffing candidate: administrator</field>
+        <field name="model_id" ref="model_aic_hrm_match_candidate"/>
+        <field name="groups" eval="[(4, ref('group_match_admin'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_score_line_admin" model="ir.rule">
+        <field name="name">Staffing score line: administrator</field>
+        <field name="model_id" ref="model_aic_hrm_match_score_line"/>
+        <field name="groups" eval="[(4, ref('group_match_admin'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_evidence_admin" model="ir.rule">
+        <field name="name">Staffing evidence: administrator</field>
+        <field name="model_id" ref="model_aic_hrm_match_evidence"/>
+        <field name="groups" eval="[(4, ref('group_match_admin'))]"/>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+</odoo>
