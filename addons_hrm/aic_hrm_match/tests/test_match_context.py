@@ -51,53 +51,53 @@ class MatchContextCase(MatchCase):
     def test_the_request_is_frozen_into_plain_data(self):
         """A scorer holding a live recordset can write to it, and a scoring
         pass that mutates what it is scoring is not reproducible."""
-        context = self._context()
-        self.assertIsInstance(context.request, dict)
-        self.assertEqual(context.request['reference'], self.request.reference)
+        ctx = self._context()
+        self.assertIsInstance(ctx.request, dict)
+        self.assertEqual(ctx.request['reference'], self.request.reference)
 
     def test_parameters_are_parsed_once_and_read_by_key(self):
-        context = self._context()
+        ctx = self._context()
         self.assertEqual(
-            context.param('availability', 'half_life_days'), 540)
+            ctx.param('availability', 'half_life_days'), 540)
 
     def test_a_missing_parameter_returns_the_default(self):
         """A knob nobody set is a configuration choice, not a broken run."""
-        context = self._context()
-        self.assertEqual(context.param('availability', 'nope', 7), 7)
-        self.assertIsNone(context.param('no_such_criterion', 'nope'))
+        ctx = self._context()
+        self.assertEqual(ctx.param('availability', 'nope', 7), 7)
+        self.assertIsNone(ctx.param('no_such_criterion', 'nope'))
 
     def test_evidence_accumulates_per_candidate_and_criterion(self):
         """Collected as the score is produced. An explanation reconstructed
         afterwards is a second implementation of the same logic, and the two
         drift."""
-        context = self._context()
-        context.add_evidence(self.alice.id, 'availability', '20 free of 20')
-        context.add_evidence(self.alice.id, 'availability', 'no leave booked')
+        ctx = self._context()
+        ctx.add_evidence(self.alice.id, 'availability', '20 free of 20')
+        ctx.add_evidence(self.alice.id, 'availability', 'no leave booked')
         self.assertEqual(
-            len(context.evidence[(self.alice.id, 'availability')]), 2)
+            len(ctx.evidence[(self.alice.id, 'availability')]), 2)
 
     def test_evidence_can_point_at_the_record_behind_it(self):
-        context = self._context()
-        context.add_evidence(self.alice.id, 'availability', 'busy',
+        ctx = self._context()
+        ctx.add_evidence(self.alice.id, 'availability', 'busy',
                              res_model='project.task', res_id=42)
-        entry = context.evidence[(self.alice.id, 'availability')][0]
+        entry = ctx.evidence[(self.alice.id, 'availability')][0]
         self.assertEqual(entry['res_model'], 'project.task')
         self.assertEqual(entry['res_id'], 42)
 
     def test_rejecting_removes_from_eligible_but_not_from_evaluated(self):
         """Nobody is dropped silently: the run keeps a record for everyone it
         looked at, and an exclusion carries the gate that produced it."""
-        context = self._context()
-        context.reject(self.bob.id, 'availability', 'no_capacity',
+        ctx = self._context()
+        ctx.reject(self.bob.id, 'availability', 'no_capacity',
                        '0 h free of 20 h needed')
-        self.assertEqual(context.eligible_ids, [self.alice.id])
-        self.assertIn(self.bob.id, context.rejected_ids)
-        self.assertIn(self.bob.id, context.employee_ids)
+        self.assertEqual(ctx.eligible_ids, [self.alice.id])
+        self.assertIn(self.bob.id, ctx.rejected_ids)
+        self.assertIn(self.bob.id, ctx.employee_ids)
 
     def test_a_rejection_keeps_the_reason_that_produced_it(self):
-        context = self._context()
-        context.reject(self.bob.id, 'availability', 'no_capacity', '0 of 20')
-        reason = context.rejections[self.bob.id][0]
+        ctx = self._context()
+        ctx.reject(self.bob.id, 'availability', 'no_capacity', '0 of 20')
+        reason = ctx.rejections[self.bob.id][0]
         self.assertEqual(reason['rejection_code'], 'no_capacity')
         self.assertIn('0 of 20', reason['detail'])
 
@@ -105,14 +105,14 @@ class MatchContextCase(MatchCase):
         """SQL does not go through record rules. A scorer building its own pool
         would quietly cross a company line, so the pool the caller was allowed
         to see is carried explicitly."""
-        context = self._context()
-        self.assertEqual(set(context.scoped_ids),
+        ctx = self._context()
+        self.assertEqual(set(ctx.scoped_ids),
                          {self.alice.id, self.bob.id})
-        self.assertTrue(context.allowed_company_ids)
+        self.assertTrue(ctx.allowed_company_ids)
 
     def test_the_window_comes_from_the_slot(self):
-        context = self._context()
-        self.assertEqual(context.window,
+        ctx = self._context()
+        self.assertEqual(ctx.window,
                          (self.slot.date_start, self.slot.date_end))
 
 
@@ -159,17 +159,17 @@ class ScorerRegistryCase(MatchCase):
         line = self.env['aic.hrm.match.policy.line'].create({
             'policy_id': policy.id, 'criterion_id': criterion.id})
 
-        context = MatchContext(self.env, request, slot, line,
+        ctx = MatchContext(self.env, request, slot, line,
                                [alice.id, bob.id],
                                as_of='2026-09-01 00:00:00')
         scorer = self.env['aic.hrm.match.scorer']
-        scorer.prefetch('availability', context)
-        self.assertIn('availability', context.data)
+        scorer.prefetch('availability', ctx)
+        self.assertIn('availability', ctx.data)
 
         self.env.flush_all()
         before = self.env.cr.sql_log_count if hasattr(
             self.env.cr, 'sql_log_count') else None
-        scores = scorer.score('availability', context)
+        scores = scorer.score('availability', ctx)
         if before is not None:
             self.assertEqual(self.env.cr.sql_log_count, before,
                              'scoring issued a query; everything it needs '
@@ -177,7 +177,7 @@ class ScorerRegistryCase(MatchCase):
 
         self.assertEqual(set(scores), {alice.id, bob.id})
         self.assertGreater(scores[alice.id], 0.0)
-        self.assertTrue(context.evidence[(alice.id, 'availability')])
+        self.assertTrue(ctx.evidence[(alice.id, 'availability')])
 
     def test_a_criterion_added_by_inheritance_registers_itself(self):
         """The extension contract: a connector defines _score_<code> through
@@ -190,7 +190,7 @@ class ScorerRegistryCase(MatchCase):
         scorer = self.env['aic.hrm.match.scorer']
         scorer_model = type(scorer)
         name = '_score_invented_by_a_connector'
-        setattr(scorer_model, name, lambda self, context: {'ok': 1})
+        setattr(scorer_model, name, lambda self, ctx: {'ok': 1})
         self.addCleanup(delattr, scorer_model, name)
 
         self.assertIn('invented_by_a_connector', scorer.get_scorer_codes())

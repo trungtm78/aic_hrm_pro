@@ -125,6 +125,54 @@ class FreeTimeCase(MatchCase):
         # the lunch break is removed. Summing them would remove nine.
         self.assertAlmostEqual(free, 40.0 - 5.0, places=1)
 
+    def test_a_part_time_booking_leaves_the_rest_of_the_week(self):
+        """Twelve hours spread across a forty-hour week is not a full week gone.
+
+        This is the same question the clash guard answers when it prorates a
+        booking against the capacity of its span, and the two must give the
+        same number. When they disagree, a planner is told somebody has 28
+        hours free and the booking is then refused for having none - or worse,
+        the person is quietly excluded from every shortlist while their
+        capacity report says they are a third busy.
+        """
+        self._book('2026-09-14 00:00:00', '2026-09-18 23:59:59', 12.0)
+        free = self.availability.get_free_hours(self.employee, *self.window)
+        self.assertAlmostEqual(free, 28.0, places=1)
+
+    def test_a_booking_that_fills_its_span_takes_all_of_it(self):
+        """The other end of the same rule: hours equal to the span's working
+        time means the person is committed for that span, not merely reduced by
+        a number."""
+        self._book('2026-09-14 00:00:00', '2026-09-15 23:59:59', 16.0)
+        free_intervals = self.availability.get_free_intervals(
+            self.employee, *self.window)
+        for start, end in free_intervals:
+            self.assertGreaterEqual(
+                start.strftime('%Y-%m-%d'), '2026-09-16',
+                'a fully committed span must not be offered as free time')
+
+    def test_a_part_time_booking_still_leaves_the_days_open(self):
+        """A third of the week booked does not make any particular day
+        unavailable, so the calendar keeps showing the time while the hours go
+        down. The board answers *when*, the number answers *how much*."""
+        self._book('2026-09-14 00:00:00', '2026-09-18 23:59:59', 12.0)
+        free_intervals = self.availability.get_free_intervals(
+            self.employee, *self.window)
+        self.assertAlmostEqual(
+            self.availability.to_hours(free_intervals), 40.0, places=1)
+        self.assertLess(
+            self.availability.get_free_hours(self.employee, *self.window),
+            self.availability.to_hours(free_intervals))
+
+    def test_a_booking_over_non_working_time_takes_nothing(self):
+        """A placeholder parked on a weekend costs the person no working hours,
+        so it must not reduce a week it never touches. Dividing by its span
+        would also be a division by zero, which is the other reason this case
+        is answered explicitly rather than falling through."""
+        self._book('2026-09-19 00:00:00', '2026-09-20 23:59:59', 8.0)
+        free = self.availability.get_free_hours(self.employee, *self.window)
+        self.assertAlmostEqual(free, 40.0, places=1)
+
     def test_a_booking_must_end_after_it_starts(self):
         from odoo.exceptions import ValidationError
         with self.assertRaises(ValidationError):

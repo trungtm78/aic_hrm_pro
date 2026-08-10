@@ -6,6 +6,7 @@ from . import test_availability
 from . import test_experience_ledger
 from . import test_match_context
 from . import test_normalization
+from . import test_ranking
 from . import test_request_workflow
 from . import test_scoring_policy
 from . import test_security

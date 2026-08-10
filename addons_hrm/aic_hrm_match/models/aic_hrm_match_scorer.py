@@ -43,54 +43,54 @@ class AicHrmMatchScorer(models.AbstractModel):
         }
 
     @api.model
-    def prefetch(self, code, context):
+    def prefetch(self, code, ctx):
         """Load everything the criterion needs, for the whole pool, once."""
         method = getattr(self, '%s%s' % (self._PREFETCH_PREFIX, code), None)
         if method is not None:
-            method(context)
+            method(ctx)
 
     # -- shipped criteria ----------------------------------------------------
 
     @api.model
-    def _prefetch_availability(self, context):
+    def _prefetch_availability(self, ctx):
         """Free hours for the whole pool, in one pass over the calendars."""
         availability = self.env['aic.hrm.match.availability']
-        employees = self.env['hr.employee'].browse(context.scoped_ids)
-        window_start, window_end = context.window
-        context.data['availability'] = availability.get_free_hours_batch(
+        employees = self.env['hr.employee'].browse(ctx.scoped_ids)
+        window_start, window_end = ctx.window
+        ctx.data['availability'] = availability.get_free_hours_batch(
             employees, window_start, window_end)
-        context.data['availability_capacity'] = {
+        ctx.data['availability_capacity'] = {
             employee.id: availability.get_gross_hours(
                 employee, window_start, window_end)
             for employee in employees
         }
 
     @api.model
-    def _score_availability(self, context):
+    def _score_availability(self, ctx):
         """Free hours against the effort the seat needs.
 
         Returned raw. The engine normalises once, against the slot's required
         hours as the saturation point - dividing here as well is how a score
         ends up squared and nobody notices, because it is still monotonic.
         """
-        free_hours = context.data.get('availability', {})
-        capacity = context.data.get('availability_capacity', {})
-        needed = context.slot.required_hours or (
-            context.slot.fte_ratio * max(capacity.values(), default=0.0))
+        free_hours = ctx.data.get('availability', {})
+        capacity = ctx.data.get('availability_capacity', {})
+        needed = ctx.slot.required_hours or (
+            ctx.slot.fte_ratio * max(capacity.values(), default=0.0))
         scores = {}
-        for employee_id in context.scoped_ids:
+        for employee_id in ctx.scoped_ids:
             free = free_hours.get(employee_id)
             if free is None:
                 scores[employee_id] = None
                 continue
             scores[employee_id] = free
-            context.add_evidence(
+            ctx.add_evidence(
                 employee_id, 'availability',
                 '%.1f free of %.1f hours needed' % (free, needed))
         return scores
 
     @api.model
-    def score(self, code, context):
+    def score(self, code, ctx):
         """Return ``{employee_id: raw value or None}``.
 
         ``None`` means "no data", which the criterion's missing-data policy
@@ -108,4 +108,4 @@ class AicHrmMatchScorer(models.AbstractModel):
                 "No scorer registered for criterion %r; it contributed "
                 "nothing to this ranking.", code)
             return {}
-        return method(context)
+        return method(ctx)

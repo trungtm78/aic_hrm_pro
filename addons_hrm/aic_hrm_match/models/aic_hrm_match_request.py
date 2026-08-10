@@ -61,6 +61,12 @@ class AicHrmMatchRequest(models.Model):
 
     slot_ids = fields.One2many(
         'aic.hrm.match.request.slot', 'request_id', string='Slots')
+    run_ids = fields.One2many(
+        'aic.hrm.match.run', 'request_id', string='Rankings')
+    latest_run_id = fields.Many2one(
+        'aic.hrm.match.run', compute='_compute_latest_run_id',
+        help="The most recent ranking that actually produced something. "
+             "max(id) would point the screen at a failed or half-built run.")
     headcount = fields.Integer(
         compute='_compute_headcount', store=True,
         help="How many people this request needs. Derived from the slots "
@@ -85,6 +91,15 @@ class AicHrmMatchRequest(models.Model):
         'unique (reference, request_company_id)',
         'That staffing reference is already used in this company.',
     )
+
+    @api.depends('run_ids.state', 'run_ids.as_of')
+    def _compute_latest_run_id(self):
+        for request in self:
+            usable = request.run_ids.filtered(
+                lambda run: run.state in ('computed', 'decided'))
+            request.latest_run_id = usable.sorted(
+                key=lambda run: (run.as_of or fields.Datetime.now(), run.id),
+                reverse=True)[:1]
 
     @api.depends('slot_ids')
     def _compute_headcount(self):
