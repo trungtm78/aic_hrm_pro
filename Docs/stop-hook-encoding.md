@@ -22,9 +22,12 @@ silent when the sentinel is present and blocks when it is removed.
 
 ## The second one, found on the way
 
-## Symptom
+While hunting the caret, PROGRESS.md turned out to be unreadable by any tool
+that opens it with the Windows default encoding. findstr reads bytes, so this
+was never what blocked the hook - but it would have blocked any Python-based
+reader, and it was worth fixing.
 
-The stop hook reports:
+The symptom looked identical. The hook reports:
 
     PROGRESS.md has no STATUS: ALL_MILESTONES_DONE or STATUS: BLOCKED yet
 
