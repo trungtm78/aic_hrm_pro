@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP5/10 (aic_hrm_match) | Task: CP5 xong, CP6 tiếp theo
+Cập nhật: 2026-08-10 23:59 | Milestone: CP6/10 (aic_hrm_match) | Task: CP6 xong, CP7 tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -135,23 +135,32 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       Constraint: unique (composition_id, slot_id) = một người/slot/proposal. Algorithm phase chưa:
       Hungarian assignment (scipy.optimize.linear_sum_assignment) + Murty k-best alternatives.
       Single slot: skip (fast path). Multi-slot: optimal + k variants. Commit: 79239f6 (3 files, 206 insertions).
+- [x] **CP6** Decision log + waiver + erasure (audit trail cho GDPR):
+      `aic.hrm.match.decision` (mail.thread, allocation_ids One2many, rank_at_decision/score_at_decision snapshot,
+      is_override compute, override_category + reason, state draft/confirmed/cancelled, confirmed immutable + unlink
+      forbidden). `aic.hrm.match.waiver` (criterion + reason, immutable, sensitive admin-only).
+      `aic.hrm.match.erasure.log` (subject_key pseudonym unique, append-only, counts_before/after).
+      **8 test, 0 fail**. Commit: ea18d1f (4 files, 351 insertions).
 
 
 
 
 ### Đang làm dở
-Task: CP4 — hai bridge module (aic_hrm_match_okr, aic_hrm_match_timesheet)
-Đã làm: CP3b xong; engine + 5 model + test suite đã commit.
-BƯỚC TIẾP THEO: Viết 2 bridge module:
-  - `aic_hrm_match_okr`: scorer `performance_score` dùng `task.aic_kr_id.score` từ `aic_okr_kpi`
-  - `aic_hrm_match_timesheet`: scorer `experience_hours` từ `hr.timesheet` + `_prefetch_availability` override
-Depends: `aic_hrm_match` + product-specific (`aic_okr_kpi`, `hr_timesheet`). Auto-install: True.
-File liên quan: plan §5.4 (registry), §5.2 (bridge pattern từ `aic_hrm_project`/`aic_hrm_sale`)
+Task: CP7 — 21 views + 4 wizard + menu + QWeb templates
+Đã làm: CP6 xong; decision + waiver + erasure models + test suite đã commit.
+BƯỚC TIẾP THEO: Viết native views:
+  - Request form (với tab Ranked/Excluded/Composition/Decision)
+  - Candidate detail form (drill-down evidence chain)
+  - Composition form + lines (assignment visualization)
+  - Decision list + form (audit log)
+  - Wizard: Find Best Fit, Assign, Waive, Erasure
+  - Menus + security rules
+File liên quan: plan §7 (22 screens), design.md (Muc & Thep HRM)
 
 ### Hàng đợi task kế tiếp
-1. CP4 hai bridge (okr, timesheet)
-2. CP5 composition nhiều slot (headcount > 1, gán tối ưu)
-3. CP6 decision log, waiver, erasure, audit chain
+1. CP7 21 views + 4 wizard + menu + QWeb
+2. CP8 OWL surfaces (client action) + widgets + SQL views
+3. CP9 demo data + post_init hook + i18n
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
