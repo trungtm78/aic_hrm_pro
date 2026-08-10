@@ -8,10 +8,15 @@
         <field name="arch" type="xml">
             <form string="Staffing Request">
                 <header>
-                    <button name="action_rank" type="object" string="Re-rank" 
-                            states="draft,ranked" class="oe_highlight"/>
-                    <button name="action_close" type="object" string="Close" 
-                            states="decided,staffed"/>
+                    <!-- `states` was removed in Odoo 17; the loader refuses the
+                         view outright rather than ignoring the attribute, so
+                         the whole module fails to install. The replacement is
+                         an `invisible` expression on the same condition. -->
+                    <button name="action_rank" type="object" string="Re-rank"
+                            invisible="state not in ('draft', 'ranked')"
+                            class="oe_highlight"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state not in ('decided', 'staffed')"/>
                     <field name="state" widget="statusbar" 
                            statusbar_visible="draft,ranked,decided,staffed,closed"/>
                 </header>

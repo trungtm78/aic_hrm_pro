@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Capacity Report Views -->
+    <record id="view_aic_hrm_match_capacity_report_tree" model="ir.ui.view">
+        <field name="name">Capacity Report - Tree</field>
+        <field name="model">aic.hrm.match.capacity.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="employee_id"/>
+                <field name="week_start"/>
+                <field name="gross_hours"/>
+                <field name="booked_hours"/>
+                <field name="free_hours"/>
+                <field name="utilization_pct"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_capacity_report_pivot" model="ir.ui.view">
+        <field name="name">Capacity Report - Pivot</field>
+        <field name="model">aic.hrm.match.capacity.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Capacity Analysis">
+                <field name="employee_id" type="row"/>
+                <field name="week_start" type="col"/>
+                <field name="free_hours" type="measure" aggregation="sum"/>
+                <field name="utilization_pct" type="measure" aggregation="avg"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Fairness Report Views -->
+    <record id="view_aic_hrm_match_fairness_report_tree" model="ir.ui.view">
+        <field name="name">Fairness Report - Tree</field>
+        <field name="model">aic.hrm.match.fairness.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="employee_id"/>
+                <field name="selection_count"/>
+                <field name="average_score"/>
+                <field name="last_selected"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_fairness_report_pivot" model="ir.ui.view">
+        <field name="name">Fairness Report - Pivot</field>
+        <field name="model">aic.hrm.match.fairness.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Selection Fairness">
+                <field name="employee_id" type="row"/>
+                <field name="selection_count" type="measure" aggregation="sum"/>
+                <field name="average_score" type="measure" aggregation="avg"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Skill Demand Report Views -->
+    <record id="view_aic_hrm_match_skill_demand_report_tree" model="ir.ui.view">
+        <field name="name">Skill Demand Report - Tree</field>
+        <field name="model">aic.hrm.match.skill.demand.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="skill_id"/>
+                <field name="skill_type_id"/>
+                <field name="requested_count"/>
+                <field name="available_count"/>
+                <field name="gap"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_match_skill_demand_report_pivot" model="ir.ui.view">
+        <field name="name">Skill Demand Report - Pivot</field>
+        <field name="model">aic.hrm.match.skill.demand.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Skill Gap Analysis">
+                <field name="skill_type_id" type="row"/>
+                <field name="skill_id" type="row"/>
+                <field name="requested_count" type="measure" aggregation="sum"/>
+                <field name="available_count" type="measure" aggregation="sum"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_aic_hrm_match_capacity_report" model="ir.actions.act_window">
+        <field name="name">Capacity Report</field>
+        <field name="res_model">aic.hrm.match.capacity.report</field>
+        <field name="view_mode">tree,pivot</field>
+    </record>
+
+    <record id="action_aic_hrm_match_fairness_report" model="ir.actions.act_window">
+        <field name="name">Fairness Report</field>
+        <field name="res_model">aic.hrm.match.fairness.report</field>
+        <field name="view_mode">tree,pivot</field>
+    </record>
+
+    <record id="action_aic_hrm_match_skill_demand_report" model="ir.actions.act_window">
+        <field name="name">Skill Demand Report</field>
+        <field name="res_model">aic.hrm.match.skill.demand.report</field>
+        <field name="view_mode">tree,pivot</field>
+    </record>
+
+</odoo>

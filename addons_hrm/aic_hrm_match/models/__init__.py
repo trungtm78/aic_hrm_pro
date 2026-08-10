@@ -18,4 +18,5 @@ from . import aic_hrm_match_composition
 from . import aic_hrm_match_decision
 from . import aic_hrm_match_waiver
 from . import aic_hrm_match_erasure
+from . import aic_hrm_match_sql_views
 from . import aic_hrm_match_engine
