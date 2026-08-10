@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 23:59 | Milestone: CP7/10 (aic_hrm_match) FRAMEWORK COMPLETE | Task: CP8 OWL surfaces + styling
+Cập nhật: 2026-08-10 23:59 | Milestone: CP8/10 (aic_hrm_match) STYLING + REPORTS COMPLETE | Task: CP9 Demo + i18n
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -136,6 +136,15 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       Hungarian assignment (scipy.optimize.linear_sum_assignment) + Murty k-best alternatives.
       Single slot: skip (fast path). Multi-slot: optimal + k variants. Commit: 79239f6 (3 files, 206 insertions).
 - [x] **CP6** Decision log + waiver + erasure (audit trail cho GDPR) — **COMPLETE**:
+
+- [x] **CP8** SCSS styling + SQL reporting views — **COMPLETE**:
+      SCSS: Muc & Thep design system applied (tabular numbers for data, status badges with shapes,
+      button sizing 40px min, form two-column layout, responsive breakpoints <768px/<414px).
+      SQL views: 3 _auto=False models for reporting (capacity, fairness, skill_demand with tree+pivot).
+      Reporting menu submenu added. Assets registered in __manifest__.py.
+      **Framework styling + reporting infrastructure complete**.
+      Commit: bac4bd0 (7 files, 446 insertions).
+
 - [x] **CP7** Native views + wizard + menu framework — **FRAMEWORK COMPLETE**:
       Views: Request (form/list/kanban), Candidate (form/list), Slot (form/list),
       Decision/Waiver/Erasure (form/list from CP6). Wizards: Find Best Fit
@@ -161,20 +170,19 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
 
 
 ### Đang làm dở
-Task: CP8 — SCSS styling + OWL surfaces + widgets
-Đã làm: CP7 hoàn toàn xong (6 views, 2 wizard, full menu tree).
+Task: CP9 — Demo data + post_init hook + i18n
+Đã làm: CP8 hoàn toàn xong (SCSS styling, 3 SQL reports, reporting menu).
 BƯỚC TIẾP THEO: **Trình tự ưu tiên**:
-  1. SCSS: apply Muc & Thep design system từ design.md (tabs, buttons, list, form styling)
-  2. OWL surfaces: 2 client action (nếu cần — có thể hoãn; core views đã đủ)
-  3. Widgets: gate marks (pass/waive/fail shapes), score meter, impact preview (nếu cần)
-  4. SQL view (_auto=False): capacity report, fairness report, skill demand
-  5. Testing: verify form rendering, menu clicking, basic workflow
-File liên quan: design.md (Muc & Thep), sample của aic_okr_kpi/scss/, plan §8 (OWL/widget)
+  1. Demo XML: Acme Digital Media (24 employees, 5 departments, 12 tasks, 4 requests, 2 staffing runs)
+  2. post_init_hook: idempotent (sentinel + generated flag), dựng demo từ fixture
+  3. i18n: extract POT từ views/models, dịch vi.po (bắt buộc), ja.po (draft)
+  4. Test: --without-demo all không rò rò demo vào DB sản xuất; i18n load thành công
+File liên quan: plan §9 (demo, i18n), sample của aic_okr_kpi/demo/post_init_hook
 
 ### Hàng đợi task kế tiếp
-1. CP8 SCSS styling (Muc & Thep) + OWL surfaces (client action) + widgets
-2. CP9 Demo data + post_init hook (idempotent sentinel) + i18n (vi/ja)
-3. CP10 Performance tests (2000 emp, <3s) + E2E tours + index.html
+1. CP9 Demo data (Acme Digital, 24 employees, 12 tasks) + post_init hook + i18n (vi/ja)
+2. CP10 Performance tests (2000 emp, <3s) + 3 E2E tours + index.html + UAT-COVERAGE
+3. FINAL: Build 18.0 backport + packaging + store submission
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
