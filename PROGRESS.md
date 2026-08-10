@@ -1,4 +1,4 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 <!-- Final Status: All Phase 1 (CP0-CP10) checkpoints complete.
 Evidence verification (commit 74f421d):
 - 12/12 scorers implemented with matching _score_/_prefetch_ methods
@@ -18,25 +18,49 @@ Plan đã duyệt: `C:\Users\ADMIN\.claude\plans\t-i-mu-n-t-o-1-tingly-allen.md`
 (qua `/plan-eng-review` 14 finding + Codex 2 vòng 52 finding — tổng 88, đã fold hết).
 Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_18.py`).
 
-### Trạng thái thật (kiểm chứng 2026-08-10, sau khi chạy suite)
+### Trạng thái thật (kiểm chứng 2026-08-10)
 
-Sentinel đã bị đặt nhầm thành ALL_MILESTONES_DONE. Kiểm chứng bằng lệnh chạy thật
-cho thấy chưa xong — trả về IN_PROGRESS. Bằng chứng:
+Sentinel từng bị đặt thành ALL_MILESTONES_DONE khi **module còn không cài
+được**. Đã trả về IN_PROGRESS và sửa hết. Bảng dưới là những gì thiếu lúc đó và
+tình trạng bây giờ:
 
-| Hạng mục | Plan yêu cầu | Thực tế trong cây | Lệnh kiểm |
+| Hạng mục | Plan yêu cầu | Lúc đặt sentinel | Bây giờ |
 |---|---|---|---|
-| Scorer lõi | 12 tiêu chí (D11) | 3 (`availability`, `skill_match`, `certification`) + 2 ở bridge | `grep -rhoE "def _score_[a-z_]+" addons_hrm/*/models/` |
-| Catalogue tiêu chí | 12 record + policy mặc định bật 7 | **0 record** trong `data/aic_hrm_match_data.xml` | `grep -c "aic.hrm.match.criterion" data/*.xml` |
-| Ảnh store | 15 file (§9.5) | 3 (`icon`, `banner`, `index.html`) | `ls static/description/` |
+| Scorer lõi | 12 tiêu chí (D11) | 3 + 2 ở bridge | **12 + 2** ✅ |
+| Catalogue tiêu chí | 12 record + policy bật 7 | **0 record** | **12 record, bật 7, tổng trọng số 100** ✅ |
+| Ảnh store | 15 file (§9.5) | 3 | **15** ✅ |
+| Cài đặt | `-i` sạch trên cả hai series | **chết lúc load** | **sạch từ DB trống, cả 19 và 18** ✅ |
+| Hiệu năng | 1 lượt < 3 s @2.000 | chưa từng đo | **~1,3 s** ✅ |
 
-Ngoài ra, tại thời điểm sentinel được đặt, **module không cài được**: 6 lỗi tải
-registry/view (Monetary thiếu `currency_field`, One2many trỏ inverse không tồn
-tại, `<tree>`/`attrs=`/`states=` là cú pháp Odoo 16-18, `icon=` trên menuitem,
-`aggregation=` trên pivot, view gọi method và field chưa có). Đã sửa hết; cổng
-mới `tools/tests/test_view_syntax.py` chặn lớp lỗi cú pháp view tái diễn.
+Tám lỗi làm module không cài được, đều thuộc loại chạy thử một lần là thấy:
+`Monetary` thiếu `currency_field`; One2many trỏ inverse không tồn tại;
+`<tree>`/`attrs=`/`states=` là cú pháp Odoo 16-18; `icon=` trên menuitem;
+`aggregation=` trên pivot; view gọi method chưa có; view đòi 6 field chưa có;
+và `post_init_hook` khai đường dẫn có dấu chấm — 19 phân giải được, **18 thì
+không** (delta thứ 11). Riêng lỗi cuối còn che một lỗi khác: có **hai** hook
+trùng tên, chỉ một chạy, nên quyền cho model Skills History đã âm thầm ngừng
+được cấp.
 
-Suite hiện tại: **316 test, 0 failed, 0 error trên cả hai series**, coverage 96%,
-`vi.po` 589/589, build 10 archive mỗi series.
+Cổng mới `tools/tests/test_view_syntax.py` chặn lớp lỗi cú pháp view tái diễn
+(chạy < 1 giây, không cần DB).
+
+Suite hiện tại: **328 test, 0 failed, 0 error trên cả hai series** (cài mới từ
+DB trống), coverage 96%, `vi.po` 618/618, tooling 46 test, build 10 archive mỗi
+series, `perf` xanh toàn bộ ở quy mô 2.000.
+
+### Còn lại
+
+#### NEXT TASK: Run E2E Tours
+
+**Status**: Tour files implemented but not yet executed.
+
+**What needs to be done**:
+1. Ensure Odoo environment is properly set up with all dependencies
+2. Run: `.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d aic_hrm_match_tour -i aic_hrm_match --test-enable --test-tags aic_hrm_match_tour --log-level=test --stop-after-init`
+3. Verify all 3 tours pass (demo, admin, mobile)
+
+**Expected result**: Green test results for all 3 tours
+
 
 ### Kết quả đo hiệu năng (2026-08-10) — ĐẠT NGÂN SÁCH
 
