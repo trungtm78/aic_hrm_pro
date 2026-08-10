@@ -30,9 +30,15 @@ class CriterionCase(MatchCase):
         super().setUpClass()
         cls.Criterion = cls.env['aic.hrm.match.criterion']
 
+    # Deliberately its own throwaway code rather than one of the twelve the
+    # module ships: this case is about the constraints on the model, and it
+    # creates duplicates on purpose. Reusing a catalogue entry would collide
+    # with the shipped record instead of with the one the test made.
+    TEST_CODE = 'unshipped_test_criterion'
+
     def _criterion(self, **kwargs):
-        values = {'code': 'availability', 'name': 'Availability',
-                  'category': 'availability'}
+        values = {'code': self.TEST_CODE, 'name': 'Test criterion',
+                  'category': 'custom'}
         values.update(kwargs)
         return self.Criterion.create(values)
 
@@ -53,7 +59,8 @@ class CriterionCase(MatchCase):
         """Discovery is by naming convention, so a criterion whose code has no
         matching _score_<code> is visibly unimplemented rather than silently
         contributing nothing."""
-        known = self._criterion(code='availability')
+        known = self.env['aic.hrm.match.criterion'].search(
+            [('code', '=', 'availability')], limit=1)
         unknown = self._criterion(code='vibes_based', name='Vibes')
         self.assertTrue(known.implemented)
         self.assertFalse(unknown.implemented)
@@ -291,9 +298,7 @@ class PolicyLineSnapshotCase(MatchCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.Policy = cls.env['aic.hrm.match.policy']
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+        cls.criterion = cls._criterion('availability', category='availability')
 
     def test_a_line_snapshots_the_criterion_it_points_at(self):
         policy = self.Policy.create({'name': 'Snap', 'code': 'snap'})

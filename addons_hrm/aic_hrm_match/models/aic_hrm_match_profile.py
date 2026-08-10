@@ -74,6 +74,35 @@ class AicHrmMatchProfile(models.Model):
         default=0,
         help="How many staffing requests this person may be committed to at "
              "once. Zero means no limit.")
+    utilization_target = fields.Float(
+        default=80.0,
+        help="The share of working time this person is meant to be booked for. "
+             "Not everybody is meant to be at a hundred: a lead who is fully "
+             "allocated has no time left for the reviews and the mentoring "
+             "that are also their job.")
+
+    aspiration_tag_ids = fields.Many2many(
+        'aic.hrm.match.tag', 'aic_hrm_match_profile_aspiration_tag_rel',
+        'profile_id', 'tag_id', string='Wants to work on',
+        help="Where this person wants to go, which is not the same as where "
+             "they have been. Matching on history alone keeps somebody on the "
+             "work they are already good at until they leave to get away "
+             "from it.")
+    aspiration_skill_ids = fields.Many2many(
+        'hr.skill', 'aic_hrm_match_profile_aspiration_skill_rel',
+        'profile_id', 'skill_id', string='Wants to learn')
+
+    preferred_partner_ids = fields.Many2many(
+        'res.partner', 'aic_hrm_match_profile_preferred_partner_rel',
+        'profile_id', 'partner_id', string='Preferred customers')
+    avoid_partner_ids = fields.Many2many(
+        'res.partner', 'aic_hrm_match_profile_avoid_partner_rel',
+        'profile_id', 'partner_id', string='Customers to avoid',
+        help="A hard exclusion, not a penalty. The reasons are usually ones "
+             "nobody wants recorded - a conflict of interest, a past "
+             "complaint - so this removes the person from the shortlist "
+             "rather than lowering their score in a way that invites the "
+             "question.")
 
     active = fields.Boolean(default=True)
 

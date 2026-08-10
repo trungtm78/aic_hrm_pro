@@ -275,9 +275,7 @@ class RequestActionCase(MatchCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'normalization': 'ratio'})
+        cls.criterion = cls._criterion('availability', category='availability', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Actions', 'code': 'actions_policy', 'is_default': True})
         cls.env['aic.hrm.match.policy.line'].create({

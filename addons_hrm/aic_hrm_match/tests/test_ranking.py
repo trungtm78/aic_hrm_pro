@@ -26,10 +26,7 @@ class RankingCase(MatchCase):
         cls.Run = cls.env['aic.hrm.match.run']
         cls.engine = cls.env['aic.hrm.match.engine']
 
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'mode': 'both',
-            'normalization': 'ratio'})
+        cls.criterion = cls._criterion('availability', category='availability', mode='both', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Ranking', 'code': 'ranking', 'is_default': True})
         cls.env['aic.hrm.match.policy.line'].create({
@@ -289,10 +286,7 @@ class HardGateCase(MatchCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.engine = cls.env['aic.hrm.match.engine']
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'mode': 'both',
-            'normalization': 'ratio'})
+        cls.criterion = cls._criterion('availability', category='availability', mode='both', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Gates', 'code': 'gates', 'is_default': True})
         cls.env['aic.hrm.match.policy.line'].create({
@@ -608,9 +602,7 @@ class CriterionGateCase(MissingDataCase):
                     self, employees, start, end).items()
                 if employee_id != unknown.id})
 
-        criterion = self.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'normalization': 'ratio'})
+        criterion = self._criterion('availability', category='availability', normalization='ratio')
         policy = self.env['aic.hrm.match.policy'].create({
             'name': 'Partial', 'code': 'partial_cover', 'is_default': True,
             # Full detail on purpose: the default keeps presentation lines only

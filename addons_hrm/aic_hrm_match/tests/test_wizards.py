@@ -25,9 +25,7 @@ class FindFitWizardCase(MatchCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.Wizard = cls.env['aic.hrm.match.wizard.find_fit']
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'normalization': 'ratio'})
+        cls.criterion = cls._criterion('availability', category='availability', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Wizard', 'code': 'wizard_policy', 'is_default': True})
         cls.env['aic.hrm.match.policy.line'].create({
@@ -146,9 +144,7 @@ class AssignWizardCase(MatchCase):
         super().setUpClass()
         cls.Wizard = cls.env['aic.hrm.match.wizard.assign']
         cls.engine = cls.env['aic.hrm.match.engine']
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability', 'normalization': 'ratio'})
+        cls.criterion = cls._criterion('availability', category='availability', normalization='ratio')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Assign', 'code': 'assign_policy', 'is_default': True})
         cls.env['aic.hrm.match.policy.line'].create({

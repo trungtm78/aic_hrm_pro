@@ -33,9 +33,7 @@ class SkillScoringCase(MatchCase):
         cls.levels = cls.skill_type.skill_level_ids.sorted('level_progress')
         cls.beginner, cls.confirmed = cls.levels[0], cls.levels[1]
 
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'skill_match', 'name': 'Skills',
-            'category': 'skill', 'normalization': 'none'})
+        cls.criterion = cls._criterion('skill_match', category='skill', normalization='none')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Skills', 'code': 'skills_policy', 'is_default': True,
             'persist_mode': 'full'})
@@ -259,10 +257,7 @@ class CertificationGateCase(MatchCase):
         cls.cert_type, cls.licence, cls.held = cls._make_skill_set(
             'Safety', 'Site Safety Licence', certification=True)
 
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'certification', 'name': 'Certification',
-            'category': 'skill', 'mode': 'hard',
-            'normalization': 'none'})
+        cls.criterion = cls._criterion('certification', category='skill', mode='hard', normalization='none')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Certified', 'code': 'cert_policy', 'is_default': True,
             'persist_mode': 'full'})

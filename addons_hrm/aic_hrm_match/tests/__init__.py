@@ -4,6 +4,7 @@ from . import common
 from . import test_allocation_concurrency
 from . import test_availability
 from . import test_composition
+from . import test_criterion_catalogue
 from . import test_decision_waiver_erasure
 from . import test_experience_ledger
 from . import test_match_context

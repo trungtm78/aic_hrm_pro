@@ -44,6 +44,7 @@ Two free connectors extend it when the matching apps are installed.
         'security/aic_hrm_match_rules.xml',
         'security/aic_hrm_match_rules_cp6.xml',
         'data/aic_hrm_match_data.xml',
+        'data/aic_hrm_match_criteria.xml',
         'views/aic_hrm_match_request_form.xml',
         'views/aic_hrm_match_candidate_form.xml',
         'views/aic_hrm_match_views_cp6.xml',

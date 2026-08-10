@@ -30,6 +30,27 @@ class MatchCase(TransactionCase):
     # -- factories ----------------------------------------------------------
 
     @classmethod
+    def _criterion(cls, code, **overrides):
+        """The catalogue entry for a code, adjusted for what a test needs.
+
+        Reused rather than recreated: the module ships twelve criteria and the
+        code is unique per company, so a test that creates its own
+        ``availability`` collides with the one the customer will actually have.
+        Reusing it also means the tests exercise the shipped configuration
+        instead of a parallel one that could drift from it.
+        """
+        criterion = cls.env['aic.hrm.match.criterion'].search(
+            [('code', '=', code)], limit=1)
+        if not criterion:
+            values = {'code': code, 'name': code.replace('_', ' ').title(),
+                      'category': 'custom'}
+            values.update(overrides)
+            return cls.env['aic.hrm.match.criterion'].create(values)
+        if overrides:
+            criterion.write(overrides)
+        return criterion
+
+    @classmethod
     def _make_active_policy(cls, code='shared_test_policy'):
         """An active policy scoring on availability, created once.
 

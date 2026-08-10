@@ -18,9 +18,7 @@ class CompositionCase(MatchCase):
         its own, and the order is not something anybody controls.
         """
         super().setUpClass()
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+        cls.criterion = cls._criterion('availability', category='availability')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'CompTest', 'code': 'comp_test', 'is_default': True})
         cls.env['aic.hrm.match.policy.line'].create({

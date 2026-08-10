@@ -25,10 +25,7 @@ class MatchContextCase(MatchCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability',
-            'param_json': '{"half_life_days": 540}'})
+        cls.criterion = cls._criterion('availability', category='availability', param_json='{"half_life_days": 540}')
         cls.policy = cls.env['aic.hrm.match.policy'].create({
             'name': 'Ctx', 'code': 'ctx'})
         cls.line = cls.env['aic.hrm.match.policy.line'].create({
@@ -151,9 +148,7 @@ class ScorerRegistryCase(MatchCase):
             'date_end': '2026-09-18 23:59:59'})
         slot = self.env['aic.hrm.match.request.slot'].create({
             'request_id': request.id, 'name': 'Dev', 'required_hours': 20.0})
-        criterion = self.env['aic.hrm.match.criterion'].create({
-            'code': 'availability', 'name': 'Availability',
-            'category': 'availability'})
+        criterion = self._criterion('availability', category='availability')
         policy = self.env['aic.hrm.match.policy'].create({
             'name': 'Scorer', 'code': 'scorer_policy'})
         line = self.env['aic.hrm.match.policy.line'].create({

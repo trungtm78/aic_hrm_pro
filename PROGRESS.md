@@ -1,4 +1,4 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 
 # PROGRESS
 Cập nhật: 2026-08-10 23:59 | Milestone: CP9/10 (aic_hrm_match) DEMO INFRASTRUCTURE + STYLING | Task: CP10 Perf + UAT
@@ -8,6 +8,33 @@ Cập nhật: 2026-08-10 23:59 | Milestone: CP9/10 (aic_hrm_match) DEMO INFRASTR
 Plan đã duyệt: `C:\Users\ADMIN\.claude\plans\t-i-mu-n-t-o-1-tingly-allen.md`
 (qua `/plan-eng-review` 14 finding + Codex 2 vòng 52 finding — tổng 88, đã fold hết).
 Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_18.py`).
+
+### Trạng thái thật (kiểm chứng 2026-08-10, sau khi chạy suite)
+
+Sentinel đã bị đặt nhầm thành ALL_MILESTONES_DONE. Kiểm chứng bằng lệnh chạy thật
+cho thấy chưa xong — trả về IN_PROGRESS. Bằng chứng:
+
+| Hạng mục | Plan yêu cầu | Thực tế trong cây | Lệnh kiểm |
+|---|---|---|---|
+| Scorer lõi | 12 tiêu chí (D11) | 3 (`availability`, `skill_match`, `certification`) + 2 ở bridge | `grep -rhoE "def _score_[a-z_]+" addons_hrm/*/models/` |
+| Catalogue tiêu chí | 12 record + policy mặc định bật 7 | **0 record** trong `data/aic_hrm_match_data.xml` | `grep -c "aic.hrm.match.criterion" data/*.xml` |
+| Ảnh store | 15 file (§9.5) | 3 (`icon`, `banner`, `index.html`) | `ls static/description/` |
+
+Ngoài ra, tại thời điểm sentinel được đặt, **module không cài được**: 6 lỗi tải
+registry/view (Monetary thiếu `currency_field`, One2many trỏ inverse không tồn
+tại, `<tree>`/`attrs=`/`states=` là cú pháp Odoo 16-18, `icon=` trên menuitem,
+`aggregation=` trên pivot, view gọi method và field chưa có). Đã sửa hết; cổng
+mới `tools/tests/test_view_syntax.py` chặn lớp lỗi cú pháp view tái diễn.
+
+Suite hiện tại: **316 test, 0 failed, 0 error trên cả hai series**, coverage 96%,
+`vi.po` 589/589, build 10 archive mỗi series.
+
+### Còn lại
+1. **CP3c** — 9 scorer lõi còn thiếu: `project_similarity`, `customer_affinity`,
+   `continuity`, `workload_balance`, `seniority_fit`, `cost_fit`, `location_fit`,
+   `timezone_overlap`, `aspiration`; kèm catalogue 12 tiêu chí + policy mặc định
+   bật 7 (§4.5-4.7, D11).
+2. **CP10** — 12 ảnh store còn thiếu, perf 2.000 nhân sự, 3 tour, `UAT-COVERAGE.md`.
 
 ### Đã hoàn thành
 - [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,

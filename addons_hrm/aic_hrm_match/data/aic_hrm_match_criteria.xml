@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The shipped catalogue: twelve criteria, seven enabled by default.
+
+        Loaded without noupdate so an upgrade can correct a description or a
+        default weight. What a customer changes lives on their own policy
+        version, never here - the catalogue is the product's vocabulary, the
+        policy is their decision about it.
+
+        Every code below has a matching _score_<code> on aic.hrm.match.scorer.
+        Activation refuses a criterion nothing implements, so a typo here is an
+        install-time failure rather than a ranking that quietly skips a rule.
+    -->
+
+    <record id="criterion_availability" model="aic.hrm.match.criterion">
+        <field name="code">availability</field>
+        <field name="name">Availability</field>
+        <field name="description">Working hours left in the window, against the effort the seat needs. Saturates at the requirement: somebody with a whole week spare and somebody with a day to spare both cover a four-hour job completely.</field>
+        <field name="category">availability</field>
+        <field name="mode">both</field>
+        <field name="normalization">ratio</field>
+        <field name="weight">25.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+    </record>
+
+    <record id="criterion_skill_match" model="aic.hrm.match.criterion">
+        <field name="code">skill_match</field>
+        <field name="name">Skills</field>
+        <field name="description">How much of what the seat asked for the person covers. A shortfall costs score in proportion rather than removing anybody - except on a line the seat marked mandatory, which is a gate.</field>
+        <field name="category">skill</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">30.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"gap_tolerance_share": 0.5}</field>
+    </record>
+
+    <record id="criterion_certification" model="aic.hrm.match.criterion">
+        <field name="code">certification</field>
+        <field name="name">Certifications</field>
+        <field name="description">Holding every credential the work requires, verified, and valid for the whole window. Not a matter of degree: both ends of the validity are checked, so a licence that starts mid-job does not pass.</field>
+        <field name="category">skill</field>
+        <field name="mode">hard</field>
+        <field name="normalization">none</field>
+        <field name="weight">10.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+    </record>
+
+    <record id="criterion_project_similarity" model="aic.hrm.match.criterion">
+        <field name="code">project_similarity</field>
+        <field name="name">Similar work</field>
+        <field name="description">How much of what this work involves the person has actually done. Rare domains count for more than common ones, related domains count for something, and older work counts for less.</field>
+        <field name="category">experience</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">15.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"half_life_days": 540, "ancestor_gamma": 0.5, "saturation_hours": 160}</field>
+    </record>
+
+    <record id="criterion_customer_affinity" model="aic.hrm.match.criterion">
+        <field name="code">customer_affinity</field>
+        <field name="name">Customer history</field>
+        <field name="description">Time already spent with this customer, measured at the group rather than the individual company. Where a delivery outcome was recorded it counts; where none was, the component is left out rather than guessed.</field>
+        <field name="category">relationship</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">10.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"half_life_days": 730, "saturation_touch": 3.0}</field>
+    </record>
+
+    <record id="criterion_workload_balance" model="aic.hrm.match.criterion">
+        <field name="code">workload_balance</field>
+        <field name="name">Workload</field>
+        <field name="description">How far below their own utilisation target this person currently sits. Against their target rather than against each other, because not everybody is meant to be fully booked.</field>
+        <field name="category">availability</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">5.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+    </record>
+
+    <record id="criterion_seniority_fit" model="aic.hrm.match.criterion">
+        <field name="code">seniority_fit</field>
+        <field name="name">Seniority</field>
+        <field name="description">Meeting the level the seat asked for. Exceeding it scores the same as meeting it - a seat that wanted a mid-level engineer is not better filled by a principal, only more expensively.</field>
+        <field name="category">skill</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">5.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"levels_below_tolerated": 2.0}</field>
+    </record>
+
+    <record id="criterion_continuity" model="aic.hrm.match.criterion">
+        <field name="code">continuity</field>
+        <field name="name">Same project before</field>
+        <field name="description">Whether this person has worked on this exact project before. Kept apart from customer history: knowing the customer is knowing who to call, knowing the codebase is not having to be shown round.</field>
+        <field name="category">experience</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">0.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"half_life_days": 365}</field>
+    </record>
+
+    <record id="criterion_cost_fit" model="aic.hrm.match.criterion">
+        <field name="code">cost_fit</field>
+        <field name="name">Cost</field>
+        <field name="description">Hourly cost against the ceiling on the seat, converted at the run's own moment. Off by default because ranking people by cost is a decision a company should make on purpose.</field>
+        <field name="category">cost</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">0.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+    </record>
+
+    <record id="criterion_location_fit" model="aic.hrm.match.criterion">
+        <field name="code">location_fit</field>
+        <field name="name">Location</field>
+        <field name="description">Being where the work is, or being willing to travel to it. Says nothing at all when the seat allows remote, rather than giving everybody the same mark.</field>
+        <field name="category">logistics</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">0.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"travel_credit": 0.6}</field>
+    </record>
+
+    <record id="criterion_timezone_overlap" model="aic.hrm.match.criterion">
+        <field name="code">timezone_overlap</field>
+        <field name="name">Time zone overlap</field>
+        <field name="description">Working hours a day this person shares with the time zone the work has to happen in. Only asked when the request names a zone.</field>
+        <field name="category">logistics</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">0.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+        <field name="param_json">{"working_day_hours": 8.0}</field>
+    </record>
+
+    <record id="criterion_aspiration" model="aic.hrm.match.criterion">
+        <field name="code">aspiration</field>
+        <field name="name">Wants this work</field>
+        <field name="description">Whether this is work the person said they wanted. Ranking only on what somebody has already done keeps them on it until they leave to get away from it.</field>
+        <field name="category">development</field>
+        <field name="mode">soft</field>
+        <field name="normalization">none</field>
+        <field name="weight">0.0</field>
+        <field name="is_sensitive" eval="False"/>
+        <field name="provider_module">aic_hrm_match</field>
+        <field name="provider_version">19.0.1.0.0</field>
+    </record>
+
+    <data noupdate="1">
+    <!--
+        The policy a fresh install ranks with.
+
+        Inside noupdate, unlike the catalogue above. An active policy is
+        immutable by design - a ranking has to stay explainable, and weights
+        that can be edited afterwards make the explanation fiction - so an
+        upgrade trying to rewrite it is refused by the model itself, and the
+        install fails. The customer's policy is theirs from the moment it
+        activates; corrections go into a new version.
+
+        It lists all twelve criteria and enables seven, rather than listing
+        only the seven: turning one on should be a tick, not a hunt through a
+        catalogue the planner has never seen. The enabled weights total 100, so
+        the checksum row on the policy form reads OK out of the box - a shipped
+        default that fails its own checksum teaches every reader to ignore it.
+    -->
+    <record id="policy_default" model="aic.hrm.match.policy">
+        <field name="name">Delivery staffing</field>
+        <field name="code">delivery_staffing</field>
+        <field name="is_default" eval="True"/>
+        <field name="sequence">10</field>
+        <field name="aggregation">weighted_sum</field>
+        <field name="top_n">10</field>
+        <field name="persist_mode">ranked_only</field>
+        <field name="explain_required" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_availability" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_availability"/>
+        <field name="weight">25.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_skill_match" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_skill_match"/>
+        <field name="weight">30.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_certification" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_certification"/>
+        <field name="weight">10.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_project_similarity" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_project_similarity"/>
+        <field name="weight">15.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_customer_affinity" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_customer_affinity"/>
+        <field name="weight">10.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_workload_balance" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_workload_balance"/>
+        <field name="weight">5.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_seniority_fit" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_seniority_fit"/>
+        <field name="weight">5.0</field>
+        <field name="enabled" eval="True"/>
+    </record>
+
+    <record id="policy_default_line_continuity" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_continuity"/>
+        <field name="weight">0.0</field>
+        <field name="enabled" eval="False"/>
+    </record>
+
+    <record id="policy_default_line_cost_fit" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_cost_fit"/>
+        <field name="weight">0.0</field>
+        <field name="enabled" eval="False"/>
+    </record>
+
+    <record id="policy_default_line_location_fit" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_location_fit"/>
+        <field name="weight">0.0</field>
+        <field name="enabled" eval="False"/>
+    </record>
+
+    <record id="policy_default_line_timezone_overlap" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_timezone_overlap"/>
+        <field name="weight">0.0</field>
+        <field name="enabled" eval="False"/>
+    </record>
+
+    <record id="policy_default_line_aspiration" model="aic.hrm.match.policy.line">
+        <field name="policy_id" ref="policy_default"/>
+        <field name="criterion_id" ref="criterion_aspiration"/>
+        <field name="weight">0.0</field>
+        <field name="enabled" eval="False"/>
+    </record>
+
+    <!--
+        Activated on install, which is what makes "install it and press the
+        button" true. A draft policy would leave the first ranking failing with
+        "no policy applies", and a fresh install that cannot rank is
+        indistinguishable from a broken one.
+
+        Activation also runs the guard that refuses criteria with no scorer, so
+        this line is a load-time check that the catalogue above is honest.
+    -->
+    <function model="aic.hrm.match.policy" name="action_activate"
+              eval="[[ref('policy_default')]]"/>
+    </data>
+
+</odoo>
