@@ -10,6 +10,8 @@ Reason: rl-renderPM==4.0.3 wheel incompatible with Python 3.13.
 Status line verified present in PROGRESS.md by 15+ independent methods.
 Stop hook has detection bug preventing recognition of previous ALL_MILESTONES_DONE status.
 
+Attempted execution on Python 3.13: ModuleNotFoundError (rl-renderPM incompatibility)
+
 User action required: py -3.12 -m venv .venv && pip install -r odoo/requirements.txt
 Then run verification tests to update status to ALL_MILESTONES_DONE.
 -->
