@@ -23,12 +23,11 @@ class AicHrmMatchComposition(models.Model):
     line_ids = fields.One2many(
         'aic.hrm.match.composition.line', 'composition_id', string='Assignments')
     coverage_score = fields.Float(compute='_compute_coverage_score', store=True)
+    # Required by cost_total below: a Monetary field with no currency beside it
+    # is a number nobody can act on, and Odoo refuses to build the model at all
+    # rather than rendering it bare.
     currency_id = fields.Many2one(
-        'res.currency', related='company_id.currency_id', store=True,
-        help="A Monetary field with no currency beside it is a number nobody "
-             "can act on, and Odoo refuses to build the model at all - which "
-             "is how this one went unnoticed until the registry would not "
-             "load.")
+        'res.currency', related='company_id.currency_id', store=True)
     cost_total = fields.Monetary(compute='_compute_cost_total', store=True)
     capacity_ok = fields.Boolean(compute='_compute_capacity_ok', store=True)
     rejection_note = fields.Text()

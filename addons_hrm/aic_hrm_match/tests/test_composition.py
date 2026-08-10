@@ -8,6 +8,26 @@ from .common import MatchCase
 @tagged('post_install', '-at_install', 'aic_hrm_match')
 class CompositionCase(MatchCase):
 
+    @classmethod
+    def setUpClass(cls):
+        """One active policy for the whole case.
+
+        Built here rather than inside a test, because a fixture that searches
+        for an active policy and creates one only when it finds none makes each
+        test depend on whichever ran before it - green in a full run, red on
+        its own, and the order is not something anybody controls.
+        """
+        super().setUpClass()
+        cls.criterion = cls.env['aic.hrm.match.criterion'].create({
+            'code': 'availability', 'name': 'Availability',
+            'category': 'availability'})
+        cls.policy = cls.env['aic.hrm.match.policy'].create({
+            'name': 'CompTest', 'code': 'comp_test', 'is_default': True})
+        cls.env['aic.hrm.match.policy.line'].create({
+            'policy_id': cls.policy.id, 'criterion_id': cls.criterion.id,
+            'weight': 1.0})
+        cls.policy.action_activate()
+
     def test_single_slot_skips_composition(self):
         """Headcount=1: no composition needed, fast path."""
         request = self.env['aic.hrm.match.request'].create({
@@ -42,16 +62,7 @@ class CompositionCase(MatchCase):
         slot = self.env['aic.hrm.match.request.slot'].create({
             'request_id': request.id, 'name': 'Test', 'required_hours': 10.0})
         
-        policy = self.env['aic.hrm.match.policy'].search(
-            [('state', '=', 'active')], limit=1)
-        if not policy:
-            criterion = self.env['aic.hrm.match.criterion'].create({
-                'code': 'test_comp', 'name': 'Test Comp', 'category': 'test'})
-            policy = self.env['aic.hrm.match.policy'].create({
-                'name': 'CompTest', 'code': 'comp_test', 'is_default': True})
-            self.env['aic.hrm.match.policy.line'].create({
-                'policy_id': policy.id, 'criterion_id': criterion.id, 'weight': 1.0})
-            policy.action_activate()
+        policy = self.policy
         
         Run = self.env['aic.hrm.match.run']
         run = Run.create({
@@ -83,8 +94,7 @@ class CompositionCase(MatchCase):
         slot = self.env['aic.hrm.match.request.slot'].create({
             'request_id': request.id, 'name': 'Developer', 'required_hours': 20.0})
         
-        policy = self.env['aic.hrm.match.policy'].search(
-            [('state', '=', 'active')], limit=1)
+        policy = self.policy
         Run = self.env['aic.hrm.match.run']
         run = Run.create({
             'request_id': request.id, 'slot_id': slot.id,

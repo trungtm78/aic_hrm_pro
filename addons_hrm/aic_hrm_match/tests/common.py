@@ -30,6 +30,58 @@ class MatchCase(TransactionCase):
     # -- factories ----------------------------------------------------------
 
     @classmethod
+    def _make_active_policy(cls, code='shared_test_policy'):
+        """An active policy scoring on availability, created once.
+
+        Reused rather than recreated because only one policy per code may be
+        active at a time, and because a test that searches for whatever policy
+        happens to be active depends on which test ran before it - green in a
+        full run, red on its own.
+        """
+        existing = cls.env['aic.hrm.match.policy'].search(
+            [('code', '=', code), ('state', '=', 'active')], limit=1)
+        if existing:
+            return existing
+        criterion = cls.env['aic.hrm.match.criterion'].search(
+            [('code', '=', 'availability')], limit=1)
+        if not criterion:
+            criterion = cls.env['aic.hrm.match.criterion'].create({
+                'code': 'availability', 'name': 'Availability',
+                'category': 'availability', 'normalization': 'ratio'})
+        policy = cls.env['aic.hrm.match.policy'].create({
+            'name': 'Shared test policy', 'code': code, 'is_default': True,
+            'persist_mode': 'full'})
+        cls.env['aic.hrm.match.policy.line'].create({
+            'policy_id': policy.id, 'criterion_id': criterion.id,
+            'weight': 1.0})
+        policy.action_activate()
+        return policy
+
+    @classmethod
+    def _run_match(cls, request=None, employee_count=3):
+        """A completed ranking, with everything it needs behind it.
+
+        Tests about what happens *after* a ranking - decisions, waivers,
+        erasure - should not have to build a policy, a request and a pool
+        before they can say anything. They get a run and the people in it.
+        """
+        cls._make_active_policy()
+        if not getattr(cls, 'employees', None):
+            cls.employees = cls.env['hr.employee'].browse()
+            for index in range(employee_count):
+                cls.employees |= cls._make_employee(
+                    'Pooled Candidate %d' % (index + 1))
+        if request is None:
+            request = cls.env['aic.hrm.match.request'].create({
+                'name': 'Shared test request',
+                'date_start': '2026-09-14 00:00:00',
+                'date_end': '2026-09-18 23:59:59'})
+            cls.env['aic.hrm.match.request.slot'].create({
+                'request_id': request.id, 'name': 'Developer',
+                'required_hours': 8.0})
+        return cls.env['aic.hrm.match.engine'].run_match(request)
+
+    @classmethod
     def _make_tag_category(cls, **kwargs):
         values = {
             'code': 'domain',

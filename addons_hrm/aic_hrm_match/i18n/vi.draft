@@ -1691,3 +1691,465 @@ msgstr "Điểm sau trọng số"
 
 msgid "What the run was configured with, resolved: the policy weights, the pool, the frozen moment. Enough to explain the ranking after the policy has moved on."
 msgstr "Những gì lượt chạy đã được cấu hình, ở dạng đã phân giải: trọng số chính sách, nhóm ứng viên, mốc thời gian đóng băng. Đủ để giải thích bảng xếp hạng ngay cả khi chính sách đã thay đổi."
+
+msgid "%(name)s already carries a staffing decision. Close it instead - cancelling would record a seat somebody worked as one that was never filled."
+msgstr "%(name)s đã có quyết định bố trí nhân sự. Hãy đóng nó lại thay vì huỷ - huỷ sẽ ghi nhận một vị trí đã có người làm thành vị trí chưa bao giờ được lấp."
+
+msgid "%(name)s has not been staffed yet. Closing it now would record the seat as dealt with while it is still open."
+msgstr "%(name)s chưa được bố trí nhân sự. Đóng ngay bây giờ sẽ ghi nhận vị trí này là đã xong trong khi nó vẫn đang mở."
+
+msgid "%(name)s is %(state)s. Ranking it now would produce a shortlist for work that is already over, and the screen would give no sign that is what happened."
+msgstr "%(name)s đang ở trạng thái %(state)s. Xếp hạng lúc này sẽ tạo ra danh sách rút gọn cho công việc đã kết thúc, mà màn hình thì không hề báo điều đó."
+
+msgid "%(skill)s at %(have).0f, below the %(need).0f this seat requires."
+msgstr "%(skill)s đạt %(have).0f, thấp hơn mức %(need).0f mà vị trí này yêu cầu."
+
+msgid "%(slot)s has nobody chosen."
+msgstr "%(slot)s chưa chọn ai."
+
+msgid "All Allocations"
+msgstr "Tất cả lượt đặt lịch"
+
+msgid "All Decisions"
+msgstr "Tất cả quyết định"
+
+msgid "All Requests"
+msgstr "Tất cả yêu cầu"
+
+msgid "All Waivers"
+msgstr "Tất cả trường hợp miễn trừ"
+
+msgid "Allocations"
+msgstr "Đặt lịch"
+
+msgid "Assign From Ranking"
+msgstr "Bổ nhiệm từ bảng xếp hạng"
+
+msgid "Assigned Hours"
+msgstr "Số giờ được giao"
+
+msgid "Assigned hours must be non-negative."
+msgstr "Số giờ được giao không được âm."
+
+msgid "Assignment To Confirm"
+msgstr "Phân công cần xác nhận"
+
+msgid "Assignments"
+msgstr "Phân công"
+
+msgid "Average Score"
+msgstr "Điểm trung bình"
+
+msgid "Booked Hours"
+msgstr "Giờ đã đặt"
+
+msgid "Cancel"
+msgstr "Huỷ"
+
+msgid "Cannot cancel: allocations already confirmed."
+msgstr "Không thể huỷ: các lượt đặt lịch đã được xác nhận."
+
+msgid "Capacity"
+msgstr "Năng lực"
+
+msgid "Capacity Analysis"
+msgstr "Phân tích năng lực"
+
+msgid "Capacity Ok"
+msgstr "Đủ năng lực"
+
+msgid "Capacity Report"
+msgstr "Báo cáo năng lực"
+
+msgid "Capacity Risk"
+msgstr "Rủi ro năng lực"
+
+msgid "Certifications required"
+msgstr "Chứng chỉ bắt buộc"
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "Composition"
+msgstr "Phương án tổ hợp"
+
+msgid "Composition Assignment Line"
+msgstr "Dòng phân công của phương án"
+
+msgid "Configuration"
+msgstr "Cấu hình"
+
+msgid "Confirm Assignment"
+msgstr "Xác nhận phân công"
+
+msgid "Confirmed decisions cannot be edited. Create a new decision instead."
+msgstr "Quyết định đã xác nhận thì không sửa được. Hãy tạo một quyết định mới."
+
+msgid "Correction Request"
+msgstr "Yêu cầu đính chính"
+
+msgid "Cost Limit Exceeded"
+msgstr "Vượt trần chi phí"
+
+msgid "Cost Total"
+msgstr "Tổng chi phí"
+
+msgid "Coverage Score"
+msgstr "Điểm độ phủ"
+
+msgid "Create Allocations"
+msgstr "Tạo lượt đặt lịch"
+
+msgid "Credentials the work cannot be done without. Kept apart from the skills above because they are not a matter of degree: somebody holds a valid one for the whole window or they are not offered, and no weighting makes an expired licence acceptable."
+msgstr "Những chứng chỉ mà thiếu chúng thì không làm được việc. Được tách khỏi phần kỹ năng ở trên vì đây không phải chuyện nhiều hay ít: một người hoặc có chứng chỉ còn hiệu lực suốt cả khoảng thời gian, hoặc không được đề xuất - và không trọng số nào làm cho một chứng chỉ hết hạn trở nên chấp nhận được."
+
+msgid "Criteria"
+msgstr "Tiêu chí"
+
+msgid "Decided At"
+msgstr "Thời điểm quyết định"
+
+msgid "Decided By"
+msgstr "Người quyết định"
+
+msgid "Decision"
+msgstr "Quyết định"
+
+msgid "Decision cancelled by %(user)s"
+msgstr "Quyết định bị huỷ bởi %(user)s"
+
+msgid "Decision confirmed by %(user)s"
+msgstr "Quyết định được xác nhận bởi %(user)s"
+
+msgid "Decisions"
+msgstr "Quyết định"
+
+msgid "Decisions cannot be deleted (audit trail)."
+msgstr "Không được xoá quyết định (đây là vết kiểm toán)."
+
+msgid "Demo Installation Marker"
+msgstr "Dấu hiệu cài dữ liệu minh hoạ"
+
+msgid "Details"
+msgstr "Chi tiết"
+
+msgid "Domain"
+msgstr "Lĩnh vực"
+
+msgid "Employee Departure"
+msgstr "Nhân sự nghỉ việc"
+
+msgid "Employee Retirement"
+msgstr "Nhân sự nghỉ hưu"
+
+msgid "Erased At"
+msgstr "Thời điểm xoá"
+
+msgid "Erased By"
+msgstr "Người xoá"
+
+msgid "Erasure Record"
+msgstr "Bản ghi xoá dữ liệu"
+
+msgid "Erasure logs cannot be deleted (GDPR accountability)."
+msgstr "Không được xoá nhật ký xoá dữ liệu (yêu cầu giải trình theo GDPR)."
+
+msgid "Erasure logs cannot be edited (audit trail)."
+msgstr "Không được sửa nhật ký xoá dữ liệu (đây là vết kiểm toán)."
+
+msgid "Evidence Checksum"
+msgstr "Mã kiểm tra bằng chứng"
+
+msgid "Fairness Report"
+msgstr "Báo cáo công bằng"
+
+msgid "Find Best Fit"
+msgstr "Tìm người phù hợp nhất"
+
+msgid "Flag to track if demo data has already been generated. post_init_hook checks this to avoid re-running."
+msgstr "Cờ đánh dấu dữ liệu minh hoạ đã được sinh hay chưa. post_init_hook kiểm cờ này để không chạy lại lần nữa."
+
+msgid "From Ranking"
+msgstr "Theo bảng xếp hạng"
+
+msgid "GDPR Article 17 (Right to be Forgotten)"
+msgstr "Điều 17 GDPR (Quyền được lãng quên)"
+
+msgid "Gap"
+msgstr "Khoảng thiếu"
+
+msgid "Generated"
+msgstr "Đã sinh"
+
+msgid "Gross Hours"
+msgstr "Tổng giờ công"
+
+msgid "Hard Gate Waiver"
+msgstr "Miễn trừ điều kiện loại"
+
+msgid "Hard Gate Waivers"
+msgstr "Các miễn trừ điều kiện loại"
+
+msgid "Hard Gate Waved"
+msgstr "Đã miễn trừ điều kiện loại"
+
+msgid "How many working hours a day have to overlap with the time zone above. Zero asks for none, which is the honest default for work that is genuinely asynchronous."
+msgstr "Mỗi ngày cần bao nhiêu giờ làm việc trùng với múi giờ ở trên. Để 0 nghĩa là không cần trùng giờ nào, và đó là mặc định trung thực cho công việc thực sự bất đồng bộ."
+
+msgid "Is Override"
+msgstr "Là quyết định vượt xếp hạng"
+
+msgid "Is Selected"
+msgstr "Được chọn"
+
+msgid "Is Stretch"
+msgstr "Là trường hợp nới yêu cầu"
+
+msgid "JSON: {model: count, ...}"
+msgstr "JSON: {model: số lượng, ...}"
+
+msgid "Last Selected"
+msgstr "Lần được chọn gần nhất"
+
+msgid "Leave Hours"
+msgstr "Giờ nghỉ phép"
+
+msgid "Leave at zero to ask for whoever is free rather than for a fixed amount of effort."
+msgstr "Để 0 nếu chỉ cần tìm người đang rảnh, thay vì yêu cầu một khối lượng công cố định."
+
+msgid "Left empty, the policy that claims this request decides. Setting one here is how a planner runs an exceptional round without changing the rules for everybody else."
+msgstr "Bỏ trống thì chính sách nào nhận yêu cầu này sẽ quyết định. Chọn một chính sách ở đây là cách người lập kế hoạch chạy một đợt ngoại lệ mà không đổi luật cho tất cả mọi người."
+
+msgid "Lower Rank Selected"
+msgstr "Chọn người xếp hạng thấp hơn"
+
+msgid "Marginal Gain"
+msgstr "Mức cải thiện biên"
+
+msgid "Minimum overlap (h)"
+msgstr "Số giờ trùng tối thiểu (giờ)"
+
+msgid "Multi-Slot Staffing Composition"
+msgstr "Phương án bố trí nhiều vị trí"
+
+msgid "No verified %(skills)s covering the whole window."
+msgstr "Không có %(skills)s đã xác thực còn hiệu lực suốt cả khoảng thời gian."
+
+msgid "Nothing is selected. Closing this without assigning anybody leaves the request exactly as it was, which is a fine outcome but not one to record as a decision."
+msgstr "Chưa chọn ai. Đóng lại mà không phân công ai thì yêu cầu vẫn nguyên như cũ - điều đó hoàn toàn ổn, nhưng không phải thứ để ghi thành một quyết định."
+
+msgid "Offered despite falling short of a requirement the seat marked as open to it. Flagged rather than hidden: a development posting nobody can find afterwards is indistinguishable from a mistake, and the person deserves the credit either way."
+msgstr "Được đề xuất dù chưa đạt một yêu cầu mà vị trí đã đánh dấu là chấp nhận nới. Được gắn cờ chứ không giấu: một suất bố trí để phát triển năng lực mà sau này không ai tra ra được thì trông chẳng khác gì một sai sót, và dù thế nào người đó cũng xứng đáng được ghi nhận."
+
+msgid "Only a cancelled request goes back to draft. %(name)s is in progress, and resetting it would hide the stage it actually reached."
+msgstr "Chỉ yêu cầu đã huỷ mới quay về nháp. %(name)s đang chạy dở, đặt lại sẽ che mất giai đoạn nó thực sự đã đạt tới."
+
+msgid "Only administrators can waive sensitive criteria."
+msgstr "Chỉ quản trị viên mới được miễn trừ các tiêu chí hạn chế xem."
+
+msgid "Other"
+msgstr "Khác"
+
+msgid "Overridden"
+msgstr "Đã vượt xếp hạng"
+
+msgid "Override"
+msgstr "Vượt xếp hạng"
+
+msgid "Override Details"
+msgstr "Chi tiết việc vượt xếp hạng"
+
+msgid "Override Reason"
+msgstr "Lý do vượt xếp hạng"
+
+msgid "Override Reason Category"
+msgstr "Nhóm lý do vượt xếp hạng"
+
+msgid "Override reason is required when selecting non-top candidate."
+msgstr "Phải nêu lý do khi chọn người không đứng đầu bảng xếp hạng."
+
+msgid "People With Skill"
+msgstr "Số người có kỹ năng này"
+
+msgid "Policies"
+msgstr "Chính sách"
+
+msgid "Policy Weights"
+msgstr "Trọng số chính sách"
+
+msgid "Rank Change"
+msgstr "Thay đổi thứ hạng"
+
+msgid "Rank When Decided"
+msgstr "Thứ hạng lúc quyết định"
+
+msgid "Ranked Candidates"
+msgstr "Ứng viên đã xếp hạng"
+
+msgid "Ranking Result"
+msgstr "Kết quả xếp hạng"
+
+msgid "Ranking Run"
+msgstr "Lượt chạy xếp hạng"
+
+msgid "Re-rank"
+msgstr "Xếp hạng lại"
+
+msgid "Reason"
+msgstr "Lý do"
+
+msgid "Record Counts After"
+msgstr "Số bản ghi sau khi xoá"
+
+msgid "Record Counts Before"
+msgstr "Số bản ghi trước khi xoá"
+
+msgid "Rejection"
+msgstr "Lý do loại"
+
+msgid "Rejection Note"
+msgstr "Ghi chú lý do loại"
+
+msgid "Remote Allowed"
+msgstr "Cho phép làm từ xa"
+
+msgid "Reporting"
+msgstr "Báo cáo"
+
+msgid "Requests"
+msgstr "Yêu cầu"
+
+msgid "Required Certifications"
+msgstr "Chứng chỉ bắt buộc"
+
+msgid "SHA256 of joined evidence texts"
+msgstr "Mã SHA256 của toàn bộ nội dung bằng chứng ghép lại"
+
+msgid "Score At Decision"
+msgstr "Điểm lúc quyết định"
+
+msgid "Score Breakdown"
+msgstr "Chi tiết điểm"
+
+msgid "Score When Decided"
+msgstr "Điểm lúc quyết định"
+
+msgid "Scoring Criteria"
+msgstr "Tiêu chí chấm điểm"
+
+msgid "Scoring Policies"
+msgstr "Chính sách chấm điểm"
+
+msgid "Selection Fairness"
+msgstr "Công bằng trong lựa chọn"
+
+msgid "Sensitive Criterion"
+msgstr "Tiêu chí hạn chế xem"
+
+msgid "Skill Demand Report"
+msgstr "Báo cáo nhu cầu kỹ năng"
+
+msgid "Skill Gap"
+msgstr "Khoảng thiếu kỹ năng"
+
+msgid "Skill Gap Accepted"
+msgstr "Chấp nhận thiếu kỹ năng"
+
+msgid "Skill Gap Analysis"
+msgstr "Phân tích khoảng thiếu kỹ năng"
+
+msgid "Stable pseudonym for GDPR accountability (does not identify person)"
+msgstr "Bí danh cố định phục vụ giải trình theo GDPR (không nhận dạng được cá nhân)"
+
+msgid "Staffing Decision"
+msgstr "Quyết định bố trí nhân sự"
+
+msgid "Staffing Decisions"
+msgstr "Các quyết định bố trí nhân sự"
+
+msgid "Staffing Requests"
+msgstr "Yêu cầu bố trí nhân sự"
+
+msgid "Staffing request"
+msgstr "Yêu cầu bố trí nhân sự"
+
+msgid "Subject Key"
+msgstr "Khoá chủ thể dữ liệu"
+
+msgid "The staffing decision this booking came out of. One decision usually books several stretches of time, so the link lives here rather than the other way round.\nSet null rather than cascade: deleting the decision must not quietly empty somebody's calendar, and the decision log refuses deletion anyway - the booking is the thing that gets cancelled."
+msgstr "Quyết định bố trí nhân sự đã sinh ra lượt đặt lịch này. Một quyết định thường đặt nhiều khoảng thời gian, nên liên kết nằm ở đây chứ không phải chiều ngược lại.\nĐặt về rỗng thay vì xoá theo: xoá quyết định không được phép âm thầm làm trống lịch của một người, mà nhật ký quyết định vốn cũng không cho xoá - thứ bị huỷ phải là lượt đặt lịch."
+
+msgid "The time zone the work has to overlap with. Left empty for work nobody has to be awake at the same time for."
+msgstr "Múi giờ mà công việc cần trùng giờ làm. Bỏ trống với công việc không đòi ai phải thức cùng lúc với ai."
+
+msgid "The weights as they stood when this request was ranked. Kept on the request as well as the run so the answer to \"what was this judged on\" survives a run being vacuumed."
+msgstr "Bộ trọng số đúng như lúc yêu cầu này được xếp hạng. Được giữ trên cả yêu cầu lẫn lượt chạy, để câu trả lời cho \"cái này được chấm theo gì\" vẫn còn ngay cả khi lượt chạy đã bị dọn đi."
+
+msgid "The window ends before it starts. Nobody can be free for negative time."
+msgstr "Khoảng thời gian kết thúc trước khi bắt đầu. Không ai rảnh được một khoảng thời gian âm."
+
+msgid "Time zone"
+msgstr "Múi giờ"
+
+msgid "Times Requested"
+msgstr "Số lần được yêu cầu"
+
+msgid "Times Selected"
+msgstr "Số lần được chọn"
+
+msgid "Tools"
+msgstr "Công cụ"
+
+msgid "Turning this off is what makes location a real constraint rather than a preference."
+msgstr "Tắt tuỳ chọn này chính là thứ biến địa điểm thành ràng buộc thật sự thay vì chỉ là ưu tiên."
+
+msgid "Type"
+msgstr "Loại"
+
+msgid "Utilization %"
+msgstr "Tỷ lệ sử dụng %"
+
+msgid "Waived At"
+msgstr "Thời điểm miễn trừ"
+
+msgid "Waived By"
+msgstr "Người miễn trừ"
+
+msgid "Waived Hard Gate"
+msgstr "Đã miễn trừ điều kiện loại"
+
+msgid "Waivers"
+msgstr "Miễn trừ"
+
+msgid "Waivers cannot be deleted (audit trail)."
+msgstr "Không được xoá bản ghi miễn trừ (đây là vết kiểm toán)."
+
+msgid "Waivers cannot be edited after creation (audit trail)."
+msgstr "Không được sửa bản ghi miễn trừ sau khi tạo (đây là vết kiểm toán)."
+
+msgid "Week Start"
+msgstr "Đầu tuần"
+
+msgid "Weights Snapshot"
+msgstr "Ảnh chụp trọng số"
+
+msgid "What needs staffing"
+msgstr "Việc cần bố trí nhân sự"
+
+msgid "What this work is about. Matched against what people have actually done, which is why the same vocabulary is used on both sides rather than free text on one of them."
+msgstr "Công việc này thuộc về mảng nào. Được đối chiếu với những gì nhân sự đã thực sự làm, và đó là lý do cả hai phía dùng chung một bộ từ vựng thay vì một bên gõ chữ tự do."
+
+msgid "Where the work has to happen. Empty means it does not matter."
+msgstr "Công việc phải diễn ra ở đâu. Bỏ trống nghĩa là không quan trọng."
+
+msgid "Which scoring policy the last ranking ran under. Restricted rather than set null: a policy still explaining a live request is not something to delete out from under it."
+msgstr "Lần xếp hạng gần nhất chạy dưới chính sách chấm điểm nào. Bị chặn xoá thay vì đặt về rỗng: một chính sách còn đang giải thích cho yêu cầu đang chạy thì không phải thứ để xoá đi từ bên dưới."
+
+msgid "Why is this waiver necessary?"
+msgstr "Vì sao cần miễn trừ trong trường hợp này?"
+
+msgid "Wizard"
+msgstr "Trợ lý"
+
+msgid "Work locations"
+msgstr "Địa điểm làm việc"
