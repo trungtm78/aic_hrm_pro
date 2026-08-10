@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM Review - 360, Calibration & 9-Box',
+    'name': 'Appraisal 360',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'AIConnect review cycles: route maps, anonymous 360 feedback, calibration, 9-box, IDP and PIP',

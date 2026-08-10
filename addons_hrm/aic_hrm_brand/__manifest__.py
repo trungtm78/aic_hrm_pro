@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM - White Label',
+    'name': 'HRM White Label',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Present the suite under the customer-facing product identity',

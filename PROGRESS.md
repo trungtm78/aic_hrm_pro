@@ -1,6 +1,102 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 
 # PROGRESS
+Cập nhật: 2026-08-10 | Milestone: CP0a/10 (aic_hrm_match) | Task: 7/7 của CP0a — CP0a XONG
+
+## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
+
+Plan đã duyệt: `C:\Users\ADMIN\.claude\plans\t-i-mu-n-t-o-1-tingly-allen.md`
+(qua `/plan-eng-review` 14 finding + Codex 2 vòng 52 finding — tổng 88, đã fold hết).
+Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_18.py`).
+
+### Đã hoàn thành
+- [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,
+      đã gitignore). PostgreSQL 18 chạy sẵn ở 127.0.0.1:5433. `hr_skills` có ở cả hai series.
+- [x] CP0a-3 `tools/backport_18.py`: viết lại `_transform_constraints` bằng **AST** thay regex, thêm
+      `verify()`. TDD: 15 test ở `tools/tests/test_backport.py`, RED→GREEN.
+      Backport thật: 28 file transformed, `verify()` sạch, `compileall` sạch.
+
+- [x] CP0a-2 `LICENSE` (OPL-1 nguyên văn) ở gốc repo + copy y hệt vào **cả 8 module**.
+      Gate `test_every_module_ships_its_license` so khớp nội dung, không chỉ sự tồn tại.
+- [x] CP0a-4 `tools/build_store_package.py` viết lại: `--series {19.0,18.0}` + `--source` mặc định
+      theo series (18.0 ⇒ `build/18.0`, **không** phải `addons_hrm`), `PRICED_APPS`, `check()` nhận
+      `is_app`/`series`, kiểm LICENSE + độ dài tên + bundled-không-được-có-giá +
+      `defines_ui()` mới đòi `vi.po`. Output vào `dist/<series>/`.
+- [x] CP0a-5 Đổi display name **8 listing** về ≤25 ký tự, bỏ tên công ty (bảng bên dưới).
+- [x] CP0a-6 `CLAUDE.md`: dependency theo dòng sản phẩm, luật tên store, LICENSE mỗi module,
+      môi trường Python 3.12/venv, `--log-level=test`, mục "Release plumbing".
+- [x] CP0a-7 **Baseline: 220 test, 0 failed, 0 error** trên Odoo 19 (DB `AIC_BASELINE`).
+
+### Đổi tên listing (CP0a-5)
+| Module | Cũ | Mới | Dài |
+|---|---|---|---|
+| aic_hrm_base | AIConnect HRM Base - Cycles, Scoring & Access (45) | OKR Base | 8 |
+| aic_okr_kpi | AIConnect OKR & KPI Engine (26) | OKR KPI Engine | 14 |
+| aic_hrm_library | AIConnect HRM Library - Industry OKR/KPI Packs (46) | OKR KPI Library | 15 |
+| aic_hrm_review | AIConnect HRM Review - 360, Calibration & 9-Box (47) | Appraisal 360 | 13 |
+| aic_hrm_project | AIConnect HRM - Project Bridge (30) | OKR Project Link | 16 |
+| aic_hrm_sale | AIConnect HRM - Sales Bridge (28) | OKR Sales Link | 14 |
+| aic_hrm_pro | AIConnect HRM Pro - OKR, KPI & Performance Management (53) | OKR KPI Performance | 19 |
+| aic_hrm_brand | AIConnect HRM - White Label (27) | HRM White Label | 15 |
+
+### Đang làm dở
+Task: CP0b — scaffold 3 module mới
+Đã làm: chưa bắt đầu
+BƯỚC TIẾP THEO: tạo `addons_hrm/aic_hrm_match/` với `__manifest__.py` (name `Staffing Match`,
+price 25.0 USD, depends `['hr','hr_skills','project','mail','web']`), `__init__.py`, `LICENSE`,
+`static/description/icon.png`, `static/description/index.html` tối thiểu; rồi thêm 3 module vào
+`STORE_MODULES`/`PRICED_APPS` của `tools/build_store_package.py` và chạy lại
+`python -m unittest discover -s tools/tests -t .`
+File liên quan: plan §2 (manifest chốt), §9.6 (tên), `tools/build_store_package.py:33-48`
+
+### Hàng đợi task kế tiếp
+1. CP0b scaffold + bật gate packaging cho 10 module
+2. CP1 khung schema + ACL/record rule toàn bộ model + `utils.py` + `match_context.py` + `skill.compat`
+3. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
+   experience ledger, certification)
+
+## Quyết định kiến trúc
+| Ngày | Quyết định | Lý do | Ảnh hưởng |
+|---|---|---|---|
+| 2026-08-10 | `backport_18.py` dùng AST thay regex, kèm `verify()` bắt buộc | Regex cũ (`CONSTRAINT_RE`) chỉ khớp đúng 1 hình dạng 4 dòng nháy đơn; message xuống dòng hoặc nháy kép bị **bỏ qua trong im lặng** và `backport()` vẫn báo thành công ⇒ có thể đẩy API 19 vào zip 18.0 bán cho khách | `tools/backport_18.py`, `tools/tests/test_backport.py` |
+| 2026-08-10 | Trên Odoo 18, lịch sử hiệu lực chứng chỉ **không** lưu vào `hr.employee.skill` mà vào model riêng của addon | Xác minh source: `odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26` có `_sql_constraints unique(employee_id, skill_id)` ⇒ **cấm** 2 kỳ hiệu lực cho cùng skill. Odoo 19 ngược lại cho phép (`hr_individual_skill_mixin.py:68-87` miễn trừ certification khỏi luật overlap) | `skill.compat` (§3.3 plan) |
+
+## Assumption đã tự quyết
+| Điểm mơ hồ | Diễn giải đã chọn | Căn cứ |
+|---|---|---|
+| Canonical store của kỳ hiệu lực chứng chỉ | **Odoo 19 = hàng lõi** (`valid_from`/`valid_to` trên mixin); **Odoo 18 = hàng của addon** vì lõi cấm. Engine chỉ đọc qua `aic.hrm.match.skill.compat`, không bao giờ đọc thẳng field lõi | 19 là bản bán chính (PROGRESS 2026-08-02, §QUYẾT ĐỊNH USER); tái dùng lõi ở nơi lõi làm được là phương án chuyên nghiệp nhất, fallback chỉ ở nơi lõi không làm được |
+| `skill.compat` phân biệt series thế nào | Dò `_fields` (`'valid_to' in env['hr.employee.skill']._fields`), **không** đọc số hiệu series | Bản vá nhỏ giữa các release có thể đổi; dò khả năng thì đúng ở mọi bản |
+
+## Bằng chứng xác minh CP0 (đã chạy, không phải suy đoán)
+```
+odoo/addons/hr_skills/models/hr_individual_skill_mixin.py:56  valid_from = fields.Date(...)
+odoo/addons/hr_skills/models/hr_individual_skill_mixin.py:57  valid_to   = fields.Date(...)
+odoo/addons/hr_skills/models/hr_skill_type.py:24              is_certification = fields.Boolean(...)
+odoo18/addons/hr_skills/...                                   (none of the three exist)
+odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_id, skill_id)
+```
+
+## Trạng thái test
+- Tooling (không cần DB): `python -m unittest discover -s tools/tests -t .` → **30/30 PASS**
+- Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
+  ```
+  ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \
+    -u aic_hrm_base,aic_okr_kpi,aic_hrm_review,aic_hrm_library,aic_hrm_project,aic_hrm_sale,aic_hrm_pro,aic_hrm_brand \
+    --test-enable --test-tags 'aic_hrm_base,aic_okr_kpi,aic_hrm_review,aic_hrm_library,aic_hrm_project,aic_hrm_sale,aic_hrm_pro,aic_hrm_brand,-perf,-aic_okr_kpi_tour' \
+    --log-level=test --stop-after-init
+  ```
+- Đóng gói: `build_store_package.py --series 19.0` và `--series 18.0` đều ra **7 archive**, sạch.
+  (Trước CP0a, lệnh 18.0 fail 100% module vì `'19.0.'` hard-code ở dòng 50-51.)
+
+## Nợ kỹ thuật / rủi ro
+- `gstack-review-log` từ chối JSON hợp lệ trên Git-Bash/Windows ⇒ dashboard review không ghi được.
+  Chỉ là bookkeeping, không chặn. Chưa điều tra.
+- Listing `aic_hrm_pro` đã publish trên store; đổi display name cần xác nhận với Odoo trước khi submit.
+
+---
+
+# LỊCH SỬ — sản phẩm AIC HRM Pro (đã bàn giao trước đợt này)
+
 Cập nhật: 2026-08-02T10:35:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS HOÀN TẤT + UAT §9 PASS 100%
 
 ## ĐỢT GIAO DIỆN & TÀI LIỆU KHÁCH HÀNG (2026-08-02 chiều)

@@ -1,11 +1,13 @@
 # Odoo runtime (not part of the product repo - modules only)
 /odoo/
+/odoo18/
 /addons/
 /odoo-bin
 /requirements.txt
 
 # Local config (contains credentials) - use odoo.conf.example
 odoo.conf
+odoo18.conf
 
 # Python
 __pycache__/
@@ -49,3 +51,6 @@ addons_third/
 
 # Build output of tools/build_store_package.py
 dist/
+
+# Local Python virtualenv (Odoo runtime deps)
+.venv/

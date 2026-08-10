@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM Base - Cycles, Scoring & Access',
+    'name': 'OKR Base',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Foundation for the AIConnect HRM Pro suite: performance cycles, RAG profiles, scoring engine, security',
