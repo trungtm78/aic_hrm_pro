@@ -209,22 +209,47 @@ class AssignWizardCase(MatchCase):
         self._wizard_for(request).action_assign()
         self.assertGreater(request.rotation_epoch, before)
 
+    def _somebody_else(self, wizard, request):
+        """Anybody the ranking did not put first.
+
+        Taken from the run rather than freshly created: everybody is equally
+        free in these fixtures, so a new employee can win the tie-break and
+        turn out to be the recommendation - which would make the override
+        tests pass or fail on a hash.
+        """
+        recommended = wizard.decision_ids[0].employee_id
+        return request.latest_run_id.candidate_ids.filtered(
+            lambda c: c.eligible and c.employee_id
+            and c.employee_id != recommended)[:1].employee_id
+
     def test_choosing_below_the_top_is_recorded_as_an_override(self):
         """Overrides are the most valuable thing the log collects: they are
         where the weights disagree with the people who know the work."""
-        other = self._make_employee('Second Choice')
+        self._make_employee('Second Choice')
         request = self._ranked_request()
         wizard = self._wizard_for(request)
+        other = self._somebody_else(wizard, request)
+        self.assertTrue(other)
         wizard.decision_ids[0].write({
             'employee_id': other.id,
             'override_reason': 'Knows the customer from last year.'})
         wizard.action_assign()
-        self.assertTrue(request.decision_ids[0].is_override)
+
+        decision = request.decision_ids[0]
+        self.assertTrue(decision.is_override)
+        self.assertEqual(decision.employee_id, other)
+        self.assertGreater(decision.rank_at_decision, 1,
+                           'the rank recorded must belong to the person who '
+                           'was chosen, not to the one recommended')
 
     def test_an_override_without_a_reason_is_refused(self):
-        other = self._make_employee('Unexplained Choice')
+        """An override nobody explained teaches the next round nothing, and
+        the override log exists precisely to be read back."""
+        self._make_employee('Unexplained Choice')
         request = self._ranked_request()
         wizard = self._wizard_for(request)
+        other = self._somebody_else(wizard, request)
+        self.assertTrue(other)
         wizard.decision_ids[0].employee_id = other.id
         with self.assertRaises(UserError):
             wizard.action_assign()

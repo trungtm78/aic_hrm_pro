@@ -175,12 +175,23 @@ class AicHrmMatchWizardAssign(models.TransientModel):
             if not line.employee_id:
                 raise UserError(_(
                     "%(slot)s has nobody chosen.", slot=line.slot_id.name))
+            # The candidate row of the person actually chosen, not of the one
+            # the ranking recommended. The decision snapshots their rank, and a
+            # rank belonging to somebody else would make the override analysis
+            # report that every choice agreed with the ranking.
+            chosen = self.run_id.candidate_ids.filtered(
+                lambda c, e=line.employee_id: c.employee_id == e)[:1]
             decisions |= self.env['aic.hrm.match.decision'].create({
                 'request_id': self.request_id.id,
                 'slot_id': line.slot_id.id,
                 'run_id': self.run_id.id,
-                'candidate_id': line.candidate_id.id,
+                'candidate_id': chosen.id,
                 'employee_id': line.employee_id.id,
+                # Somebody the ranking excluded is a different kind of
+                # departure from somebody it merely ranked lower, and the two
+                # are worth telling apart when the overrides are read back.
+                'decision_type': 'waived' if (chosen and not chosen.eligible)
+                                 else 'ranked',
                 'override_reason': line.override_reason,
             })
         decisions.action_confirm()

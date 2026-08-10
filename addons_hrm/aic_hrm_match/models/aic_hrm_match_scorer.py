@@ -213,7 +213,13 @@ class AicHrmMatchScorer(models.AbstractModel):
             return {employee_id: None for employee_id in ctx.scoped_ids}
 
         levels = ctx.data.get('skill_levels', {})
-        tolerance = ctx.param('skill_match', 'gap_tolerance', 25.0) or 25.0
+        # Expressed as a share of what the seat asked for rather than as a
+        # number of points. Level scales are the customer's to define - three
+        # bands or seven, nought to five or nought to a hundred - and a fixed
+        # twenty-five point tolerance means "one band down still counts" on one
+        # scale and "everybody scores zero" on another.
+        tolerance_share = ctx.param(
+            'skill_match', 'gap_tolerance_share', 0.5) or 0.5
         scores = {}
         for employee_id in ctx.scoped_ids:
             total_weight, earned = 0.0, 0.0
@@ -222,6 +228,7 @@ class AicHrmMatchScorer(models.AbstractModel):
                 total_weight += weight
                 have = levels.get((employee_id, requirement['skill_id']), 0.0)
                 gap = have - requirement['minimum']
+                tolerance = (requirement['minimum'] or 1.0) * tolerance_share
                 line_score = 1.0 if gap >= 0 else max(0.0, 1.0 + gap / tolerance)
                 earned += weight * line_score
                 ctx.add_evidence(

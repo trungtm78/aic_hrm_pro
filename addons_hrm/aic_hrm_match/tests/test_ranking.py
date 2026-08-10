@@ -599,9 +599,9 @@ class CriterionGateCase(MissingDataCase):
         known = self._make_employee('Covered')
         unknown = self._make_employee('Not Covered')
         availability = self.env['aic.hrm.match.availability']
-        original = type(availability).get_free_hours_batch
+        original = type(availability).get_breakdown_batch
         self.patch(
-            type(availability), 'get_free_hours_batch',
+            type(availability), 'get_breakdown_batch',
             lambda self, employees, start, end: {
                 employee_id: value
                 for employee_id, value in original(

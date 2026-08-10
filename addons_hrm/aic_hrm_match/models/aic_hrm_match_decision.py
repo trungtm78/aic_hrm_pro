@@ -104,11 +104,56 @@ class AicHrmMatchDecision(models.Model):
         
         return recs
     def action_confirm(self):
-        """Confirm the decision — create allocations and lock it."""
+        """Confirm the decision and book the time it commits.
+
+        The booking is the point. A decision that records who was chosen but
+        leaves their calendar untouched means the next planner ranks them as
+        free, books them again, and neither clash guard nor capacity report
+        ever sees a problem - because as far as the data is concerned, nothing
+        was ever committed.
+
+        Idempotent: confirming twice must not book the same stretch of time
+        twice, and a planner double-clicking is not an unusual event.
+        """
         for rec in self:
+            if rec.state == 'confirmed':
+                continue
+            if not rec.allocation_ids:
+                rec._create_allocation()
             rec.state = 'confirmed'
+            rec.allocation_ids.filtered(
+                lambda a: a.state == 'draft').write({'state': 'confirmed'})
             rec.message_post(body=_('Decision confirmed by %(user)s',
                 user=self.env.user.name))
+
+    def _create_allocation(self):
+        """Book the seat's window for the person chosen.
+
+        The slot's own window when it has one, the request's otherwise: a seat
+        may run for part of a longer engagement, and booking the whole
+        engagement would take time nobody agreed to give.
+        """
+        self.ensure_one()
+        slot = self.slot_id
+        request = self.request_id
+        hours = slot.required_hours
+        if not hours and slot.fte_ratio:
+            hours = slot.fte_ratio * self.env[
+                'aic.hrm.match.availability'].get_gross_hours(
+                    self.employee_id,
+                    slot.date_start or request.date_start,
+                    slot.date_end or request.date_end)
+        return self.env['aic.hrm.match.allocation'].create({
+            'employee_id': self.employee_id.id,
+            'date_start': slot.date_start or request.date_start,
+            'date_end': slot.date_end or request.date_end,
+            'allocated_hours': hours,
+            'decision_id': self.id,
+            'task_id': request.task_id.id,
+            'project_id': request.project_id.id,
+            'partner_id': request.partner_id.id,
+            'state': 'draft',
+        })
 
     def action_cancel(self):
         """Cancel the decision — revert state to draft."""

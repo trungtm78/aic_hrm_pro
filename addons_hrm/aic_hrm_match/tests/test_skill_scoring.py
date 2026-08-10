@@ -102,12 +102,18 @@ class SkillScoringCase(MatchCase):
                                exceeds_line.normalized_score, places=6)
 
     def test_falling_short_costs_score_in_proportion(self):
-        """The whole point of scoring rather than gating: somebody one level
+        """The whole point of scoring rather than gating: somebody one band
         down is a worse fit and still a candidate. Ranking them last is a
-        judgement; removing them is a decision nobody asked for."""
+        judgement; removing them is a decision nobody asked for.
+
+        One band, not two: the tolerance is a share of what was asked for, so
+        somebody far enough below the bar does reach zero - which is the next
+        test.
+        """
         short = self._make_employee('One Level Down')
-        self._skill(short, self.python, self.beginner)
-        _candidate, line = self._score_for(short)
+        self._skill(short, self.python, self.confirmed)
+        _candidate, line = self._score_for(
+            short, self._request(level=self.expert))
         self.assertGreater(line.normalized_score, 0.0)
         self.assertLess(line.normalized_score, 1.0)
 
@@ -119,7 +125,7 @@ class SkillScoringCase(MatchCase):
         far = self._make_employee('Far Short')
         self._skill(far, self.python, self.beginner)
         _candidate, line = self._score_for(far, request)
-        self.assertGreaterEqual(line.normalized_score, 0.0)
+        self.assertAlmostEqual(line.normalized_score, 0.0, places=6)
 
     def test_having_no_record_of_the_skill_scores_zero_not_missing(self):
         """The one place where absence is evidence. Everywhere else a blank
