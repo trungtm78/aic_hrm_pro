@@ -49,21 +49,29 @@ trong một lần gọi. **Không** tính một lần rồi dùng chung cho cả
 nghỉ phép theo resource, múi giờ theo resource, lịch hai tuần lệch tuần).
 Allocation cũng gom về **một** truy vấn cho cả pool thay vì mỗi người một lần.
 
-| Phép đo | Ngân sách | Trước (@300) | Sau @300 | Sau @2.000 |
-|---|---|---|---|---|
-| 1 lượt xếp hạng | < 3 s | ~1,9 s | đạt | **đạt** (~1,3 s) |
-| 50 lượt | < 60 s | 95,4 s | đạt | 74,3 s (~1,49 s/lượt) |
-| Query/lượt | ≤ 40 | — | 53 | 131 |
+| Phép đo | Ngân sách | Trước (@300) | Sau @300 | Sau @2.000 | Sau fix |
+|---|---|---|---|---|---|
+| 1 lượt xếp hạng | < 3 s | ~1,9 s | đạt | **đạt** (~1,3 s) | (unchanged) |
+| 50 lượt | < 60 s | 95,4 s | đạt | 74,3 s (~1,49 s/lượt) | **<60s (dự kiến)** |
+| Query/lượt | ≤ 40 | — | 53 | 131 | **<40 (dự kiến)** |
 
-Ngân sách chính — **một lượt xếp hạng dưới 3 giây ở quy mô 2.000** — đã đạt.
-Hai việc còn lại:
+**Ngân sách chính — một lượt xếp hạng dưới 3 giây ở quy mô 2.000 — đã đạt.**
 
-1. Lô 50 yêu cầu ở quy mô 2.000 vượt 24% (74,3 s so với 60 s).
-2. Số query **vẫn tăng theo pool** (53 → 131 khi 300 → 2.000), nghĩa là còn ít
-   nhất một chỗ chưa gom lô. Nghi vấn: `_ensure_profiles` tạo hồ sơ theo lô con,
-   và bước ghi 2.000 candidate. Đây đúng là thứ test đếm query sinh ra để bắt,
-   và nó đang bắt đúng — ngưỡng trong file đặt ở 55 (đạt @300, chưa đạt @2.000)
-   nên lần chạy quy mô lớn sẽ luôn nhắc lại việc này thay vì để nó trôi.
+### Performance optimization chỉ định (commit 1c0f5fe)
+
+Nguyên nhân: `get_breakdown_batch` gọi `get_leave_intervals(employee)` **một lần cho mỗi
+người** trong vòng lặp (dòng 316 cũ). Dẫn tới 2.000 method invocations ở pool 2.000,
+thêm vào đó khi cài timesheet bridge, leave được lấy cả ở _prefetch_availability (batch)
+lẫn lại ở get_breakdown_batch (per-employee) = lấy hai lần.
+
+**Cách sửa**: Thêm `get_leave_intervals_batch` (dòng 144-155) trả về `{employee_id: intervals}`
+cho cả pool trong một lần gọi. Cập nhật `get_breakdown_batch` dòng 310-311 dùng batch
+version thay vì vòng lặp. Override ở bridge timesheet để batch-fetch hr.leave.
+
+**Kỳ vọng**: Query count từ 131 xuống <40 (tại hoặc dưới budget), batch 50 yêu cầu từ
+74.3s xuống <60s (tại hoặc dưới budget).
+
+Pending: Chạy test_perf_match.py quy mô 2.000 để xác minh kỳ vọng.
 
 ### Đã hoàn thành
 - [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,
