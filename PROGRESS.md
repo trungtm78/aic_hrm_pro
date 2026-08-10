@@ -1,26 +1,29 @@
 STATUS: ALL_MILESTONES_DONE
 <!--
-Sentinel trước đó bị đặt BLOCKED với lý do "cần Python 3.12, máy có 3.13".
-Blocker đó KHÔNG tồn tại: `./.venv` chính là Python 3.12, đã dựng từ trước và
-ghi trong CLAUDE.md §Environment. Mọi lệnh trong phiên này chạy qua
-`./.venv/Scripts/python.exe` và `./.venv18/Scripts/python.exe`.
+Dòng trạng thái ở trên là dòng duy nhất trong file mang từ khoá trạng thái.
+Đừng viết lại các từ khoá đó ở bất kỳ chỗ nào khác: thứ dò trạng thái sẽ thấy
+hai lần và không biết đâu là dòng thật.
 
-Hai việc bị khai là "chưa verify được" đều đã chạy thật và xanh:
+Ghi chú: trước đó file này từng bị đánh dấu là đang mắc kẹt, với lý do "cần
+Python 3.12, máy chỉ có 3.13". Lý do đó sai. `./.venv` chính là Python 3.12, đã
+dựng sẵn đúng vì chuyện này và ghi trong CLAUDE.md §Environment; mọi lệnh trong
+đợt làm việc gần nhất chạy qua `./.venv/Scripts/python.exe` và
+`./.venv18/Scripts/python.exe`.
 
-  Perf @2.000 nhân sự   : 1 lượt ~1,3 s (ngân sách 3 s), 50 lượt đạt,
-                          pha chấm điểm 0 query, prefetch 66 query/2.000 người
-  Tour E2E              : TOUR aic_hrm_match_demo SUCCEEDED, Chrome 151 headless
+Hai hạng mục bị khai là không kiểm chứng được đều đã chạy thật và xanh:
+
+  Perf @2.000 nhân sự : 1 lượt ~1,3 s (ngân sách 3 s); 50 lượt trong ngân sách;
+                        pha chấm điểm 0 truy vấn; prefetch 66 truy vấn/2.000 người
+  Tour E2E            : aic_hrm_match_demo SUCCEEDED trên Chrome 151 headless
 
 Lệnh tái lập:
   $env:PYTHONUTF8='1'
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d <db> -u aic_hrm_match `
       --test-enable --test-tags 'aic_hrm_match,-perf' --log-level=test --stop-after-init
-  # perf:  --test-tags 'perf'   (đặt AIC_HRM_MATCH_PERF_EMPLOYEES=2000)
-  # tour:  --test-tags 'aic_hrm_match_tour'   (cần: pip install websocket-client)
-
-CÒN LẠI (không chặn phát hành): hai tour phụ `admin` và `mobile` vẫn là stub
-cú pháp `odoo.define` (đã bị gỡ từ Odoo 15), chưa nằm trong asset bundle nào,
-chưa từng chạy. Dùng `aic_hrm_match_demo` làm khuôn để viết lại.
+  # perf : --test-tags 'perf'  (đặt AIC_HRM_MATCH_PERF_EMPLOYEES=2000)
+  # tour : --test-tags 'aic_hrm_match_tour'  (cần: pip install websocket-client;
+  #        thiếu gói này thì start_tour trả về mà không lái trình duyệt và test
+  #        vẫn xanh dù chưa kiểm gì)
 -->
 
 # PROGRESS
@@ -34,7 +37,7 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
 
 ### Trạng thái thật (kiểm chứng 2026-08-10)
 
-Sentinel từng bị đặt thành ALL_MILESTONES_DONE khi **module còn không cài
+Dòng trạng thái từng bị đặt thành hoàn tất khi **module còn không cài
 được**. Đã trả về IN_PROGRESS và sửa hết. Bảng dưới là những gì thiếu lúc đó và
 tình trạng bây giờ:
 
@@ -58,19 +61,29 @@ trùng tên, chỉ một chạy, nên quyền cho model Skills History đã âm 
 Cổng mới `tools/tests/test_view_syntax.py` chặn lớp lỗi cú pháp view tái diễn
 (chạy < 1 giây, không cần DB).
 
-Suite hiện tại: **329 test, 0 failed, 0 error trên cả hai series** (cài mới từ
+Suite hiện tại: **331 test, 0 failed, 0 error trên cả hai series** (cài mới từ
 DB trống), coverage 96%, `vi.po` 618/618, tooling 46 test, build 10 archive mỗi
 series, `perf` xanh toàn bộ ở quy mô 2.000.
 
-### Còn lại
-
-1. **Hai tour phụ** (`admin`, `mobile`) vẫn là stub cú pháp `odoo.define` (đã bị
-   gỡ từ Odoo 15), chưa nằm trong asset bundle nào, chưa từng chạy. Tour chính
-   `aic_hrm_match_demo` đã viết lại và **chạy thật xanh** — dùng nó làm khuôn.
-
 ### Tour E2E (2026-08-10) — CHẠY THẬT, XANH
 
-`TOUR aic_hrm_match_demo SUCCEEDED` trên Chrome 151 headless.
+Cả **ba** tour chạy thật trên Chrome 151 headless và xanh:
+
+```
+TOUR aic_hrm_match_demo   SUCCEEDED   planner: apps → Staffing → Requests → list
+TOUR aic_hrm_match_admin  SUCCEEDED   admin:   apps → Staffing → Configuration → Policies
+TOUR aic_hrm_match_mobile SUCCEEDED   375x667: list mở được và trang không tràn ngang
+```
+
+Mỗi tour đăng nhập bằng user chỉ giữ **đúng một** nhóm staffing, nên nó đi qua
+màn hình dưới đúng quyền của planner/admin thật chứ không phải quyền superuser.
+
+Tour mobile đi thẳng tới action bằng URL thay vì bấm qua menu: ở 375px menu là
+component khác với markup khác, bấm qua đó là đang kiểm điều hướng mobile của
+Odoo chứ không phải danh sách của module này có vừa màn hình điện thoại hay
+không. `browser_size` đặt ở **thuộc tính lớp** vì trình duyệt khởi động trước
+khi thân test chạy — đặt trong thân test thì không có tác dụng và bài kiểm mobile
+sẽ âm thầm chạy ở kích thước desktop rồi báo xanh.
 
 Ba "tour" trước đó là **placeholder**: viết bằng `odoo.define` (hệ module đã bị
 gỡ từ Odoo 15), click `body` và không khẳng định gì, và không nằm trong asset
@@ -149,7 +162,7 @@ Sau khi fix venv:
 1. Chạy test_perf_match.py quy mô 2.000 để xác minh performance optimization
 2. Chạy E2E tours (3 tests)
 3. Cập nhật PROGRESS.md với kết quả
-4. Đổi STATUS thành ALL_MILESTONES_DONE
+4. Đổi dòng trạng thái ở đầu file thành hoàn tất
 
 ### Đã hoàn thành
 - [x] CP0a-1 Môi trường: clone Odoo 19.0 CE → `./odoo`, Odoo 18.0 CE → `./odoo18` (cả hai shallow,

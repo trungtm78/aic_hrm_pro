@@ -61,6 +61,8 @@ Two free connectors extend it when the matching apps are installed.
         # download for something only CI runs.
         'web.assets_tests': [
             'aic_hrm_match/static/src/tours/aic_hrm_match_demo.js',
+            'aic_hrm_match/static/src/tours/aic_hrm_match_admin.js',
+            'aic_hrm_match/static/src/tours/aic_hrm_match_mobile.js',
         ],
     },
     'images': [
