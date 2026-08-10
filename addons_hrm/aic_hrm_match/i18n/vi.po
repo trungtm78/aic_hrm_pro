@@ -1,0 +1,334 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_match
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-10 00:51+0000\n"
+"PO-Revision-Date: 2026-08-10 00:51+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_tag.py:0
+msgid ""
+"%(child)s sits under %(parent)s, which belongs to a different category. "
+"Nesting across dimensions makes the distance between two tags meaningless."
+msgstr ""
+"%(child)s đang nằm dưới %(parent)s, vốn thuộc một nhóm khác. Lồng chéo giữa "
+"hai chiều khác nhau làm khoảng cách giữa hai thẻ mất ý nghĩa."
+
+#. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_seniority_code_uniq
+msgid "A seniority level with this code already exists."
+msgstr "Đã có bậc kinh nghiệm mang mã này."
+
+#. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_tag_category_code_uniq
+msgid "A tag category with this code already exists."
+msgstr "Đã có nhóm thẻ mang mã này."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__active
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__active
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__active
+msgid "Active"
+msgstr "Đang dùng"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__category_id
+msgid "Category"
+msgstr "Nhóm"
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_tag.py:0
+msgid ""
+"Category %(name)s: the similarity weight cannot be negative. A negative "
+"weight inverts the meaning of the whole dimension - matching the customer's "
+"industry would count against the candidate."
+msgstr ""
+"Nhóm %(name)s: trọng số tương đồng không được âm. Trọng số âm sẽ đảo ngược ý"
+" nghĩa của cả chiều đó — trùng ngành của khách hàng lại thành điểm trừ cho "
+"ứng viên."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__child_ids
+msgid "Child Tags"
+msgstr "Thẻ con"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__code
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__code
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__code
+msgid "Code"
+msgstr "Mã"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__color
+msgid "Color"
+msgstr "Màu"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__company_id
+msgid "Company"
+msgstr "Công ty"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__complete_name
+msgid "Complete Name"
+msgstr "Tên đầy đủ"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
+msgid ""
+"How much this dimension counts when comparing a person's history against a "
+"request. Industry overlap usually matters less than technology overlap, and "
+"how much less is a business decision."
+msgstr ""
+"Chiều này được tính bao nhiêu khi đối chiếu lịch sử của một người với một "
+"nhu cầu. Trùng ngành thường ít quan trọng hơn trùng công nghệ, và ít hơn bao"
+" nhiêu là quyết định của doanh nghiệp."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__id
+msgid "ID"
+msgstr "ID"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__is_hierarchical
+msgid "Is Hierarchical"
+msgstr "Có phân cấp"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__write_uid
+msgid "Last Updated by"
+msgstr "Người cập nhật cuối"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__write_date
+msgid "Last Updated on"
+msgstr "Ngày cập nhật cuối"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag__company_id
+msgid ""
+"Leave empty to share the tag across every company. A company value makes it "
+"private to that company."
+msgstr ""
+"Để trống nếu muốn dùng chung thẻ cho mọi công ty. Điền công ty thì thẻ chỉ "
+"thuộc riêng công ty đó."
+
+#. module: aic_hrm_match
+#: model:res.groups,comment:aic_hrm_match.group_match_user
+msgid ""
+"Maintains their own capability profile and\n"
+"            certifications, and sees their own standing in a ranking when the\n"
+"            policy allows it. Never sees a colleague's score."
+msgstr ""
+"Tự duy trì hồ sơ năng lực và chứng chỉ của mình, và xem được vị trí của "
+"chính mình trong một lần xếp hạng nếu chính sách cho phép. Không bao giờ "
+"thấy điểm của đồng nghiệp."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: aic_hrm_match
+#: model:res.groups,comment:aic_hrm_match.group_match_performance_data
+msgid ""
+"Orthogonal to the three tiers above, not a rung on\n"
+"            them. Grants the right to read the contribution of criteria marked\n"
+"            sensitive - typically appraisal-derived scores. A planner without it\n"
+"            still ranks candidates; they simply never see those figures."
+msgstr ""
+"Trực giao với ba bậc ở trên, không phải một nấc trong đó. Cấp quyền đọc phần"
+" đóng góp của các tiêu chí được đánh dấu nhạy cảm — thường là điểm suy ra từ"
+" đánh giá hiệu suất. Người điều phối không có quyền này vẫn xếp hạng được "
+"ứng viên; họ chỉ không bao giờ thấy các con số đó."
+
+#. module: aic_hrm_match
+#: model:res.groups,comment:aic_hrm_match.group_match_admin
+msgid ""
+"Owns the criteria catalogue and the scoring\n"
+"            policies, the cost and billing rates, the identity mapping behind\n"
+"            blind ranking, and the personal-data erasure tool."
+msgstr ""
+"Sở hữu danh mục tiêu chí và các chính sách chấm điểm, đơn giá chi phí và đơn"
+" giá bán, bảng ánh xạ danh tính phía sau cơ chế chấm ẩn danh, và công cụ xoá"
+" dữ liệu cá nhân."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__parent_path
+msgid "Parent Path"
+msgstr "Đường dẫn cha"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__parent_id
+msgid "Parent Tag"
+msgstr "Thẻ cha"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_seniority__rank
+msgid ""
+"Position on the ladder. Only the ordering matters, so leave gaps (10, 20, "
+"30) and a grade can be inserted later without renumbering everything below "
+"it."
+msgstr ""
+"Vị trí trên thang bậc. Chỉ thứ tự là quan trọng, nên hãy chừa khoảng cách "
+"(10, 20, 30) để sau này chèn thêm một bậc mà không phải đánh số lại toàn bộ "
+"phía dưới."
+
+#. module: aic_hrm_match
+#: model:res.groups,comment:aic_hrm_match.group_match_planner
+msgid ""
+"Raises staffing requests, runs rankings, verifies\n"
+"            certifications, records decisions and books people. Sees candidate\n"
+"            scores, but not the contribution of criteria flagged as sensitive\n"
+"            unless they also hold Performance Data Access."
+msgstr ""
+"Tạo nhu cầu nhân sự, chạy xếp hạng, xác thực chứng chỉ, ghi quyết định và "
+"đặt lịch cho nhân sự. Thấy điểm của ứng viên, nhưng không thấy phần đóng góp"
+" của các tiêu chí được đánh dấu nhạy cảm, trừ khi đồng thời có quyền Xem dữ "
+"liệu hiệu suất."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__rank
+msgid "Rank"
+msgstr "Thứ bậc"
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_seniority.py:0
+msgid ""
+"Seniority %(name)s: rank cannot be negative. Ranks are compared directly, so"
+" a negative one would sort below having no seniority recorded at all."
+msgstr ""
+"Bậc %(name)s: thứ bậc không được âm. Thứ bậc được so sánh trực tiếp, nên giá"
+" trị âm sẽ xếp thấp hơn cả trường hợp chưa ghi nhận bậc nào."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__sequence
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__sequence
+msgid "Sequence"
+msgstr "Thứ tự"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
+msgid "Similarity Weight"
+msgstr "Trọng số tương đồng"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__code
+msgid ""
+"Stable identifier used by imports and by scorer configuration. Changing it "
+"breaks references; add a new category instead."
+msgstr ""
+"Định danh ổn định dùng cho nhập liệu và cấu hình chấm điểm. Đổi mã sẽ làm "
+"hỏng các tham chiếu; hãy thêm nhóm mới thay vì sửa."
+
+#. module: aic_hrm_match
+#: model:res.groups.privilege,name:aic_hrm_match.privilege_aic_hrm_match
+msgid "Staffing"
+msgstr "Bố trí nhân sự"
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_seniority
+msgid "Staffing Seniority Level"
+msgstr "Bậc kinh nghiệm"
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_tag
+msgid "Staffing Tag"
+msgstr "Thẻ năng lực"
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_tag_category
+msgid "Staffing Tag Category"
+msgstr "Nhóm thẻ năng lực"
+
+#. module: aic_hrm_match
+#: model:res.groups,name:aic_hrm_match.group_match_admin
+msgid "Staffing: Administrator"
+msgstr "Bố trí nhân sự: Quản trị"
+
+#. module: aic_hrm_match
+#: model:res.groups,name:aic_hrm_match.group_match_user
+msgid "Staffing: Own profile"
+msgstr "Bố trí nhân sự: Hồ sơ cá nhân"
+
+#. module: aic_hrm_match
+#: model:res.groups,name:aic_hrm_match.group_match_performance_data
+msgid "Staffing: Performance data access"
+msgstr "Bố trí nhân sự: Quyền xem dữ liệu hiệu suất"
+
+#. module: aic_hrm_match
+#: model:res.groups,name:aic_hrm_match.group_match_planner
+msgid "Staffing: Planner"
+msgstr "Bố trí nhân sự: Điều phối"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__tag_ids
+msgid "Tags"
+msgstr "Thẻ"
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_tag.py:0
+msgid "The tag code %(code)s appears twice in the same batch."
+msgstr "Mã thẻ %(code)s xuất hiện hai lần trong cùng một lô."
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_tag.py:0
+msgid ""
+"The tag code %(code)s is already used in category %(category)s for this "
+"company."
+msgstr "Mã thẻ %(code)s đã được dùng trong nhóm %(category)s của công ty này."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__is_hierarchical
+msgid ""
+"Whether tags in this category form a tree. Technologies nest (React under "
+"Frontend); industries usually do not."
+msgstr ""
+"Thẻ trong nhóm này có tạo thành cây hay không. Công nghệ thì có lồng nhau "
+"(React nằm dưới Frontend); ngành nghề thường thì không."

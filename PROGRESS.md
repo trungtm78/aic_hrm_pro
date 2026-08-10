@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP0a/10 (aic_hrm_match) | Task: 7/7 của CP0a — CP0a XONG
+Cập nhật: 2026-08-10 | Milestone: CP1/10 (aic_hrm_match) | Task: CP1b xong, CP1c tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -55,27 +55,35 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       `ancestor_credit`, `tiebreak_salt`.
       TDD RED→GREEN. **35 test, 0 fail; patch coverage `utils.py` = 100%** (`coverage report`).
 
+- [x] **CP1b** Taxonomy: `aic.hrm.match.tag.category`, `aic.hrm.match.tag` (`_parent_store`,
+      `ancestor_distance()`, `expand_related()`), `aic.hrm.match.seniority`.
+      4 group quyền + `ir.model.access.csv`. i18n **45/45 tiếng Việt**.
+      **60 test, 0 fail, coverage models 100%**, xanh trên **cả Odoo 19 và Odoo 18**.
+
 ### Đang làm dở
-Task: CP1b — `match_context.py` + taxonomy (tag, tag.category, seniority)
+Task: CP1c — `skill.compat` AbstractModel
 Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: viết `addons_hrm/aic_hrm_match/tests/test_taxonomy.py` (RED) cho
-`aic.hrm.match.tag` (`_parent_store`, unique `(code, category_id, company_id)`,
-`ancestor_distance()` dùng `parent_path`) rồi mới tạo
-`models/aic_hrm_match_tag.py` + `models/aic_hrm_match_seniority.py`.
-File liên quan: plan §3.1 (taxonomy), §4.5 (dùng tập id tổ tiên thay vì so tiền tố parent_path)
+BƯỚC TIẾP THEO: viết `tests/test_skill_compat.py` (RED) khẳng định
+`has_core_validity()` / `has_core_certification()` **dò `_fields`** chứ không dò số hiệu series,
+rồi tạo `models/aic_hrm_match_skill_compat.py` với 4 method
+(`has_core_validity`, `has_core_certification`, `get_validity(lines)`, `get_certification_type_ids`)
+và các field shim `match_valid_from`/`match_valid_to`/`match_is_certification` **chỉ tạo khi lõi thiếu**.
+File liên quan: plan §3.3 · bằng chứng series ở mục "Bằng chứng xác minh CP0" bên dưới
 
 ### Hàng đợi task kế tiếp
-1. CP1b taxonomy + `match_context.py`
-2. CP1c `skill.compat` AbstractModel (dò `_fields`, không dò series) + `test_skill_compat.py`
-3. CP1d khung schema toàn bộ model + groups + ACL + record rule **2 lớp** (global AND + group OR)
-4. CP1e `test_security.py` các case ACL/rule (S01–S08, S16–S22)
-5. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
+1. CP1c `skill.compat` + `test_skill_compat.py`
+2. CP1d khung schema toàn bộ model + record rule **2 lớp** (global AND + group OR)
+3. CP1e `test_security.py` các case ACL/rule (S01–S08, S16–S22)
+4. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
    experience ledger, certification)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
 |---|---|---|---|
 | 2026-08-10 | `backport_18.py` dùng AST thay regex, kèm `verify()` bắt buộc | Regex cũ (`CONSTRAINT_RE`) chỉ khớp đúng 1 hình dạng 4 dòng nháy đơn; message xuống dòng hoặc nháy kép bị **bỏ qua trong im lặng** và `backport()` vẫn báo thành công ⇒ có thể đẩy API 19 vào zip 18.0 bán cho khách | `tools/backport_18.py`, `tools/tests/test_backport.py` |
+| 2026-08-10 | Dùng `sql.create_unique_index(...)` thay `sql.create_index(..., unique=True)` | Tham số `unique` **chỉ có ở Odoo 19**; trên 18 gọi thế ném `TypeError` ngay lúc tạo bảng ⇒ module **không cài được**. `create_unique_index` cùng chữ ký ở cả hai series. Đây là **delta thứ 8** giữa 19 và 18, đã ghi vào `Docs/backport-notes.md`; không transform được nên phải viết code di động | `aic_hrm_match_tag.py`, `Docs/backport-notes.md` |
+| 2026-08-10 | Kiểm trùng mã thẻ chạy **trước** `super().create()`, không dùng `@api.constrains` | Odoo chạy constrains **sau** khi hàng đã xuống DB, nên unique index luôn nổ trước và user nhận traceback psycopg thay vì một câu tiếng Việt. Index vẫn giữ làm bảo đảm thật khi hai transaction chèn cùng lúc | `aic_hrm_match_tag.py` |
+| 2026-08-10 | Bỏ hẳn constraint chống chu trình cho tag | `_parent_store` của Odoo dựng lại `parent_path` trong lúc write và ném `UserError` trước khi mọi model constraint có lượt ⇒ constraint tự viết là **code chết**, đọc vào tưởng có bảo vệ | `aic_hrm_match_tag.py` |
 | 2026-08-10 | Trên Odoo 18, lịch sử hiệu lực chứng chỉ **không** lưu vào `hr.employee.skill` mà vào model riêng của addon | Xác minh source: `odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26` có `_sql_constraints unique(employee_id, skill_id)` ⇒ **cấm** 2 kỳ hiệu lực cho cùng skill. Odoo 19 ngược lại cho phép (`hr_individual_skill_mixin.py:68-87` miễn trừ certification khỏi luật overlap) | `skill.compat` (§3.3 plan) |
 
 ## Assumption đã tự quyết
@@ -94,7 +102,9 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 ```
 
 ## Trạng thái test
-- Tooling (không cần DB): `python -m unittest discover -s tools/tests -t .` → **30/30 PASS**
+- Tooling (không cần DB): `python -m unittest discover -s tools/tests -t .` → **38/38 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **60/60 PASS**, coverage `models/` = **100%**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **60/60 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

@@ -16,6 +16,17 @@ deltas below. Run it (plus the 18 smoke) after every phase, and whenever a new
 | 5 | `res.groups.sequence` field | absent | strip from group records |
 | 6 | `res.groups.user_ids` | `users` | field-name swap |
 | 7 | `@web_tour/tour_utils` | `@web_tour/tour_service/tour_utils` | JS import swap |
+| 8 | `sql.create_index(..., unique=True)` | keyword does not exist | **not transformable — write portable code**: use `sql.create_unique_index(cr, name, table, expressions)`, identical in both series |
+
+### Note on delta 8
+
+This one has no transform and cannot get one: the rewriter would have to
+understand keyword arguments, and the failure it causes is not a wrong result
+but a `TypeError` while Odoo is creating tables, so the module does not install
+at all on 18. Found in `aic_hrm_match` during CP1 by the per-checkpoint Odoo 18
+smoke run, which is the reason that run exists rather than being deferred to
+release. The rule is simply: prefer helpers whose signature matches across
+series, and let the 18 install prove it.
 
 ## Confirmed IDENTICAL in both versions (no transform)
 

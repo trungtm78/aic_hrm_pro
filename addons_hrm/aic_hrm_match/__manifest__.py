@@ -39,6 +39,8 @@ Two free connectors extend it when the matching apps are installed.
     'support': 'sales@aipower.vn',
     'depends': ['hr', 'hr_skills', 'project', 'mail', 'web'],
     'data': [
+        'security/aic_hrm_match_groups.xml',
+        'security/ir.model.access.csv',
     ],
     'assets': {
     },

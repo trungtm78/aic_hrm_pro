@@ -182,6 +182,59 @@ def transform_js(text):
                         'from "@web_tour/tour_service/tour_utils"')
 
 
+_XML_COMMENT_RE = re.compile(r'<!--.*?-->', re.DOTALL)
+
+
+def _blank_lines_in_place(lines, start, end):
+    """Blank a 1-based inclusive line range, preserving the line count."""
+    for index in range(start - 1, min(end, len(lines))):
+        lines[index] = ''
+
+
+def _strip_python_prose(text):
+    """Blank out comments and docstrings, keeping every other line intact.
+
+    A marker inside prose is documentation, not API usage: this very file
+    explains why ``models.Constraint`` is avoided, and a gate that reports its
+    own explanation is a gate people learn to ignore. Line numbers are
+    preserved so a real finding still points at the right row.
+
+    Ordinary string literals are deliberately NOT stripped - ``'group_ids':``
+    is a dict key and a genuine 19-only usage.
+    """
+    lines = text.splitlines()
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        return text
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef,
+                                 ast.AsyncFunctionDef)):
+            continue
+        body = getattr(node, 'body', None)
+        if not body:
+            continue
+        first = body[0]
+        if (isinstance(first, ast.Expr)
+                and isinstance(first.value, ast.Constant)
+                and isinstance(first.value.value, str)):
+            _blank_lines_in_place(lines, first.lineno, first.end_lineno)
+    stripped = []
+    for line in lines:
+        head = line.split('#', 1)[0] if '#' in line else line
+        # Only strip a '#' that starts a comment, not one inside a string.
+        stripped.append(head if line.count('"') % 2 == 0
+                        and line.count("'") % 2 == 0 else line)
+    return '\n'.join(stripped)
+
+
+def _strip_xml_comments(text):
+    """Blank comment bodies, keeping the line count so numbers stay usable."""
+    def blank(match):
+        return '\n' * match.group(0).count('\n')
+    return _XML_COMMENT_RE.sub(blank, text)
+
+
 def verify(dest):
     """Return every Odoo-19-only construct still present under ``dest``.
 
@@ -203,6 +256,10 @@ def verify(dest):
         text = path.read_text(encoding='utf-8', errors='ignore')
         if not any(marker in text for marker in markers):
             continue
+        if path.suffix == '.py':
+            text = _strip_python_prose(text)
+        elif path.suffix == '.xml':
+            text = _strip_xml_comments(text)
         for number, line in enumerate(text.splitlines(), start=1):
             for marker in markers:
                 if marker in line:

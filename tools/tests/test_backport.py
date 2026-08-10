@@ -178,6 +178,48 @@ class BackportVerifyCase(unittest.TestCase):
         self.assertEqual(relative, 'models/demo.py')
         self.assertEqual(line, 6, 'line number must point at the offending row')
 
+    def test_a_marker_inside_a_docstring_is_prose_not_a_finding(self):
+        """Modules explain why they avoid an API. A gate that reports its own
+        explanation is one people learn to ignore, and then it catches nothing."""
+        self._write('models/demo.py',
+                    '"""Uses an index rather than models.Constraint here."""\n'
+                    'FOO = 1\n')
+        self.assertEqual(backport_18.verify(self.tree), [])
+
+    def test_a_marker_inside_a_python_comment_is_not_a_finding(self):
+        self._write('models/demo.py',
+                    '# NOTE(backport-18): models.Constraint is Odoo 19 only.\n'
+                    'FOO = 1\n')
+        self.assertEqual(backport_18.verify(self.tree), [])
+
+    def test_a_marker_inside_an_xml_comment_is_not_a_finding(self):
+        self._write('security/groups.xml',
+                    '<odoo>\n'
+                    '  <!-- NOTE(backport-18): res.groups.privilege is\n'
+                    '       rewritten into category_id for the 18 build. -->\n'
+                    '  <record id="g" model="res.groups"/>\n'
+                    '</odoo>\n')
+        self.assertEqual(backport_18.verify(self.tree), [])
+
+    def test_stripping_prose_does_not_hide_a_real_finding(self):
+        """The line numbers must survive the stripping, or a finding points at
+        the wrong row and gets dismissed as a false alarm."""
+        self._write('models/demo.py',
+                    '"""A docstring mentioning models.Constraint."""\n'
+                    '\n'
+                    + CONSTRAINT_PLAIN)
+        relative, line, marker = backport_18.verify(self.tree)[0]
+        self.assertEqual(marker, 'models.Constraint')
+        self.assertEqual(line, 6)
+
+    def test_a_dict_key_is_still_a_real_finding(self):
+        """Ordinary string literals must NOT be stripped: 'group_ids' is a
+        genuine 19-only usage that happens to live inside quotes."""
+        self._write('tests/test_x.py',
+                    "VALUES = {'group_ids': [(6, 0, [])]}\n")
+        markers = [f[2] for f in backport_18.verify(self.tree)]
+        self.assertIn("'group_ids':", markers)
+
     def test_i18n_and_docs_are_not_scanned(self):
         """Translation catalogues quote source strings verbatim; treating that
         quotation as a live API reference would make the gate cry wolf."""
