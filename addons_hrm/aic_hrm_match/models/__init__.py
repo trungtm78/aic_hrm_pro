@@ -6,3 +6,5 @@ from . import aic_hrm_match_seniority
 from . import aic_hrm_match_skill_compat
 from . import aic_hrm_match_allocation
 from . import aic_hrm_match_availability
+from . import aic_hrm_match_profile
+from . import aic_hrm_match_request

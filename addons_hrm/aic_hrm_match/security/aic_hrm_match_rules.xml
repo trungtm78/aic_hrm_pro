@@ -24,4 +24,24 @@
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         <field name="global" eval="True"/>
     </record>
+    <record id="rule_match_profile_company_global" model="ir.rule">
+        <field name="name">Staffing profile: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_profile"/>
+        <field name="domain_force">[('resource_company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_request_company_global" model="ir.rule">
+        <field name="name">Staffing request: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_request"/>
+        <field name="domain_force">[('request_company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_slot_company_global" model="ir.rule">
+        <field name="name">Staffing slot: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_request_slot"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
 </odoo>

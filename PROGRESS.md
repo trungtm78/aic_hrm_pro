@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP2b xong, CP2c tiếp theo
+Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP2c xong, CP2d tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -89,19 +89,29 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       chứ không theo ngày lịch. Trần vượt công suất là field trên `res.company`.
       **127 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **92/92**.
 
+- [x] **CP2c** `aic.hrm.match.profile` (hồ sơ bố trí, rate ẩn bằng **field-level group** vì record rule
+      chỉ giấu được hàng chứ không giấu được cột; tạo **lazy** qua `_ensure_profiles`) +
+      `aic.hrm.match.request` / `.request.slot` / `.request.slot.skill`.
+      **Slot là đơn vị staffing**: `headcount` là compute đếm slot chứ không phải số gõ tay;
+      `required_hours` thuộc slot. `task_id` `set null` + snapshot tên; request đã có quyết định thì
+      **không xoá được** (phải lưu trữ). Sequence `SR-<năm>-####`.
+      **155 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **204/204**
+      (37 chuỗi tái dùng nguyên văn từ glossary của suite để thuật ngữ không tách đôi).
+
 ### Đang làm dở
-Task: CP2c — `profile` nhân sự + `request`/`slot`
+Task: CP2d — experience ledger + certification workflow
 Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: viết `tests/test_request_workflow.py` (RED) cho `aic.hrm.match.request` +
-`aic.hrm.match.request.slot` + `.slot.skill` theo §3.2 của plan. Lưu ý **slot là đơn vị staffing**,
-`required_hours` thuộc slot chứ không thuộc request; `task_id` phải `ondelete='set null'` + snapshot;
-`latest_run_id` là compute chọn run mới nhất có `state in ('computed','decided')`, KHÔNG phải `max(id)`.
-File liên quan: plan §3.2, §3.3 (profile), D14 (slot)
+BƯỚC TIẾP THEO: viết `tests/test_experience_ledger.py` (RED) cho `aic.hrm.match.experience` theo §3.5
+của plan. Khoá duy nhất phải là **`(company_id, source, source_key)`**, KHÔNG phải
+`(employee_id, source, task_id)` — một người có thể có nhiều vai trò trên cùng một task, và dòng
+timesheet không có `task_id` ổn định. Con trỏ đồng bộ tăng dần dùng **`(write_date, id)`**, không chỉ
+`write_date` (bỏ sót dòng cùng mốc thời gian).
+File liên quan: plan §3.5, §4.5 (similarity), §4.6 (customer affinity)
 
 ### Hàng đợi task kế tiếp
-1. CP2c `profile` + `request`/`slot`/`slot.skill`
-2. CP2d experience ledger + certification workflow
-3. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
+1. CP2d experience ledger + certification workflow
+2. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
+3. CP4 hai bridge
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
@@ -130,8 +140,8 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 
 ## Trạng thái test
 - Tooling: **39/39 PASS**
-- `aic_hrm_match` trên **Odoo 19**: **127/127 PASS**, coverage `models/` = **99%**
-- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **127/127 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **155/155 PASS**, coverage `models/` = **99%**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **155/155 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

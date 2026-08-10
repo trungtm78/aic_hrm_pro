@@ -411,3 +411,422 @@ msgstr ""
 "%(employee)s đã bị cam kết %(committed).1f giờ trong khoảng %(start)s đến "
 "%(end)s, trong khi chỉ có %(capacity).1f giờ làm việc ở đó. Các lịch đang "
 "đụng nhau: %(ids)s."
+
+# --- Wording reused verbatim from the rest of the suite, so the same
+#     concept does not acquire two names on adjacent screens.
+
+msgid "Action Needed"
+msgstr "Cần xử lý"
+
+msgid "Activities"
+msgstr "Hoạt động"
+
+msgid "Activity Exception Decoration"
+msgstr "Trang trí ngoại lệ hoạt động"
+
+msgid "Activity State"
+msgstr "Trạng thái hoạt động"
+
+msgid "Activity Type Icon"
+msgstr "Biểu tượng loại hoạt động"
+
+msgid "Attachment Count"
+msgstr "Số tệp đính kèm"
+
+msgid "Closed"
+msgstr "Đã đóng"
+
+msgid "Customer"
+msgstr "Khách hàng"
+
+msgid "Followers"
+msgstr "Người theo dõi"
+
+msgid "Followers (Partners)"
+msgstr "Người theo dõi (đối tác)"
+
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Biểu tượng Font Awesome, ví dụ fa-tasks"
+
+msgid "Has Message"
+msgstr "Có tin nhắn"
+
+msgid "Icon"
+msgstr "Biểu tượng"
+
+msgid "Icon to indicate an exception activity."
+msgstr "Biểu tượng cho biết hoạt động ngoại lệ."
+
+msgid "If checked, new messages require your attention."
+msgstr "Nếu bật, tin nhắn mới cần bạn xử lý."
+
+msgid "If checked, some messages have a delivery error."
+msgstr "Nếu bật, có tin nhắn gặp lỗi gửi."
+
+msgid "Is Follower"
+msgstr "Đang theo dõi"
+
+msgid "Message Delivery error"
+msgstr "Lỗi gửi tin nhắn"
+
+msgid "Messages"
+msgstr "Tin nhắn"
+
+msgid "My Activity Deadline"
+msgstr "Hạn hoạt động của tôi"
+
+msgid "Next Activity Deadline"
+msgstr "Hạn hoạt động kế tiếp"
+
+msgid "Next Activity Summary"
+msgstr "Tóm tắt hoạt động kế tiếp"
+
+msgid "Next Activity Type"
+msgstr "Loại hoạt động kế tiếp"
+
+msgid "Number of Actions"
+msgstr "Số hành động"
+
+msgid "Number of errors"
+msgstr "Số lỗi"
+
+msgid "Number of messages requiring action"
+msgstr "Số tin nhắn cần xử lý"
+
+msgid "Number of messages with delivery error"
+msgstr "Số tin nhắn bị lỗi gửi"
+
+msgid "Priority"
+msgstr "Ưu tiên"
+
+msgid "Ratings"
+msgstr "Đánh giá"
+
+msgid "Request"
+msgstr "Yêu cầu"
+
+msgid "Responsible User"
+msgstr "Người phụ trách"
+
+msgid "SMS Delivery error"
+msgstr "Lỗi gửi SMS"
+
+msgid "Status based on activities\nOverdue: Due date is already passed\nToday: Activity date is today\nPlanned: Future activities."
+msgstr "Trạng thái theo hoạt động\nQuá hạn: đã qua ngày đến hạn\nHôm nay: hoạt động đến hạn hôm nay\nĐã lên lịch: hoạt động trong tương lai."
+
+msgid "Type of the exception activity on record."
+msgstr "Loại hoạt động ngoại lệ trên bản ghi."
+
+msgid "Website Messages"
+msgstr "Tin nhắn từ website"
+
+msgid "Website communication history"
+msgstr "Lịch sử trao đổi qua website"
+
+msgid "Weight"
+msgstr "Trọng số"
+
+
+# --- Demand side: request, slot, staffing profile (CP2c).
+#   slot      -> "vị trí cần bố trí": a seat to fill, not a period of time
+#   headcount -> "số người cần"
+
+msgid "Staffing Request"
+msgstr "Nhu cầu bố trí nhân sự"
+
+msgid "Staffing Slot"
+msgstr "Vị trí cần bố trí"
+
+msgid "Staffing Slot Skill Requirement"
+msgstr "Kỹ năng yêu cầu cho vị trí"
+
+msgid "Staffing Profile"
+msgstr "Hồ sơ bố trí nhân sự"
+
+msgid "Reference"
+msgstr "Số hiệu"
+
+msgid "Request Type"
+msgstr "Loại nhu cầu"
+
+msgid "From a task"
+msgstr "Từ một nhiệm vụ"
+
+msgid "A role on a project"
+msgstr "Một vai trò trong dự án"
+
+msgid "Standalone need"
+msgstr "Nhu cầu độc lập"
+
+msgid "Requesting company"
+msgstr "Công ty đặt nhu cầu"
+
+msgid "Companies to staff from"
+msgstr "Các công ty được lấy nhân sự"
+
+msgid "Resource Company"
+msgstr "Công ty của nhân sự"
+
+msgid "Headcount"
+msgstr "Số người cần"
+
+msgid "Slot"
+msgstr "Vị trí"
+
+msgid "Slots"
+msgstr "Các vị trí"
+
+msgid "Skills required"
+msgstr "Kỹ năng yêu cầu"
+
+msgid "Required Hours"
+msgstr "Số giờ cần"
+
+msgid "Fte Ratio"
+msgstr "Tỷ lệ toàn thời gian"
+
+msgid "Allow Partial Availability"
+msgstr "Chấp nhận rảnh một phần"
+
+msgid "Max Hourly Cost"
+msgstr "Trần chi phí theo giờ"
+
+msgid "Assigned Employee"
+msgstr "Nhân sự được chọn"
+
+msgid "Requirement"
+msgstr "Mức yêu cầu"
+
+msgid "Mandatory"
+msgstr "Bắt buộc"
+
+msgid "Important"
+msgstr "Quan trọng"
+
+msgid "Nice to have"
+msgstr "Có thì tốt"
+
+msgid "Min Level"
+msgstr "Mức tối thiểu"
+
+msgid "Min Level Progress"
+msgstr "Mức tối thiểu (thang 0-100)"
+
+msgid "Stretch Allowed"
+msgstr "Cho phép nới ngưỡng"
+
+msgid "Skill"
+msgstr "Kỹ năng"
+
+msgid "Seniority"
+msgstr "Bậc kinh nghiệm"
+
+msgid "Job"
+msgstr "Vị trí công việc"
+
+msgid "Currency"
+msgstr "Tiền tệ"
+
+msgid "Timezone"
+msgstr "Múi giờ"
+
+msgid "Work Location"
+msgstr "Nơi làm việc"
+
+msgid "Working Hours"
+msgstr "Lịch làm việc"
+
+msgid "Willing To Travel"
+msgstr "Sẵn sàng đi công tác"
+
+msgid "Staffable"
+msgstr "Có thể bố trí"
+
+msgid "Opted out"
+msgstr "Đã xin không tham gia"
+
+msgid "Opt Out Reason"
+msgstr "Lý do không tham gia"
+
+msgid "Available From"
+msgstr "Rảnh từ ngày"
+
+msgid "Experience Start Date"
+msgstr "Bắt đầu làm nghề từ"
+
+msgid "Cost Hourly"
+msgstr "Chi phí theo giờ"
+
+msgid "Billing Rate Hourly"
+msgstr "Đơn giá bán theo giờ"
+
+msgid "Max Concurrent Requests"
+msgstr "Số nhu cầu tối đa cùng lúc"
+
+msgid "Rotation Epoch"
+msgstr "Vòng xoay"
+
+msgid "Normal"
+msgstr "Bình thường"
+
+msgid "Urgent"
+msgstr "Khẩn"
+
+msgid "Ranked"
+msgstr "Đã xếp hạng"
+
+msgid "Decided"
+msgstr "Đã quyết định"
+
+msgid "Staffed"
+msgstr "Đã bố trí xong"
+
+msgid "New"
+msgstr "Mới"
+
+msgid "%(name)s must end after it starts."
+msgstr "%(name)s phải kết thúc sau khi bắt đầu."
+
+msgid "A slot cannot require negative hours."
+msgstr "Một vị trí không thể yêu cầu số giờ âm."
+
+msgid "A slot cannot require a negative share of somebody's time."
+msgstr "Một vị trí không thể yêu cầu tỷ lệ thời gian âm."
+
+msgid "That staffing reference is already used in this company."
+msgstr "Số hiệu nhu cầu này đã được dùng trong công ty."
+
+msgid "Mandatory eliminates; the others only move the score."
+msgstr "Mức bắt buộc thì loại thẳng; hai mức còn lại chỉ làm thay đổi điểm."
+
+msgid "Filled from the decision, never typed."
+msgstr "Được điền từ quyết định, không bao giờ gõ tay."
+
+msgid "Internal cost per hour, used by the cost-fit criterion."
+msgstr "Chi phí nội bộ theo giờ, dùng cho tiêu chí phù hợp chi phí."
+
+msgid ""
+"%(skill)s is already required on this slot. Raise the minimum level instead "
+"of listing it twice."
+msgstr ""
+"%(skill)s đã được yêu cầu ở vị trí này rồi. Hãy nâng mức tối thiểu thay vì "
+"khai hai lần."
+
+msgid ""
+"Level %(level)s belongs to %(other)s, not to %(skill)s. Comparing across two "
+"scales makes the gap meaningless."
+msgstr ""
+"Mức %(level)s thuộc %(other)s chứ không thuộc %(skill)s. So sánh giữa hai "
+"thang khác nhau làm khoảng cách mất ý nghĩa."
+
+msgid ""
+"%(names)s already carry staffing decisions. Archive them instead of deleting "
+"- the ranking behind a decision is the only record of why the other "
+"candidates were not chosen."
+msgstr ""
+"%(names)s đã gắn với quyết định bố trí nhân sự. Hãy lưu trữ thay vì xoá — bảng "
+"xếp hạng phía sau một quyết định là bằng chứng duy nhất cho việc vì sao các "
+"ứng viên còn lại không được chọn."
+
+msgid ""
+"The minimum level expressed on the 0-100 scale the engine compares against."
+msgstr ""
+"Mức tối thiểu quy về thang 0-100 mà engine dùng để so sánh."
+
+msgid ""
+"How many staffing requests this person may be committed to at once. Zero "
+"means no limit."
+msgstr ""
+"Người này được cam kết tối đa bao nhiêu nhu cầu cùng lúc. Số 0 nghĩa là không "
+"giới hạn."
+
+msgid ""
+"Quoted in meetings, and the key the tie-break is salted with so re-running a "
+"request produces the same order."
+msgstr ""
+"Dùng để nhắc trong cuộc họp, đồng thời là khoá trộn của cơ chế phá hoà — nhờ "
+"đó chạy lại cùng một nhu cầu vẫn ra đúng thứ tự cũ."
+
+msgid ""
+"How many people this request needs. Derived from the slots rather than typed, "
+"so the two cannot disagree."
+msgstr ""
+"Nhu cầu này cần bao nhiêu người. Suy ra từ danh sách vị trí chứ không gõ tay, "
+"nên hai con số không thể lệch nhau."
+
+msgid ""
+"Which companies candidates may come from. Defaults to the requesting company; "
+"widening it is what cross-company staffing means, and it is deliberately "
+"opt-in."
+msgstr ""
+"Ứng viên được phép đến từ những công ty nào. Mặc định là công ty đặt nhu cầu; "
+"mở rộng ra chính là bố trí nhân sự liên công ty, và đó là lựa chọn phải bật "
+"chủ động."
+
+msgid ""
+"Effort this seat needs. Belongs to the slot, not the request: two seats on "
+"one engagement rarely need the same effort."
+msgstr ""
+"Khối lượng công việc của vị trí này. Thuộc về vị trí chứ không thuộc nhu cầu: "
+"hai vị trí trong cùng một việc hiếm khi cần khối lượng như nhau."
+
+msgid ""
+"Used instead of required hours when the need is expressed as a share of "
+"somebody's time."
+msgstr ""
+"Dùng thay cho số giờ khi nhu cầu được diễn đạt theo tỷ lệ thời gian của một "
+"người."
+
+msgid ""
+"Accept somebody who can cover most of the effort rather than all of it. Off "
+"by default: a half-available person on a full-time seat is a staffing problem "
+"deferred, not solved."
+msgstr ""
+"Chấp nhận người chỉ kham được phần lớn khối lượng thay vì toàn bộ. Mặc định "
+"tắt: xếp một người rảnh nửa thời gian vào vị trí toàn thời gian là hoãn vấn đề "
+"lại chứ không giải quyết nó."
+
+msgid ""
+"Allow somebody slightly below the minimum to be considered, as a development "
+"opportunity. Off by default: relaxing a mandatory requirement has to be a "
+"deliberate act on the requirement itself, not a side effect of a fairness "
+"setting elsewhere."
+msgstr ""
+"Cho phép xét cả người hơi dưới mức tối thiểu, coi như cơ hội phát triển. Mặc "
+"định tắt: nới một yêu cầu bắt buộc phải là hành động có chủ đích ngay trên "
+"chính yêu cầu đó, không phải hệ quả phụ của một thiết lập công bằng ở nơi khác."
+
+msgid ""
+"Whether this person may appear in a shortlist at all. Turn it off for roles "
+"that are never project-staffed rather than deleting the record."
+msgstr ""
+"Người này có được xuất hiện trong danh sách rút gọn hay không. Hãy tắt với "
+"những vị trí không bao giờ bố trí theo dự án, thay vì xoá bản ghi."
+
+msgid ""
+"Excluded from ranking at the person's own request. Recorded rather than "
+"enforced by removing their data, so a planner can see that somebody was "
+"excluded and why."
+msgstr ""
+"Bị loại khỏi xếp hạng theo nguyện vọng của chính người đó. Được ghi nhận thay "
+"vì thực thi bằng cách xoá dữ liệu, để người điều phối thấy được ai bị loại và "
+"vì sao."
+
+msgid ""
+"Earliest date this person can take new work. Somebody joining next month is a "
+"real candidate for work that starts after that."
+msgstr ""
+"Ngày sớm nhất người này có thể nhận việc mới. Người tháng sau mới vào vẫn là "
+"ứng viên thật cho công việc bắt đầu sau đó."
+
+msgid ""
+"When this person started working in the field, which is not the same as when "
+"they joined this company."
+msgstr ""
+"Người này bắt đầu làm nghề từ khi nào — khác với ngày vào công ty này."
+
+msgid ""
+"This field is used in order to define in which timezone the resources will "
+"work."
+msgstr ""
+"Trường này xác định nguồn lực làm việc theo múi giờ nào."
