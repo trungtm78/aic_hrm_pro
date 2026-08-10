@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Decision — planner can read/write/create, admin can read, user blocked -->
+    <record id="rule_match_decision_planner" model="ir.rule">
+        <field name="name">Staffing Decision - Planner</field>
+        <field name="model_id" ref="model_aic_hrm_match_decision"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_match.group_match_planner'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_decision_admin" model="ir.rule">
+        <field name="name">Staffing Decision - Admin</field>
+        <field name="model_id" ref="model_aic_hrm_match_decision"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_match.group_match_admin'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <!-- Global rule: company isolation -->
+    <record id="rule_match_decision_company_global" model="ir.rule">
+        <field name="name">Staffing Decision - Company Global</field>
+        <field name="model_id" ref="model_aic_hrm_match_decision"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Waiver — planner read/write/create, admin read-only -->
+    <record id="rule_match_waiver_planner" model="ir.rule">
+        <field name="name">Staffing Waiver - Planner</field>
+        <field name="model_id" ref="model_aic_hrm_match_waiver"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_match.group_match_planner'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_waiver_admin" model="ir.rule">
+        <field name="name">Staffing Waiver - Admin</field>
+        <field name="model_id" ref="model_aic_hrm_match_waiver"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_match.group_match_admin'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_waiver_company_global" model="ir.rule">
+        <field name="name">Staffing Waiver - Company Global</field>
+        <field name="model_id" ref="model_aic_hrm_match_waiver"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Erasure Log — admin only, read-only -->
+    <record id="rule_match_erasure_admin" model="ir.rule">
+        <field name="name">Staffing Erasure Log - Admin</field>
+        <field name="model_id" ref="model_aic_hrm_match_erasure_log"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_match.group_match_admin'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('id', '!=', False)]</field>
+    </record>
+
+    <record id="rule_match_erasure_company_global" model="ir.rule">
+        <field name="name">Staffing Erasure Log - Company Global</field>
+        <field name="model_id" ref="model_aic_hrm_match_erasure_log"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+        <field name="domain_force">[('id', 'in', [])]</field><!-- Empty: erasure log global visibility is controlled by admin-only ACL -->
+    </record>
+
+</odoo>
