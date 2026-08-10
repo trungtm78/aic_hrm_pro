@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP2a xong, CP2b tiếp theo
+Cập nhật: 2026-08-10 | Milestone: CP2/10 (aic_hrm_match) | Task: CP2b xong, CP2c tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -83,21 +83,25 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       tham số này là chỗ chịu lực: để mặc định thì nghỉ phép bị trừ **hai lần**.
       **116 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **88/88**.
 
+- [x] **CP2b** Chống double-book: `pg_advisory_xact_lock` namespace riêng `0x41494331`, khoá theo id
+      **sắp xếp tăng dần** (chống deadlock), `write` khoá **cả hai đầu** khi chuyển người,
+      rồi `flush` → invalidate → **đọc lại** → validate. `_prorated_hours` chia giờ theo **giờ làm việc**
+      chứ không theo ngày lịch. Trần vượt công suất là field trên `res.company`.
+      **127 test, 0 fail, xanh trên cả 19 và 18**; coverage 99%. i18n **92/92**.
+
 ### Đang làm dở
-Task: CP2b — advisory lock chống double-book trên `allocation`
-Đã làm: model `allocation` đã có (state/booking_type/is_blocking/snapshot task), **chưa có** khoá.
-BƯỚC TIẾP THEO: viết `tests/test_allocation_concurrency.py` (RED) dùng **hai cursor song song**
-(`odoo.sql_db.db_connect(...).cursor()`) cùng đặt lịch một người trong một cửa sổ, khẳng định đúng
-**một** bên `ValidationError`. Rồi cài `pg_advisory_xact_lock` theo §3.4 của plan:
-namespace riêng `0x41494331`, khoá theo id **đã sắp xếp tăng dần**, gom **hợp** employee cũ+mới khi
-`write`, `flush()` + invalidate rồi **đọc lại** trước khi validate.
-File liên quan: plan §3.4 (5 bước bắt buộc; `FOR UPDATE` KHÔNG đủ vì không khoá được hàng chưa tồn tại)
+Task: CP2c — `profile` nhân sự + `request`/`slot`
+Đã làm: chưa bắt đầu
+BƯỚC TIẾP THEO: viết `tests/test_request_workflow.py` (RED) cho `aic.hrm.match.request` +
+`aic.hrm.match.request.slot` + `.slot.skill` theo §3.2 của plan. Lưu ý **slot là đơn vị staffing**,
+`required_hours` thuộc slot chứ không thuộc request; `task_id` phải `ondelete='set null'` + snapshot;
+`latest_run_id` là compute chọn run mới nhất có `state in ('computed','decided')`, KHÔNG phải `max(id)`.
+File liên quan: plan §3.2, §3.3 (profile), D14 (slot)
 
 ### Hàng đợi task kế tiếp
-1. CP2b advisory lock + test hai cursor
-2. CP2c `profile` nhân sự + `request`/`slot`
-3. CP2d experience ledger + certification workflow
-4. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
+1. CP2c `profile` + `request`/`slot`/`slot.skill`
+2. CP2d experience ledger + certification workflow
+3. CP3 engine (criterion, policy versioning, scorer registry, run/candidate/score.line)
 
 ## Quyết định kiến trúc
 | Ngày | Quyết định | Lý do | Ảnh hưởng |
@@ -105,6 +109,7 @@ File liên quan: plan §3.4 (5 bước bắt buộc; `FOR UPDATE` KHÔNG đủ v
 | 2026-08-10 | `backport_18.py` dùng AST thay regex, kèm `verify()` bắt buộc | Regex cũ (`CONSTRAINT_RE`) chỉ khớp đúng 1 hình dạng 4 dòng nháy đơn; message xuống dòng hoặc nháy kép bị **bỏ qua trong im lặng** và `backport()` vẫn báo thành công ⇒ có thể đẩy API 19 vào zip 18.0 bán cho khách | `tools/backport_18.py`, `tools/tests/test_backport.py` |
 | 2026-08-10 | Dùng `sql.create_unique_index(...)` thay `sql.create_index(..., unique=True)` | Tham số `unique` **chỉ có ở Odoo 19**; trên 18 gọi thế ném `TypeError` ngay lúc tạo bảng ⇒ module **không cài được**. `create_unique_index` cùng chữ ký ở cả hai series. Đây là **delta thứ 8** giữa 19 và 18, đã ghi vào `Docs/backport-notes.md`; không transform được nên phải viết code di động | `aic_hrm_match_tag.py`, `Docs/backport-notes.md` |
 | 2026-08-10 | Kiểm trùng mã thẻ chạy **trước** `super().create()`, không dùng `@api.constrains` | Odoo chạy constrains **sau** khi hàng đã xuống DB, nên unique index luôn nổ trước và user nhận traceback psycopg thay vì một câu tiếng Việt. Index vẫn giữ làm bảo đảm thật khi hai transaction chèn cùng lúc | `aic_hrm_match_tag.py` |
+| 2026-08-10 | Fixture test **không được hard-code số giờ**, phải tính từ capacity thật | Lịch làm việc mặc định của Odoo 18 và 19 đặt giờ nghỉ trưa khác nhau ⇒ cửa sổ 08:00-12:00 cho 4 giờ ở 19 nhưng 3 giờ ở 18. Fixture ghi cứng "4 giờ" xanh ở 19 và vỡ ở 18 vì lý do chẳng liên quan gì tới thứ đang kiểm | `test_allocation_concurrency.py` |
 | 2026-08-10 | Bỏ hẳn constraint chống chu trình cho tag | `_parent_store` của Odoo dựng lại `parent_path` trong lúc write và ném `UserError` trước khi mọi model constraint có lượt ⇒ constraint tự viết là **code chết**, đọc vào tưởng có bảo vệ | `aic_hrm_match_tag.py` |
 | 2026-08-10 | Trên Odoo 18, lịch sử hiệu lực chứng chỉ **không** lưu vào `hr.employee.skill` mà vào model riêng của addon | Xác minh source: `odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26` có `_sql_constraints unique(employee_id, skill_id)` ⇒ **cấm** 2 kỳ hiệu lực cho cùng skill. Odoo 19 ngược lại cho phép (`hr_individual_skill_mixin.py:68-87` miễn trừ certification khỏi luật overlap) | `skill.compat` (§3.3 plan) |
 
@@ -125,8 +130,8 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 
 ## Trạng thái test
 - Tooling: **39/39 PASS**
-- `aic_hrm_match` trên **Odoo 19**: **116/116 PASS**, coverage `models/` = **99%**
-- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **116/116 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **127/127 PASS**, coverage `models/` = **99%**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **127/127 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

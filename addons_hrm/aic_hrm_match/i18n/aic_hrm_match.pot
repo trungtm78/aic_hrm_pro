@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 03:11+0000\n"
-"PO-Revision-Date: 2026-08-10 03:11+0000\n"
+"POT-Creation-Date: 2026-08-10 03:28+0000\n"
+"PO-Revision-Date: 2026-08-10 03:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,15 @@ msgstr ""
 msgid ""
 "%(child)s sits under %(parent)s, which belongs to a different category. "
 "Nesting across dimensions makes the distance between two tags meaningless."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_allocation.py:0
+msgid ""
+"%(employee)s is committed to %(committed).1f hours between %(start)s and "
+"%(end)s but only has %(capacity).1f working hours there. Clashing bookings: "
+"%(ids)s."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -109,6 +118,11 @@ msgid "Color"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__company_id
 msgid "Company"
@@ -164,6 +178,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -215,6 +230,16 @@ msgid "Hard (committed)"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_res_company__match_over_allocation_tolerance
+msgid ""
+"How far past somebody's working hours a booking may go, as a fraction. 0.0 "
+"refuses anything beyond capacity; 0.1 allows ten per cent. Some "
+"organisations plan deliberately above capacity and absorb it, which is a "
+"business decision rather than something to hard-code as allowed or "
+"forbidden."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
 msgid ""
 "How much this dimension counts when comparing a person's history against a "
@@ -231,6 +256,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__id
 msgid "ID"
 msgstr ""
 
@@ -294,6 +320,11 @@ msgid ""
 "            them. Grants the right to read the contribution of criteria marked\n"
 "            sensitive - typically appraisal-derived scores. A planner without it\n"
 "            still ranks candidates; they simply never see those figures."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__match_over_allocation_tolerance
+msgid "Over-allocation tolerance"
 msgstr ""
 
 #. module: aic_hrm_match

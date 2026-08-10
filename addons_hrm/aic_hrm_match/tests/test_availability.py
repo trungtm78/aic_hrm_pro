@@ -108,13 +108,22 @@ class FreeTimeCase(MatchCase):
         free = self.availability.get_free_hours(self.employee, *self.window)
         self.assertAlmostEqual(free, 0.0, places=1)
 
-    def test_two_bookings_on_the_same_day_do_not_exceed_the_day(self):
-        """The overlap trap. Two four-hour bookings on the same eight-hour day
-        take eight hours, not sixteen - and never more than the day holds."""
+    def test_overlapping_bookings_take_the_union_not_the_sum(self):
+        """The overlap trap, in the free-hours calculation itself.
+
+        Two bookings sharing hours occupy the union of their spans, not the sum
+        of them. The company tolerance is raised here on purpose: overlapping
+        commitments are over-allocation by definition and the clash guard would
+        otherwise refuse the fixture, but the arithmetic under test is what
+        free-hours does once such a state exists.
+        """
+        self.employee.company_id.match_over_allocation_tolerance = 99.0
         self._book('2026-09-14 08:00:00', '2026-09-14 12:00:00', 4.0)
-        self._book('2026-09-14 10:00:00', '2026-09-14 14:00:00', 4.0)
+        self._book('2026-09-14 10:00:00', '2026-09-14 14:00:00', 3.0)
         free = self.availability.get_free_hours(self.employee, *self.window)
-        self.assertGreaterEqual(free, 32.0)
+        # The two spans union to 08:00-14:00, which is six working hours once
+        # the lunch break is removed. Summing them would remove nine.
+        self.assertAlmostEqual(free, 40.0 - 5.0, places=1)
 
     def test_a_booking_must_end_after_it_starts(self):
         from odoo.exceptions import ValidationError
@@ -140,9 +149,10 @@ class FreeTimeCase(MatchCase):
         self.assertIn('Migrate billing', booking.task_ref_snapshot)
 
     def test_free_time_never_goes_negative(self):
-        """Over-booking is a real state - it is what the clash check reports on
-        - but it must not turn into a negative score that ranks somebody above
-        a person who is merely full."""
+        """Over-booking is a real state - a company running a deliberate
+        tolerance can reach it - but it must not turn into a negative score
+        that ranks an overloaded person above one who is merely full."""
+        self.employee.company_id.match_over_allocation_tolerance = 99.0
         self._book('2026-09-14 00:00:00', '2026-09-18 23:59:59', 400.0)
         free = self.availability.get_free_hours(self.employee, *self.window)
         self.assertGreaterEqual(free, 0.0)

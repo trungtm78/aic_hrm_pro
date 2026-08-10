@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 03:11+0000\n"
-"PO-Revision-Date: 2026-08-10 03:11+0000\n"
+"POT-Creation-Date: 2026-08-10 03:28+0000\n"
+"PO-Revision-Date: 2026-08-10 03:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -25,6 +25,18 @@ msgid ""
 msgstr ""
 "%(child)s đang nằm dưới %(parent)s, vốn thuộc một nhóm khác. Lồng chéo giữa "
 "hai chiều khác nhau làm khoảng cách giữa hai thẻ mất ý nghĩa."
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_allocation.py:0
+msgid ""
+"%(employee)s is committed to %(committed).1f hours between %(start)s and "
+"%(end)s but only has %(capacity).1f working hours there. Clashing bookings: "
+"%(ids)s."
+msgstr ""
+"%(employee)s đã bị cam kết %(committed).1f giờ trong khoảng %(start)s đến "
+"%(end)s, trong khi chỉ có %(capacity).1f giờ làm việc ở đó. Các lịch đang "
+"đụng nhau: %(ids)s."
 
 #. module: aic_hrm_match
 #. odoo-python
@@ -115,6 +127,11 @@ msgid "Color"
 msgstr "Màu"
 
 #. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_res_company
+msgid "Companies"
+msgstr "Công ty"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__company_id
 msgid "Company"
@@ -170,6 +187,7 @@ msgstr "Suy ra từ nhiệm vụ"
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__display_name
 msgid "Display Name"
 msgstr "Tên hiển thị"
 
@@ -223,6 +241,21 @@ msgid "Hard (committed)"
 msgstr "Đã cam kết"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_res_company__match_over_allocation_tolerance
+msgid ""
+"How far past somebody's working hours a booking may go, as a fraction. 0.0 "
+"refuses anything beyond capacity; 0.1 allows ten per cent. Some "
+"organisations plan deliberately above capacity and absorb it, which is a "
+"business decision rather than something to hard-code as allowed or "
+"forbidden."
+msgstr ""
+"Được phép đặt lịch vượt quá số giờ làm việc của một người bao nhiêu, tính "
+"theo tỷ lệ. 0.0 là từ chối mọi phần vượt công suất; 0.1 là cho phép vượt "
+"10%. Một số tổ chức chủ động lập kế hoạch vượt công suất rồi tự hấp thụ — đó"
+" là quyết định của doanh nghiệp, không phải thứ nên cố định cứng trong mã "
+"nguồn."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
 msgid ""
 "How much this dimension counts when comparing a person's history against a "
@@ -242,6 +275,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
@@ -315,6 +349,11 @@ msgstr ""
 " đóng góp của các tiêu chí được đánh dấu nhạy cảm — thường là điểm suy ra từ"
 " đánh giá hiệu suất. Người điều phối không có quyền này vẫn xếp hạng được "
 "ứng viên; họ chỉ không bao giờ thấy các con số đó."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__match_over_allocation_tolerance
+msgid "Over-allocation tolerance"
+msgstr "Mức cho phép vượt công suất"
 
 #. module: aic_hrm_match
 #: model:res.groups,comment:aic_hrm_match.group_match_admin

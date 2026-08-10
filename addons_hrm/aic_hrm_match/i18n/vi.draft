@@ -383,3 +383,31 @@ msgid ""
 msgstr ""
 "Lịch này có chiếm thời gian rảnh hay không. Được lưu để engine lọc ngay trong "
 "SQL thay vì trong Python."
+
+# --- Clash prevention (CP2b).
+
+msgid "Companies"
+msgstr "Công ty"
+
+msgid "Over-allocation tolerance"
+msgstr "Mức cho phép vượt công suất"
+
+msgid ""
+"How far past somebody's working hours a booking may go, as a fraction. 0.0 "
+"refuses anything beyond capacity; 0.1 allows ten per cent. Some organisations "
+"plan deliberately above capacity and absorb it, which is a business decision "
+"rather than something to hard-code as allowed or forbidden."
+msgstr ""
+"Được phép đặt lịch vượt quá số giờ làm việc của một người bao nhiêu, tính "
+"theo tỷ lệ. 0.0 là từ chối mọi phần vượt công suất; 0.1 là cho phép vượt 10%. "
+"Một số tổ chức chủ động lập kế hoạch vượt công suất rồi tự hấp thụ — đó là "
+"quyết định của doanh nghiệp, không phải thứ nên cố định cứng trong mã nguồn."
+
+msgid ""
+"%(employee)s is committed to %(committed).1f hours between %(start)s and "
+"%(end)s but only has %(capacity).1f working hours there. Clashing bookings: "
+"%(ids)s."
+msgstr ""
+"%(employee)s đã bị cam kết %(committed).1f giờ trong khoảng %(start)s đến "
+"%(end)s, trong khi chỉ có %(capacity).1f giờ làm việc ở đó. Các lịch đang "
+"đụng nhau: %(ids)s."
