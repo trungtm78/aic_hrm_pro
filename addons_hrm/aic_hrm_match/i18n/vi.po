@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 03:45+0000\n"
-"PO-Revision-Date: 2026-08-10 03:45+0000\n"
+"POT-Creation-Date: 2026-08-10 04:27+0000\n"
+"PO-Revision-Date: 2026-08-10 04:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -55,6 +55,12 @@ msgstr ""
 "%(names)s đã gắn với quyết định bố trí nhân sự. Hãy lưu trữ thay vì xoá — "
 "bảng xếp hạng phía sau một quyết định là bằng chứng duy nhất cho việc vì sao"
 " các ứng viên còn lại không được chọn."
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_skill_compat.py:0
+msgid "%(skill)s cannot go from %(current)s to %(target)s."
+msgstr "%(skill)s không thể chuyển từ %(current)s sang %(target)s."
 
 #. module: aic_hrm_match
 #. odoo-python
@@ -179,6 +185,18 @@ msgstr ""
 "khác."
 
 #. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_experience.py:0
+msgid "An experience entry cannot end before it starts."
+msgstr "Một dòng kinh nghiệm không thể kết thúc trước khi bắt đầu."
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_experience.py:0
+msgid "An outcome is a score between 0 and 1; %(value)s is outside that."
+msgstr "Kết quả là điểm từ 0 đến 1; %(value)s nằm ngoài khoảng đó."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__assigned_employee_id
 msgid "Assigned Employee"
 msgstr "Nhân sự được chọn"
@@ -194,9 +212,19 @@ msgid "Available From"
 msgstr "Rảnh từ ngày"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__submitted
+msgid "Awaiting verification"
+msgstr "Chờ xác thực"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__billing_rate_hourly
 msgid "Billing Rate Hourly"
 msgstr "Đơn giá bán theo giờ"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__allocation
+msgid "Booking"
+msgstr "Lịch đã đặt"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__booking_type
@@ -254,6 +282,11 @@ msgid "Color"
 msgstr "Màu"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__commercial_partner_id
+msgid "Commercial Entity"
+msgstr "Pháp nhân thương mại"
+
+#. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_res_company
 msgid "Companies"
 msgstr "Công ty"
@@ -265,6 +298,7 @@ msgstr "Các công ty được lấy nhân sự"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__company_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__company_id
 msgid "Company"
 msgstr "Công ty"
@@ -286,6 +320,7 @@ msgstr "Chi phí theo giờ"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__create_uid
@@ -298,6 +333,7 @@ msgstr "Người tạo"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__create_date
@@ -321,6 +357,7 @@ msgstr "Khách hàng"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_end
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__date_end
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__date_end
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__date_end
 msgid "Date End"
@@ -328,6 +365,7 @@ msgstr "Kết thúc"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_start
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__date_start
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__date_start
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__date_start
 msgid "Date Start"
@@ -346,6 +384,7 @@ msgstr "Suy ra từ nhiệm vụ"
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__display_name
@@ -359,6 +398,16 @@ msgstr "Suy ra từ nhiệm vụ"
 #: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__display_name
 msgid "Display Name"
 msgstr "Tên hiển thị"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__recency_weight
+msgid ""
+"Display-only decay, refreshed nightly. Ranking never reads it; it recomputes"
+" decay against the moment the run was frozen."
+msgstr ""
+"Hệ số suy giảm chỉ để hiển thị, làm mới hằng đêm. Việc xếp hạng không bao "
+"giờ đọc nó; engine tự tính lại suy giảm theo mốc thời gian đã đóng băng của "
+"lần chạy."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__done
@@ -400,6 +449,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__employee_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__employee_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__employee_id
 msgid "Employee"
 msgstr "Nhân viên"
@@ -411,6 +461,7 @@ msgstr "Ngày hết hiệu lực; để trống nghĩa là vô thời hạn."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__manual
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__manual
 msgid "Entered by hand"
 msgstr "Nhập tay"
 
@@ -452,6 +503,7 @@ msgstr "Biểu tượng Font Awesome, ví dụ fa-tasks"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__bridge
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__bridge
 msgid "From a connector"
 msgstr "Từ module cầu nối"
 
@@ -484,6 +536,11 @@ msgstr "Có tin nhắn"
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__headcount
 msgid "Headcount"
 msgstr "Số người cần"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__hours
+msgid "Hours"
+msgstr "Số giờ"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_res_company__match_over_allocation_tolerance
@@ -530,8 +587,20 @@ msgstr ""
 " nhiêu là quyết định của doanh nghiệp."
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__outcome_score
+msgid ""
+"How well it went, from 0 to 1, when something knows. Left empty rather than "
+"defaulted: inventing a number here would put a fabricated observation into "
+"the customer-affinity score."
+msgstr ""
+"Việc đó diễn ra tốt đến đâu, thang 0 đến 1, khi có nguồn nào biết được. Để "
+"trống thay vì gán mặc định: bịa một con số ở đây là đưa một quan sát không "
+"có thật vào điểm thân thuộc khách hàng."
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__id
@@ -575,6 +644,7 @@ msgstr "Quan trọng"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__import
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__import
 msgid "Imported"
 msgstr "Nhập khẩu dữ liệu"
 
@@ -599,12 +669,18 @@ msgid "Is Hierarchical"
 msgstr "Có phân cấp"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__is_lead_role
+msgid "Is Lead Role"
+msgstr "Vai trò dẫn dắt"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__job_id
 msgid "Job"
 msgstr "Vị trí công việc"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__write_uid
@@ -617,6 +693,7 @@ msgstr "Người cập nhật cuối"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__write_date
@@ -743,6 +820,11 @@ msgid "Normal"
 msgstr "Bình thường"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__draft
+msgid "Not submitted"
+msgstr "Chưa nộp"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Số hành động"
@@ -761,6 +843,17 @@ msgstr "Số tin nhắn cần xử lý"
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Số tin nhắn bị lỗi gửi"
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_skill_compat.py:0
+msgid ""
+"Only a staffing planner may verify or reject a certificate. A certificate "
+"confirmed by the person who claimed it attests to nothing."
+msgstr ""
+"Chỉ người điều phối bố trí nhân sự mới được xác thực hoặc từ chối một chứng "
+"chỉ. Chứng chỉ do chính người khai tự xác nhận thì không chứng minh được "
+"điều gì."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__opt_out_reason
@@ -784,6 +877,16 @@ msgstr ""
 " đóng góp của các tiêu chí được đánh dấu nhạy cảm — thường là điểm suy ra từ"
 " đánh giá hiệu suất. Người điều phối không có quyền này vẫn xếp hạng được "
 "ứng viên; họ chỉ không bao giờ thấy các con số đó."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__outcome_score
+msgid "Outcome Score"
+msgstr "Điểm kết quả"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__outcome_source
+msgid "Outcome Source"
+msgstr "Nguồn đánh giá kết quả"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__match_over_allocation_tolerance
@@ -813,6 +916,7 @@ msgstr "Thẻ cha"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__partner_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__partner_id
 msgid "Partner"
 msgstr "Đối tác"
 
@@ -834,6 +938,7 @@ msgstr "Ưu tiên"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__project_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__project_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__project_id
 msgid "Project"
 msgstr "Dự án"
@@ -881,9 +986,19 @@ msgid "Ratings"
 msgstr "Đánh giá"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__recency_weight
+msgid "Recency Weight"
+msgstr "Trọng số gần đây"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__reference
 msgid "Reference"
 msgstr "Số hiệu"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__rejected
+msgid "Rejected"
+msgstr "Đã từ chối"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__request_id
@@ -927,6 +1042,11 @@ msgid "Responsible User"
 msgstr "Người phụ trách"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__role
+msgid "Role"
+msgstr "Vai trò"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__role_note
 msgid "Role Note"
 msgstr "Ghi chú vai trò"
@@ -942,6 +1062,7 @@ msgid "SMS Delivery error"
 msgstr "Lỗi gửi SMS"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__seniority_id
 msgid "Seniority"
@@ -964,6 +1085,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__sequence
 msgid "Sequence"
 msgstr "Thứ tự"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_hr_employee_skill__verified_by_id
+msgid ""
+"Set by the system when somebody verifies. Never accepted from the caller: "
+"taking it from vals would let anybody claim a colleague signed off on their "
+"certificate."
+msgstr ""
+"Do hệ thống ghi khi có người xác thực. Không bao giờ nhận từ phía gọi: lấy "
+"giá trị này từ dữ liệu gửi lên sẽ cho phép bất kỳ ai khai rằng đồng nghiệp "
+"đã ký duyệt chứng chỉ của mình."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__similarity_weight
@@ -992,6 +1124,11 @@ msgid "Skills required"
 msgstr "Kỹ năng yêu cầu"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__skill_ids
+msgid "Skills used"
+msgstr "Kỹ năng đã dùng"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__slot_id
 msgid "Slot"
 msgstr "Vị trí"
@@ -1008,8 +1145,24 @@ msgstr "Tạm giữ chỗ"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__source
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source
 msgid "Source"
 msgstr "Nguồn"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source_key
+msgid "Source Key"
+msgstr "Khoá nguồn"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source_model
+msgid "Source Model"
+msgstr "Model nguồn"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source_res_id
+msgid "Source Res"
+msgstr "Bản ghi nguồn"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__code
@@ -1019,6 +1172,16 @@ msgid ""
 msgstr ""
 "Định danh ổn định dùng cho nhập liệu và cấu hình chấm điểm. Đổi mã sẽ làm "
 "hỏng các tham chiếu; hãy thêm nhóm mới thay vì sửa."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__source_key
+msgid ""
+"Stable identity of the record this entry was derived from. Each feeder names"
+" its own rows, which is what lets a rebuild run twice without doubling the "
+"ledger."
+msgstr ""
+"Định danh ổn định của bản ghi đã sinh ra dòng này. Mỗi nguồn tự đặt tên cho "
+"hàng của mình — nhờ đó dựng lại sổ hai lần vẫn không nhân đôi dữ liệu."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__staffable
@@ -1044,6 +1207,11 @@ msgstr "Lịch đã đặt"
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_availability
 msgid "Staffing Availability Service"
 msgstr "Dịch vụ tính thời gian rảnh"
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_experience
+msgid "Staffing Experience Entry"
+msgstr "Dòng kinh nghiệm"
 
 #. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_profile
@@ -1106,6 +1274,11 @@ msgid "Staffing: Planner"
 msgstr "Bố trí nhân sự: Điều phối"
 
 #. module: aic_hrm_match
+#: model:ir.actions.server,name:aic_hrm_match.cron_refresh_experience_recency_ir_actions_server
+msgid "Staffing: refresh experience recency"
+msgstr "Bố trí nhân sự: làm mới trọng số gần đây"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request__request_type__standalone
 msgid "Standalone need"
 msgstr "Nhu cầu độc lập"
@@ -1149,7 +1322,13 @@ msgid "Tags"
 msgstr "Thẻ"
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__tag_ids
+msgid "Tags at the time"
+msgstr "Thẻ tại thời điểm đó"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__task_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__task_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__task_id
 msgid "Task"
 msgstr "Nhiệm vụ"
@@ -1164,6 +1343,15 @@ msgstr "Ảnh chụp tham chiếu nhiệm vụ"
 #: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_request_reference_company_uniq
 msgid "That staffing reference is already used in this company."
 msgstr "Số hiệu nhu cầu này đã được dùng trong công ty."
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__commercial_partner_id
+msgid ""
+"The customer group. Work for a subsidiary counts towards the parent, which "
+"is how a planner thinks about the relationship."
+msgstr ""
+"Nhóm khách hàng. Việc làm cho công ty con được tính cho cả công ty mẹ — đó "
+"là cách người điều phối nghĩ về mối quan hệ này."
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request_slot_skill__min_level_progress
@@ -1202,6 +1390,11 @@ msgid ""
 msgstr "Trường này xác định nguồn lực làm việc theo múi giờ nào."
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__timesheet
+msgid "Timesheet"
+msgstr "Chấm công"
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__tz
 msgid "Timezone"
 msgstr "Múi giờ"
@@ -1234,6 +1427,26 @@ msgstr "Hiệu lực từ (bố trí nhân sự)"
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_to
 msgid "Valid To (staffing)"
 msgstr "Hiệu lực đến (bố trí nhân sự)"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__verify_state
+msgid "Verification"
+msgstr "Xác thực"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__verified
+msgid "Verified"
+msgstr "Đã xác thực"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__verified_by_id
+msgid "Verified By"
+msgstr "Người xác thực"
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__verified_date
+msgid "Verified Date"
+msgstr "Ngày xác thực"
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__website_message_ids

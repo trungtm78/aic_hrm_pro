@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 03:45+0000\n"
-"PO-Revision-Date: 2026-08-10 03:45+0000\n"
+"POT-Creation-Date: 2026-08-10 04:27+0000\n"
+"PO-Revision-Date: 2026-08-10 04:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -45,6 +45,12 @@ msgid ""
 "%(names)s already carry staffing decisions. Archive them instead of deleting"
 " - the ranking behind a decision is the only record of why the other "
 "candidates were not chosen."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_skill_compat.py:0
+msgid "%(skill)s cannot go from %(current)s to %(target)s."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -161,6 +167,18 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_experience.py:0
+msgid "An experience entry cannot end before it starts."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_experience.py:0
+msgid "An outcome is a score between 0 and 1; %(value)s is outside that."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__assigned_employee_id
 msgid "Assigned Employee"
 msgstr ""
@@ -176,8 +194,18 @@ msgid "Available From"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__submitted
+msgid "Awaiting verification"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__billing_rate_hourly
 msgid "Billing Rate Hourly"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__allocation
+msgid "Booking"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -233,6 +261,11 @@ msgid "Color"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__commercial_partner_id
+msgid "Commercial Entity"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_res_company
 msgid "Companies"
 msgstr ""
@@ -244,6 +277,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__company_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__company_id
 msgid "Company"
 msgstr ""
@@ -265,6 +299,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__create_uid
@@ -277,6 +312,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__create_date
@@ -300,6 +336,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_end
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__date_end
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__date_end
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__date_end
 msgid "Date End"
@@ -307,6 +344,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__date_start
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__date_start
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__date_start
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__date_start
 msgid "Date Start"
@@ -325,6 +363,7 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__display_name
@@ -337,6 +376,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__recency_weight
+msgid ""
+"Display-only decay, refreshed nightly. Ranking never reads it; it recomputes"
+" decay against the moment the run was frozen."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -373,6 +419,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__employee_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__employee_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__employee_id
 msgid "Employee"
 msgstr ""
@@ -384,6 +431,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__manual
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__manual
 msgid "Entered by hand"
 msgstr ""
 
@@ -422,6 +470,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__bridge
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__bridge
 msgid "From a connector"
 msgstr ""
 
@@ -453,6 +502,11 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__headcount
 msgid "Headcount"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__hours
+msgid "Hours"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -488,8 +542,17 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__outcome_score
+msgid ""
+"How well it went, from 0 to 1, when something knows. Left empty rather than "
+"defaulted: inventing a number here would put a fabricated observation into "
+"the customer-affinity score."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__id
@@ -533,6 +596,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__source__import
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__import
 msgid "Imported"
 msgstr ""
 
@@ -557,12 +621,18 @@ msgid "Is Hierarchical"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__is_lead_role
+msgid "Is Lead Role"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__job_id
 msgid "Job"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__write_uid
@@ -575,6 +645,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__write_date
@@ -694,6 +765,11 @@ msgid "Normal"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__draft
+msgid "Not submitted"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -714,6 +790,14 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_skill_compat.py:0
+msgid ""
+"Only a staffing planner may verify or reject a certificate. A certificate "
+"confirmed by the person who claimed it attests to nothing."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__opt_out_reason
 msgid "Opt Out Reason"
 msgstr ""
@@ -730,6 +814,16 @@ msgid ""
 "            them. Grants the right to read the contribution of criteria marked\n"
 "            sensitive - typically appraisal-derived scores. A planner without it\n"
 "            still ranks candidates; they simply never see those figures."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__outcome_score
+msgid "Outcome Score"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__outcome_source
+msgid "Outcome Source"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -757,6 +851,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__partner_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__partner_id
 msgid "Partner"
 msgstr ""
 
@@ -775,6 +870,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__project_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__project_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__project_id
 msgid "Project"
 msgstr ""
@@ -816,8 +912,18 @@ msgid "Ratings"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__recency_weight
+msgid "Recency Weight"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__reference
 msgid "Reference"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__rejected
+msgid "Rejected"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -862,6 +968,11 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__role
+msgid "Role"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__role_note
 msgid "Role Note"
 msgstr ""
@@ -877,6 +988,7 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__seniority_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__seniority_id
 msgid "Seniority"
@@ -896,6 +1008,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_hr_employee_skill__verified_by_id
+msgid ""
+"Set by the system when somebody verifies. Never accepted from the caller: "
+"taking it from vals would let anybody claim a colleague signed off on their "
+"certificate."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -925,6 +1045,11 @@ msgid "Skills required"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__skill_ids
+msgid "Skills used"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__slot_id
 msgid "Slot"
 msgstr ""
@@ -941,7 +1066,23 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__source
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source
 msgid "Source"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source_key
+msgid "Source Key"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source_model
+msgid "Source Model"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__source_res_id
+msgid "Source Res"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -949,6 +1090,14 @@ msgstr ""
 msgid ""
 "Stable identifier used by imports and by scorer configuration. Changing it "
 "breaks references; add a new category instead."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__source_key
+msgid ""
+"Stable identity of the record this entry was derived from. Each feeder names"
+" its own rows, which is what lets a rebuild run twice without doubling the "
+"ledger."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -974,6 +1123,11 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_availability
 msgid "Staffing Availability Service"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_experience
+msgid "Staffing Experience Entry"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1037,6 +1191,11 @@ msgid "Staffing: Planner"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.actions.server,name:aic_hrm_match.cron_refresh_experience_recency_ir_actions_server
+msgid "Staffing: refresh experience recency"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request__request_type__standalone
 msgid "Standalone need"
 msgstr ""
@@ -1074,7 +1233,13 @@ msgid "Tags"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__tag_ids
+msgid "Tags at the time"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__task_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__task_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__task_id
 msgid "Task"
 msgstr ""
@@ -1088,6 +1253,13 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_request_reference_company_uniq
 msgid "That staffing reference is already used in this company."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_experience__commercial_partner_id
+msgid ""
+"The customer group. Work for a subsidiary counts towards the parent, which "
+"is how a planner thinks about the relationship."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1125,6 +1297,11 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_experience__source__timesheet
+msgid "Timesheet"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__tz
 msgid "Timezone"
 msgstr ""
@@ -1154,6 +1331,26 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_to
 msgid "Valid To (staffing)"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__verify_state
+msgid "Verification"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__verified
+msgid "Verified"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__verified_by_id
+msgid "Verified By"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__verified_date
+msgid "Verified Date"
 msgstr ""
 
 #. module: aic_hrm_match

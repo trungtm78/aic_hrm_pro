@@ -49,6 +49,7 @@ Two free connectors extend it when the matching apps are installed.
     'images': [
         'static/description/banner.png',
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': True,
     'auto_install': False,

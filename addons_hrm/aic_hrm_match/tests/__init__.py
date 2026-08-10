@@ -3,6 +3,7 @@
 from . import common
 from . import test_allocation_concurrency
 from . import test_availability
+from . import test_experience_ledger
 from . import test_normalization
 from . import test_request_workflow
 from . import test_security

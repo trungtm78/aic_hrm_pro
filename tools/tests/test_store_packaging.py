@@ -157,6 +157,60 @@ class ManifestDescriptionCase(unittest.TestCase):
                          % '\n  '.join(offenders))
 
 
+class AccessCsvCase(unittest.TestCase):
+    """Structural checks on every ir.model.access.csv in the suite.
+
+    A malformed row does not fail loudly: Odoo reports "Missing required value
+    for the field 'Model'" during install, which points at the symptom and not
+    at the line. Catching the shape here turns a confusing install failure into
+    a one-line CI message.
+    """
+
+    HEADER = ('id,name,model_id:id,group_id:id,'
+              'perm_read,perm_write,perm_create,perm_unlink')
+
+    def _csv_paths(self):
+        return sorted(_ADDONS.glob('*/security/ir.model.access.csv'))
+
+    def test_every_row_has_the_right_number_of_columns(self):
+        offenders = []
+        for path in self._csv_paths():
+            for number, line in enumerate(
+                    path.read_text(encoding='utf-8').splitlines(), start=1):
+                if not line.strip():
+                    continue
+                if len(line.split(',')) != 8:
+                    offenders.append('%s:%d has %d columns'
+                                     % (path.relative_to(_REPO), number,
+                                        len(line.split(','))))
+        self.assertFalse(offenders, '\n  '.join(offenders))
+
+    def test_the_header_is_the_expected_one(self):
+        for path in self._csv_paths():
+            first = path.read_text(encoding='utf-8').splitlines()[0]
+            self.assertEqual(first, self.HEADER, path.relative_to(_REPO))
+
+    def test_access_ids_are_unique_within_a_file(self):
+        for path in self._csv_paths():
+            ids = [line.split(',')[0]
+                   for line in path.read_text(encoding='utf-8').splitlines()[1:]
+                   if line.strip()]
+            duplicates = {i for i in ids if ids.count(i) > 1}
+            self.assertFalse(duplicates,
+                             '%s: duplicate ids %s'
+                             % (path.relative_to(_REPO), sorted(duplicates)))
+
+    def test_permissions_are_zero_or_one(self):
+        for path in self._csv_paths():
+            for number, line in enumerate(
+                    path.read_text(encoding='utf-8').splitlines()[1:], start=2):
+                if not line.strip():
+                    continue
+                for value in line.split(',')[4:]:
+                    self.assertIn(value, ('0', '1'),
+                                  '%s:%d' % (path.relative_to(_REPO), number))
+
+
 class BuilderContractCase(unittest.TestCase):
     """The builder is the only thing that produces the upload, so its own
     knobs are part of the packaging contract."""

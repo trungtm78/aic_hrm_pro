@@ -136,6 +136,21 @@ class SkillValidityCase(MatchCase):
         self.assertFalse(self.compat.is_certification(no_types))
         self.assertIsNone(self.compat.set_certification(no_types, True))
 
+    def test_a_verification_action_on_an_empty_selection_changes_nothing(self):
+        """Batch actions run over whatever the user selected, including nothing.
+
+        Asserted through the state of the world rather than the return value:
+        the point is that no row was verified and no permission check tripped,
+        not what the method handed back.
+        """
+        before = self.env['hr.employee.skill'].search_count(
+            [('verify_state', '=', 'verified')])
+        self.env['hr.employee.skill'].browse().action_verify()
+        self.assertEqual(
+            self.env['hr.employee.skill'].search_count(
+                [('verify_state', '=', 'verified')]),
+            before)
+
     def test_writing_validity_goes_to_whichever_column_this_series_has(self):
         """The caller states the fact; the service decides where it lives."""
         line = self._make_employee_skill(self.employee, self.cert_skill)
@@ -143,6 +158,53 @@ class SkillValidityCase(MatchCase):
         valid_from, valid_to = self.compat.get_validity(line)[line.id]
         self.assertEqual(str(valid_from), '2026-03-01')
         self.assertEqual(str(valid_to), '2027-03-01')
+
+
+@tagged('post_install', '-at_install', 'aic_hrm_match')
+class OptionalAccessCase(MatchCase):
+    """Access to models only one series ships.
+
+    Odoo 18 writes a Skills History row whenever a skill line changes; Odoo 19
+    dropped the model. A row in ir.model.access.csv naming it would abort the
+    install on 19, so the grant is made from the install hook, where the
+    registry can be asked whether the model is there at all.
+    """
+
+    def test_granting_matches_what_this_series_actually_has(self):
+        compat = self.env['aic.hrm.match.skill.compat']
+        compat.ensure_optional_access()
+        for model_name in compat._OPTIONAL_ACCESS:
+            exists = bool(self.env['ir.model'].sudo().search_count(
+                [('model', '=', model_name)]))
+            granted = bool(self.env['ir.model.access'].sudo().search_count([
+                ('name', 'like', 'access_%s_match_%%'
+                 % model_name.replace('.', '_'))]))
+            self.assertEqual(
+                granted, exists,
+                'access for %s should exist exactly when the model does'
+                % model_name)
+
+    def test_granting_twice_does_not_duplicate(self):
+        """The hook has to survive being run again - an upgrade, a re-install,
+        a database restored and re-initialised."""
+        compat = self.env['aic.hrm.match.skill.compat']
+        compat.ensure_optional_access()
+        before = self.env['ir.model.access'].sudo().search_count(
+            [('name', 'like', 'access_hr_employee_skill_log_match_%')])
+        compat.ensure_optional_access()
+        after = self.env['ir.model.access'].sudo().search_count(
+            [('name', 'like', 'access_hr_employee_skill_log_match_%')])
+        self.assertEqual(before, after)
+
+    def test_an_absent_model_is_skipped_silently(self):
+        """A series without the model is the normal case on one of the two, not
+        an error to report."""
+        compat = self.env['aic.hrm.match.skill.compat']
+        original = dict(compat._OPTIONAL_ACCESS)
+        self.patch(type(compat), '_OPTIONAL_ACCESS',
+                   {'nonexistent.model.xyz': {'group_match_user': (1, 0, 0, 0)}})
+        compat.ensure_optional_access()
+        self.patch(type(compat), '_OPTIONAL_ACCESS', original)
 
 
 @tagged('post_install', '-at_install', 'aic_hrm_match')

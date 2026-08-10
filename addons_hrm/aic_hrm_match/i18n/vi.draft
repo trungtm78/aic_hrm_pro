@@ -830,3 +830,137 @@ msgid ""
 "work."
 msgstr ""
 "Trường này xác định nguồn lực làm việc theo múi giờ nào."
+
+# --- Reused from the suite glossary (CP2d).
+
+msgid "Rejected"
+msgstr "Đã từ chối"
+
+msgid "Role"
+msgstr "Vai trò"
+
+
+# --- Experience ledger and certificate verification (CP2d).
+#   experience entry -> "dòng kinh nghiệm"
+#   verify           -> "xác thực" (confirming a claim), not "kiểm tra"
+
+msgid "Staffing Experience Entry"
+msgstr "Dòng kinh nghiệm"
+
+msgid "Source Key"
+msgstr "Khoá nguồn"
+
+msgid "Source Model"
+msgstr "Model nguồn"
+
+msgid "Source Res"
+msgstr "Bản ghi nguồn"
+
+msgid "Booking"
+msgstr "Lịch đã đặt"
+
+msgid "Timesheet"
+msgstr "Chấm công"
+
+msgid "Hours"
+msgstr "Số giờ"
+
+msgid "Is Lead Role"
+msgstr "Vai trò dẫn dắt"
+
+msgid "Tags at the time"
+msgstr "Thẻ tại thời điểm đó"
+
+msgid "Skills used"
+msgstr "Kỹ năng đã dùng"
+
+msgid "Outcome Score"
+msgstr "Điểm kết quả"
+
+msgid "Outcome Source"
+msgstr "Nguồn đánh giá kết quả"
+
+msgid "Recency Weight"
+msgstr "Trọng số gần đây"
+
+msgid "Commercial Entity"
+msgstr "Pháp nhân thương mại"
+
+msgid "Verification"
+msgstr "Xác thực"
+
+msgid "Not submitted"
+msgstr "Chưa nộp"
+
+msgid "Awaiting verification"
+msgstr "Chờ xác thực"
+
+msgid "Verified"
+msgstr "Đã xác thực"
+
+msgid "Verified By"
+msgstr "Người xác thực"
+
+msgid "Verified Date"
+msgstr "Ngày xác thực"
+
+msgid "Staffing: refresh experience recency"
+msgstr "Bố trí nhân sự: làm mới trọng số gần đây"
+
+msgid "An experience entry cannot end before it starts."
+msgstr "Một dòng kinh nghiệm không thể kết thúc trước khi bắt đầu."
+
+msgid "An outcome is a score between 0 and 1; %(value)s is outside that."
+msgstr "Kết quả là điểm từ 0 đến 1; %(value)s nằm ngoài khoảng đó."
+
+msgid "%(skill)s cannot go from %(current)s to %(target)s."
+msgstr "%(skill)s không thể chuyển từ %(current)s sang %(target)s."
+
+msgid ""
+"Only a staffing planner may verify or reject a certificate. A certificate "
+"confirmed by the person who claimed it attests to nothing."
+msgstr ""
+"Chỉ người điều phối bố trí nhân sự mới được xác thực hoặc từ chối một chứng "
+"chỉ. Chứng chỉ do chính người khai tự xác nhận thì không chứng minh được điều "
+"gì."
+
+msgid ""
+"Set by the system when somebody verifies. Never accepted from the caller: "
+"taking it from vals would let anybody claim a colleague signed off on their "
+"certificate."
+msgstr ""
+"Do hệ thống ghi khi có người xác thực. Không bao giờ nhận từ phía gọi: lấy giá "
+"trị này từ dữ liệu gửi lên sẽ cho phép bất kỳ ai khai rằng đồng nghiệp đã ký "
+"duyệt chứng chỉ của mình."
+
+msgid ""
+"How well it went, from 0 to 1, when something knows. Left empty rather than "
+"defaulted: inventing a number here would put a fabricated observation into "
+"the customer-affinity score."
+msgstr ""
+"Việc đó diễn ra tốt đến đâu, thang 0 đến 1, khi có nguồn nào biết được. Để "
+"trống thay vì gán mặc định: bịa một con số ở đây là đưa một quan sát không có "
+"thật vào điểm thân thuộc khách hàng."
+
+msgid ""
+"Stable identity of the record this entry was derived from. Each feeder names "
+"its own rows, which is what lets a rebuild run twice without doubling the "
+"ledger."
+msgstr ""
+"Định danh ổn định của bản ghi đã sinh ra dòng này. Mỗi nguồn tự đặt tên cho "
+"hàng của mình — nhờ đó dựng lại sổ hai lần vẫn không nhân đôi dữ liệu."
+
+msgid ""
+"The customer group. Work for a subsidiary counts towards the parent, which is "
+"how a planner thinks about the relationship."
+msgstr ""
+"Nhóm khách hàng. Việc làm cho công ty con được tính cho cả công ty mẹ — đó là "
+"cách người điều phối nghĩ về mối quan hệ này."
+
+msgid ""
+"Display-only decay, refreshed nightly. Ranking never reads it; it recomputes "
+"decay against the moment the run was frozen."
+msgstr ""
+"Hệ số suy giảm chỉ để hiển thị, làm mới hằng đêm. Việc xếp hạng không bao giờ "
+"đọc nó; engine tự tính lại suy giảm theo mốc thời gian đã đóng băng của lần "
+"chạy."
