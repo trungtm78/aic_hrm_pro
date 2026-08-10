@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 00:51+0000\n"
-"PO-Revision-Date: 2026-08-10 00:51+0000\n"
+"POT-Creation-Date: 2026-08-10 02:48+0000\n"
+"PO-Revision-Date: 2026-08-10 02:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,6 +55,11 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__match_is_certification
+msgid "Certification (staffing)"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__child_ids
 msgid "Child Tags"
 msgstr ""
@@ -97,9 +102,17 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_compat__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_hr_employee_skill__match_valid_to
+msgid "End of the validity period; empty means open-ended."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -112,8 +125,11 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_compat__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__id
 msgid "ID"
 msgstr ""
 
@@ -227,6 +243,16 @@ msgid "Similarity Weight"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_hr_skill_type
+msgid "Skill Type"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_hr_employee_skill
+msgid "Skill level for employee"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_tag_category__code
 msgid ""
 "Stable identifier used by imports and by scorer configuration. Changing it "
@@ -241,6 +267,11 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_seniority
 msgid "Staffing Seniority Level"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_skill_compat
+msgid "Staffing Skill Compatibility Service"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -274,6 +305,13 @@ msgid "Staffing: Planner"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_hr_employee_skill__match_valid_from
+msgid ""
+"Start of the period this skill or certificate is valid for. Used only where "
+"the Odoo release does not model validity itself."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__tag_ids
 msgid "Tags"
 msgstr ""
@@ -290,6 +328,24 @@ msgstr ""
 msgid ""
 "The tag code %(code)s is already used in category %(category)s for this "
 "company."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_from
+msgid "Valid From (staffing)"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_to
+msgid "Valid To (staffing)"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_hr_skill_type__match_is_certification
+msgid ""
+"Whether skills of this type expire and therefore have to cover the whole of "
+"a booking. Used only where the Odoo release does not model certifications "
+"itself; see the staffing compatibility service."
 msgstr ""
 
 #. module: aic_hrm_match

@@ -224,3 +224,44 @@ msgstr ""
 "đóng góp của các tiêu chí được đánh dấu nhạy cảm — thường là điểm suy ra từ "
 "đánh giá hiệu suất. Người điều phối không có quyền này vẫn xếp hạng được ứng "
 "viên; họ chỉ không bao giờ thấy các con số đó."
+
+# --- Skill compatibility service (CP1c). The shim columns only carry data on
+#     Odoo 18; the labels still ship translated because a customer on 18 sees
+#     them on the skill form.
+
+msgid "Staffing Skill Compatibility Service"
+msgstr "Dịch vụ tương thích kỹ năng"
+
+msgid "Skill Type"
+msgstr "Loại kỹ năng"
+
+msgid "Skill level for employee"
+msgstr "Mức kỹ năng của nhân viên"
+
+msgid "Certification (staffing)"
+msgstr "Chứng chỉ (bố trí nhân sự)"
+
+msgid "Valid From (staffing)"
+msgstr "Hiệu lực từ (bố trí nhân sự)"
+
+msgid "Valid To (staffing)"
+msgstr "Hiệu lực đến (bố trí nhân sự)"
+
+msgid "End of the validity period; empty means open-ended."
+msgstr "Ngày hết hiệu lực; để trống nghĩa là vô thời hạn."
+
+msgid ""
+"Start of the period this skill or certificate is valid for. Used only where "
+"the Odoo release does not model validity itself."
+msgstr ""
+"Ngày bắt đầu có hiệu lực của kỹ năng hoặc chứng chỉ này. Chỉ dùng ở những bản "
+"Odoo chưa tự quản lý thời hạn hiệu lực."
+
+msgid ""
+"Whether skills of this type expire and therefore have to cover the whole of a "
+"booking. Used only where the Odoo release does not model certifications "
+"itself; see the staffing compatibility service."
+msgstr ""
+"Kỹ năng thuộc loại này có hết hạn hay không, và do đó có phải phủ trọn khoảng "
+"thời gian đặt lịch hay không. Chỉ dùng ở những bản Odoo chưa tự quản lý chứng "
+"chỉ; xem dịch vụ tương thích kỹ năng."

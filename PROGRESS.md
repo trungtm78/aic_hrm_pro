@@ -1,7 +1,7 @@
 STATUS: IN_PROGRESS
 
 # PROGRESS
-Cập nhật: 2026-08-10 | Milestone: CP1/10 (aic_hrm_match) | Task: CP1b xong, CP1c tiếp theo
+Cập nhật: 2026-08-10 | Milestone: CP1/10 (aic_hrm_match) | Task: CP1c xong, CP1d tiếp theo
 
 ## DỰ ÁN ĐANG CHẠY — addon mới `aic_hrm_match` (Staffing Match)
 
@@ -60,21 +60,25 @@ Nhánh làm việc: **19.0** (source of truth; 18.0 sinh bằng `tools/backport_
       4 group quyền + `ir.model.access.csv`. i18n **45/45 tiếng Việt**.
       **60 test, 0 fail, coverage models 100%**, xanh trên **cả Odoo 19 và Odoo 18**.
 
+- [x] **CP1c** `aic.hrm.match.skill.compat` — nơi DUY NHẤT biết bản Odoo này lưu hiệu lực kỹ năng
+      ở đâu. Dò `_fields` chứ không dò số hiệu series. Field shim `match_valid_from`/`match_valid_to`
+      trên `hr.employee.skill` và `match_is_certification` trên `hr.skill.type`.
+      **74 test, 0 fail, xanh trên cả 19 và 18**; coverage 99% (2 dòng còn lại chính là nhánh 18,
+      được phủ bởi lần chạy trên 18). i18n **54/54**.
+
 ### Đang làm dở
-Task: CP1c — `skill.compat` AbstractModel
+Task: CP1d — khung schema toàn bộ model + record rule 2 lớp
 Đã làm: chưa bắt đầu
-BƯỚC TIẾP THEO: viết `tests/test_skill_compat.py` (RED) khẳng định
-`has_core_validity()` / `has_core_certification()` **dò `_fields`** chứ không dò số hiệu series,
-rồi tạo `models/aic_hrm_match_skill_compat.py` với 4 method
-(`has_core_validity`, `has_core_certification`, `get_validity(lines)`, `get_certification_type_ids`)
-và các field shim `match_valid_from`/`match_valid_to`/`match_is_certification` **chỉ tạo khi lõi thiếu**.
-File liên quan: plan §3.3 · bằng chứng series ở mục "Bằng chứng xác minh CP0" bên dưới
+BƯỚC TIẾP THEO: tạo `security/aic_hrm_match_rules.xml` với **lớp global** (không khai `groups`,
+được AND) cho mọi model đã có, rồi mở rộng dần theo từng model mới. Ngay sau đó viết
+`tests/test_security.py` bắt đầu bằng case S17 (đa công ty) vì đó là case duy nhất kiểm được với
+schema hiện tại.
+File liên quan: plan §8.3 (3 luật Odoo: group OR / global AND / không rule = cho phép)
 
 ### Hàng đợi task kế tiếp
-1. CP1c `skill.compat` + `test_skill_compat.py`
-2. CP1d khung schema toàn bộ model + record rule **2 lớp** (global AND + group OR)
-3. CP1e `test_security.py` các case ACL/rule (S01–S08, S16–S22)
-4. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
+1. CP1d record rule 2 lớp + mở rộng ACL khi thêm model
+2. CP1e `test_security.py` các case ACL/rule (S01–S08, S16–S22)
+3. CP2 cung & cầu (profile, allocation + advisory lock, availability đại số khoảng, request/slot,
    experience ledger, certification)
 
 ## Quyết định kiến trúc
@@ -103,8 +107,8 @@ odoo18/addons/hr_skills/models/hr_employee_skill.py:24-26     unique (employee_i
 
 ## Trạng thái test
 - Tooling (không cần DB): `python -m unittest discover -s tools/tests -t .` → **38/38 PASS**
-- `aic_hrm_match` trên **Odoo 19**: **60/60 PASS**, coverage `models/` = **100%**
-- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **60/60 PASS**
+- `aic_hrm_match` trên **Odoo 19**: **74/74 PASS**, coverage `models/` = **99%**
+- `aic_hrm_match` trên **Odoo 18** (từ `build/18.0`): **74/74 PASS**
 - Suite Odoo 19 baseline: **220 test, 0 failed, 0 error**. Lệnh tái lập:
   ```
   ./.venv/Scripts/python.exe odoo/odoo-bin -c odoo.conf -d AIC_BASELINE \

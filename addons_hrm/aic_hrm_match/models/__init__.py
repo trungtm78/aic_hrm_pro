@@ -3,3 +3,4 @@
 from . import utils
 from . import aic_hrm_match_tag
 from . import aic_hrm_match_seniority
+from . import aic_hrm_match_skill_compat

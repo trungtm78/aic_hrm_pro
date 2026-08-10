@@ -122,6 +122,7 @@ class TagTreeCase(MatchCase):
                  'category_id': self.category_tech.id},
             ])
 
+    @mute_logger('odoo.sql_db')
     def test_missing_required_values_are_left_to_the_orm(self):
         """Our duplicate check must not turn a missing-field error into a
         confusing message about uniqueness."""
