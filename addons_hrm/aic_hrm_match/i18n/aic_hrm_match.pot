@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 04:47+0000\n"
-"PO-Revision-Date: 2026-08-10 04:47+0000\n"
+"POT-Creation-Date: 2026-08-10 05:28+0000\n"
+"PO-Revision-Date: 2026-08-10 05:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,12 @@ msgstr ""
 
 #. module: aic_hrm_match
 #. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid "%(free).1f h free of %(needed).1f h needed."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
 #: code:addons/aic_hrm_match/models/aic_hrm_match_policy.py:0
 msgid ""
 "%(name)s gives no criterion any weight, so every candidate would score the "
@@ -49,8 +55,23 @@ msgstr ""
 
 #. module: aic_hrm_match
 #. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid ""
+"%(name)s has no slot to fill. Nothing to staff is not an empty shortlist, it"
+" is a question that cannot be answered."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
 #: code:addons/aic_hrm_match/models/aic_hrm_match_request.py:0
 msgid "%(name)s must end after it starts."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid ""
+"%(name)s scored %(score).2f, below the %(threshold).2f this policy requires."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -92,6 +113,15 @@ msgid ""
 "%(names)s cannot be changed: a ranking has to stay explainable, and if the "
 "weights behind it can be edited afterwards the explanation is fiction. "
 "Create a new version instead."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_run.py:0
+msgid ""
+"%(names)s has already produced a ranking. A record of what happened that can"
+" be edited afterwards is not a record. Re-rank instead - it creates a new "
+"run and leaves this one readable."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -165,6 +195,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_needaction
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_needaction
 msgid "Action Needed"
 msgstr ""
 
@@ -264,7 +295,13 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_policy__state__archived
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_run__state__archived
 msgid "Archived"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__as_of
+msgid "As Of"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -274,6 +311,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_attachment_count
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
 
@@ -323,9 +361,35 @@ msgid "Booking Type"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__score_line_ids
+msgid "Breakdown"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__cancelled
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request__state__cancelled
 msgid "Cancelled"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__candidate_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__candidate_id
+msgid "Candidate"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__candidate_count
+msgid "Candidate Count"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__candidate_ids
+msgid "Candidates"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__capacity_hours
+msgid "Capacity Hours"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -397,8 +461,18 @@ msgid "Company"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__compare_run_id
+msgid "Compare Run"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__complete_name
 msgid "Complete Name"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_run__state__computed
+msgid "Computed"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -425,14 +499,19 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__create_uid
@@ -441,14 +520,19 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__create_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__create_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__create_date
@@ -457,22 +541,31 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__criterion_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__criterion_id
 msgid "Criterion"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__criterion_code
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__criterion_code
 msgid "Criterion Code"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__criterion_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__criterion_name
 msgid "Criterion Name"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__criterion_provider
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__criterion_provider
 msgid "Criterion Provider"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__criterion_sensitive
+msgid "Criterion Sensitive"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -514,6 +607,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request__state__decided
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_run__state__decided
 msgid "Decided"
 msgstr ""
 
@@ -545,14 +639,20 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_engine__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__display_name
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_scorer__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_compat__display_name
@@ -562,6 +662,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_skill_type__display_name
 #: model:ir.model.fields,field_description:aic_hrm_match.field_res_company__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__display_ref
+msgid "Display Ref"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -595,7 +700,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_allocation__state__draft
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_policy__state__draft
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request__state__draft
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_run__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__duration_ms
+msgid "Duration Ms"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -620,6 +731,16 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__eligible
+msgid "Eligible"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__eligible_count
+msgid "Eligible Count"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__mode__hard
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_policy_line__mode_override__hard
 msgid "Eliminates"
@@ -641,7 +762,9 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__employee_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__employee_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__employee_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__employee_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__employee_id
 msgid "Employee"
 msgstr ""
@@ -679,6 +802,11 @@ msgid "Every score line for everybody"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__evidence_ids
+msgid "Evidence"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__evidence_template
 msgid "Evidence Template"
 msgstr ""
@@ -707,8 +835,23 @@ msgid "Explain Required"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_run__state__failed
+msgid "Failed"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__failure_reason
+msgid "Failure Reason"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__fairness
 msgid "Fairness"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__fairness_adjustment
+msgid "Fairness Adjustment"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -737,18 +880,32 @@ msgid "Filled from the decision, never typed."
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__input_hash
+msgid ""
+"Fingerprint of the inputs. Two runs with the same fingerprint saw the same "
+"world and must produce the same order."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_follower_ids
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_follower_ids
 msgid "Followers"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_partner_ids
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__free_hours
+msgid "Free Hours"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -791,6 +948,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__has_message
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__has_message
 msgid "Has Message"
 msgstr ""
 
@@ -874,14 +1032,20 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_availability__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_engine__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_scorer__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_skill_compat__id
@@ -904,13 +1068,21 @@ msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__identity_ref
+msgid "Identity Ref"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__message_needaction
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__message_has_error
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__message_has_sms_error
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__message_has_error
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -938,6 +1110,11 @@ msgid "Imported"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__input_hash
+msgid "Input Hash"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__cost_hourly
 msgid "Internal cost per hour, used by the cost-fit criterion."
 msgstr ""
@@ -954,6 +1131,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_is_follower
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_is_follower
 msgid "Is Follower"
 msgstr ""
 
@@ -963,8 +1141,18 @@ msgid "Is Hierarchical"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__is_knockout
+msgid "Is Knockout"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__is_lead_role
 msgid "Is Lead Role"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__is_missing
+msgid "Is Missing"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -983,15 +1171,25 @@ msgid "Job"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__label
+msgid "Label"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__write_uid
@@ -1000,18 +1198,28 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_experience__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__write_date
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__write_date
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__latest_run_id
+msgid "Latest Run"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1054,6 +1262,11 @@ msgid "Location and time zone"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__low_confidence
+msgid "Low Confidence"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__direction__lower
 msgid "Lower is better"
 msgstr ""
@@ -1093,11 +1306,13 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_has_error
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_has_error
 msgid "Message Delivery error"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_ids
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_ids
 msgid "Messages"
 msgstr ""
 
@@ -1165,6 +1380,7 @@ msgstr ""
 #. module: aic_hrm_match
 #. odoo-python
 #: code:addons/aic_hrm_match/models/aic_hrm_match_request.py:0
+#: code:addons/aic_hrm_match/models/aic_hrm_match_run.py:0
 msgid "New"
 msgstr ""
 
@@ -1186,6 +1402,22 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_request_slot_skill__requirement__nice_to_have
 msgid "Nice to have"
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid ""
+"No active scoring policy applies to %(name)s. Ranking without one would "
+"judge people under rules nobody chose."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_score_line__is_missing
+msgid ""
+"No data for this person. The criterion is then left out of both sides of the"
+" average rather than scored as zero, which would turn a gap in the record "
+"into a permanent disadvantage."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1214,27 +1446,53 @@ msgid "Normalization"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__normalized_score
+msgid "Normalized Score"
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid "Not available for project staffing."
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid "Not available until %(date)s."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__hr_employee_skill__verify_state__draft
 msgid "Not submitted"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__notes
+msgid "Notes"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_needaction_counter
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_has_error_counter
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__message_needaction_counter
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__message_has_error_counter
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
 
@@ -1254,6 +1512,13 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_candidate__identity_ref
+msgid ""
+"Opaque handle for this candidate. Always present, so a blind ranking has "
+"something to show that is not a name."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__opt_out_reason
 msgid "Opt Out Reason"
 msgstr ""
@@ -1261,6 +1526,12 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_profile__match_opt_out
 msgid "Opted out"
+msgstr ""
+
+#. module: aic_hrm_match
+#. odoo-python
+#: code:addons/aic_hrm_match/models/aic_hrm_match_engine.py:0
+msgid "Opted out of staffing."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1301,6 +1572,11 @@ msgid "Param Json"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__parameter_snapshot
+msgid "Parameter Snapshot"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag__parent_path
 msgid "Parent Path"
 msgstr ""
@@ -1322,6 +1598,11 @@ msgid "Partner"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__passed
+msgid "Passed"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__category__performance
 msgid "Past performance"
 msgstr ""
@@ -1338,7 +1619,13 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__policy_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__policy_id
 msgid "Policy"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__policy_version
+msgid "Policy Version"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1346,6 +1633,13 @@ msgstr ""
 msgid ""
 "Pool-independent kinds are preferred: a score that means the same thing "
 "across two runs is what makes them comparable."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_candidate__rank
+msgid ""
+"Position among the shortlisted. Excluded candidates have none: a number "
+"there would read as a placing."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1405,6 +1699,7 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__rank
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__rank
 msgid "Rank"
 msgstr ""
@@ -1422,6 +1717,11 @@ msgid "Ranked"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__run_ids
+msgid "Rankings"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_criterion__mode__soft
 #: model:ir.model.fields.selection,name:aic_hrm_match.selection__aic_hrm_match_policy_line__mode_override__soft
 msgid "Ranks only"
@@ -1429,7 +1729,23 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__rating_ids
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__rating_ids
 msgid "Ratings"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__raw_score
+msgid "Raw Score"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__raw_unit
+msgid "Raw Unit"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__raw_value
+msgid "Raw Value"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1439,6 +1755,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__reference
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__reference
 msgid "Reference"
 msgstr ""
 
@@ -1448,8 +1765,23 @@ msgid "Rejected"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__rejected_count
+msgid "Rejected Count"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__rejected_limit
 msgid "Rejected Limit"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__rejection_code
+msgid "Rejection Code"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__rejection_detail
+msgid "Rejection Detail"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1468,6 +1800,7 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__request_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__request_id
 msgid "Request"
 msgstr ""
 
@@ -1477,8 +1810,11 @@ msgid "Request Type"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__company_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__request_company_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__company_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__company_id
 msgid "Requesting company"
 msgstr ""
 
@@ -1490,6 +1826,16 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__requirement
 msgid "Requirement"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__res_id
+msgid "Res"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__res_model
+msgid "Res Model"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1505,6 +1851,11 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__revealed_date
+msgid "Revealed Date"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1533,13 +1884,26 @@ msgid "Rounding Digits"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__run_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_identity__run_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__run_id
+msgid "Run"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__message_has_sms_error
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__saturation_value
 msgid "Saturation Value"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__score_line_id
+msgid "Score Line"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1567,10 +1931,12 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__sequence
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__sequence
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_seniority__sequence
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_tag_category__sequence
 msgid "Sequence"
@@ -1626,13 +1992,22 @@ msgid "Skills used"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__slot_id
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__slot_id
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__slot_id
 msgid "Slot"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__slot_ids
 msgid "Slots"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_score_line__criterion_sensitive
+msgid ""
+"Snapshotted rather than related, so removing the criterion cannot unlock "
+"rows that were restricted when they were written."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1707,6 +2082,16 @@ msgid "Staffing Availability Service"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_candidate
+msgid "Staffing Candidate"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_identity
+msgid "Staffing Candidate Identity"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_criterion
 msgid "Staffing Criterion"
 msgstr ""
@@ -1732,8 +2117,28 @@ msgid "Staffing Profile"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_engine
+msgid "Staffing Ranking Engine"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_run
+msgid "Staffing Ranking Run"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_request
 msgid "Staffing Request"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_evidence
+msgid "Staffing Score Evidence"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model,name:aic_hrm_match.model_aic_hrm_match_score_line
+msgid "Staffing Score Line"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1817,6 +2222,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_allocation__state
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__state
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__state
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__state
 msgid "State"
 msgstr ""
 
@@ -1863,6 +2269,31 @@ msgid "Task Ref Snapshot"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_identity_run_candidate_uniq
+msgid "That candidate already has an identity in this ranking."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_score_line_candidate_criterion_uniq
+msgid "That criterion is already scored for this candidate."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_identity_run_employee_uniq
+msgid "That person already appears once in this ranking."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_candidate_run_employee_uniq
+msgid "That person already has a result in this ranking."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_run_reference_uniq
+msgid "That ranking reference already exists."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.constraint,message:aic_hrm_match.constraint_aic_hrm_match_request_reference_company_uniq
 msgid "That staffing reference is already used in this company."
 msgstr ""
@@ -1878,6 +2309,21 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request_slot_skill__min_level_progress
 msgid ""
 "The minimum level expressed on the 0-100 scale the engine compares against."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__as_of
+msgid ""
+"The moment this ranking was frozen. Every decay and validity check inside it"
+" is measured against this, not against now, so reopening the run tomorrow "
+"shows the same scores."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__latest_run_id
+msgid ""
+"The most recent ranking that actually produced something. max(id) would "
+"point the screen at a failed or half-built run."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1909,10 +2355,23 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_candidate__raw_score
+msgid ""
+"The weighted score before any fairness adjustment. Kept separate so an "
+"adjustment is visible as a decision rather than folded invisibly into the "
+"merit."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_profile__tz
 msgid ""
 "This field is used in order to define in which timezone the resources will "
 "work."
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_score_line__is_knockout
+msgid "This line is why the candidate was excluded."
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1946,8 +2405,20 @@ msgid "Timezone"
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_candidate__low_confidence
+msgid ""
+"Too little of the policy's weight could be scored for this person. Somebody "
+"judged on two criteria out of twelve must not quietly come first."
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__top_n
 msgid "Top N"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_candidate__total_score
+msgid "Total Score"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -1995,6 +2466,11 @@ msgid "Used when no other policy claims a request."
 msgstr ""
 
 #. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__user_id
+msgid "User"
+msgstr ""
+
+#. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_from
 msgid "Valid From (staffing)"
 msgstr ""
@@ -2002,6 +2478,11 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_hr_employee_skill__match_valid_to
 msgid "Valid To (staffing)"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_evidence__value
+msgid "Value"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -2031,11 +2512,13 @@ msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request__website_message_ids
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_run__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
 #. module: aic_hrm_match
 #: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_request__website_message_ids
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__website_message_ids
 msgid "Website communication history"
 msgstr ""
 
@@ -2043,7 +2526,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_criterion__weight
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy_line__weight
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_request_slot_skill__weight
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__weight
 msgid "Weight"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_score_line__weighted_score
+msgid "Weighted Score"
 msgstr ""
 
 #. module: aic_hrm_match
@@ -2059,6 +2548,14 @@ msgstr ""
 #. module: aic_hrm_match
 #: model:ir.model.fields,field_description:aic_hrm_match.field_aic_hrm_match_policy__line_ids
 msgid "Weights"
+msgstr ""
+
+#. module: aic_hrm_match
+#: model:ir.model.fields,help:aic_hrm_match.field_aic_hrm_match_run__parameter_snapshot
+msgid ""
+"What the run was configured with, resolved: the policy weights, the pool, "
+"the frozen moment. Enough to explain the ranking after the policy has moved "
+"on."
 msgstr ""
 
 #. module: aic_hrm_match

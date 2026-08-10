@@ -164,14 +164,34 @@ class FreeTimeCase(MatchCase):
             self.availability.get_free_hours(self.employee, *self.window),
             self.availability.to_hours(free_intervals))
 
-    def test_a_booking_over_non_working_time_takes_nothing(self):
-        """A placeholder parked on a weekend costs the person no working hours,
-        so it must not reduce a week it never touches. Dividing by its span
-        would also be a division by zero, which is the other reason this case
-        is answered explicitly rather than falling through."""
-        self._book('2026-09-19 00:00:00', '2026-09-20 23:59:59', 8.0)
+    def test_a_booking_left_outside_working_time_takes_nothing(self):
+        """Reached when a calendar changes after a booking was made.
+
+        The clash guard will not let anyone create this state - committing
+        hours to a span with no working time in it is over-allocation whatever
+        the tolerance, because the tolerance multiplies a capacity of zero. It
+        arises the other way round: the booking was valid on Monday, and then
+        the person moved to a mid-week schedule.
+
+        The booking must then cost nothing. Charging for it would take hours
+        off a week it no longer touches, and dividing by its span to find an
+        intensity would divide by zero.
+        """
+        self._book('2026-09-14 00:00:00', '2026-09-15 23:59:59', 16.0)
+        midweek = self.env['resource.calendar'].create({
+            'name': 'Wednesday to Friday',
+            'attendance_ids': [
+                (0, 0, {'name': day_name, 'dayofweek': day,
+                        'hour_from': 8.0, 'hour_to': 16.0})
+                for day, day_name in (('2', 'Wednesday'), ('3', 'Thursday'),
+                                      ('4', 'Friday'))],
+        })
+        self.employee.resource_calendar_id = midweek
+
+        gross = self.availability.get_gross_hours(self.employee, *self.window)
         free = self.availability.get_free_hours(self.employee, *self.window)
-        self.assertAlmostEqual(free, 40.0, places=1)
+        self.assertAlmostEqual(gross, 24.0, places=1)
+        self.assertAlmostEqual(free, gross, places=1)
 
     def test_a_booking_must_end_after_it_starts(self):
         from odoo.exceptions import ValidationError

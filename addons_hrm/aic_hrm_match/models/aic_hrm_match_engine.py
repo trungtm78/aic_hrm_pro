@@ -62,6 +62,10 @@ class AicHrmMatchEngine(models.AbstractModel):
         self._apply_hard_constraints(ctx)
         raw = self._score(ctx)
         normalized = self._normalize(ctx, raw)
+        # After normalising, not before: a threshold is expressed on the [0, 1]
+        # scale, and the raw value it comes from is in whatever unit the
+        # criterion measures.
+        self._apply_score_gates(ctx, normalized)
         totals = self._aggregate(ctx, normalized)
         ordered = self._rank(ctx, totals)
 
@@ -157,21 +161,68 @@ class AicHrmMatchEngine(models.AbstractModel):
         self._apply_criterion_gates(ctx)
 
     @api.model
-    def _apply_criterion_gates(self, ctx):
-        """Gates driven by the criteria themselves."""
-        scorer = self.env['aic.hrm.match.scorer']
+    def _eliminating_lines(self, ctx):
+        """The policy lines configured to remove people rather than rank them.
+
+        The mode lives on the criterion as a catalogue default and on the line
+        as this policy's decision, and the line wins: a stricter round says so
+        on its own line instead of editing an entry every other policy shares.
+        """
+        lines = []
         for line in ctx.policy_lines:
             mode = line.mode_override or (
                 line.criterion_id.mode if line.criterion_id else 'soft')
-            if mode not in ('hard', 'both'):
-                continue
+            if mode in ('hard', 'both'):
+                lines.append(line)
+        return lines
+
+    @api.model
+    def _apply_criterion_gates(self, ctx):
+        """Gates that answer from the data rather than from a score.
+
+        Availability is the one shipped here: having no free hours is a fact
+        about somebody's calendar, not a weak showing, and saying so before
+        scoring is what lets the exclusion carry the hours instead of a number
+        between zero and one. Every other eliminating criterion is a threshold
+        on the normalised score and is applied in ``_apply_score_gates`` once
+        there is a score to compare.
+        """
+        for line in self._eliminating_lines(ctx):
+            if line.criterion_code == 'availability':
+                self._gate_availability(ctx, line)
+
+    @api.model
+    def _apply_score_gates(self, ctx, normalized):
+        """Eliminate on the normalised score, for the criteria that ask to.
+
+        Without this a criterion set to eliminate would rank and remove nobody.
+        The screen would show the gate configured, the run would show everyone
+        passing it, and the discrepancy is invisible unless somebody counts -
+        which is the definition of a gate that fails open.
+        """
+        for line in self._eliminating_lines(ctx):
             code = line.criterion_code
             if code == 'availability':
-                self._gate_availability(ctx, line)
-            else:
-                # A gate whose scorer supplies no dedicated check falls back to
-                # the threshold on its normalised score, applied after scoring.
-                scorer.prefetch(code, ctx)
+                continue        # already decided, on hours rather than score
+            threshold = line.threshold_override or (
+                line.criterion_id.threshold if line.criterion_id else 0.0)
+            if threshold <= 0.0:
+                continue
+            scores = normalized.get(code, {})
+            for employee_id in ctx.scoped_ids:
+                score = scores.get(employee_id)
+                # None is missing data, and missing data is not a low score.
+                # Eliminating on it would remove somebody for a field nobody
+                # filled in - the same mistake as scoring them zero, made
+                # permanent.
+                if score is None or score >= threshold:
+                    continue
+                ctx.reject(
+                    employee_id, code, 'criterion_threshold',
+                    _('%(name)s scored %(score).2f, below the %(threshold).2f '
+                      'this policy requires.',
+                      name=line.criterion_name or code,
+                      score=score, threshold=threshold))
 
     @api.model
     def _gate_availability(self, ctx, line):
@@ -223,15 +274,29 @@ class AicHrmMatchEngine(models.AbstractModel):
                 # number rather than a ratio it would then be divided again.
                 saturation = self._needed_hours(ctx) or 1.0
 
-            pool = [v for v in values.values() if v is not None]
-            stats = self._pool_stats(pool)
-            scores = {}
+            known = [(employee_id, value)
+                     for employee_id, value in values.items()
+                     if value is not None]
+            if kind == 'rank':
+                # The one normalisation that cannot be done a value at a time:
+                # a percentile only exists relative to the others, and ties
+                # have to share a midrank so the score does not depend on the
+                # order Postgres returned the rows in.
+                positions = utils.rank_normalize(
+                    [value for _employee_id, value in known],
+                    higher_is_better=(direction == 'higher'))
+                scores = dict(zip([employee_id for employee_id, _v in known],
+                                  positions))
+            else:
+                stats = self._pool_stats([value for _e, value in known])
+                scores = {
+                    employee_id: self._normalize_one(
+                        value, kind, direction, saturation, stats)
+                    for employee_id, value in known
+                }
             for employee_id, value in values.items():
                 if value is None:
                     scores[employee_id] = None
-                    continue
-                scores[employee_id] = self._normalize_one(
-                    value, kind, direction, saturation, stats)
             normalized[code] = scores
         return normalized
 
@@ -247,10 +312,6 @@ class AicHrmMatchEngine(models.AbstractModel):
     @api.model
     def _normalize_one(self, value, kind, direction, saturation, stats):
         higher = direction == 'higher'
-        if kind == 'rank':
-            # Handled per pool by rank_normalize; a single value has no
-            # percentile, so it sits in the middle.
-            return 0.5
         try:
             return utils.normalize(
                 value, kind=kind, higher_is_better=higher,

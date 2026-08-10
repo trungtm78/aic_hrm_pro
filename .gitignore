@@ -55,3 +55,6 @@ dist/
 # Local Python virtualenv (Odoo runtime deps)
 .venv/
 .venv18/
+
+# Git Bash turns a redirect to NUL into a file of this name.
+nul

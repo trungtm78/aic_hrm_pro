@@ -393,7 +393,12 @@ class MissingDataCase(MatchCase):
         values.update(criterion_values)
         criterion = self.env['aic.hrm.match.criterion'].create(values)
         policy = self.env['aic.hrm.match.policy'].create({
-            'name': code, 'code': code, 'is_default': True})
+            'name': code, 'code': code, 'is_default': True,
+            # These cases read the breakdown of people who are deliberately at
+            # the bottom, and the default mode keeps presentation lines only
+            # for the shortlist. Without this the assertions would pass or fail
+            # depending on how many employees the database already had.
+            'persist_mode': 'full'})
         self.env['aic.hrm.match.policy.line'].create({
             'policy_id': policy.id, 'criterion_id': criterion.id,
             'weight': 1.0})
@@ -467,6 +472,174 @@ class MissingDataCase(MatchCase):
         self.assertTrue(
             candidate.score_line_ids.filtered(
                 lambda l: l.criterion_code == 'broken').is_missing)
+
+
+@tagged('post_install', '-at_install', 'aic_hrm_match')
+class CriterionGateCase(MissingDataCase):
+    """An eliminating criterion has to eliminate.
+
+    Availability brings its own check, because "no free hours" is a fact about
+    the calendar rather than a low score. Every other eliminating criterion is
+    a threshold on the normalised score, and if that threshold is never applied
+    the criterion is configured to remove people and removes nobody - a gate
+    that fails open, which is the one failure mode this design refuses.
+    """
+
+    def test_a_criterion_set_to_eliminate_removes_who_it_says_it_will(self):
+        strong = self._make_employee('Above The Bar')
+        weak = self._make_employee('Below The Bar')
+        self._register('clearance', {strong.id: 1.0, weak.id: 0.2})
+        self._policy_with('clearance', normalization='none', mode='hard',
+                          threshold=0.5)
+
+        run = self.engine.run_match(self._request())
+        by_employee = {c.employee_id.id: c for c in run.candidate_ids}
+        self.assertTrue(by_employee[strong.id].eligible)
+        self.assertFalse(by_employee[weak.id].eligible)
+        self.assertEqual(by_employee[weak.id].rejection_code,
+                         'criterion_threshold')
+        self.assertIn('0.2', by_employee[weak.id].rejection_detail)
+
+    def test_a_criterion_that_only_ranks_never_removes_anybody(self):
+        """The same low score, with the criterion left as ranking only. Being
+        weak on one count is not the same as being disqualified, and a soft
+        criterion that quietly eliminated would make the weights a lie."""
+        weak = self._make_employee('Merely Weak')
+        self._register('preference', {weak.id: 0.1})
+        self._policy_with('preference', normalization='none', mode='soft',
+                          threshold=0.5)
+
+        run = self.engine.run_match(self._request())
+        candidate = run.candidate_ids.filtered(
+            lambda c: c.employee_id == weak)
+        self.assertTrue(candidate.eligible)
+
+    def test_a_policy_can_raise_the_bar_without_touching_the_criterion(self):
+        """The threshold is a policy decision, so a stricter round overrides it
+        on its own line rather than editing a catalogue entry that other
+        policies share."""
+        employee = self._make_employee('Caught By Override')
+        self._register('clearance', {employee.id: 0.6})
+        policy = self._policy_with('clearance', normalization='none',
+                                   mode='hard', threshold=0.5)
+        stricter = policy.action_new_version()
+        stricter.line_ids.threshold_override = 0.9
+        stricter.action_activate()
+
+        run = self.engine.run_match(self._request())
+        candidate = run.candidate_ids.filtered(
+            lambda c: c.employee_id == employee)
+        self.assertFalse(candidate.eligible)
+        self.assertEqual(candidate.rejection_code, 'criterion_threshold')
+
+    def test_a_policy_can_make_a_ranking_criterion_eliminate(self):
+        employee = self._make_employee('Caught By Mode')
+        self._register('preference', {employee.id: 0.1})
+        policy = self._policy_with('preference', normalization='none',
+                                   mode='soft', threshold=0.5)
+        stricter = policy.action_new_version()
+        stricter.line_ids.mode_override = 'hard'
+        stricter.action_activate()
+
+        run = self.engine.run_match(self._request())
+        self.assertFalse(
+            run.candidate_ids.filtered(
+                lambda c: c.employee_id == employee).eligible)
+
+    def test_missing_data_is_not_treated_as_failing_the_gate(self):
+        """No data is not a low score, so it cannot trip a threshold. Removing
+        somebody for a field nobody filled in is the same mistake as scoring
+        them zero for it, made irreversible."""
+        unknown = self._make_employee('Unrecorded')
+        self._register('clearance', {unknown.id: None})
+        self._policy_with('clearance', normalization='none', mode='hard',
+                          threshold=0.5)
+
+        run = self.engine.run_match(self._request())
+        candidate = run.candidate_ids.filtered(
+            lambda c: c.employee_id == unknown)
+        self.assertTrue(candidate.eligible)
+        self.assertTrue(candidate.low_confidence)
+
+    def test_rank_normalisation_spreads_the_pool_instead_of_flattening_it(self):
+        """Rank normalisation exists for criteria where the ordering can be
+        trusted and the magnitude cannot. Returning the same middling score to
+        everybody would make such a criterion carry weight and say nothing,
+        which is worse than leaving it out - the weights would still add up."""
+        best = self._make_employee('Rank Best')
+        middle = self._make_employee('Rank Middle')
+        worst = self._make_employee('Rank Worst')
+        self._register('reputation',
+                       {best.id: 100.0, middle.id: 10.0, worst.id: 1.0})
+        self._policy_with('reputation', normalization='rank')
+
+        run = self.engine.run_match(self._request())
+        scores = {c.employee_id.id: c.total_score for c in run.candidate_ids}
+        self.assertGreater(scores[best.id], scores[middle.id])
+        self.assertGreater(scores[middle.id], scores[worst.id])
+
+    def test_every_reason_the_engine_gives_is_one_the_screen_can_group_by(self):
+        """The excluded tab groups by this list. A code the engine emits but
+        the list does not know reads as an empty group header, so the two must
+        not drift apart - and nothing else checks them against each other,
+        because Odoo only evaluates the selection when a view asks for it.
+        """
+        codes = {
+            code for code, _label in
+            self.env['aic.hrm.match.candidate']._selection_rejection_code()}
+        emitted = {'no_capacity', 'not_staffable', 'opted_out',
+                   'available_later', 'criterion_threshold'}
+        self.assertLessEqual(emitted, codes)
+
+    def test_a_connector_that_reports_on_fewer_people_does_not_zero_the_rest(self):
+        """A replaced availability service is free to answer for only the
+        people it knows about. The ones it says nothing about have no data,
+        which is not the same as having no time - scoring them zero would bury
+        them under everyone the connector happened to cover."""
+        known = self._make_employee('Covered')
+        unknown = self._make_employee('Not Covered')
+        availability = self.env['aic.hrm.match.availability']
+        original = type(availability).get_free_hours_batch
+        self.patch(
+            type(availability), 'get_free_hours_batch',
+            lambda self, employees, start, end: {
+                employee_id: value
+                for employee_id, value in original(
+                    self, employees, start, end).items()
+                if employee_id != unknown.id})
+
+        criterion = self.env['aic.hrm.match.criterion'].create({
+            'code': 'availability', 'name': 'Availability',
+            'category': 'availability', 'normalization': 'ratio'})
+        policy = self.env['aic.hrm.match.policy'].create({
+            'name': 'Partial', 'code': 'partial_cover', 'is_default': True,
+            # Full detail on purpose: the default keeps presentation lines only
+            # for the shortlist, and somebody the connector said nothing about
+            # ranks last by construction.
+            'persist_mode': 'full'})
+        self.env['aic.hrm.match.policy.line'].create({
+            'policy_id': policy.id, 'criterion_id': criterion.id})
+        policy.action_activate()
+
+        run = self.engine.run_match(self._request())
+        by_employee = {c.employee_id.id: c for c in run.candidate_ids}
+        self.assertTrue(by_employee[unknown.id].low_confidence)
+        self.assertTrue(
+            by_employee[unknown.id].score_line_ids.filtered(
+                lambda l: l.criterion_code == 'availability').is_missing)
+        self.assertFalse(by_employee[known.id].low_confidence)
+
+    def test_rank_normalisation_gives_tied_values_the_same_score(self):
+        """Ties share a midrank. Breaking them by list order would make the
+        score depend on the order Postgres returned the rows in."""
+        first = self._make_employee('Tied One')
+        second = self._make_employee('Tied Two')
+        self._register('reputation', {first.id: 5.0, second.id: 5.0})
+        self._policy_with('reputation', normalization='rank')
+
+        run = self.engine.run_match(self._request())
+        scores = {c.employee_id.id: c.total_score for c in run.candidate_ids}
+        self.assertAlmostEqual(scores[first.id], scores[second.id], places=6)
 
 
 @tagged('post_install', '-at_install', 'aic_hrm_match')

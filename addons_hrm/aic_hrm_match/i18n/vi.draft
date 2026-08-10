@@ -1463,3 +1463,231 @@ msgstr ""
 "Có tiêu chí nào đang bật bị hạn chế xem hay không. Được lưu vì các record "
 "rule dùng để giấu con số hiệu suất lọc theo trường này, mà rule thì không "
 "đánh giá được trường không lưu trữ."
+
+msgid "%(free).1f h free of %(needed).1f h needed."
+msgstr "Còn rảnh %(free).1f giờ trên %(needed).1f giờ cần."
+
+msgid "%(name)s has no slot to fill. Nothing to staff is not an empty shortlist, it is a question that cannot be answered."
+msgstr "%(name)s không có vị trí nào cần lấp. Không có gì để bố trí thì không phải là danh sách rỗng, mà là một câu hỏi không thể trả lời."
+
+msgid "%(name)s scored %(score).2f, below the %(threshold).2f this policy requires."
+msgstr "%(name)s đạt %(score).2f, thấp hơn mức %(threshold).2f mà chính sách này yêu cầu."
+
+msgid "%(names)s has already produced a ranking. A record of what happened that can be edited afterwards is not a record. Re-rank instead - it creates a new run and leaves this one readable."
+msgstr "%(names)s đã tạo ra một bảng xếp hạng. Một bản ghi về việc đã xảy ra mà sửa được về sau thì không còn là bản ghi. Hãy xếp hạng lại - thao tác đó tạo lượt chạy mới và vẫn giữ lượt này đọc được."
+
+msgid "As Of"
+msgstr "Tính đến thời điểm"
+
+msgid "Breakdown"
+msgstr "Chi tiết điểm"
+
+msgid "Candidate"
+msgstr "Ứng viên"
+
+msgid "Candidate Count"
+msgstr "Số ứng viên"
+
+msgid "Candidates"
+msgstr "Ứng viên"
+
+msgid "Capacity Hours"
+msgstr "Giờ công khả dụng"
+
+msgid "Compare Run"
+msgstr "Lượt chạy đem so"
+
+msgid "Computed"
+msgstr "Đã tính"
+
+msgid "Criterion Sensitive"
+msgstr "Tiêu chí hạn chế xem"
+
+msgid "Display Ref"
+msgstr "Mã hiển thị"
+
+msgid "Duration Ms"
+msgstr "Thời gian chạy (ms)"
+
+msgid "Eligible"
+msgstr "Đủ điều kiện"
+
+msgid "Eligible Count"
+msgstr "Số người đủ điều kiện"
+
+msgid "Evidence"
+msgstr "Bằng chứng"
+
+msgid "Failed"
+msgstr "Thất bại"
+
+msgid "Failure Reason"
+msgstr "Lý do thất bại"
+
+msgid "Fairness Adjustment"
+msgstr "Điều chỉnh công bằng"
+
+msgid "Fingerprint of the inputs. Two runs with the same fingerprint saw the same world and must produce the same order."
+msgstr "Dấu vân tay của dữ liệu đầu vào. Hai lượt chạy cùng dấu vân tay đã nhìn thấy cùng một thực tế nên bắt buộc phải cho ra cùng một thứ tự."
+
+msgid "Free Hours"
+msgstr "Giờ rảnh"
+
+msgid "Identity Ref"
+msgstr "Mã định danh ẩn"
+
+msgid "Input Hash"
+msgstr "Mã băm đầu vào"
+
+msgid "Is Knockout"
+msgstr "Là tiêu chí loại"
+
+msgid "Is Missing"
+msgstr "Thiếu dữ liệu"
+
+msgid "Label"
+msgstr "Nhãn"
+
+msgid "Latest Run"
+msgstr "Lượt chạy mới nhất"
+
+msgid "Low Confidence"
+msgstr "Độ tin cậy thấp"
+
+msgid "No active scoring policy applies to %(name)s. Ranking without one would judge people under rules nobody chose."
+msgstr "Không có chính sách chấm điểm nào đang hiệu lực áp dụng cho %(name)s. Xếp hạng khi thiếu chính sách nghĩa là đánh giá con người theo những quy tắc chưa ai chọn."
+
+msgid "No data for this person. The criterion is then left out of both sides of the average rather than scored as zero, which would turn a gap in the record into a permanent disadvantage."
+msgstr "Không có dữ liệu cho người này. Khi đó tiêu chí bị loại khỏi cả tử số lẫn mẫu số của trung bình, thay vì bị chấm bằng không - chấm không sẽ biến một chỗ trống trong hồ sơ thành bất lợi vĩnh viễn."
+
+msgid "Normalized Score"
+msgstr "Điểm đã chuẩn hoá"
+
+msgid "Not available for project staffing."
+msgstr "Không tham gia bố trí nhân sự dự án."
+
+msgid "Not available until %(date)s."
+msgstr "Chưa sẵn sàng trước ngày %(date)s."
+
+msgid "Notes"
+msgstr "Ghi chú"
+
+msgid "Opaque handle for this candidate. Always present, so a blind ranking has something to show that is not a name."
+msgstr "Mã mờ của ứng viên này. Luôn có sẵn, để một bảng xếp hạng ẩn danh vẫn có thứ để hiển thị mà không phải là tên người."
+
+msgid "Opted out of staffing."
+msgstr "Đã chọn không tham gia bố trí nhân sự."
+
+msgid "Parameter Snapshot"
+msgstr "Ảnh chụp tham số"
+
+msgid "Passed"
+msgstr "Đạt"
+
+msgid "Policy Version"
+msgstr "Phiên bản chính sách"
+
+msgid "Position among the shortlisted. Excluded candidates have none: a number there would read as a placing."
+msgstr "Vị trí trong danh sách rút gọn. Ứng viên bị loại không có vị trí: đặt một con số ở đó sẽ bị đọc thành thứ hạng."
+
+msgid "Rankings"
+msgstr "Bảng xếp hạng"
+
+msgid "Raw Score"
+msgstr "Điểm gốc"
+
+msgid "Raw Unit"
+msgstr "Đơn vị gốc"
+
+msgid "Raw Value"
+msgstr "Giá trị gốc"
+
+msgid "Rejected Count"
+msgstr "Số người bị loại"
+
+msgid "Rejection Code"
+msgstr "Mã lý do loại"
+
+msgid "Rejection Detail"
+msgstr "Chi tiết lý do loại"
+
+msgid "Res"
+msgstr "Bản ghi"
+
+msgid "Res Model"
+msgstr "Model bản ghi"
+
+msgid "Revealed Date"
+msgstr "Ngày lộ danh tính"
+
+msgid "Run"
+msgstr "Lượt chạy"
+
+msgid "Score Line"
+msgstr "Dòng điểm"
+
+msgid "Snapshotted rather than related, so removing the criterion cannot unlock rows that were restricted when they were written."
+msgstr "Được chụp lại thay vì tham chiếu động, để việc gỡ bỏ tiêu chí không thể mở khoá những dòng vốn bị hạn chế xem lúc ghi."
+
+msgid "Staffing Candidate"
+msgstr "Ứng viên bố trí nhân sự"
+
+msgid "Staffing Candidate Identity"
+msgstr "Danh tính ứng viên bố trí nhân sự"
+
+msgid "Staffing Ranking Engine"
+msgstr "Engine xếp hạng bố trí nhân sự"
+
+msgid "Staffing Ranking Run"
+msgstr "Lượt chạy xếp hạng bố trí nhân sự"
+
+msgid "Staffing Score Evidence"
+msgstr "Bằng chứng điểm bố trí nhân sự"
+
+msgid "Staffing Score Line"
+msgstr "Dòng điểm bố trí nhân sự"
+
+msgid "That candidate already has an identity in this ranking."
+msgstr "Ứng viên này đã có danh tính trong bảng xếp hạng này."
+
+msgid "That criterion is already scored for this candidate."
+msgstr "Tiêu chí này đã được chấm cho ứng viên này rồi."
+
+msgid "That person already appears once in this ranking."
+msgstr "Người này đã xuất hiện một lần trong bảng xếp hạng này."
+
+msgid "That person already has a result in this ranking."
+msgstr "Người này đã có kết quả trong bảng xếp hạng này."
+
+msgid "That ranking reference already exists."
+msgstr "Mã bảng xếp hạng này đã tồn tại."
+
+msgid "The moment this ranking was frozen. Every decay and validity check inside it is measured against this, not against now, so reopening the run tomorrow shows the same scores."
+msgstr "Thời điểm bảng xếp hạng này được đóng băng. Mọi phép suy giảm và kiểm tra hiệu lực bên trong đều đo theo mốc này chứ không theo thời điểm hiện tại, nên mở lại lượt chạy vào ngày mai vẫn thấy đúng những điểm số cũ."
+
+msgid "The most recent ranking that actually produced something. max(id) would point the screen at a failed or half-built run."
+msgstr "Bảng xếp hạng gần nhất thực sự cho ra kết quả. Lấy max(id) sẽ trỏ màn hình vào một lượt chạy thất bại hoặc còn dang dở."
+
+msgid "The weighted score before any fairness adjustment. Kept separate so an adjustment is visible as a decision rather than folded invisibly into the merit."
+msgstr "Điểm có trọng số trước mọi điều chỉnh công bằng. Được giữ riêng để một điều chỉnh hiện ra như một quyết định, thay vì bị trộn lặng lẽ vào phần năng lực."
+
+msgid "This line is why the candidate was excluded."
+msgstr "Dòng này chính là lý do ứng viên bị loại."
+
+msgid "Too little of the policy's weight could be scored for this person. Somebody judged on two criteria out of twelve must not quietly come first."
+msgstr "Chỉ chấm được quá ít trọng số của chính sách cho người này. Một người chỉ được đánh giá trên hai trong mười hai tiêu chí thì không được lặng lẽ đứng đầu."
+
+msgid "Total Score"
+msgstr "Tổng điểm"
+
+msgid "User"
+msgstr "Người dùng"
+
+msgid "Value"
+msgstr "Giá trị"
+
+msgid "Weighted Score"
+msgstr "Điểm sau trọng số"
+
+msgid "What the run was configured with, resolved: the policy weights, the pool, the frozen moment. Enough to explain the ranking after the policy has moved on."
+msgstr "Những gì lượt chạy đã được cấu hình, ở dạng đã phân giải: trọng số chính sách, nhóm ứng viên, mốc thời gian đóng băng. Đủ để giải thích bảng xếp hạng ngay cả khi chính sách đã thay đổi."
