@@ -53,6 +53,8 @@ def build_dlsp_workbook():
                    'O1,O2', 'KPI03', 100])
     assign.append([3, 'Missing Person', 'Data Engineer', 'Pipelines',
                    'O2', 'KPI03', 100])
+    assign.append([4, 'Duo One, Duo Two', 'Shared squad', 'Joint delivery',
+                   'O1,O2', 'KPI02,KPI03', 100])
 
     buffer = io.BytesIO()
     workbook.save(buffer)
@@ -115,8 +117,12 @@ class TestExcelImport(OkrCase):
         member_card = assignments.filtered(
             lambda a: a.employee_id == self.member_employee)
         self.assertEqual(len(member_card.line_ids), 2)
-        self.assertAlmostEqual(member_card.total_weight, 80.0,
-                               msg="weights come from the KPI sheet")
+        # The sheet weights are each KPI's share of the DEPARTMENT plan,
+        # so this person's two lines carried 60 + 20. A scorecard has to
+        # total 100 before it can be submitted, so the import scales them
+        # while keeping the 3:1 proportion the planner expressed.
+        self.assertAlmostEqual(member_card.total_weight, 100.0,
+                               msg="a scorecard must be submittable")
 
     def test_import_is_idempotent_on_rerun(self):
         wizard = self._make_wizard()
@@ -127,6 +133,61 @@ class TestExcelImport(OkrCase):
         wizard2.action_import()
         self.assertEqual(self.Objective.search_count(
             [('cycle_id', '=', self.year.id), ('code', '=', 'O1')]), 1)
+
+    def test_scorecard_weights_are_scaled_to_100(self):
+        """Imported weights are the KPI's share of the DEPARTMENT plan, so
+        one person's lines summed to whatever slice they happened to hold.
+        A scorecard cannot be submitted below 100, so every imported
+        scorecard was stuck in draft - the import produced data the
+        product refuses."""
+        wizard = self._make_wizard()
+        wizard.action_preview()
+        wizard.action_import()
+        assignments = self.env['aic.hrm.kpi.assignment'].search(
+            [('cycle_id', '=', self.year.id)])
+        self.assertTrue(assignments)
+        for assignment in assignments:
+            total = sum(assignment.line_ids.mapped('weight'))
+            self.assertAlmostEqual(
+                total, 100.0, places=2,
+                msg='%s totals %s' % (assignment.employee_id.name, total))
+
+    def test_scaling_keeps_relative_proportions(self):
+        """Scaling must not flatten the planner's intent: a KPI weighted
+        three times another stays three times another."""
+        wizard = self._make_wizard()
+        wizard.action_preview()
+        wizard.action_import()
+        member = self.env['hr.employee'].search(
+            [('name', '=', 'Nam Member')], limit=1)
+        assignment = self.env['aic.hrm.kpi.assignment'].search(
+            [('cycle_id', '=', self.year.id),
+             ('employee_id', '=', member.id)], limit=1)
+        weights = sorted(assignment.line_ids.mapped('weight'), reverse=True)
+        self.assertEqual(len(weights), 2)
+        # KPI01 weighed 60 against KPI02's 20 in the sheet.
+        self.assertAlmostEqual(weights[0] / weights[1], 3.0, places=1)
+
+    def test_row_naming_several_people_creates_one_each(self):
+        """A cell reading "Duo One, Duo Two" used to create an employee of
+        that name - a person who does not exist, holding a scorecard
+        nobody owns."""
+        wizard = self._make_wizard(create_missing_employees=True)
+        wizard.action_preview()
+        wizard.action_import()
+        Employee = self.env['hr.employee']
+        self.assertFalse(
+            Employee.search([('name', '=', 'Duo One, Duo Two')]),
+            'the merged name was created as a person')
+        for name in ('Duo One', 'Duo Two'):
+            person = Employee.search([('name', '=', name)], limit=1)
+            self.assertTrue(person, '%s was not created' % name)
+            assignment = self.env['aic.hrm.kpi.assignment'].search(
+                [('cycle_id', '=', self.year.id),
+                 ('employee_id', '=', person.id)], limit=1)
+            self.assertTrue(assignment, '%s has no scorecard' % name)
+            self.assertAlmostEqual(
+                sum(assignment.line_ids.mapped('weight')), 100.0, places=2)
 
     def test_broken_file_reports_error(self):
         wizard = self._make_wizard(file=base64.b64encode(b'not an xlsx'))
