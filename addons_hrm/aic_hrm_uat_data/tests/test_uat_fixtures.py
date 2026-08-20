@@ -23,6 +23,13 @@ class TestUatFixtures(TransactionCase):
         cls.env['ir.config_parameter'].sudo().set_param(
             'aic_hrm.uat_mode', '1')
         cls.Fixture = cls.env['aic.hrm.uat.fixture']
+        # Start from no fixtures applied, whatever the server was left in.
+        # These cases run against a database a browser run has usually
+        # already seeded, and two of them read false green on it: applying
+        # an applied fixture creates nothing, so "cleanup restores the
+        # counts" had nothing to restore, and the below-threshold review was
+        # already at three of three. The reset rolls back with the test.
+        cls.Fixture.reset_all()
 
     # ------------------------------------------------------------------
     # Engine contract
