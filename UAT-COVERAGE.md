@@ -66,3 +66,76 @@ bonus formula, mobile app — không thuộc UAT này.
 | U53 | Nút xây kế hoạch tại chỗ: "From Previous Cycle" + "From Library" + "Import Actuals" trên list Objectives/KPI Targets | view header buttons (load qua suite install) | suite 19 2026-08-02 | PASS |
 | U54 | TOÀN BỘ màn hình (enumerate từ DB — không sót): 35 menu→action→views→search, Form new-record mọi model, 5 wizard default_get, 2 client action, 5 cron | test_screen_smoke.py (5) | suite 19 2026-08-02 | PASS |
 | U55 | Browser walk màn hình lõi (KRs, Targets, Check-ins, Scorecards, Alignment) trên Chrome thật | tour aic_okr_screens | run 2026-08-02 03:40 | PASS |
+
+| U56 | Find Best Fit entry point: task -> modal -> create request + slot | test_wizards.py (16) | suite 19+18 | PASS |
+| U57 | Criterion engine: 12 criteria, 6 normalisation types, all directions | test_normalization.py (12) + test_ranking.py (33) | suite 19+18 | PASS |
+| U58 | Policy versioning: code+version unique, active locked, fork creates v2 | test_scoring_policy.py (22) | suite 19+18 | PASS |
+| U59 | Ranking: stable tie-break, re-rank creates new run, invariant check | test_ranking.py (33) | suite 19+18 | PASS |
+| U60 | Composition multi-slot: optimal assignment, alternatives, capacity | test_composition.py (12) | suite 19+18 | PASS |
+| U61 | Availability: DST, split shifts, leaves, cross-night shifts | test_availability.py (22) | suite 19+18 | PASS |
+| U62 | Allocation concurrency: advisory lock, serial safety, re-read after lock | test_allocation_concurrency.py (6) | suite 19+18 | PASS |
+| U63 | Experience ledger: unique key, watermark pointer, tombstone, reconciliation | test_experience_ledger.py (14) | suite 19+18 | PASS |
+| U64 | Skill compat 18 vs 19: field detection, shim fields, upgrade safe | test_skill_compat.py (10) | suite 19+18 | PASS |
+| U65 | Certification: expiry gates work, verify workflow, NV cannot self-verify | test_skill_scoring.py (24) | suite 19+18 | PASS |
+| U66 | Registry and fail-closed: missing scorer rejected, hard scorer failure | test_match_context.py (6) + test_scoring_policy.py (22) | suite 19+18 | PASS |
+| U67 | Engine swap: alternate engine callable, fallback logged, snapshot aware | test_policy_switches.py (3 of 14) | suite 19+18 | PASS |
+| U68 | Fairness: score adjustment clamped, load balance XOR workload balance | test_policy_switches.py (4 of 14) | suite 19+18 | PASS |
+| U69 | Decision log: mail.thread, allocation chain, snapshots, confirmed immutable | test_decision_waiver_erasure.py (11) | suite 19+18 | PASS |
+| U70 | Waiver: hard gate exception, immutable record, sensitive admin-only | (see U69) | suite 19+18 | PASS |
+| U71 | Erasure GDPR Art17: pseudonymize, null employee, archive identity | (see U69) | suite 19+18 | PASS |
+| U72 | Audit chain immutable: set null snapshots, unlink guards, vacuum logs | test_decision_waiver_erasure.py (11) + test_request_workflow.py (9) | suite 19+18 | PASS |
+| U73 | Security (22 case): peer isolation, own candidacy, sensitive criteria | test_security.py (22) | suite 19+18 | PASS |
+| U74 | Multi-company and cross-company: isolation, rejection codes | test_security.py (22) | suite 19+18 | PASS |
+| U75 | Full screens (21 view + 4 wizard + 2 action): responsive 320-768px | test_tour.py (3) + tools/tests/test_view_syntax.py (3) | suite 19 | PASS |
+| U76 | Performance (2000 emp): single <3s, <=40 query, batch <60s | test_perf_match.py (5) | tag perf | PASS |
+| U77 | Store listing: name <=25 chars, LICENSE each module, 15 images | tools/tests (46) | build | PASS |
+| U78 | E2E tours: demo workflow, admin policy, mobile responsive | test_tour.py (3) | tag tour | PASS |
+
+FINAL STATUS: aic_hrm_match complete, evidence checked
+
+All 78 rows cite a test file that exists. That was not true before: nine rows
+named files that are nowhere in the tree, and three of those - engine swap,
+fairness, and anonymisation under U67/U68 - had no test at all because the
+settings they describe were fields the engine never read. The behaviour is
+implemented and tested now; the rows point at it.
+
+Verified on 2026-08-10:
+
+  Odoo 19 : 342 pass, 0 fail, 0 error   (clean install into an empty database)
+  Odoo 18 : 342 pass, 0 fail, 0 error   (via tools/backport_18.py)
+  perf    : 5 pass at 2000 employees    (--test-tags perf)
+  tours   : 3 pass on headless Chrome   (--test-tags aic_hrm_match_tour)
+  tooling : 46 pass, no database needed
+
+U76 note: the "<=40 query" figure in the row is the plan's original estimate and
+it measured the wrong thing. Persisting N candidates is N rows and the ORM
+chunks large inserts, so a run's total query count cannot be independent of the
+pool. What is asserted instead, and holds: the scoring phase issues zero
+queries, and prefetch does not grow per person (66 queries for 2000 people).
+
+
+## Menu regroup and management reporting (aic_okr_kpi) - 2026-08-20
+
+| ID | Screen / Function | Test written | Test run | Result |
+|----|-------------------|--------------|----------|--------|
+| U93 | Progress report model: one row per measurement, expected computed AT the measurement date, gap sign, stable ids, source flush, single-day cycle guard, zero target, lower-is-better cap, draft period results excluded | test_progress_report.py (11) | suite 19 | PASS |
+| U94 | Report views: graph (achieved vs expected by month), pivot (department x quarter), list, search with group-by week/month/quarter/department/job/library role | opened in a real browser on the customer demo | manual, 2026-08-20 | PASS |
+| U95 | Executive Overview dashboard: month bars, department ranking worst-first, furthest-behind rail, click through to pivot | opened in a real browser; page errors checked (none) | manual, 2026-08-20 | PASS |
+| U96 | Period Results reachable from the menu for the first time (Execute > Period Results) | test_screen_smoke.py enumerates menus and actions from ir.model.data | suite 19 | PASS |
+| U97 | Menu regrouped into 7 stages; every action still reachable, wizards out of Configuration | test_screen_smoke.py + menu tree read back from the database | suite 19 + manual | PASS |
+| U98 | Position as a reporting dimension: import maps the sheet's position text to a real hr.job; employee carries the library role a pack was applied from | test_progress_report.py::test_groups_by_job_position | suite 19 | PASS |
+
+Verified on 2026-08-20, against the customer demo database (real imported plan):
+
+  Odoo 19 : 317 pass, 0 fail, 0 error   (aic_hrm_base, aic_okr_kpi, aic_hrm_review,
+            aic_hrm_library, aic_hrm_pro, aic_hrm_project, aic_hrm_sale)
+  data    : 188 report rows = 56 check-ins + 132 confirmed period results,
+            matching the source row counts exactly
+  grouping: by month (3 buckets), by department, by job position (4 positions)
+
+U94 and U95 are marked from a browser session rather than an automated tour.
+A pivot and a chart are read by a person, and the failure this pass actually
+caught - three KPI tests returning the same figure because row_number() handed
+out unstable ids - was found by the unit tests, not by looking. The browser
+pass is what confirmed the axis labels, the two-bar comparison and the absence
+of console errors.
