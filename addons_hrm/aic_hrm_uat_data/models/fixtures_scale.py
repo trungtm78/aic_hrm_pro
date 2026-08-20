@@ -193,14 +193,25 @@ class AicHrmUatFixtureScale(models.Model):
 
     @api.model
     def measure_budgets(self, cycle_id):
-        """Time the three operations CLAUDE.md puts a number on."""
+        """Time the three operations CLAUDE.md puts a number on.
+
+        Reading a stored computed field is not a measurement of computing it.
+        The roll-up figure below therefore invalidates and marks the
+        scorecards dirty first, so the number is the cost of the computation
+        the budget is about - a plain read came back in 0.08s and would have
+        made the budget look comfortable for the wrong reason.
+        """
         self._check_enabled()
         cycle = self.env['aic.hrm.cycle'].browse(cycle_id)
+        Assignment = self.env['aic.hrm.kpi.assignment']
         measured = {}
 
+        assignments = Assignment.search([('cycle_id', '=', cycle.id)])
         start = time.time()
-        self.env['aic.hrm.kpi.assignment'].search(
-            [('cycle_id', '=', cycle.id)]).mapped('score')
+        assignments.invalidate_recordset()
+        assignments.modified(['line_ids'])
+        self.env.flush_all()
+        assignments.mapped('score')
         measured['score_rollup'] = round(time.time() - start, 2)
 
         start = time.time()
@@ -210,6 +221,11 @@ class AicHrmUatFixtureScale(models.Model):
             aggregates=['achieved:avg', 'expected:avg', '__count'])
         measured['dashboard_group'] = round(time.time() - start, 2)
 
+        # Re-runnable: a closed cycle cannot be closed again, and the point is
+        # to measure the transition, not to leave the lot in one state.
+        if cycle.state != 'open':
+            cycle._write({'state': 'open'})
+            cycle.invalidate_recordset(['state'])
         start = time.time()
         cycle.write({'state': 'review'})
         cycle.write({'state': 'closed'})
