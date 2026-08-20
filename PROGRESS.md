@@ -10,7 +10,49 @@ cannot decode Vietnamese. The full working log, every byte of it, lives in
 Keep the status keyword on line 1 and nowhere else, and keep this file
 ASCII-only.
 
-## Current state: aic_okr_kpi menu and management reporting - complete
+## Current state: UAT dataset and acceptance run - complete
+
+| Check | Result |
+|---|---|
+| Test suite, Odoo 19, eleven modules on a database built from empty | 624 pass, 0 fail, 0 error |
+| Test suite, Odoo 18 backport | 223 pass, 0 fail, 0 error, both tours included |
+| Browser harness (Playwright, sign-off profile, retries 0) | 25 pass: 5 API smoke, 13 web E2E, 7 at 320px |
+| Dataset | 26 named fixtures, every state in the state maps, ledgered cleanup that restores exact row counts |
+| Enterprise scale | 2,000 employees / 80,000 assignment lines; close 0.02s, group 0.10s, full recompute 2.73s - all inside budget |
+| Fault seeding | 4 faults introduced and reverted, 4 caught |
+
+Five defects surfaced. Four fixed in this pass:
+
+- `aic_hrm_match` could not be installed on an empty database: the config
+  views hang two menus off parents the manifest loaded afterwards. An update
+  never showed it, because the xmlids were already there. The only person who
+  meets it is a first-time installer, which is every buyer.
+- The Odoo 18 build could not load the progress report: the backported SQL
+  still joined `hr_version`, a table that exists only in 19. The 18 branch had
+  carried an unusable report since the reporting work landed.
+- Both browser tours timed out after the menu regroup - they clicked items
+  that had moved inside a stage dropdown.
+- The executive overview opened on whichever cycle starts latest, so creating
+  next quarter early made the leadership dashboard read "nothing measured yet"
+  while the current period was full.
+
+One left open by decision: `last_checkin_date` is still not refreshed when a
+check-in is edited or deleted. No fixture claims it is correct and no test
+covers it up.
+
+Three things worth keeping from this pass:
+
+- Test data is now an asset with names, a ledger and a cleanup recipe, not
+  something each test builds and throws away. That is what made the browser
+  run possible at all.
+- The run happened on a database created from empty. Two of the five findings
+  are invisible on a database that already has the product installed.
+- The fault-seeding experiment was wrong the first time and said so: it
+  updated the module carrying the fault, and Odoo only runs the tests of the
+  modules it updates, so nothing had executed. A green result from an
+  experiment that never ran is worse than a red one.
+
+## Previous state: aic_okr_kpi menu and management reporting - complete
 
 | Check | Result |
 |---|---|

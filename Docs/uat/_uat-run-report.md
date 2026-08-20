@@ -1,7 +1,7 @@
 # UAT run report — AIConnect HRM Pro
 
 **Run:** 2026-08-20 · dataset build + gate orchestrator
-**Verdict: GO, with three findings recorded below.**
+**Verdict: GO.** Four defects found and fixed, one left open by decision - listed below.
 
 Supersedes the run of 2026-08-02 (U01–U55, Odoo tours mapped onto Gate 2).
 That report is preserved in git history; this one covers the same product plus
@@ -40,8 +40,14 @@ naming the automated check that executes it.
 
 | Suite | Result |
 |---|---|
-| `aic_hrm_uat_data` (the dataset's own tests) | 27 passed |
-| Full suite, eleven modules, on a clean database | see *Regression* below |
+| Odoo 19, eleven modules, on the clean UAT database | **624 tests, 0 failed, 0 errors** |
+| of which `aic_hrm_uat_data` (the dataset's own tests) | 27 |
+| of which `aic_hrm_match` (staffing line) | 449 |
+| Odoo 18 backport (`AIC_HRM_Pro_18`, four modules incl. both tours) | **223 tests, 0 failed, 0 errors** |
+
+The 19 run is on a database built from empty for this pass, not on the
+working database. That is what surfaced findings F-01 and F-04 below: both
+are invisible on a database that already has the product installed.
 
 ## The dataset
 
@@ -116,6 +122,23 @@ leadership dashboard greets everyone with *"Nothing measured in this cycle
 yet"* while the current period is full of data. It now prefers the most recent
 cycle that actually holds a measurement, and falls back to the newest so a
 genuinely empty database still shows the empty state.
+
+### F-04 · Both browser tours broke when the menu was regrouped — S2, fixed
+
+`aic_okr_demo` and `aic_okr_screens` click menu items by xmlid. After the
+regroup those items sit inside a stage dropdown and are not rendered until the
+stage is opened, so each tour waited ten seconds for an element that exists and
+then failed. Fixed by opening the stage first, with the shape stated once in
+two helpers rather than relearned by each tour.
+
+### F-05 · The Odoo 18 build could not load the progress report — S1, fixed
+
+The backported SQL view still joined `hr_version`, which exists only in Odoo
+19. Updating `aic_okr_kpi` on the 18 database aborted with `relation
+"hr_version" does not exist`, meaning the 18 branch had carried an unusable
+report since the reporting work landed. On 18 the job position is still a
+column on `hr_employee`, so that build now reads it directly. Verified: 223
+tests green on 18, both tours included.
 
 ### F-03 · `last_checkin_date` is still not refreshed on edit or delete — S3, open
 

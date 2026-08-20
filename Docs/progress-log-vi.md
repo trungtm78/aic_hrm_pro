@@ -592,3 +592,102 @@ model nguon; cot vai tro thu vien do module thu vien dong gop qua hook.
 ban va theo chuc danh deu tra so.
 
 Test: 317 pass, 0 fail, 0 error.
+
+---
+
+## 2026-08-20 — Bộ dữ liệu UAT thành tài sản, và một lượt chạy chấp nhận qua trình duyệt
+
+### Vì sao làm
+
+Suite có 317 ca kiểm tự động nhưng **không có dữ liệu kiểm thử**. Mỗi ca tự dựng
+dữ liệu trong `setUpClass` rồi transaction cuốn sạch. Hệ quả rất cụ thể: muốn xem
+tận mắt "bảng điểm thiếu trọng số thì chặn ra sao", người kiểm phải tự tạo tay từ
+đầu, vì không bản ghi nào sống sót sau một lượt chạy test. Máy chủ demo chỉ có dữ
+liệu đẹp — mọi thứ hợp lệ, đúng tiến độ, không có ca hỏng.
+
+### Đã làm
+
+**Module `aic_hrm_uat_data`** — 26 fixture có tên theo dạng
+`<thực thể>.<trạng thái>.<vòng đời>.<hình dạng>`, phủ mọi trạng thái trong các
+state map của sản phẩm: chu kỳ draft/open/review/closed/**locked**/một-ngày, mục
+tiêu rỗng → năm cấp lồng nhau, KR bốn loại chỉ số, KPI đã xác nhận/còn draft/
+lower-better/cap 1.2, bảng điểm 100/**80**/ba phần ba, đánh giá 2-trên-3 và
+3-trên-3, người chấm **không có tài khoản**, dòng hiệu chỉnh **đã áp** bất biến,
+gói thư viện trước và sau khi áp. Kèm bốn con người "khó chịu" mà bộ dữ liệu đẹp
+không bao giờ gặp: không login, đã nghỉ, không phòng ban, không chức danh.
+
+Mỗi fixture ghi **sổ cái** từng bản ghi nó tạo ra, nên dọn dẹp trả database về
+đúng số hàng của mười một model — chứng minh được, không phải hy vọng.
+
+**Máy chủ UAT riêng** — DB `AIC_HRM_UAT`, cổng 8075, khoá `dbfilter`. Phiên trước
+đã **hai lần** chụp nhầm màn hình dữ liệu khách vì tiến trình đọc `odoo.conf` mặc
+định; khoá là cách sửa, không phải ý định cẩn thận.
+
+**Harness Playwright** (`uat/`) — Gate 1 API smoke, Gate 2 E2E trên Chromium
+thật, Gate 2b ở 320px. `retries: 0` vì một ca xanh ở lần thử thứ hai đã nói cho
+ta biết sản phẩm không ổn định, tính nó là pass là vứt thông tin ấy đi.
+
+### Ba lỗi thật bắt được
+
+**1. `aic_hrm_match` không cài được trên database trống — S1.** File config views
+đặt hai menu dưới cha khai trong file menus, mà manifest nạp file menus **sau**.
+Cài mới là hỏng ngay:
+
+    ValueError: External ID not found: aic_hrm_match.menu_aic_hrm_match_request
+
+Cập nhật thì không bao giờ lộ, vì lúc đó xmlid đã nằm trong database. Người duy
+nhất gặp lỗi này là người **cài lần đầu** — tức là mọi người mua.
+
+**2. Bàn điều hành lãnh đạo mở vào chu kỳ rỗng — S2.** Nó chọn chu kỳ có ngày bắt
+đầu mới nhất. Tạo chu kỳ quý sau sớm một tuần — chuyện bình thường — là từ đó
+lãnh đạo mở lên chỉ thấy "Chưa đo được gì trong chu kỳ này", trong khi kỳ hiện
+tại đầy dữ liệu.
+
+**3. Cả hai tour trình duyệt gãy sau đợt gom menu.** Tour bấm menu theo xmlid;
+sau khi gom, các mục nằm trong dropdown của từng chặng nên chưa hiện ra, tour
+chờ 10 giây rồi chết. Lượt chạy trước báo suite xanh — lỗi này chỉ lộ khi chạy
+toàn bộ trên **database sạch**.
+
+### Gieo lỗi: bộ kiểm có thật sự bắt được gì không?
+
+Bốn lỗi cố ý, hoàn nguyên ngay sau mỗi lần: bỏ chặn trên của `clamp`, mở toang
+cổng Σ=100, bỏ kiểm quyền cho người chấm không có login (đúng lỗ hổng `/cso` đã
+vá), cho xoá dòng hiệu chỉnh đã áp. **4 gieo, 4 bắt được**, mỗi lỗi bị đúng ca
+kiểm viết cho nó tóm.
+
+Lần chạy đầu báo hai lỗi "sống sót" — và đó là lỗi của **thí nghiệm**, không phải
+của sản phẩm: nó cập nhật module chứa lỗi, mà Odoo chỉ chạy test của những module
+nó đang cập nhật, nên các ca UAT chưa từng được thực thi. Nó còn chấm "bắt được"
+bằng cách tìm chữ *failed* trong log, mà cảnh báo cũng chứa chữ ấy.
+
+### Quy mô doanh nghiệp
+
+2.000 nhân viên · 40 phòng ban · **80.000 dòng phân công** · 24.000 kết quả kỳ.
+Đóng chu kỳ 0,02 s (ngân sách 60 s) · gom nhóm báo cáo theo phòng ban 0,10 s
+(ngân sách 3 s) · **tính lại điểm toàn bộ bảng điểm 2,73 s** (ngân sách 60 s).
+
+Con số đầu đọc phải cẩn thận: đóng chu kỳ chỉ là một phép chuyển trạng thái. Số
+thật sự có ý nghĩa là 2,73 s. Bản đo đầu tiên báo 0,08 s vì nó **đọc** trường đã
+lưu chứ không tính lại — đã sửa trước khi chạy chính thức.
+
+### Còn treo
+
+`last_checkin_date` vẫn không cập nhật khi sửa hoặc xoá check-in. Đã nêu từ phiên
+trước, cố ý không vá trong đợt này; không fixture nào khẳng định nó đúng, không
+ca kiểm nào che nó lại. Khoảng mười dòng ở `write`/`unlink` của check-in.
+
+### Hồi quy và backport
+
+Suite Odoo 19 chạy trên **database dựng từ trống**: 624 ca, 0 lỗi, chín module.
+Hai trong năm phát hiện chỉ lộ ra ở đó — trên database đã cài sẵn sản phẩm thì
+chúng vô hình.
+
+Nhánh 18.0 lộ thêm một lỗi nữa, nặng: view SQL của báo cáo tiến độ vẫn join
+`hr_version` — bảng chỉ có ở Odoo 19. Cập nhật `aic_okr_kpi` trên DB 18 chết
+ngay lúc init. Nghĩa là **bản backport của báo cáo chưa từng chạy được** kể từ
+lúc phần báo cáo hoàn thành. Trên 18, chức danh vẫn nằm ngay trên `hr_employee`.
+Sau khi sửa: Odoo 18 xanh 223 ca, gồm cả hai tour.
+
+Một lỗi thao tác của chính tôi cần ghi lại: `git add -A` trên nhánh 18.0 nuốt
+luôn 363.000 dòng `node_modules` và file trace của Playwright, vì luật ignore
+cho chúng chỉ nằm ở nhánh 19.0. Đã huỷ commit đó và thêm luật ignore cho 18.0.

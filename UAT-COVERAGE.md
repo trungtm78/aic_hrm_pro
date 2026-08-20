@@ -156,3 +156,5 @@ of console errors.
 | U108 | Enterprise scale: 2,000 employees, 40 departments, 80,000 assignment lines, 24,000 confirmed results; close cycle 0.02s (budget 60s), department grouping 0.10s (budget 3s), full scorecard recompute 2.73s (budget 60s) | tools/seed_uat_scale.py + fixtures_scale.measure_budgets | 2026-08-20 | PASS |
 | U109 | Fault seeding: four deliberate defects (cap removed, weight gate open, authorisation skipped, audit record deletable) - all four caught, each by the case written for it | tools scratch runner, reverted after each | 2026-08-20 | PASS |
 | U110 | Fresh install of aic_hrm_match on an empty database (menus loaded before the config views that hang off them) | manual install on a clean database | 2026-08-20 | PASS after fix |
+| U111 | Odoo 18 backport: the progress report joined hr_version, a table that exists only in Odoo 19, so the 18 build could not load the module at all | manual update of the 18 database + full module tests | Odoo 18: 223 pass | PASS after fix |
+| U112 | Both browser tours after the menu regroup: each opens its stage before clicking the item | test_tour.py (2 tours) | suite 19 + suite 18 | PASS after fix |
