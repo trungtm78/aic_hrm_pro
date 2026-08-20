@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- The library role only exists once this module is installed, so the
+         base report cannot name it. It contributes the column through the
+         model hook and the UI through these two inheritances - grouping
+         staff by role sits beside grouping them by job position. -->
+    <record id="view_progress_report_list_role" model="ir.ui.view">
+        <field name="name">aic.hrm.progress.report.list.role</field>
+        <field name="model">aic.hrm.progress.report</field>
+        <field name="inherit_id"
+               ref="aic_okr_kpi.view_aic_hrm_progress_report_list"/>
+        <field name="arch" type="xml">
+            <field name="job_id" position="after">
+                <field name="library_role_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_progress_report_search_role" model="ir.ui.view">
+        <field name="name">aic.hrm.progress.report.search.role</field>
+        <field name="model">aic.hrm.progress.report</field>
+        <field name="inherit_id"
+               ref="aic_okr_kpi.view_aic_hrm_progress_report_search"/>
+        <field name="arch" type="xml">
+            <filter name="group_job" position="after">
+                <filter name="group_role" string="Library role"
+                        context="{'group_by': 'library_role_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- The role a person is measured against belongs on their record, not
+         only on the pack that was applied to them. -->
+    <record id="view_employee_form_library_role" model="ir.ui.view">
+        <field name="name">hr.employee.form.aic.library.role</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="job_id" position="after">
+                <field name="aic_library_role_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

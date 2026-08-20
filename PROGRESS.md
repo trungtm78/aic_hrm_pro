@@ -1,6 +1,46 @@
-STATUS: ALL_MILESTONES_DONE
+STATUS: IN_PROGRESS
 
 # PROGRESS
+Cập nhật: 2026-08-20T12:28:38+07:00 | Milestone: MENU + BỘ BÁO CÁO QUẢN LÝ
+
+## ĐỢT MENU + BÁO CÁO (yêu cầu user: menu chưa logic; khách thiếu báo cáo tiến độ theo thời gian / phòng ban / vị trí)
+
+### Đã hoàn thành
+- [x] **Menu gom theo vòng vận hành**: 17 mục phẳng → 7 nhóm (Cockpit · Kế hoạch · Thực hiện · Giám sát · Đánh giá · Báo cáo · Thư viện · Cấu hình). 26 mục chuyển bằng bảng ánh xạ (`scratchpad/remap_menus.py`) chứ không sửa tay. Nguyên tắc phân loại ghi vào comment của `aic_hrm_base/views/aic_hrm_menus.xml`: mục tạo/sửa dữ liệu nghiệp vụ thuộc nhóm vận hành; chỉ mục định nghĩa luật chơi mới thuộc Cấu hình — **wizard là thao tác**, nên Import/Rollover/Apply pack rời khỏi Cấu hình.
+- [x] **Model báo cáo `aic.hrm.progress.report`** (SQL view, UNION check-in + period result đã xác nhận). Cột chiều: date, cycle, objective, kr, kpi_target, department, employee, **job_id**, **library_role_id**, level, objective_type, perspective. Cột số: achieved, expected, gap, weight, rag.
+- [x] View graph (đường, achieved vs expected theo tháng) + pivot (phòng ban × quý) + list + search với nhóm sẵn theo tuần/tháng/quý/phòng ban/chức danh/vai trò.
+- [x] **Dashboard OWL `Executive Overview`** đọc cùng model qua `formatted_read_group` — không thể lệch số với pivot.
+- [x] **`aic.hrm.kpi.period.result` có action + menu lần đầu** (Thực hiện › Kết quả theo kỳ). Trước đó model chứa số liệu tháng/quý mà không có lối vào từ menu.
+- [x] Vị trí thành chiều phân tích thật: wizard import ánh xạ cột "Vị trí/Nhóm nhân sự" → `hr.job` (tạo khi thiếu); `aic_library_role_id` trên `hr.employee`, wizard áp gói tự gán.
+- [x] 11 test mới (`test_progress_report.py`) + i18n 37 nhãn.
+
+### Quyết định kiến trúc
+| Ngày | Quyết định | Lý do | Ảnh hưởng |
+|---|---|---|---|
+| 2026-08-20 | Báo cáo tính "kỳ vọng" bằng SQL thay vì đọc `expected_progress` | Trường đó là compute không lưu trữ (view không thấy) **và** nó trả lời "hôm nay có đúng tiến độ không", trong khi báo cáo cần "lúc đó có đúng tiến độ không" | Có test riêng khẳng định kỳ vọng đo tại ngày check-in |
+| 2026-08-20 | Id của view suy từ nguồn (`ci.id*2`, `pr.id*2+1`) thay vì `row_number()` | `row_number()` trên `ORDER BY` không duy nhất cấp id đổi giữa hai lần chạy; ORM search rồi read ở hai truy vấn → đọc nhầm dòng. Đã quan sát: 3 test KPI cùng trả 0,0792 | Id ổn định theo tuổi thọ dòng nguồn |
+| 2026-08-20 | Báo cáo tự flush model nguồn trước khi đọc | View đọc database; Odoo không biết model `_auto=False` phụ thuộc bảng nào → check-in vừa ghi chưa hiện trong báo cáo | `_search`/`_read_group` gọi `_flush_sources()` |
+| 2026-08-20 | Cột vai trò thư viện do module thư viện đóng góp qua hook `_extra_select()` | `aic_okr_kpi` nằm DƯỚI `aic_hrm_library`; tham chiếu ngược sẽ tạo vòng phụ thuộc | Query giữ ở một chỗ, lớp trên chỉ thêm cột |
+
+### Assumption đã tự quyết
+| Điểm mơ hồ | Diễn giải đã chọn | Căn cứ |
+|---|---|---|
+| "Theo vị trí" | Cả `hr.job` lẫn vai trò thư viện | User chọn "Cả hai, chọn được" |
+| Gộp KR và KPI vào một bảng | UNION, phân biệt bằng cột `kind` | Cả hai đều là tỷ lệ chuẩn hoá 0..1 nên trung bình có nghĩa |
+
+### Trạng thái test
+Full suite: **PASS** — 317 test (base 56 · okr 182 · review 37 · library 12 · pro 12 · project 10 · sale 8), 0 failed, 0 error.
+
+### Nợ kỹ thuật / rủi ro
+- `last_checkin_date` trên KR là trường lưu trữ thường, không cập nhật khi sửa/xoá check-in → "quá hạn" sai. Đã nêu với user, chưa vá (ngoài phạm vi đợt này).
+- Dữ liệu demo khách nhập trước khi wizard ánh xạ vị trí → đã lấp bằng script một lần; khách thật chỉ cần chạy lại import.
+
+### BƯỚC TIẾP THEO
+Commit đợt này, sync 18.0 (`git checkout 19.0 -- .gitignore` trước), push cả hai nhánh.
+
+---
+
+# PROGRESS (đợt trước)
 Cập nhật: 2026-08-02T10:35:00+07:00 | Milestone: POST-DELIVERY EXTENSIONS HOÀN TẤT + UAT §9 PASS 100%
 
 ## ĐỢT GIAO DIỆN & TÀI LIỆU KHÁCH HÀNG (2026-08-02 chiều)

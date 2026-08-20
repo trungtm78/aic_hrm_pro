@@ -250,22 +250,22 @@
     </record>
 
     <menuitem id="menu_review_cycles" name="Review Cycles"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="70"
+              parent="aic_hrm_base.menu_aic_hrm_act" sequence="10"
               action="action_review_cycle"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_reviews" name="Reviews"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="72"
+              parent="aic_hrm_base.menu_aic_hrm_act" sequence="20"
               action="action_review"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_calibration" name="Calibration"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="74"
+              parent="aic_hrm_base.menu_aic_hrm_act" sequence="30"
               action="action_calibration_session"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_idp" name="Development Plans"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="76"
+              parent="aic_hrm_base.menu_aic_hrm_act" sequence="40"
               action="action_idp"
               groups="aic_hrm_base.group_hrm_user"/>
 

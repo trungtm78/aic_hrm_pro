@@ -308,28 +308,28 @@
         </field>
     </record>
 
-    <menuitem id="menu_library" name="Library"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="45"
+    <menuitem id="menu_library" name="Role Packs"
+              parent="aic_hrm_base.menu_aic_hrm_library_root" sequence="10"
               action="action_library_roles"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_knowledge_guide" name="Knowledge Guide"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="46"
+              parent="aic_hrm_base.menu_aic_hrm_library_root" sequence="20"
               action="action_knowledge_articles"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_library_apply" name="Apply Library Pack"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="55"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="100"
               action="action_library_apply"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_library_capture" name="Capture Knowledge"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="56"
+              parent="aic_hrm_base.menu_aic_hrm_library_root" sequence="30"
               action="action_library_capture"
               groups="aic_hrm_base.group_hrm_admin"/>
 
     <menuitem id="menu_library_industries" name="Library Industries"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="57"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="70"
               action="action_library_industries"
               groups="aic_hrm_base.group_hrm_admin"/>
 

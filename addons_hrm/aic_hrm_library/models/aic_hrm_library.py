@@ -208,3 +208,40 @@ class AicHrmKpiLibraryRole(models.Model):
         'aic.hrm.library.role', string='Library Role', index=True,
         ondelete='set null',
         help="Role this template KPI belongs to in the library.")
+
+
+class AicHrmEmployeeLibraryRole(models.Model):
+    """The library role a person holds.
+
+    The role already exists on the KPI - it records which template pack a
+    KPI came from. That answers "how is this role's KPI doing", not "how
+    is this role's staff doing", and management reporting asks the second
+    one. Carrying it on the employee makes the role a real reporting
+    dimension alongside the job position.
+    """
+    _inherit = 'hr.employee'
+
+    aic_library_role_id = fields.Many2one(
+        'aic.hrm.library.role', string='OKR/KPI Library Role', index=True,
+        ondelete='set null', groups='hr.group_hr_user',
+        help="Role pack this person is measured against. Set when a "
+             "library pack is applied, and editable afterwards.")
+
+
+class AicHrmProgressReportRole(models.Model):
+    """Add the library role as a reporting dimension.
+
+    The report lives in aic_okr_kpi, which sits below this module and so
+    cannot name aic.hrm.library.role without inverting the dependency.
+    It leaves a hook instead; this contributes the column and the field,
+    and the query stays in one place.
+    """
+    _inherit = 'aic.hrm.progress.report'
+
+    library_role_id = fields.Many2one(
+        'aic.hrm.library.role', string='Library Role', readonly=True)
+
+    def _extra_select(self):
+        return super()._extra_select() + [
+            'emp.aic_library_role_id             AS library_role_id',
+        ]

@@ -133,15 +133,90 @@ class AicHrmImportWizard(models.TransientModel):
                 total = (list(row) + [None] * 7)[:7]
             if not person:
                 continue
-            assign_rows.append({
-                'person': str(person).strip(),
-                'position': str(position or '').strip(),
-                'responsibility': str(responsibility or '').strip(),
-                'kpi_codes': [code.strip() for code in
-                              str(kpi_codes or '').split(',') if code.strip()],
-                'total': float(total or 0.0),
-            })
+            codes = [code.strip() for code in
+                     str(kpi_codes or '').split(',') if code.strip()]
+            # A planning sheet often names several people on one row when
+            # they share a set of KPIs. Read as one cell that produced an
+            # employee called "Ha, Trung, Tan" - a person who does not
+            # exist, holding a scorecard nobody owns. Each name gets its
+            # own row, carrying the same KPIs.
+            for name in self._split_people(str(person)):
+                assign_rows.append({
+                    'person': name,
+                    'position': str(position or '').strip(),
+                    'responsibility': str(responsibility or '').strip(),
+                    'kpi_codes': list(codes),
+                    'total': float(total or 0.0),
+                })
         return okr_rows, kpi_rows, assign_rows, warnings
+
+    def _match_job(self, title, warnings):
+        """Turn the sheet's position text into a real hr.job.
+
+        The column was only ever kept as free text on the scorecard, which
+        cannot be grouped - "Product Manager" and "Product manager " are
+        two different strings and neither is a dimension. Reporting by
+        position needs a record, so the text is matched case-insensitively
+        and created when missing, the same way employees already are.
+        """
+        title = (title or '').strip()
+        if not title:
+            return self.env['hr.job']
+        Job = self.env['hr.job']
+        job = Job.search([('name', '=ilike', title)], limit=1)
+        if not job:
+            job = Job.create({'name': title})
+            warnings.append(_("Created job position %(title)s.",
+                              title=title))
+        return job
+
+    @staticmethod
+    def _normalise_scorecard(assignment, row, warnings):
+        """Scale a personal scorecard so its weights total 100.
+
+        The imported weights come from the KPI's share of the DEPARTMENT
+        plan, which sums to 100 across every KPI in the sheet - so one
+        person's slice landed anywhere from 7 to 20. A scorecard cannot
+        be submitted unless its own lines total 100, which meant every
+        imported scorecard was stuck in draft: the import produced data
+        the product itself refuses.
+
+        Relative proportions are what the planner expressed, so they are
+        preserved and only the scale changes.
+        """
+        lines = assignment.line_ids
+        if not lines:
+            return
+        total = sum(lines.mapped('weight'))
+        if not total:
+            share = round(100.0 / len(lines), 2)
+            for line in lines:
+                line.weight = share
+        else:
+            for line in lines:
+                line.weight = round(line.weight * 100.0 / total, 2)
+        # Rounding leaves a few hundredths; the last line absorbs them so
+        # the gate sees exactly 100.
+        drift = round(100.0 - sum(lines.mapped('weight')), 2)
+        if drift:
+            lines[-1].weight = round(lines[-1].weight + drift, 2)
+        stated = row.get('total') or 0.0
+        if stated and abs(stated - 100.0) > 0.01:
+            warnings.append(_(
+                "%(person)s's row states a total of %(stated)s; scorecard "
+                "weights were scaled to 100 so it can be submitted.",
+                person=row['person'], stated=stated))
+
+    @staticmethod
+    def _split_people(cell):
+        """Split a cell that names more than one person.
+
+        Separators are the ones planning sheets actually use. A slash is
+        deliberately not one of them: it appears inside role titles more
+        often than between names.
+        """
+        text = cell.replace('\n', ',').replace(';', ',').replace('&', ',')
+        return [part.strip() for part in text.split(',') if part.strip()]
 
     def _match_employee(self, name, warnings, allow_create=False):
         """Find an employee by name. Creation (when enabled) happens only
@@ -317,6 +392,12 @@ class AicHrmImportWizard(models.TransientModel):
                     'job_note': row['position'],
                     'responsibility': row['responsibility'],
                 })
+                # job_note keeps the sheet's wording verbatim; job_id is
+                # the groupable dimension the reports need. An existing
+                # position on the employee is left alone - HR owns that.
+                job = self._match_job(row['position'], warnings)
+                if job and not employee.job_id:
+                    employee.job_id = job
                 created_assignments += 1
             for code in row['kpi_codes']:
                 target = kpi_targets.get((code, employee.id))
@@ -347,6 +428,7 @@ class AicHrmImportWizard(models.TransientModel):
                         'kpi_target_id': target.id,
                         'weight': target.weight or 1.0,
                     })
+            self._normalise_scorecard(assignment, row, warnings)
         self.write({
             'state': 'done',
             'warning_log': '\n'.join(warnings) or False,

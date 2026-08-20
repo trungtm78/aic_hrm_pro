@@ -1045,3 +1045,33 @@ msgstr "ví dụ: Năm tài chính 2026"
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_team_form
 msgid "e.g. Growth Squad"
 msgstr "vd: Đội Tăng trưởng"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Plan"
+msgstr "Kế hoạch"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Execute"
+msgstr "Thực hiện"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Monitor"
+msgstr "Giám sát"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Review"
+msgstr "Đánh giá"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Reporting"
+msgstr "Báo cáo"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Library"
+msgstr "Thư viện"

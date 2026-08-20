@@ -116,12 +116,12 @@
     </record>
 
     <menuitem id="menu_aic_hrm_assignments" name="Scorecards"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="50"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="50"
               action="action_aic_hrm_kpi_assignment"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_aic_hrm_department_scorecard" name="Department Scorecard"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="60"
+              parent="aic_hrm_base.menu_aic_hrm_reporting" sequence="30"
               action="action_aic_hrm_department_scorecard"
               groups="aic_hrm_base.group_hrm_manager"/>
 

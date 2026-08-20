@@ -40,6 +40,11 @@ class AicHrmLibraryApplyWizard(models.TransientModel):
         objectives = self.template_ids.action_apply(
             self.cycle_id, employee=self.employee_id,
             department=self.department_id, team=self.team_id)
+        # Remember which role pack this person is measured against, so
+        # management reports can group staff by role and not only KPIs.
+        # Never overwrite a role somebody already set by hand.
+        if self.employee_id and not self.employee_id.aic_library_role_id:
+            self.employee_id.aic_library_role_id = self.role_id
         targets = self.env['aic.hrm.kpi.target']
         if self.include_kpis:
             for kpi in self.role_id.kpi_template_ids:

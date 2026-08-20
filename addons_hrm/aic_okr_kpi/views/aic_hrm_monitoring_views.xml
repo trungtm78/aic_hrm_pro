@@ -153,17 +153,17 @@
     </record>
 
     <menuitem id="menu_aic_hrm_checkins" name="Check-ins"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="35"
+              parent="aic_hrm_base.menu_aic_hrm_do" sequence="10"
               action="action_aic_hrm_checkin"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_aic_hrm_review_meetings" name="Review Meetings"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="65"
+              parent="aic_hrm_base.menu_aic_hrm_check" sequence="10"
               action="action_aic_hrm_review_meeting"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_alert_rules" name="Alert Rules"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="50"
+              parent="aic_hrm_base.menu_aic_hrm_check" sequence="20"
               action="action_aic_hrm_alert_rule"
               groups="aic_hrm_base.group_hrm_admin"/>
 

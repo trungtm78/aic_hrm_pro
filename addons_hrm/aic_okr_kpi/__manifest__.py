@@ -40,6 +40,7 @@ Provides:
         'views/aic_hrm_assignment_views.xml',
         'views/aic_hrm_monitoring_views.xml',
         'views/aic_hrm_dashboard_actions.xml',
+        'views/aic_hrm_report_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
@@ -50,6 +51,8 @@ Provides:
             'aic_okr_kpi/static/src/cockpit/cockpit.xml',
             'aic_okr_kpi/static/src/alignment_tree/alignment_tree.js',
             'aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml',
+            'aic_okr_kpi/static/src/report_overview/report_overview.js',
+            'aic_okr_kpi/static/src/report_overview/report_overview.xml',
             'aic_okr_kpi/static/src/tours/aic_okr_demo_tour.js',
         ],
     },

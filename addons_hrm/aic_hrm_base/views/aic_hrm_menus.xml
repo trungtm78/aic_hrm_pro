@@ -5,9 +5,49 @@
               sequence="75" groups="aic_hrm_base.group_hrm_user"
               web_icon="aic_hrm_base,static/description/icon.png"/>
 
+    <!-- ======================================================
+         Menu groups follow the operating loop the product sells:
+         plan, do, check, act - plus reporting, the library, and
+         settings.
+
+         The rule that keeps this from drifting back into a flat
+         list: a menu that CREATES OR CHANGES BUSINESS DATA belongs
+         to the stage of the loop it serves. Only a menu that
+         DEFINES THE RULES belongs under Configuration. A wizard is
+         an operation, never a setting - an import run every month
+         does not live next to the RAG thresholds.
+
+         Sequences step by 10 so a later insert never renumbers its
+         neighbours.
+         ====================================================== -->
+
+    <menuitem id="menu_aic_hrm_plan" name="Plan"
+              parent="menu_aic_hrm_root" sequence="20"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_do" name="Execute"
+              parent="menu_aic_hrm_root" sequence="30"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_check" name="Monitor"
+              parent="menu_aic_hrm_root" sequence="40"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
     <menuitem id="menu_aic_hrm_cycles" name="Cycles"
-              parent="menu_aic_hrm_root" sequence="10"
+              parent="menu_aic_hrm_plan" sequence="10"
               action="action_aic_hrm_cycle"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_act" name="Review"
+              parent="menu_aic_hrm_root" sequence="50"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+    <menuitem id="menu_aic_hrm_reporting" name="Reporting"
+              parent="menu_aic_hrm_root" sequence="60"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <menuitem id="menu_aic_hrm_library_root" name="Library"
+              parent="menu_aic_hrm_root" sequence="70"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_aic_hrm_config" name="Configuration"
@@ -15,7 +55,7 @@
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_teams" name="Teams"
-              parent="menu_aic_hrm_config" sequence="5"
+              parent="menu_aic_hrm_config" sequence="60"
               action="action_aic_hrm_team"
               groups="aic_hrm_base.group_hrm_manager"/>
 
@@ -25,17 +65,17 @@
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_target_revisions" name="Target Revisions"
-              parent="menu_aic_hrm_config" sequence="20"
+              parent="menu_aic_hrm_config" sequence="90"
               action="action_aic_hrm_target_revision"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_metric_sources" name="Metric Sources"
-              parent="menu_aic_hrm_config" sequence="30"
+              parent="menu_aic_hrm_config" sequence="40"
               action="action_aic_hrm_metric_source"
               groups="aic_hrm_base.group_hrm_admin"/>
 
     <menuitem id="menu_aic_hrm_metric_allowlist" name="Metric Allowlist"
-              parent="menu_aic_hrm_config" sequence="40"
+              parent="menu_aic_hrm_config" sequence="50"
               action="action_aic_hrm_metric_allowed_model"
               groups="aic_hrm_base.group_hrm_admin"/>
 
