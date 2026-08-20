@@ -35,6 +35,7 @@ Provides:
         'data/aic_hrm_library_templates.xml',
         'data/aic_hrm_knowledge.xml',
         'views/aic_hrm_library_views.xml',
+        'views/aic_hrm_library_report_views.xml',
     ],
     'installable': True,
     'application': False,

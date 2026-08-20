@@ -150,6 +150,26 @@ class AicHrmImportWizard(models.TransientModel):
                 })
         return okr_rows, kpi_rows, assign_rows, warnings
 
+    def _match_job(self, title, warnings):
+        """Turn the sheet's position text into a real hr.job.
+
+        The column was only ever kept as free text on the scorecard, which
+        cannot be grouped - "Product Manager" and "Product manager " are
+        two different strings and neither is a dimension. Reporting by
+        position needs a record, so the text is matched case-insensitively
+        and created when missing, the same way employees already are.
+        """
+        title = (title or '').strip()
+        if not title:
+            return self.env['hr.job']
+        Job = self.env['hr.job']
+        job = Job.search([('name', '=ilike', title)], limit=1)
+        if not job:
+            job = Job.create({'name': title})
+            warnings.append(_("Created job position %(title)s.",
+                              title=title))
+        return job
+
     @staticmethod
     def _normalise_scorecard(assignment, row, warnings):
         """Scale a personal scorecard so its weights total 100.
@@ -372,6 +392,12 @@ class AicHrmImportWizard(models.TransientModel):
                     'job_note': row['position'],
                     'responsibility': row['responsibility'],
                 })
+                # job_note keeps the sheet's wording verbatim; job_id is
+                # the groupable dimension the reports need. An existing
+                # position on the employee is left alone - HR owns that.
+                job = self._match_job(row['position'], warnings)
+                if job and not employee.job_id:
+                    employee.job_id = job
                 created_assignments += 1
             for code in row['kpi_codes']:
                 target = kpi_targets.get((code, employee.id))

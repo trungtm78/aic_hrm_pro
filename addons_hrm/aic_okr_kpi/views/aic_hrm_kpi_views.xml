@@ -216,12 +216,12 @@
     </record>
 
     <menuitem id="menu_aic_hrm_kpi_targets" name="KPI Targets"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="40"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="40"
               action="action_aic_hrm_kpi_target"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_aic_hrm_kpi_library" name="KPI Library"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="5"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="20"
               action="action_aic_hrm_kpi"
               groups="aic_hrm_base.group_hrm_manager"/>
 
@@ -295,7 +295,7 @@
     </record>
 
     <menuitem id="menu_aic_hrm_frameworks" name="Frameworks"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="7"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="25"
               action="action_aic_hrm_framework"
               groups="aic_hrm_base.group_hrm_manager"/>
 
@@ -310,7 +310,7 @@
     </record>
 
     <menuitem id="menu_aic_hrm_perspectives" name="BSC Perspectives"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="8"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="30"
               action="action_aic_hrm_perspective"
               groups="aic_hrm_base.group_hrm_manager"/>
 
@@ -404,7 +404,7 @@
     </record>
 
     <menuitem id="menu_aic_hrm_ksf" name="Key Success Factors"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="9"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="35"
               action="action_aic_hrm_ksf"
               groups="aic_hrm_base.group_hrm_manager"/>
 

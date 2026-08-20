@@ -3385,3 +3385,148 @@ msgstr ""
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid "needs an owner"
 msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Progress vs Plan"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Progress Against Plan"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Executive Overview"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Achieved"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Expected"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Gap"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Measured"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Job Position"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Key result"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Behind plan"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Ahead of plan"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Key results"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "KPIs"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "This year"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Job position"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Goal level"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Week"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Month"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Quarter"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Status"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Period end"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "KPI target"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Achieved to date"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Expected by now"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Ahead / behind plan"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Measurements"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Month by month"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Furthest behind"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "By department"
+msgstr ""

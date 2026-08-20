@@ -273,12 +273,12 @@
     </record>
 
     <menuitem id="menu_aic_hrm_objectives" name="Objectives"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="20"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="20"
               action="action_aic_hrm_objective"
               groups="aic_hrm_base.group_hrm_user"/>
 
     <menuitem id="menu_aic_hrm_key_results" name="Key Results"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="30"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="30"
               action="action_aic_hrm_key_result"
               groups="aic_hrm_base.group_hrm_user"/>
 

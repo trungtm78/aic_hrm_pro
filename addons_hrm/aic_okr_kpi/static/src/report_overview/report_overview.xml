@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="aic_okr_kpi.ReportOverview">
+    <div class="o_aic_hrm o_action">
+        <header class="o_aic_page_head">
+            <div>
+                <h2 class="o_aic_page_title">Executive Overview</h2>
+                <p class="o_aic_page_sub">Delivery against plan over time,
+                    by department, and what is dragging</p>
+            </div>
+            <select class="form-select o_aic_cycle_select"
+                    t-on-change="onCycleChange"
+                    t-att-disabled="!state.cycles.length" aria-label="Cycle">
+                <t t-foreach="state.cycles" t-as="cycle" t-key="cycle.id">
+                    <option t-att-value="cycle.id"
+                            t-att-selected="cycle.id === state.cycleId ? 'selected' : undefined">
+                        <t t-esc="cycle.name"/>
+                    </option>
+                </t>
+            </select>
+        </header>
+
+        <div t-if="state.loading" class="o_aic_empty">Loading…</div>
+        <div t-elif="!state.cycles.length" class="o_aic_empty">
+            No open cycle yet. Open a performance cycle, then come back.
+        </div>
+        <div t-elif="!state.summary.measurements" class="o_aic_empty">
+            Nothing measured in this cycle yet. Record a check-in or confirm
+            a KPI period result and this fills itself.
+        </div>
+        <t t-else="">
+            <div class="o_aic_health_strip">
+                <div class="o_aic_stat">
+                    <div class="o_aic_stat_value"
+                         t-esc="formatPercent(state.summary.achieved)"/>
+                    <div class="o_aic_stat_label">Achieved to date</div>
+                </div>
+                <div class="o_aic_stat">
+                    <div class="o_aic_stat_value"
+                         t-esc="formatPercent(state.summary.expected)"/>
+                    <div class="o_aic_stat_label">Expected by now</div>
+                </div>
+                <div t-attf-class="o_aic_stat o_aic_band {{ gapClass(state.summary.gap) }}">
+                    <div class="o_aic_stat_value"
+                         t-esc="formatGap(state.summary.gap)"/>
+                    <div class="o_aic_stat_label">Ahead / behind plan</div>
+                </div>
+                <div class="o_aic_stat">
+                    <div class="o_aic_stat_value o_aic_hrm_num"
+                         t-esc="state.summary.measurements"/>
+                    <div class="o_aic_stat_label">Measurements</div>
+                </div>
+            </div>
+
+            <div class="o_aic_cockpit_body">
+                <section class="o_aic_card o_aic_chart_card">
+                    <header class="o_aic_card_head">
+                        <div>
+                            <h5 class="o_aic_card_title">Month by month</h5>
+                            <p class="o_aic_card_sub">Achieved against the
+                                calendar the cycle set. Two bars per month:
+                                the pale one is plan.</p>
+                        </div>
+                    </header>
+                    <div class="o_aic_month_chart">
+                        <div t-foreach="state.months" t-as="month"
+                             t-key="month.key" class="o_aic_month_col"
+                             t-att-title="month.label + ': ' + formatPercent(month.achieved) + ' of ' + formatPercent(month.expected) + ' planned'">
+                            <div class="o_aic_month_bars">
+                                <span class="o_aic_bar_expected"
+                                      t-attf-style="height: {{ barHeight(month.expected) }}"/>
+                                <span class="o_aic_bar_achieved"
+                                      t-attf-style="height: {{ barHeight(month.achieved) }}"/>
+                            </div>
+                            <div class="o_aic_month_value o_aic_hrm_num"
+                                 t-esc="formatPercent(month.achieved)"/>
+                            <div class="o_aic_month_label"
+                                 t-esc="month.label"/>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="o_aic_card o_aic_risk_rail">
+                    <h5 class="o_aic_card_title">Furthest behind</h5>
+                    <div t-foreach="state.laggards" t-as="row" t-key="row.id"
+                         class="o_aic_risk_item">
+                        <span t-attf-class="o_aic_band {{ gapClass(row.gap) }} o_aic_count">
+                            <span class="o_aic_rag_marker"/>
+                            <t t-esc="formatGap(row.gap)"/>
+                        </span>
+                        <div class="o_aic_risk_text">
+                            <div class="o_aic_risk_name" t-esc="row.label"/>
+                            <div class="o_aic_risk_meta">
+                                <t t-if="row.department_id">
+                                    <t t-esc="row.department_id[1]"/> ·
+                                </t>
+                                <t t-esc="row.date"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-if="!state.laggards.length" class="o_aic_empty">
+                        Nothing behind plan. Keep the cadence going.
+                    </div>
+                </aside>
+            </div>
+
+            <section class="o_aic_card">
+                <header class="o_aic_card_head">
+                    <div>
+                        <h5 class="o_aic_card_title">By department</h5>
+                        <p class="o_aic_card_sub">Worst first. Click a row
+                            to open it in the pivot.</p>
+                    </div>
+                </header>
+                <div t-foreach="state.departments" t-as="dept"
+                     t-key="dept.id" class="o_aic_dept">
+                    <div class="o_aic_dept_head"
+                         t-on-click="() => this.openDetail([['department_id', '=', dept.id || false]])">
+                        <div class="o_aic_dept_name" t-esc="dept.name"/>
+                        <div class="o_aic_dept_counts">
+                            <span t-attf-class="o_aic_band {{ gapClass(dept.gap) }} o_aic_count">
+                                <span class="o_aic_rag_marker"/>
+                                <t t-esc="formatGap(dept.gap)"/>
+                            </span>
+                        </div>
+                        <div class="o_aic_dept_score">
+                            <span class="o_aic_hrm_num"
+                                  t-esc="formatPercent(dept.achieved)"/>
+                            <span class="o_aic_dept_bar">
+                                <span t-attf-style="width: {{ Math.min(100, Math.round((dept.achieved || 0) * 100)) }}%"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </div>
+</t>
+
+</templates>

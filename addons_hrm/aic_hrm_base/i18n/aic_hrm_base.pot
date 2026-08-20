@@ -1038,3 +1038,33 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_team_form
 msgid "e.g. Growth Squad"
 msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Plan"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Execute"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Monitor"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Review"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Reporting"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name
+msgid "Library"
+msgstr ""

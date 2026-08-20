@@ -144,17 +144,17 @@
     </record>
 
     <menuitem id="menu_aic_hrm_import" name="Import Spreadsheet"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="60"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="80"
               action="action_aic_hrm_import_wizard"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_rollover" name="Roll Over Cycle"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="70"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="90"
               action="action_aic_hrm_rollover_wizard"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_actuals_import" name="Import Actuals"
-              parent="aic_hrm_base.menu_aic_hrm_config" sequence="65"
+              parent="aic_hrm_base.menu_aic_hrm_do" sequence="30"
               action="action_aic_hrm_actuals_import_wizard"
               groups="aic_hrm_base.group_hrm_manager"/>
 

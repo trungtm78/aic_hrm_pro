@@ -827,3 +827,13 @@ msgstr ""
 #: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
 msgid "id"
 msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.ui.menu,name
+msgid "Role Packs"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.ui.menu,name
+msgid "OKR/KPI Library Role"
+msgstr ""

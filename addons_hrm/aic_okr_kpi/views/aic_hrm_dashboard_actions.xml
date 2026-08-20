@@ -12,13 +12,23 @@
     </record>
 
     <menuitem id="menu_aic_hrm_cockpit" name="Cockpit"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="5"
+              parent="aic_hrm_base.menu_aic_hrm_root" sequence="10"
               action="action_aic_hrm_cockpit"
               groups="aic_hrm_base.group_hrm_manager"/>
 
     <menuitem id="menu_aic_hrm_alignment_tree" name="Alignment Tree"
-              parent="aic_hrm_base.menu_aic_hrm_root" sequence="25"
+              parent="aic_hrm_base.menu_aic_hrm_plan" sequence="60"
               action="action_aic_hrm_alignment_tree"
               groups="aic_hrm_base.group_hrm_user"/>
+
+    <record id="action_aic_hrm_report_overview" model="ir.actions.client">
+        <field name="name">Executive Overview</field>
+        <field name="tag">aic_hrm_report_overview</field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_report_overview" name="Executive Overview"
+              parent="aic_hrm_base.menu_aic_hrm_reporting" sequence="5"
+              action="action_aic_hrm_report_overview"
+              groups="aic_hrm_base.group_hrm_manager"/>
 
 </odoo>

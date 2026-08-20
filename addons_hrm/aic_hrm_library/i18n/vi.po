@@ -916,3 +916,13 @@ msgstr "ví dụ: Kinh doanh"
 #: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
 msgid "id"
 msgstr "id"
+
+#. module: aic_hrm_library
+#: model:ir.ui.menu,name
+msgid "Role Packs"
+msgstr "Gói theo vai trò"
+
+#. module: aic_hrm_library
+#: model:ir.ui.menu,name
+msgid "OKR/KPI Library Role"
+msgstr "Vai trò thư viện OKR/KPI"

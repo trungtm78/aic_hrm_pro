@@ -3451,3 +3451,148 @@ msgstr "Chưa gán phòng ban"
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid "needs an owner"
 msgstr "cần có chủ sở hữu"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Progress vs Plan"
+msgstr "Tiến độ so với kế hoạch"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Progress Against Plan"
+msgstr "Tiến độ so với kế hoạch"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Executive Overview"
+msgstr "Tổng quan lãnh đạo"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Achieved"
+msgstr "Thực đạt"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Expected"
+msgstr "Kỳ vọng"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Gap"
+msgstr "Chênh lệch"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Measured"
+msgstr "Đối tượng đo"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Job Position"
+msgstr "Vị trí công việc"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Key result"
+msgstr "Kết quả then chốt"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Behind plan"
+msgstr "Chậm so với kế hoạch"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Ahead of plan"
+msgstr "Vượt kế hoạch"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Key results"
+msgstr "Các kết quả then chốt"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "KPIs"
+msgstr "Các KPI"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "This year"
+msgstr "Năm nay"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Job position"
+msgstr "Vị trí công việc"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Goal level"
+msgstr "Cấp mục tiêu"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Week"
+msgstr "Tuần"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Month"
+msgstr "Tháng"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Quarter"
+msgstr "Quý"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Status"
+msgstr "Trạng thái"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Period end"
+msgstr "Kết thúc kỳ"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "KPI target"
+msgstr "Chỉ tiêu KPI"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Achieved to date"
+msgstr "Đã đạt đến nay"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Expected by now"
+msgstr "Lẽ ra phải đạt"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Ahead / behind plan"
+msgstr "Vượt / chậm kế hoạch"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Measurements"
+msgstr "Số phép đo"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Month by month"
+msgstr "Theo từng tháng"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "Furthest behind"
+msgstr "Chậm nhất"
+
+#. module: aic_okr_kpi
+#: model:ir.ui.menu,name
+msgid "By department"
+msgstr "Theo phòng ban"

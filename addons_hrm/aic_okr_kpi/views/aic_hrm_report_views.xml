@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Progress against plan: the graph answers the question as asked -
+         "how does delivery track against the goal over time" - with the
+         expected line beside the achieved one, because a progress figure
+         with nothing to compare it to is not a report. -->
+    <record id="view_aic_hrm_progress_report_graph" model="ir.ui.view">
+        <field name="name">aic.hrm.progress.report.graph</field>
+        <field name="model">aic.hrm.progress.report</field>
+        <field name="arch" type="xml">
+            <graph string="Progress Against Plan" type="line" sample="1">
+                <field name="date" interval="month"/>
+                <field name="achieved" type="measure"/>
+                <field name="expected" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_progress_report_pivot" model="ir.ui.view">
+        <field name="name">aic.hrm.progress.report.pivot</field>
+        <field name="model">aic.hrm.progress.report</field>
+        <field name="arch" type="xml">
+            <!-- Department by quarter is the view a manager opens first.
+                 Everything else is one drag away, which is the reason for
+                 a pivot rather than a fixed chart. -->
+            <pivot string="Progress Against Plan" sample="1">
+                <field name="department_id" type="row"/>
+                <field name="date" interval="quarter" type="col"/>
+                <field name="achieved" type="measure"/>
+                <field name="gap" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_progress_report_list" model="ir.ui.view">
+        <field name="name">aic.hrm.progress.report.list</field>
+        <field name="model">aic.hrm.progress.report</field>
+        <field name="arch" type="xml">
+            <list string="Progress Against Plan" create="false"
+                  class="o_aic_hrm_view">
+                <field name="date"/>
+                <field name="kind"/>
+                <field name="label"/>
+                <field name="cycle_id" optional="hide"/>
+                <field name="objective_id" optional="show"/>
+                <field name="department_id" optional="show"/>
+                <field name="employee_id" optional="show"/>
+                <field name="job_id" optional="hide"/>
+                <field name="level" optional="hide"/>
+                <field name="achieved" widget="percentage" sum="Achieved"/>
+                <field name="expected" widget="percentage" sum="Expected"/>
+                <field name="gap" widget="percentage" sum="Gap"/>
+                <field name="rag" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_progress_report_search" model="ir.ui.view">
+        <field name="name">aic.hrm.progress.report.search</field>
+        <field name="model">aic.hrm.progress.report</field>
+        <field name="arch" type="xml">
+            <search string="Progress">
+                <field name="label"/>
+                <field name="objective_id"/>
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="job_id"/>
+                <field name="cycle_id"/>
+                <filter name="behind_plan" string="Behind plan"
+                        domain="[('gap', '&lt;', 0)]"/>
+                <filter name="ahead_plan" string="Ahead of plan"
+                        domain="[('gap', '&gt;=', 0)]"/>
+                <separator/>
+                <filter name="kind_kr" string="Key results"
+                        domain="[('kind', '=', 'kr')]"/>
+                <filter name="kind_kpi" string="KPIs"
+                        domain="[('kind', '=', 'kpi')]"/>
+                <separator/>
+                <filter name="this_year" string="This year"
+                        domain="[('date', '&gt;=', (context_today()).strftime('%Y-01-01'))]"/>
+                <group>
+                    <filter name="group_department" string="Department"
+                            domain="[]"
+                            context="{'group_by': 'department_id'}"/>
+                    <filter name="group_job" string="Job position"
+                            domain="[]"
+                            context="{'group_by': 'job_id'}"/>
+                    <filter name="group_employee" string="Owner"
+                            domain="[]"
+                            context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_objective" string="Objective"
+                            domain="[]"
+                            context="{'group_by': 'objective_id'}"/>
+                    <filter name="group_level" string="Goal level"
+                            domain="[]"
+                            context="{'group_by': 'level'}"/>
+                    <filter name="group_cycle" string="Cycle"
+                            domain="[]"
+                            context="{'group_by': 'cycle_id'}"/>
+                    <filter name="group_week" string="Week"
+                            domain="[]"
+                            context="{'group_by': 'date:week'}"/>
+                    <filter name="group_month" string="Month"
+                            domain="[]"
+                            context="{'group_by': 'date:month'}"/>
+                    <filter name="group_quarter" string="Quarter"
+                            domain="[]"
+                            context="{'group_by': 'date:quarter'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_progress_report" model="ir.actions.act_window">
+        <field name="name">Progress Against Plan</field>
+        <field name="res_model">aic.hrm.progress.report</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="search_view_id"
+               ref="view_aic_hrm_progress_report_search"/>
+        <field name="context">{'search_default_group_month': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No measurements yet</p>
+            <p>
+                This report reads check-ins and confirmed KPI period
+                results. Record a check-in or confirm a period result and
+                the history builds itself.
+            </p>
+        </field>
+    </record>
+
+    <!-- KPI results per period: the same data seen as the operator sees
+         it. The model had no action and no menu at all, so the monthly
+         and quarterly numbers could only be reached through a KPI target
+         form - the figures a manager asks for, three clicks out of
+         sight. -->
+    <record id="view_aic_hrm_period_result_list" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.period.result.list</field>
+        <field name="model">aic.hrm.kpi.period.result</field>
+        <field name="arch" type="xml">
+            <list string="Period Results" class="o_aic_hrm_view"
+                  editable="bottom">
+                <field name="kpi_target_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="actual"/>
+                <field name="period_target" optional="show"/>
+                <field name="source"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'confirmed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_period_result_search" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.period.result.search</field>
+        <field name="model">aic.hrm.kpi.period.result</field>
+        <field name="arch" type="xml">
+            <search string="Period Results">
+                <field name="kpi_target_id"/>
+                <filter name="draft" string="Draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="confirmed" string="Confirmed"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <group>
+                    <filter name="group_target" string="KPI target"
+                            domain="[]"
+                            context="{'group_by': 'kpi_target_id'}"/>
+                    <filter name="group_state" string="Status"
+                            domain="[]"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_month" string="Period end"
+                            domain="[]"
+                            context="{'group_by': 'date_to:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_period_result" model="ir.actions.act_window">
+        <field name="name">Period Results</field>
+        <field name="res_model">aic.hrm.kpi.period.result</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="view_aic_hrm_period_result_search"/>
+    </record>
+
+    <menuitem id="menu_aic_hrm_progress_report" name="Progress vs Plan"
+              parent="aic_hrm_base.menu_aic_hrm_reporting" sequence="10"
+              action="action_aic_hrm_progress_report"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+    <!-- The period results had no menu at all: the monthly and quarterly
+         figures a manager asks for were reachable only through a KPI
+         target form. Recorded data nobody can navigate to is data the
+         product may as well not hold. -->
+    <menuitem id="menu_aic_hrm_period_results" name="Period Results"
+              parent="aic_hrm_base.menu_aic_hrm_do" sequence="20"
+              action="action_aic_hrm_period_result"
+              groups="aic_hrm_base.group_hrm_user"/>
+
+</odoo>
