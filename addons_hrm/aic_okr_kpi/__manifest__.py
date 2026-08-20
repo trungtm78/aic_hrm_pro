@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect OKR & KPI Engine',
+    'name': 'OKR KPI Engine',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'AIConnect OKR and KPI engine: five goal levels, weighted scoring, check-ins, alerts and dashboards',

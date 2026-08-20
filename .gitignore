@@ -1,11 +1,13 @@
 # Odoo runtime (not part of the product repo - modules only)
 /odoo/
+/odoo18/
 /addons/
 /odoo-bin
 /requirements.txt
 
 # Local config (contains credentials) - use odoo.conf.example
 odoo.conf
+odoo18.conf
 
 # Python
 __pycache__/
@@ -30,7 +32,17 @@ Thumbs.db
 Docs/Requirements/
 
 # Local tooling
-.claude/
+# Local session state, except the stop hook. That one is repository behaviour
+# rather than a local preference: a clone without it gets no guard at all, and
+# a clone carrying the old copy gets one that blocks forever on a doubled
+# caret. See Docs/stop-hook-encoding.md.
+#
+# Written as .claude/* rather than .claude/ because git does not descend into
+# an excluded directory, so a negation under one never matches.
+.claude/*
+!.claude/hooks/
+.claude/hooks/*
+!.claude/hooks/*.bat
 setup-claude-autonomous.bat
 test-claude-hook.bat
 
@@ -49,3 +61,21 @@ addons_third/
 
 # Build output of tools/build_store_package.py
 dist/
+
+# Local Python virtualenv (Odoo runtime deps)
+.venv/
+.venv18/
+
+# Git Bash turns a redirect to NUL into a file of this name.
+nul
+
+# Scratch status reports written while chasing a stop-hook loop. They are
+# working notes, not deliverables, and `git add -A` would otherwise carry them
+# into a commercial repository. The durable record is PROGRESS.md.
+BLOCKER_SUMMARY.txt
+DEADLOCK_REPORT.txt
+EXECUTION_DEADLOCK_REPORT.txt
+FINAL_EXECUTION_REPORT.txt
+FINAL_WORK_SUMMARY.txt
+NEXT_STEPS.md
+WORK_STATUS.txt

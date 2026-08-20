@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM - Sales Bridge',
+    'name': 'OKR Sales Link',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Sales KPIs fed by real quotations, orders and invoices - no manual entry',

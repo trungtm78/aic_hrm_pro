@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM Library - Industry OKR/KPI Packs',
+    'name': 'OKR KPI Library',
     'version': '19.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'AIConnect library: 10 industries x 25 roles of ready-made OKR and KPI packs, and a management guide',

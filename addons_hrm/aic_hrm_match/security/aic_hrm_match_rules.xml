@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Layer 1 - GLOBAL rules. No `groups` attribute, so Odoo intersects them
+        with whatever the group rules allow. Every company restriction in this
+        module belongs here and nowhere else: given a `groups` attribute it
+        would be ORed against the other group rules and stop restricting
+        anything the moment a user holds one of them, which is always.
+
+        Layer 2 rules (per group) arrive with the models they protect, in the
+        checkpoint that introduces them. A model with no applicable rule is
+        unrestricted, so every model that gains rows also gains its row here.
+    -->
+
+    <record id="rule_match_tag_company_global" model="ir.rule">
+        <field name="name">Staffing tag: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_tag"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+    <record id="rule_match_allocation_company_global" model="ir.rule">
+        <field name="name">Staffing allocation: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_allocation"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+    <record id="rule_match_profile_company_global" model="ir.rule">
+        <field name="name">Staffing profile: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_profile"/>
+        <field name="domain_force">[('resource_company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_request_company_global" model="ir.rule">
+        <field name="name">Staffing request: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_request"/>
+        <field name="domain_force">[('request_company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_slot_company_global" model="ir.rule">
+        <field name="name">Staffing slot: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_request_slot"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+    <record id="rule_match_experience_company_global" model="ir.rule">
+        <field name="name">Staffing experience: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_experience"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+    <!--
+        Core hr_skills grants write on a skill line to an HR officer or to the
+        person it belongs to, and to nobody else. Verifying a certificate is
+        exactly the case neither covers: a planner is not an HR officer, and
+        the whole value of a verified certificate is that it was not the
+        claimant who confirmed it.
+
+        Group rules are ORed, so this adds the planner without widening what
+        anybody else can reach. Scoped to the planner's companies rather than
+        [(1,'=',1)] - staffing is a coordinating function inside a company,
+        not above all of them.
+    -->
+    <!--
+        Self-service on both series. Odoo 19 ships a core rule letting somebody
+        maintain their own skills; Odoo 18 requires an HR officer for the same
+        act. Granting it here rather than implying hr.group_hr_user keeps the
+        two series behaving the same without handing every staffing user write
+        access to the whole HR file.
+    -->
+    <record id="rule_match_employee_skill_own" model="ir.rule">
+        <field name="name">Employee skill: maintain your own</field>
+        <field name="model_id" ref="hr_skills.model_hr_employee_skill"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_match_user'))]"/>
+    </record>
+
+    <record id="rule_match_employee_skill_planner" model="ir.rule">
+        <field name="name">Employee skill: staffing planner verifies</field>
+        <field name="model_id" ref="hr_skills.model_hr_employee_skill"/>
+        <field name="domain_force">[('employee_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_match_planner'))]"/>
+    </record>
+    <record id="rule_match_criterion_company_global" model="ir.rule">
+        <field name="name">Staffing criterion: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_criterion"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="rule_match_policy_company_global" model="ir.rule">
+        <field name="name">Staffing policy: company scope</field>
+        <field name="model_id" ref="model_aic_hrm_match_policy"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+</odoo>

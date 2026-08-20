@@ -14,19 +14,20 @@ Everything else used by the suite (``_has_cycle``, ``<chatter/>``, ``<list>``,
 ``aggregator=``, ``_read_group`` tuple API, ``Many2oneReference``) exists in
 both versions.
 
+Two-stage by design. ``backport()`` rewrites what it recognises; ``verify()``
+then proves nothing Odoo-19-only survived. The second stage exists because the
+first one used to fail silently: a declaration shape the rewriter did not match
+was copied through untouched, the run still reported success, and an 18.0 zip
+could reach a customer carrying API that only exists in 19. A transform without
+a verifier is a transform you cannot trust.
+
 Usage: python tools/backport_18.py [--source addons_hrm] [--dest build/18.0]
 """
 import argparse
+import ast
 import pathlib
 import re
 import shutil
-
-CONSTRAINT_RE = re.compile(
-    r"^(?P<indent>[ \t]*)_(?P<name>\w+) = models\.Constraint\(\n"
-    r"(?P<indent2>[ \t]*)'(?P<definition>[^']*)',\n"
-    r"[ \t]*'(?P<message>[^']*)',?\n"
-    r"[ \t]*\)\n",
-    re.MULTILINE)
 
 PRIVILEGE_RECORD_RE = re.compile(
     r"[ \t]*<record id=\"[^\"]*\" model=\"res\.groups\.privilege\">.*?"
@@ -42,24 +43,129 @@ GROUP_SEQUENCE_RE = re.compile(
     r"[ \t]*<field name=\"sequence\">\d+</field>\n",
     re.DOTALL)
 
+# Directories whose contents quote source code as DATA rather than execute it.
+# A translation catalogue legitimately contains the English string it
+# translates, and the store landing page legitimately names fields in prose;
+# scanning either would make the gate report findings that are not defects.
+VERIFY_SKIP_PARTS = ('i18n', 'description')
+
+# marker -> file suffixes it applies to. Each entry is a literal substring
+# whose presence in the 18.0 build means the transform did not run or did not
+# recognise the shape it was given.
+RESIDUAL_MARKERS = (
+    ('models.Constraint', ('.py',)),
+    ("'version': '19.0.", ('.py',)),
+    ("'group_ids':", ('.py',)),
+    ('res.groups.privilege', ('.xml',)),
+    ('privilege_id', ('.xml',)),
+    ('@web_tour/tour_utils', ('.js',)),
+)
+
+
+def _render_sql_constraints(indent, entries):
+    """Emit the Odoo 18 legacy declaration for one class.
+
+    Entries are rendered with ``repr`` rather than interpolated between
+    hand-written quotes: a constraint message containing an apostrophe is
+    ordinary English ("the team's name"), and quoting it by hand is how you
+    produce a build that fails to import.
+    """
+    lines = ['%s_sql_constraints = [' % indent]
+    for name, definition, message in entries:
+        lines.append('%s    (%r, %r, %r),' % (indent, name, definition, message))
+    lines.append('%s]' % indent)
+    return '\n'.join(lines) + '\n'
+
+
+def _constraint_entries(class_node):
+    """Return (entries, spans) for one class body.
+
+    ``spans`` are 1-based inclusive line ranges to delete. Odoo 18 takes a
+    single ``_sql_constraints`` list, so several ``models.Constraint``
+    attributes on one class have to merge into one assignment - emitting one
+    per attribute would leave only the last one in effect.
+    """
+    entries, spans, indent = [], [], None
+    for node in class_node.body:
+        if not isinstance(node, ast.Assign) or len(node.targets) != 1:
+            continue
+        target = node.targets[0]
+        if not isinstance(target, ast.Name) or not target.id.startswith('_'):
+            continue
+        call = node.value
+        if not (isinstance(call, ast.Call)
+                and isinstance(call.func, ast.Attribute)
+                and call.func.attr == 'Constraint'
+                and isinstance(call.func.value, ast.Name)
+                and call.func.value.id == 'models'):
+            continue
+        if len(call.args) != 2 or call.keywords:
+            # Leave it alone on purpose: verify() will refuse the build rather
+            # than let a shape we do not understand through as a silent no-op.
+            continue
+        try:
+            definition = ast.literal_eval(call.args[0])
+            message = ast.literal_eval(call.args[1])
+        except (ValueError, SyntaxError):
+            continue
+        if not isinstance(definition, str) or not isinstance(message, str):
+            continue
+        entries.append((target.id.lstrip('_'),
+                        definition.replace('unique (', 'unique('),
+                        message))
+        spans.append((node.lineno, node.end_lineno))
+        if indent is None:
+            indent = ' ' * node.col_offset
+    return entries, spans, indent or '    '
+
+
+def _transform_constraints(text):
+    """Rewrite every ``models.Constraint`` attribute into ``_sql_constraints``.
+
+    Parsed with ``ast`` rather than matched with a regular expression: the
+    regex this replaces recognised exactly one layout (four lines, single
+    quotes) and silently ignored a wrapped message or a double-quoted string,
+    which are both ordinary Python.
+    """
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        return text
+    lines = text.splitlines(keepends=True)
+    edits = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ClassDef):
+            continue
+        entries, spans, indent = _constraint_entries(node)
+        if not entries:
+            continue
+        edits.append((spans, _render_sql_constraints(indent, entries)))
+    if not edits:
+        return text
+    # Apply bottom-up so earlier line numbers stay valid while we splice.
+    flat = []
+    for spans, rendered in edits:
+        first = spans[0]
+        flat.append((first[0], first[1], rendered))
+        for span in spans[1:]:
+            flat.append((span[0], span[1], ''))
+    for start, end, rendered in sorted(flat, reverse=True):
+        lines[start - 1:end] = [rendered] if rendered else []
+    return ''.join(lines)
+
+
+_GROUP_IDS_RE = re.compile(r"'group_ids'\s*:")
+
 
 def transform_python(text):
-    def to_sql_constraint(match):
-        return (
-            "{indent}_sql_constraints = [\n"
-            "{indent}    ('{name}', '{definition}', '{message}'),\n"
-            "{indent}]\n"
-        ).format(
-            indent=match.group('indent'),
-            name=match.group('name'),
-            definition=match.group('definition').replace("unique (", "unique("),
-            message=match.group('message'),
-        )
-
-    text = CONSTRAINT_RE.sub(to_sql_constraint, text)
-    text = text.replace("'group_ids': [(6, 0, [", "'groups_id': [(6, 0, [")
-    text = text.replace(
-        "'version': '19.0.", "'version': '18.0.")
+    text = _transform_constraints(text)
+    # Matched on the key alone, not on the command tuple that follows it. The
+    # previous version keyed on "'group_ids': [(6, 0, [" and so ignored
+    # "'group_ids': [(6, 0, records.ids)]" - the same literal shape it happened
+    # to be written in first. verify() looks for exactly this key, so transform
+    # and verifier now agree on what the construct is.
+    text = _GROUP_IDS_RE.sub("'groups_id':", text)
+    text = text.replace("'version': '19.0.", "'version': '18.0.")
     return text
 
 
@@ -82,6 +188,91 @@ def transform_js(text):
     # Odoo 18 keeps tour utils under tour_service/.
     return text.replace('from "@web_tour/tour_utils"',
                         'from "@web_tour/tour_service/tour_utils"')
+
+
+_XML_COMMENT_RE = re.compile(r'<!--.*?-->', re.DOTALL)
+
+
+def _blank_lines_in_place(lines, start, end):
+    """Blank a 1-based inclusive line range, preserving the line count."""
+    for index in range(start - 1, min(end, len(lines))):
+        lines[index] = ''
+
+
+def _strip_python_prose(text):
+    """Blank out comments and docstrings, keeping every other line intact.
+
+    A marker inside prose is documentation, not API usage: this very file
+    explains why ``models.Constraint`` is avoided, and a gate that reports its
+    own explanation is a gate people learn to ignore. Line numbers are
+    preserved so a real finding still points at the right row.
+
+    Ordinary string literals are deliberately NOT stripped - ``'group_ids':``
+    is a dict key and a genuine 19-only usage.
+    """
+    lines = text.splitlines()
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        return text
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef,
+                                 ast.AsyncFunctionDef)):
+            continue
+        body = getattr(node, 'body', None)
+        if not body:
+            continue
+        first = body[0]
+        if (isinstance(first, ast.Expr)
+                and isinstance(first.value, ast.Constant)
+                and isinstance(first.value.value, str)):
+            _blank_lines_in_place(lines, first.lineno, first.end_lineno)
+    stripped = []
+    for line in lines:
+        head = line.split('#', 1)[0] if '#' in line else line
+        # Only strip a '#' that starts a comment, not one inside a string.
+        stripped.append(head if line.count('"') % 2 == 0
+                        and line.count("'") % 2 == 0 else line)
+    return '\n'.join(stripped)
+
+
+def _strip_xml_comments(text):
+    """Blank comment bodies, keeping the line count so numbers stay usable."""
+    def blank(match):
+        return '\n' * match.group(0).count('\n')
+    return _XML_COMMENT_RE.sub(blank, text)
+
+
+def verify(dest):
+    """Return every Odoo-19-only construct still present under ``dest``.
+
+    Each finding is ``(relative_posix_path, line_number, marker)``. An empty
+    list is the only result that means the build is safe to package.
+    """
+    dest = pathlib.Path(dest)
+    findings = []
+    for path in sorted(dest.rglob('*')):
+        if not path.is_file():
+            continue
+        markers = [m for m, suffixes in RESIDUAL_MARKERS
+                   if path.suffix in suffixes]
+        if not markers:
+            continue
+        relative = path.relative_to(dest)
+        if VERIFY_SKIP_PARTS and set(relative.parts) & set(VERIFY_SKIP_PARTS):
+            continue
+        text = path.read_text(encoding='utf-8', errors='ignore')
+        if not any(marker in text for marker in markers):
+            continue
+        if path.suffix == '.py':
+            text = _strip_python_prose(text)
+        elif path.suffix == '.xml':
+            text = _strip_xml_comments(text)
+        for number, line in enumerate(text.splitlines(), start=1):
+            for marker in markers:
+                if marker in line:
+                    findings.append((relative.as_posix(), number, marker))
+    return findings
 
 
 def backport(source, dest):
@@ -117,3 +308,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     count = backport(args.source, args.dest)
     print(f'Backported to {args.dest}: {count} files transformed')
+    problems = verify(args.dest)
+    if problems:
+        print('\nODOO 19 API SURVIVED THE TRANSFORM - build not shippable:')
+        for relative, line, marker in problems:
+            print('  %s:%s  %s' % (relative, line, marker))
+        raise SystemExit(1)
+    print('Verified: no Odoo-19-only API remains.')
