@@ -112,3 +112,30 @@ it measured the wrong thing. Persisting N candidates is N rows and the ORM
 chunks large inserts, so a run's total query count cannot be independent of the
 pool. What is asserted instead, and holds: the scoring phase issues zero
 queries, and prefetch does not grow per person (66 queries for 2000 people).
+
+
+## Menu regroup and management reporting (aic_okr_kpi) - 2026-08-20
+
+| ID | Screen / Function | Test written | Test run | Result |
+|----|-------------------|--------------|----------|--------|
+| U93 | Progress report model: one row per measurement, expected computed AT the measurement date, gap sign, stable ids, source flush, single-day cycle guard, zero target, lower-is-better cap, draft period results excluded | test_progress_report.py (11) | suite 19 | PASS |
+| U94 | Report views: graph (achieved vs expected by month), pivot (department x quarter), list, search with group-by week/month/quarter/department/job/library role | opened in a real browser on the customer demo | manual, 2026-08-20 | PASS |
+| U95 | Executive Overview dashboard: month bars, department ranking worst-first, furthest-behind rail, click through to pivot | opened in a real browser; page errors checked (none) | manual, 2026-08-20 | PASS |
+| U96 | Period Results reachable from the menu for the first time (Execute > Period Results) | test_screen_smoke.py enumerates menus and actions from ir.model.data | suite 19 | PASS |
+| U97 | Menu regrouped into 7 stages; every action still reachable, wizards out of Configuration | test_screen_smoke.py + menu tree read back from the database | suite 19 + manual | PASS |
+| U98 | Position as a reporting dimension: import maps the sheet's position text to a real hr.job; employee carries the library role a pack was applied from | test_progress_report.py::test_groups_by_job_position | suite 19 | PASS |
+
+Verified on 2026-08-20, against the customer demo database (real imported plan):
+
+  Odoo 19 : 317 pass, 0 fail, 0 error   (aic_hrm_base, aic_okr_kpi, aic_hrm_review,
+            aic_hrm_library, aic_hrm_pro, aic_hrm_project, aic_hrm_sale)
+  data    : 188 report rows = 56 check-ins + 132 confirmed period results,
+            matching the source row counts exactly
+  grouping: by month (3 buckets), by department, by job position (4 positions)
+
+U94 and U95 are marked from a browser session rather than an automated tour.
+A pivot and a chart are read by a person, and the failure this pass actually
+caught - three KPI tests returning the same figure because row_number() handed
+out unstable ids - was found by the unit tests, not by looking. The browser
+pass is what confirmed the axis labels, the two-bar comparison and the absence
+of console errors.
