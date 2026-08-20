@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+    <!--
+        Installing this module does NOT switch fixtures on. The parameter
+        below is the second lock: the module has to be installed AND the
+        parameter set to 1 before anything may write business data. Someone
+        who installs it to read the catalogue on a live database still
+        cannot seed it by accident.
+
+        Turn it on with:
+          Settings > Technical > System Parameters > aic_hrm.uat_mode = 1
+        or, on the UAT server, it is set by tools/seed_uat.py.
+    -->
+    <record id="param_uat_mode" model="ir.config_parameter">
+        <field name="key">aic_hrm.uat_mode</field>
+        <field name="value">0</field>
+    </record>
+    </data>
+</odoo>

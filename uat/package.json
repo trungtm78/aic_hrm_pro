@@ -1,0 +1,16 @@
+{
+  "name": "aic-hrm-uat",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Acceptance harness for AIConnect HRM Pro. Drives the UAT database at 127.0.0.1:8075 through a real browser.",
+  "scripts": {
+    "seed": "python ../tools/seed_uat.py --reset --all",
+    "api": "playwright test specs/api",
+    "web": "playwright test specs/web",
+    "test": "playwright test",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

@@ -79,3 +79,9 @@ FINAL_EXECUTION_REPORT.txt
 FINAL_WORK_SUMMARY.txt
 NEXT_STEPS.md
 WORK_STATUS.txt
+
+# UAT harness: installed browsers and per-run evidence, not source
+uat/node_modules/
+uat/test-results/
+uat/playwright-report/
+uat/package-lock.json

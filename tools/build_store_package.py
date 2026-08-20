@@ -56,7 +56,14 @@ PERFORMANCE_SUITE = {'aic_hrm_base', 'aic_okr_kpi', 'aic_hrm_review',
 STANDALONE_APPS = {
     'aic_hrm_match': {'hr', 'hr_skills', 'project', 'mail', 'web'},
 }
-WITHHELD = {'aic_hrm_brand': 'debrands the platform vendor - direct delivery only'}
+WITHHELD = {
+    'aic_hrm_brand': 'debrands the platform vendor - direct delivery only',
+    # Ships an RPC that creates and deletes business data. Gated twice at
+    # runtime, but a buyer has no reason to receive it at all, and a
+    # seeding endpoint on a live payroll-adjacent database is a hole, not
+    # a feature. test_packaging asserts it never reaches a zip.
+    'aic_hrm_uat_data': 'internal acceptance fixtures - never shipped',
+}
 
 # Odoo Apps vendor guidelines: "the name of the app must be explicit and should
 # contain no more than 25 characters."

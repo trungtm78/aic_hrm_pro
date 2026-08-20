@@ -38,11 +38,38 @@ export class AicHrmReportOverview extends Component {
                 { order: "date_start desc" },
             );
             if (this.state.cycles.length) {
-                this.state.cycleId = this.state.cycles[0].id;
+                this.state.cycleId = await this.defaultCycleId();
                 await this.load();
             }
             this.state.loading = false;
         });
+    }
+
+    /**
+     * Open on a cycle that has something in it.
+     *
+     * Picking the newest cycle by start date looks right and fails in the
+     * commonest situation there is: somebody creates next period's cycle
+     * ahead of time, and from that moment the leadership dashboard greets
+     * everyone with "nothing measured yet" while the current period is full
+     * of data. Prefer the most recent cycle that actually holds a
+     * measurement, and fall back to the newest when none does - a genuinely
+     * empty database should still show the empty state.
+     */
+    async defaultCycleId() {
+        const measured = await this.orm.formattedReadGroup(
+            "aic.hrm.progress.report",
+            [["cycle_id", "in", this.state.cycles.map((cycle) => cycle.id)]],
+            ["cycle_id"],
+            ["__count"],
+        );
+        const withData = new Set(
+            measured
+                .filter((group) => group.__count)
+                .map((group) => group.cycle_id && group.cycle_id[0]),
+        );
+        const preferred = this.state.cycles.find((cycle) => withData.has(cycle.id));
+        return (preferred || this.state.cycles[0]).id;
     }
 
     get domain() {

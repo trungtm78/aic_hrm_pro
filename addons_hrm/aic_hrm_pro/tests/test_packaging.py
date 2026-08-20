@@ -84,3 +84,31 @@ class TestPackaging(TransactionCase):
         self.assertAlmostEqual(sum(objectives.mapped('weight')), 100.0,
                                msg='demo objectives weigh 100% like the '
                                    'real methodology')
+
+    def test_uat_fixtures_never_reach_a_buyer(self):
+        """The acceptance dataset must not be shippable.
+
+        aic_hrm_uat_data exposes an RPC that creates and deletes business
+        records. It is gated twice at runtime - HR administrator plus a system
+        parameter - but the module boundary is the guarantee that matters: a
+        customer who never receives it cannot have it switched on by accident
+        or on purpose. So the packager withholds it, no shipped module depends
+        on it, and this test is what keeps both true.
+        """
+        packager = pathlib.Path(
+            get_module_path('aic_hrm_pro')).parents[1] / 'tools' \
+            / 'build_store_package.py'
+        source = packager.read_text(encoding='utf-8')
+        withheld = source.split('WITHHELD = {', 1)[1].split('}', 1)[0]
+        self.assertIn('aic_hrm_uat_data', withheld,
+                      'the packager must withhold the UAT fixture module')
+
+        store_modules = source.split('STORE_MODULES = [', 1)[1].split(']', 1)[0]
+        self.assertNotIn('aic_hrm_uat_data', store_modules,
+                         'the UAT fixture module must not be in the build list')
+
+        for name in SUITE_MODULES + ('aic_hrm_project', 'aic_hrm_sale',
+                                     'aic_hrm_library'):
+            self.assertNotIn(
+                'aic_hrm_uat_data', get_manifest(name)['depends'],
+                f'{name} must not depend on the UAT fixture module')

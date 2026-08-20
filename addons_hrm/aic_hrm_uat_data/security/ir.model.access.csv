@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_uat_fixture_admin,uat.fixture.admin,model_aic_hrm_uat_fixture,aic_hrm_base.group_hrm_admin,1,1,1,1
+access_uat_fixture_record_admin,uat.fixture.record.admin,model_aic_hrm_uat_fixture_record,aic_hrm_base.group_hrm_admin,1,1,1,1
