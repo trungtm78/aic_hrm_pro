@@ -139,3 +139,20 @@ caught - three KPI tests returning the same figure because row_number() handed
 out unstable ids - was found by the unit tests, not by looking. The browser
 pass is what confirmed the axis labels, the two-bar comparison and the absence
 of console errors.
+
+## UAT dataset and browser acceptance run (aic_hrm_uat_data + uat/) - 2026-08-20
+
+| ID | Screen / Function | Test written | Test run | Result |
+|----|-------------------|--------------|----------|--------|
+| U99  | UAT fixture engine: named fixtures, declared outputs, idempotent apply, ledgered cleanup that restores exact row counts, cascade to dependants only | test_uat_fixtures.py (27) | suite 19 on AIC_HRM_UAT | PASS |
+| U100 | Fixture guards: HR-administrator group AND the aic_hrm.uat_mode parameter; the module is withheld from the store package and no shipped module depends on it | test_uat_fixtures.py + test_packaging.py::test_uat_fixtures_never_reach_a_buyer | suite 19 | PASS |
+| U101 | Dataset covers every state in the state maps: cycle draft/open/review/closed/locked/one-day, objective draft..done, five levels, KR four metric types, KPI confirmed/draft-results/lower-better/cap-1.2, scorecard 100/80/thirds, review 2-of-3 and 3-of-3, external rater, applied calibration, library pack applied | test_uat_fixtures.py (16 semantic cases) | suite 19 | PASS |
+| U102 | Gate 1 API smoke: server up and locked to the UAT database, three personas authenticate, fourteen models read, report rows reconcile exactly with check-ins plus confirmed period results | uat/specs/api/smoke.spec.ts (5) | Playwright, 2026-08-20 | PASS |
+| U103 | Gate 2 navigation in a real browser: eight stages present, five wizards out of Configuration, Period Results reachable, all 24 screens open with an empty console | uat/specs/web/menu.spec.ts (4) | Playwright | PASS |
+| U104 | Gate 2 scorecard weight gate on screen: the 80% scorecard refuses to submit and the message names 80 and 100; the balanced one is approved | uat/specs/web/scorecard.spec.ts (2) | Playwright | PASS |
+| U105 | Gate 2 reporting: chart, pivot and grouped list from one model; grouping by week/month/quarter/department/job/owner returns buckets; the executive overview opens on a cycle that has data | uat/specs/web/reporting.spec.ts (4) | Playwright | PASS |
+| U106 | Gate 2 anonymity in the browser: no rater name on the review screen, invitation list not exposed to the manager, below-threshold aggregate absent rather than rounded | uat/specs/web/anonymity.spec.ts (3) | Playwright | PASS |
+| U107 | Gate 2b at 320px: six screens with no horizontal scroll, no control in our components under 44px | uat/specs/web/responsive.spec.ts (7) | Playwright | PASS |
+| U108 | Enterprise scale: 2,000 employees, 40 departments, 80,000 assignment lines, 24,000 confirmed results; close cycle 0.02s (budget 60s), department grouping 0.10s (budget 3s), full scorecard recompute 2.73s (budget 60s) | tools/seed_uat_scale.py + fixtures_scale.measure_budgets | 2026-08-20 | PASS |
+| U109 | Fault seeding: four deliberate defects (cap removed, weight gate open, authorisation skipped, audit record deletable) - all four caught, each by the case written for it | tools scratch runner, reverted after each | 2026-08-20 | PASS |
+| U110 | Fresh install of aic_hrm_match on an empty database (menus loaded before the config views that hang off them) | manual install on a clean database | 2026-08-20 | PASS after fix |

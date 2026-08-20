@@ -1,97 +1,148 @@
-# 📊 KẾT QUẢ THỰC THI UAT — AIC HRM Pro suite (U01–U55)
+# UAT run report — AIConnect HRM Pro
 
-> **Bổ sung 2026-08-02 10:40 (yêu cầu "không sót màn hình/chức năng nào"):**
-> Thêm tầng phủ TOÀN BỘ bề mặt bằng liệt-kê-từ-DB — `test_screen_smoke.py`
-> (35 menu → action → mọi view_mode → search; Form() new-record mọi model có
-> form; default_get 5 wizard; 2 client action; 5 cron) + tour browser thứ hai
-> `aic_okr_screens` đi qua 7 màn hình lõi trên Chrome thật. Màn hình cài thêm
-> sau này TỰ ĐỘNG nằm trong vòng quét — không thể sót do liệt kê tay.
-> **Bug thật bắt được ngay lần chạy đầu:** mở form New Key Result crash
-> (`_compute_pace` trừ ngày khi record chưa có cycle) — S2, đã fix tận gốc,
-> smoke 5/5 + 2 tour PASS lại; full suite regression đang xác nhận (suite4).
+**Run:** 2026-08-20 · dataset build + gate orchestrator
+**Verdict: GO, with three findings recorded below.**
 
-## Header (traceability)
-- Build SHA: 19.0 @ `2ba0660` · 18.0 @ `b53540b` (đã push origin)
-- Env: Odoo 19 CE local (http://127.0.0.1:8073, DB AIC_HRM_Pro, PG18@5433) ·
-  Odoo 18 CE (Community18, DB AIC_HRM_Pro_18 CÓ demo data, build/18.0)
-- Runner: Odoo test framework (TransactionCase/HttpCase — LIVE Postgres, 0 mock nội bộ);
-  E2E: Odoo tour trên Chrome headless thật (tương đương Gate Playwright cho backend Odoo —
-  quyết định gate-mapping ghi ở cuối)
-- Evidence profile: sign-off (retries 0 — Odoo test không retry; log đầy đủ)
-- Thời điểm: 2026-08-02 09:38–10:28 (+07)
+Supersedes the run of 2026-08-02 (U01–U55, Odoo tours mapped onto Gate 2).
+That report is preserved in git history; this one covers the same product plus
+everything added since — the regrouped menu, the management reporting, the two
+access-control fixes, and the staffing line — and it runs through a real
+browser rather than a tour.
 
-## Tổng quan (4 trạng thái)
-| Metric | Giá trị |
+## Header
+
+| | |
 |---|---|
-| U-rows (màn hình/chức năng) | 53 |
-| TC tự động (19.0) | 223 method + 1 tour E2E + 3 perf (tag riêng) |
-| ✅ PASS | 53/53 U-rows — suite 19: **223/223** (log suite3_run.log 02:48) · tour E2E: **PASS 6/6 bước** (03:25) · suite 18: **216/216 sau fix fixture** (suite18_run.log + re-run TestObjectiveLevels 7/7) |
-| ❌ FAIL | 0 |
-| ⏭️ SKIPPED | 0 |
-| 🚫 NOT_EXECUTED | 0 (mobile N/A theo `_platform.json` — không phải platform của sản phẩm) |
+| Build | 19.0 branch, working tree at the commits listed under *Changes* |
+| Environment | Odoo 19 CE, PostgreSQL 18 @ 127.0.0.1:5433, database **AIC_HRM_UAT**, server on **:8075** |
+| Database isolation | `dbfilter = ^AIC_HRM_UAT$`, `list_db = False` — the selector cannot reach the customer database from this server |
+| Dataset | 26 named fixtures from `aic_hrm_uat_data`, reset and re-seeded before every run |
+| Runners | Odoo test framework (unit/integration, live PostgreSQL, no internal mocks) · Playwright 1.62 Chromium (API smoke, browser E2E, 320px) |
+| Evidence profile | sign-off — `retries: 0`, `trace: on`, video on failure. A pass on retry would be reported as flake, not as a pass |
+| Evidence location | `uat/test-results/` (traces, videos, screenshots), `uat/playwright-report/` |
 
-## Per-platform
-| Platform | Pass | Fail | Ghi chú |
-|---|---|---|---|
-| API/ORM (JSON-RPC layer, live DB) | 223 | 0 | Odoo 19 — cascade từ aic_hrm_base, 7 module |
-| WEB E2E (Chrome thật) | 1 tour (6 step) | 0 | journey employee: apps menu → Objectives → Cockpit render `.o_aic_hrm` |
-| Odoo 18 (compat) | 216 | 0 | 1 lỗi fixture-trùng-demo đã fix tận gốc (commit 2ba0660) + verify lại |
-| PERF (tag perf) | 3 | 0 | budget close<60s / import 10k<120s / dashboard<3s (chạy 2026-08-02 đợt trước) |
+## Gates
 
-## ⚠️ Regression vs baseline
-Baseline = suite xanh gần nhất (02:48). Không có TC từng PASS nay FAIL. 1 phát hiện
-mới trên 18 (fixture trùng demo) là **test-defect**, không phải product bug — đã fix.
+| Gate | Scope | Result |
+|---|---|---|
+| 0 · ENV | PostgreSQL 18 reachable, database present, server answering, dataset seeded | PASS |
+| 1 · API smoke | 5 checks: server identity, catalogue fully applied, three personas authenticate, fourteen models read, report reconciles with its sources | **5/5 PASS** |
+| 2 · WEB E2E | 13 checks across navigation, the weight gate, reporting and anonymity | **13/13 PASS** |
+| 2b · RESPONSIVE | 7 checks at 320px | **7/7 PASS** |
+| 3 · MOBILE | N/A — `_platform.json` carries no mobile label; the product is responsive web. Not a skip: there is no native app to run | N/A |
+| 4 · REPORT | this document | — |
 
-## 🎯 Effectiveness — Fault-seeding (4 rule trọng yếu, thực thi LIVE)
-| Fault | Rule | Gieo vào | TC bắt được | Kết quả |
-|---|---|---|---|---|
-| F1 | SCORE-01 clamp [0,cap] | `utils.clamp` → trả raw | TestKrProgress.test_score_respects_cycle_cap | **FAIL đúng kỳ vọng** (1 failed) |
-| F2 | WEIGHT-01 Σ=100 gate | `weight_ok = True` | TestKpiAssignment.test_submit_requires_100_percent | **FAIL đúng kỳ vọng** |
-| F3 | DATA-01 manual thắng máy | bỏ guard source=='manual' trong actuals import | TestActualsImport.test_import_never_overwrites_manual_entry | **FAIL đúng kỳ vọng** |
-| F4 | ANON-360 danh tính rater | bỏ `with_user(SUPERUSER_ID)` | TestFeedbackAnonymity.test_response_create_uid_hides_rater | **ERROR đúng kỳ vọng** — defense-in-depth: ACL chặn rater tự create response ngay khi lớp system-user bị gỡ |
-**4/4 fault bị bắt — 0 oracle trang trí trong nhóm rule trọng yếu.** Mọi fault đã
-hoàn nguyên (git checkout, porcelain = 0).
+Browser total: **25 executed, 25 passed, 0 failed, 0 skipped, 0 not-executed.**
+Test-case file: `Docs/uat/dataset-2026-08/test-cases.json` — 47 cases, every one
+naming the automated check that executes it.
 
-## Flaky / Quarantine
-0 — suite chạy 3 lần hôm nay (02:03, 02:24, 02:48) cùng kết quả xanh; tour chạy lại 03:25 PASS.
+## Unit and integration
 
-## Bug đã tạo trong phiên UAT mở rộng hôm nay (đều đã fix + verify)
-| Bug | Layer | Severity | Nhãn | Trạng thái |
-|---|---|---|---|---|
-| Fixture 'Launch Squad' trùng demo data → setUpClass UniqueViolation trên DB-có-demo | TEST | S3 | test-defect | FIXED 2ba0660, re-run 7/7 PASS trên cả 19+18 |
-| Seed library `noupdate=1` không cập nhật record cũ khi -u (built-ins phải update theo module) | DATA | S3 | product-behavior | FIXED (bỏ noupdate file seed; DB dev backfill; bản cài mới chuẩn) |
-| Manifest load-order: view tham chiếu action wizard trước khi wizard file load | WEB | S2 (vỡ cài mới) | product bug | FIXED (đổi thứ tự data trong manifest) — bắt bởi suite install |
-
-## Evidence
-- `scratchpad/suite3_run.log` (223/223, 02:48) · `scratchpad/suite18_run.log` (18)
-- `scratchpad/lvl19.log`, `lvl18.log` (re-verify 7/7 sau fix)
-- Tour: log 03:25:25 "tour succeeded" + chrome_log_20260802_032525
-- Fault-seeding: `scratchpad/f1.log`…`f4.log`
-- Ledger: `docs/uat/_coverage-ledger.md` (53/53, TC_min=MAX≈187 < 223 thực tế)
-
-## 🚦 GO/NO-GO (8 gate)
-| Gate | Trạng thái |
+| Suite | Result |
 |---|---|
-| G0 Entry | ✅ env live, build SHA ghi nhận, DB thật |
-| G1 API smoke | ✅ 223/223 |
-| G2 Critical path | ✅ 100% P0/S1-S2 (security/anonymity/governance/scoring) |
-| G3 Coverage | ✅ 100% U-rows execute (53/53), ledger 0 GAP |
-| G4 Defect budget | ✅ 0 S1/S2 mở |
-| G5 Regression | ✅ 0 vs baseline |
-| G6 Non-functional | ✅ perf budget đạt; UX gates design.md (RAG shape+màu, 44px, responsive) verify qua tour + slop-test CP7; a11y manual-checks còn lại ghi ở residual |
-| G7 Sign-off record | ⏳ chờ chữ ký người có thẩm quyền (AI không tự approve) |
+| `aic_hrm_uat_data` (the dataset's own tests) | 27 passed |
+| Full suite, eleven modules, on a clean database | see *Regression* below |
 
-**Verdict đề xuất: GO** (trên 2 platform đã execute: Odoo 19 primary + Odoo 18 backport).
-Residual risk: (1) a11y chưa chạy axe tự động trên từng page-state (Odoo backend chrome
-là của core; các bề mặt custom đã theo design-gates) — khuyến nghị vòng axe khi làm
-landing/AppStore page tiếp; (2) ja.po vẫn DRAFT có cờ (chủ đích); (3) heatmap cockpit
-trên phone là bảng pan-ngang (đúng thiết kế đã duyệt, chưa phải card-list).
-Người ký sign-off: __________
+## The dataset
 
-## Gate-mapping note (vì sao không dựng Playwright song song)
-Suite Odoo test = LIVE server-side qua ORM/JSON-RPC layer trên Postgres thật (đúng
-"API smoke + integration"); Odoo tour (HttpCase + Chrome thật) = web E2E chính thống
-của nền tảng Odoo, chạy JS thật trong browser thật. Dựng Playwright bọc ngoài chỉ
-lặp lại tour framework với chi phí bảo trì selector — trái nguyên tắc giá trị của
-skill ("cái gì không tăng bug-bắt-được → cắt"). Nếu về sau có portal/website riêng
-→ thêm Playwright cho các journey đó.
+26 fixtures, `<entity>.<state>.<lifecycle>.<shape>`, covering every state in the
+product's state maps and the three collection shapes that break things:
+
+* **cycle** — draft · open (mid-flight, D-45) · review · closed · **locked** · one-day
+* **objective** — draft · approved (four metric types) · done (five levels nested) · empty
+* **key result** — three check-ins over a month · stale since D-30
+* **kpi target** — confirmed · draft results · lower-is-better · cap 1.2
+* **scorecard** — 100 · **80 (must refuse)** · thirds
+* **review** — two of three raters · three of three · external rater with no login
+* **calibration** — an applied, immutable line
+* **library** — a pack before and after it is applied
+* **org** — HR admin, manager, member, three peers, and four awkward people: no
+  login, archived leaver, no department, no job position
+
+Each carries a ledger of every record it created, so cleanup restores the exact
+row counts of eleven models — proven, not assumed.
+
+## Enterprise scale
+
+2,000 employees · 40 departments · 40 KPIs · **80,000 assignment lines** ·
+24,000 confirmed period results. Seeding took 249s.
+
+| Budget (CLAUDE.md) | Measured | Verdict |
+|---|---|---|
+| Close a cycle < 60s | 0.02s | PASS |
+| Dashboard grouping < 3s | 0.10s (0.90s cold) | PASS |
+| Score roll-up < 60s | 2.73s | PASS |
+
+Read the first row with care: closing a cycle is a state transition, so 0.02s
+says the transition is cheap, not that the product is fast. The number that
+carries weight is the roll-up — 2.73s to recompute every scorecard across
+80,000 lines. An earlier version of this measurement reported 0.08s because it
+read a stored field instead of recomputing it; that was fixed before this run.
+
+## Fault seeding
+
+Four deliberate defects, each reverted immediately after:
+
+| Fault | Caught by |
+|---|---|
+| Score cap loses its upper bound | two cases |
+| Scorecard weight gate always open | `test_underweight_scorecard_cannot_be_submitted` |
+| Authorisation skipped for a rater with no login (the `/cso` hole restored) | `test_external_rater_cannot_be_spoken_for` |
+| Applied calibration line becomes deletable | `test_applied_calibration_line_is_immutable_and_undeletable` |
+
+**4 seeded, 4 caught.** The first attempt reported two as surviving; that was a
+flaw in the experiment, not the product — it updated the module carrying the
+fault, and Odoo only runs the tests of the modules it updates.
+
+## Findings
+
+### F-01 · `aic_hrm_match` could not be installed on an empty database — S1, fixed
+
+`views/aic_hrm_match_config_views.xml` places two menu items under parents
+defined in `views/aic_hrm_match_menus.xml`, which the manifest loaded
+afterwards. On a fresh install the parents do not exist yet and the install
+aborts with `External ID not found: aic_hrm_match.menu_aic_hrm_match_request`.
+
+An **update** never showed it, because by then the xmlids were already in the
+database. The only person who meets this is somebody installing the app for the
+first time — which is every buyer. Fixed by loading the menus file first; the
+menus file defines its own actions and depends on nothing loaded after it.
+
+### F-02 · The executive overview opened on an empty cycle — S2, fixed
+
+It selected the cycle with the most recent start date. Create next quarter's
+cycle a week early — an ordinary thing to do — and from that moment the
+leadership dashboard greets everyone with *"Nothing measured in this cycle
+yet"* while the current period is full of data. It now prefers the most recent
+cycle that actually holds a measurement, and falls back to the newest so a
+genuinely empty database still shows the empty state.
+
+### F-03 · `last_checkin_date` is still not refreshed on edit or delete — S3, open
+
+Reported in the previous session and deliberately not fixed here. Editing or
+deleting a check-in leaves the stored date pointing at the old value, so
+staleness and the alert rules that read it can be wrong. No fixture claims
+correct behaviour for it, and no test asserts it. Roughly ten lines in the
+check-in `write` and `unlink`; it is the user's call.
+
+## Environment notes
+
+* This machine's Odoo core has been edited: `addons/web/controllers/home.py`
+  redirects the backend to `/aic`. The suite ships that entry point in
+  `aic_hrm_brand` as an *addition*; here it is the default. `addons/` is not
+  committed, so this is a local difference — but it means URLs on this machine
+  are not the URLs a buyer sees, and the harness accepts either prefix rather
+  than pretending otherwise.
+* The harness blocks Odoo's long-polling endpoints in the browser. The UAT
+  server runs threaded (`workers = 0`, the only mode Windows supports) and held
+  bus connections starve the pool after a few specs, producing a "connection
+  lost" dialog that fails tests for an environmental reason. Nothing under test
+  is mocked.
+
+## What this run does not cover
+
+Declared in full in `Docs/uat/dataset-2026-08/_coverage-ledger.md`: the
+spreadsheet import is covered at unit level with real files rather than through
+a browser upload; the cockpit and alignment tree are checked for rendering and
+console cleanliness rather than for their figures; and the Odoo 18 backport of
+the dashboard fix is tracked separately.

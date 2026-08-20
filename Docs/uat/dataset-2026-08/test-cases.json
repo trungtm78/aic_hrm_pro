@@ -1,0 +1,1663 @@
+{
+  "feature": "uat-dataset-and-acceptance-run",
+  "generated_at": "2026-08-20T00:00:00+07:00",
+  "platform_contract": "Docs/uat/_platform.json",
+  "domain_pack": "Docs/uat/_domain-pack.md",
+  "coverage_ledger": "Docs/uat/dataset-2026-08/_coverage-ledger.md",
+  "evidence_profile": "signoff",
+  "note": "Every case names the automated check that executes it. A case with no executor is a claim about the product that nobody runs.",
+  "test_cases": [
+    {
+      "tc_id": "TC-001",
+      "title": "Every named fixture builds and returns what it promised",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-01",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Claim",
+      "rule_ref": "UAT-ENGINE-01",
+      "oracle_source": "Claims -> aic_hrm_uat_data engine docstring: a spec declares its outputs",
+      "catches_bug": "A setup quietly returning fewer ids than it declared, so a later test reads undefined",
+      "coverage_ids": [
+        "COV-ENG-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Apply the whole catalogue\n2. Compare declared outputs with returned keys",
+      "expected": "26 fixtures build; none returns fewer outputs than its spec declares",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_every_fixture_applies",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-002",
+      "title": "A fixture id describes the fixture it names",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-01",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Claim",
+      "rule_ref": "UAT-ENGINE-02",
+      "oracle_source": "Claims -> naming contract <entity>.<state>.<lifecycle>.<shape>",
+      "catches_bug": "An id drifting from its metadata, so the dataset stops describing itself",
+      "coverage_ids": [
+        "COV-ENG-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the catalogue\n2. Split each id against entity/state/lifecycle",
+      "expected": "Every id agrees with its own metadata and carries a doc line",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_catalog_ids_match_their_metadata",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-003",
+      "title": "Applying a fixture twice does not create a second copy",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-01",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Claim",
+      "rule_ref": "UAT-ENGINE-03",
+      "oracle_source": "Claims -> engine docstring: reproducible, so a half-finished run restarts",
+      "catches_bug": "A restarted run doubling its own data and reporting counts nobody can reconcile",
+      "coverage_ids": [
+        "COV-ENG-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "objective.approved.D-30.normal"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Apply a fixture\n2. Apply it again\n3. Count the records",
+      "expected": "Same ids returned, record count unchanged",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_apply_is_idempotent",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-004",
+      "title": "Cleanup returns the database to exactly where it started",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-01",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Claim",
+      "rule_ref": "UAT-ENGINE-04",
+      "oracle_source": "Claims -> engine docstring: every created record is ledgered, removed in reverse",
+      "catches_bug": "Leftovers from the last run being read as this run's result",
+      "coverage_ids": [
+        "COV-ENG-04"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Count rows in eleven models\n2. Apply everything\n3. Reset\n4. Count again",
+      "expected": "Counts identical before and after; no fixture instance survives",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_cleanup_returns_the_database_to_where_it_started",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-005",
+      "title": "Removing a fixture removes what was built on it",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-01",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Claim",
+      "rule_ref": "UAT-ENGINE-05",
+      "oracle_source": "Claims -> engine docstring on cascade",
+      "catches_bug": "An orphaned scorecard pointing at an employee no fixture accounts for",
+      "coverage_ids": [
+        "COV-ENG-05"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "kr.checkins.D0.normal"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Apply a fixture chain\n2. Clean the root\n3. List what remains",
+      "expected": "Dependants are removed; unrelated fixtures are left alone",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_cleanup_cascades_to_dependents",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-006",
+      "title": "Seeding is refused when UAT mode is off",
+      "type": "SECURITY",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-02",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "UAT-GUARD-01",
+      "oracle_source": "Purpose -> data/uat_mode.xml: installing the module must not allow writes",
+      "catches_bug": "A fixture RPC writing business data on a live database because the module happened to be installed",
+      "coverage_ids": [
+        "COV-SEC-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "org.base.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Set aic_hrm.uat_mode to 0\n2. Call apply_fixtures",
+      "expected": "Refused with a message naming the parameter; nothing is created",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_uat_mode_off_blocks_everything",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-007",
+      "title": "A performance manager cannot drive the fixtures",
+      "type": "SECURITY",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-DATA-02",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "UAT-GUARD-02",
+      "oracle_source": "Purpose -> ir.model.access.csv: the fixture models are HR-admin only",
+      "catches_bug": "Any logged-in manager creating or deleting business records wholesale",
+      "coverage_ids": [
+        "COV-SEC-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "org.base.D0"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Log in as a manager\n2. Call apply_fixtures",
+      "expected": "AccessError; nothing is created",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_non_admin_cannot_seed",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-008",
+      "title": "A locked cycle refuses every edit",
+      "type": "RED",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-PLAN-03",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Product",
+      "rule_ref": "GOV-02",
+      "oracle_source": "Product -> aic_hrm_cycle.ensure_editable; spec section on cycle lock",
+      "catches_bug": "A closed performance record changing after people were paid against it",
+      "coverage_ids": [
+        "COV-GOV-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "cycle.locked.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the locked cycle's key result\n2. Write a new current value",
+      "expected": "Refused with the lock message; the value is unchanged",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_locked_cycle_refuses_edits",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-009",
+      "title": "A one-day cycle does not divide by zero",
+      "type": "BOUNDARY",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-REPORT-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "REPORT-01",
+      "oracle_source": "Product -> aic_hrm_progress_report ELAPSED, NULLIF on the cycle length",
+      "catches_bug": "The report crashing, or silently returning nothing, for a one-day cycle",
+      "coverage_ids": [
+        "COV-RPT-04"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "cycle.open.oneday"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Query the progress report for the single-day cycle",
+      "expected": "The query returns without error",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_single_day_cycle_does_not_divide_by_zero",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-010",
+      "title": "An objective with no key results is not a zero",
+      "type": "EDGE",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-PLAN-01",
+      "priority": "P2",
+      "severity_if_fail": "S3",
+      "oracle_type": "Product",
+      "rule_ref": "SCORE-01",
+      "oracle_source": "Product -> aic_hrm_objective._compute_score over an empty set",
+      "catches_bug": "An empty objective dragging a department's average down to zero",
+      "coverage_ids": [
+        "COV-SCORE-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "objective.draft.D-30.empty"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the empty objective",
+      "expected": "It has no key results and stays in draft",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_empty_objective_has_no_key_results",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-011",
+      "title": "Roll-up holds across all five objective levels",
+      "type": "STATE",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-PLAN-02",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "LEVEL-01",
+      "oracle_source": "Product -> _check_level_anchor and the five-level design in the spec",
+      "catches_bug": "A level silently dropping out of the roll-up chain",
+      "coverage_ids": [
+        "COV-SCORE-04"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "objective.done.D-30.full"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the five objectives in the chain",
+      "expected": "Company, branch, department, team and individual are all present",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_full_objective_spans_all_five_levels",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-012",
+      "title": "A key result untouched for a month reads as stale",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-MONITOR-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "DIAG-01",
+      "oracle_source": "Product -> aic_hrm_key_result.is_stale and cycle.stale_days",
+      "catches_bug": "Staleness never firing, so the alert rules that depend on it never fire",
+      "coverage_ids": [
+        "COV-MON-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "kr.stale.D-30.with_holes"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the stale key result",
+      "expected": "is_stale is true",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_stale_key_result_reads_as_stale",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-013",
+      "title": "A draft period result never reaches a report",
+      "type": "RED",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-REPORT-02",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "SCORE-03",
+      "oracle_source": "Product -> progress report WHERE pr.state = 'confirmed'; spec scoring",
+      "catches_bug": "Unreviewed numbers appearing in a leadership report as if agreed",
+      "coverage_ids": [
+        "COV-RPT-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "kpi_target.draft_results.D-30.normal"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Query the report for the draft-result target",
+      "expected": "No rows",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_draft_period_results_stay_out_of_the_report",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-014",
+      "title": "Beating a lower-is-better target scores at the cycle cap",
+      "type": "BOUNDARY",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-PLAN-04",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "SCORE-02",
+      "oracle_source": "Product -> utils.achievement lower branch, clamped to score_cap",
+      "catches_bug": "A defect-rate KPI scoring above the scale and inflating a scorecard",
+      "coverage_ids": [
+        "COV-SCORE-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "kpi_target.lower_better.D-60.normal"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read achievement on the lower-is-better target",
+      "expected": "Exactly 1.0 - the raw 1.4 is clamped by this cycle's cap",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_lower_is_better_target_stays_positive",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-015",
+      "title": "Overachievement clamps at the cycle's own cap, not at 1.0",
+      "type": "BOUNDARY",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-PLAN-04",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "SCORE-01",
+      "oracle_source": "Product -> utils.clamp with the cycle score_cap; Google re:Work 0..1",
+      "catches_bug": "A cap of 1.2 ignored, so overachievement is invisible or unbounded",
+      "coverage_ids": [
+        "COV-SCORE-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "kpi_target.cap12.D-60.normal"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the score of a KPI at 150% of target in a cap-1.2 cycle",
+      "expected": "1.2",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_overachievement_is_clamped_to_the_cycle_cap",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-016",
+      "title": "A scorecard weighing 80 cannot be submitted",
+      "type": "RED",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-PLAN-05",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Product",
+      "rule_ref": "WEIGHT-01",
+      "oracle_source": "Product -> aic_hrm_kpi_assignment._validate_state_change weight gate",
+      "catches_bug": "The import defect that produced draft scorecards while reporting success",
+      "coverage_ids": [
+        "COV-WGT-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "assignment.underweight.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Submit the 80% scorecard",
+      "expected": "Refused, naming 80 and 100; the state stays draft",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_underweight_scorecard_cannot_be_submitted",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-017",
+      "title": "Thirds are accepted",
+      "type": "BOUNDARY",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-PLAN-05",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Product",
+      "rule_ref": "WEIGHT-01",
+      "oracle_source": "Product -> float_compare at the declared precision, not float equality",
+      "catches_bug": "33.33/33.33/33.34 refused for a rounding reason nobody can see",
+      "coverage_ids": [
+        "COV-WGT-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "assignment.rounding.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Submit the thirds scorecard",
+      "expected": "Submitted",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_three_thirds_are_accepted_despite_the_rounding",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-018",
+      "title": "Two of three raters: the peer aggregate is absent",
+      "type": "SECURITY",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-REVIEW-01",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "ANON-360",
+      "oracle_source": "Purpose -> stage min_raters; CCL/DecisionWise practice in the domain pack",
+      "catches_bug": "An average over two people, which is a name",
+      "coverage_ids": [
+        "COV-ANON-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "review.below_threshold.D0"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the review after two of three answers",
+      "expected": "peer_feedback_ready false, peer_score_avg 0.0",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_below_threshold_hides_the_peer_aggregate",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-019",
+      "title": "The third answer releases the aggregate",
+      "type": "GREEN",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-REVIEW-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "ANON-360",
+      "oracle_source": "Purpose -> min_raters threshold in aic_hrm_review_template",
+      "catches_bug": "A threshold that never opens, making 360 feedback useless",
+      "coverage_ids": [
+        "COV-ANON-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "review.ready.D0"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the review after the third answer",
+      "expected": "Ready, with a non-zero average",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_third_answer_releases_the_aggregate",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-020",
+      "title": "Nobody may answer for a rater who has no login",
+      "type": "SECURITY",
+      "platform": "api",
+      "persona": "peer",
+      "journey_ref": "J-REVIEW-02",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "ANON-360b",
+      "oracle_source": "Purpose -> submit_feedback authorisation, fixed after the /cso audit",
+      "catches_bug": "The forgery hole: sudo ran before the check, so anyone could submit as an external rater, untraceably",
+      "coverage_ids": [
+        "COV-ANON-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "review.external_rater.D0"
+      ],
+      "determinism": {
+        "auth_role": "peer",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. As a peer, submit on the external rater's invitation",
+      "expected": "Refused; the invitation is still open",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_external_rater_cannot_be_spoken_for",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-021",
+      "title": "An applied calibration line is immutable and undeletable",
+      "type": "SECURITY",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-REVIEW-03",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Statute",
+      "rule_ref": "CAL-01",
+      "oracle_source": "Statutes -> audit-record practice; calibration write and unlink guards",
+      "catches_bug": "Deleting the evidence of a closed-door score change - the missing unlink guard found by the /cso audit",
+      "coverage_ids": [
+        "COV-CAL-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "calibration.applied.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Edit the applied line\n2. Delete it",
+      "expected": "Both refused",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_applied_calibration_line_is_immutable_and_undeletable",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-022",
+      "title": "A library pack applies as draft and stamps the role",
+      "type": "GREEN",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-LIBRARY-01",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Product",
+      "rule_ref": "LIB-01",
+      "oracle_source": "Product -> action_apply creating draft objectives; role on hr.employee",
+      "catches_bug": "The library deciding an approved plan, or the role dimension staying empty",
+      "coverage_ids": [
+        "COV-LIB-01",
+        "COV-RPT-05"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "library.applied.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Apply the pack to one person\n2. Read the objectives and the employee",
+      "expected": "Objectives are draft; the employee carries the library role",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_library_pack_applies_as_draft_and_stamps_the_role",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-023",
+      "title": "The org chart carries the people who break things",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-DATA-01",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Claim",
+      "rule_ref": "UAT-ORG-01",
+      "oracle_source": "Claims -> fixtures_org docstring: external rater, leaver, no department, no job position",
+      "catches_bug": "A dataset of only well-formed employees, which never meets the ones that break the product",
+      "coverage_ids": [
+        "COV-ENG-06"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "org.base.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the four awkward employees",
+      "expected": "No login, archived, no department, no job position - all present",
+      "executed_by": "aic_hrm_uat_data:TestUatFixtures.test_org_chart_carries_the_awkward_people",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-024",
+      "title": "The environment is up and is the UAT database",
+      "type": "E2E",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-ENV-01",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Product",
+      "rule_ref": "UAT-ENV-01",
+      "oracle_source": "Product -> odoo.uat.conf dbfilter locking the server to AIC_HRM_UAT",
+      "catches_bug": "A run scored against the customer database - this project has captured customer screenshots twice for exactly this reason",
+      "coverage_ids": [
+        "COV-ENV-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Request the login page\n2. Read one model",
+      "expected": "HTTP 200 from the UAT database",
+      "executed_by": "uat/specs/api/smoke.spec.ts",
+      "evidence_required": [
+        "trace"
+      ]
+    },
+    {
+      "tc_id": "TC-025",
+      "title": "All three personas can log in",
+      "type": "E2E",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-ENV-01",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Product",
+      "rule_ref": "UAT-ENV-02",
+      "oracle_source": "Product -> org.base.D0 outputs: admin, manager and member logins",
+      "catches_bug": "Browser failures later that are really a login problem",
+      "coverage_ids": [
+        "COV-ENV-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "org.base.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Authenticate as each persona",
+      "expected": "Each returns a uid",
+      "executed_by": "uat/specs/api/smoke.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-026",
+      "title": "The progress report equals its own sources",
+      "type": "DATA",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-REPORT-02",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Comparable",
+      "rule_ref": "REPORT-01",
+      "oracle_source": "Comparable -> the report is a UNION of check-ins and confirmed results",
+      "catches_bug": "The report inventing or losing rows - the unstable row_number() ids did exactly this",
+      "coverage_ids": [
+        "COV-RPT-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Count report rows\n2. Count check-ins and confirmed results",
+      "expected": "rows == check-ins + confirmed results, exactly",
+      "executed_by": "uat/specs/api/smoke.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-027",
+      "title": "Every core model answers a read",
+      "type": "E2E",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-ENV-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "UAT-ENV-03",
+      "oracle_source": "Product -> the fourteen models in the suite",
+      "catches_bug": "A model left empty by a broken fixture, discovered only in a screenshot",
+      "coverage_ids": [
+        "COV-ENV-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Count rows in each of fourteen models",
+      "expected": "All non-zero",
+      "executed_by": "uat/specs/api/smoke.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-028",
+      "title": "The operating loop is visible in the menu bar",
+      "type": "UX",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-NAV-01",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Familiarity",
+      "rule_ref": "MENU-01",
+      "oracle_source": "Familiarity -> the PDCA grouping agreed with the user; the classification rule written into aic_hrm_menus.xml",
+      "catches_bug": "A regroup that loses a stage, leaving its screens unreachable",
+      "coverage_ids": [
+        "COV-NAV-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the Performance app\n2. Read the menu bar",
+      "expected": "Cockpit, Plan, Execute, Monitor, Review, Reporting, Library, Configuration",
+      "executed_by": "uat/specs/web/menu.spec.ts",
+      "evidence_required": [
+        "trace",
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-029",
+      "title": "Operations live in their stage, not in Configuration",
+      "type": "UX",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-NAV-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "MENU-01",
+      "oracle_source": "Purpose -> classification rule: a wizard is an operation",
+      "catches_bug": "A monthly data-entry job filed under Settings, where nobody will look",
+      "coverage_ids": [
+        "COV-NAV-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the items of Plan, Execute and Configuration",
+      "expected": "The five wizards sit in their stage; none is in Configuration",
+      "executed_by": "uat/specs/web/menu.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-030",
+      "title": "Period results are reachable from the menu",
+      "type": "GREEN",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-NAV-02",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "MENU-02",
+      "oracle_source": "Purpose -> the customer's request for monthly and quarterly figures",
+      "catches_bug": "The data the customer asked for existing with no way to open it",
+      "coverage_ids": [
+        "COV-NAV-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "kpi_target.confirmed.D-90.normal"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Execute > Period Results",
+      "expected": "The list opens with rows",
+      "executed_by": "uat/specs/web/menu.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-031",
+      "title": "Every screen in every stage opens without a console error",
+      "type": "E2E",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-NAV-03",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Product",
+      "rule_ref": "MENU-03",
+      "oracle_source": "Product -> the ir.model.data enumeration in test_screen_smoke, now walked in a real browser",
+      "catches_bug": "A screen that renders server-side and throws in the browser - the New Key Result crash was one",
+      "coverage_ids": [
+        "COV-NAV-04"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Walk all six stages and open every item",
+      "expected": "24 screens open; the console stays empty",
+      "executed_by": "uat/specs/web/menu.spec.ts",
+      "evidence_required": [
+        "trace",
+        "video"
+      ]
+    },
+    {
+      "tc_id": "TC-032",
+      "title": "The weight gate refuses on screen and says the number",
+      "type": "RED",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-PLAN-05",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "WEIGHT-01",
+      "oracle_source": "Purpose -> the import incident: a refusal nobody sees is no refusal",
+      "catches_bug": "A silent draft: the person believes the plan is in place and it is not",
+      "coverage_ids": [
+        "COV-WGT-01",
+        "COV-UX-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "assignment.underweight.D0"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": "role=button[name='Submit']",
+      "seeding_method": "api",
+      "steps": "1. Open the 80% scorecard\n2. Press Submit",
+      "expected": "A message naming 80 and 100 appears; the record stays draft",
+      "executed_by": "uat/specs/web/scorecard.spec.ts",
+      "evidence_required": [
+        "screenshot-final",
+        "trace"
+      ]
+    },
+    {
+      "tc_id": "TC-033",
+      "title": "Progress vs Plan opens as a chart and re-groups",
+      "type": "E2E",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-REPORT-01",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "REPORT-01",
+      "oracle_source": "Purpose -> the customer's ask: progress against target over time",
+      "catches_bug": "A report that draws only one way, so the question asked cannot be answered",
+      "coverage_ids": [
+        "COV-RPT-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Reporting > Progress vs Plan\n2. Switch to pivot, then to list",
+      "expected": "Chart, pivot and grouped list all render from the same model",
+      "executed_by": "uat/specs/web/reporting.spec.ts",
+      "evidence_required": [
+        "trace",
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-034",
+      "title": "The report groups by time, department and position",
+      "type": "DATA",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-REPORT-01",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "REPORT-02",
+      "oracle_source": "Purpose -> the customer named week, month, quarter, department, position",
+      "catches_bug": "A dimension that exists in the view and returns no buckets",
+      "coverage_ids": [
+        "COV-RPT-05"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Group by department, job and owner\n2. Group by week, month, quarter",
+      "expected": "Every grouping returns at least one bucket with a figure",
+      "executed_by": "uat/specs/web/reporting.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-035",
+      "title": "The executive overview opens on a cycle that has data",
+      "type": "UX",
+      "platform": "web",
+      "persona": "hr-admin",
+      "journey_ref": "J-REPORT-03",
+      "priority": "P0",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "REPORT-03",
+      "oracle_source": "Purpose -> a leadership dashboard exists to be read at a glance",
+      "catches_bug": "Opening on the newest cycle by start date - empty the moment next period is created early",
+      "coverage_ids": [
+        "COV-RPT-06",
+        "COV-UX-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Reporting > Executive Overview",
+      "expected": "Figures, not the empty state",
+      "executed_by": "uat/specs/web/reporting.spec.ts",
+      "evidence_required": [
+        "screenshot-final",
+        "trace"
+      ]
+    },
+    {
+      "tc_id": "TC-036",
+      "title": "A manager sees aggregates and no rater name",
+      "type": "SECURITY",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-REVIEW-01",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "ANON-360",
+      "oracle_source": "Purpose -> anonymity by construction, documented in aic_hrm_feedback",
+      "catches_bug": "A rater identifiable from the review screen, which ends honest feedback",
+      "coverage_ids": [
+        "COV-ANON-04"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "review.ready.D0"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. As a manager, open the member's review",
+      "expected": "No peer name appears anywhere on the screen",
+      "executed_by": "uat/specs/web/anonymity.spec.ts",
+      "evidence_required": [
+        "screenshot-final",
+        "trace"
+      ]
+    },
+    {
+      "tc_id": "TC-037",
+      "title": "Below the threshold the aggregate is absent, not rounded",
+      "type": "SECURITY",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-REVIEW-01",
+      "priority": "P0",
+      "severity_if_fail": "S1",
+      "oracle_type": "Purpose",
+      "rule_ref": "ANON-360",
+      "oracle_source": "Purpose -> min_raters; an average of two is a name",
+      "catches_bug": "A greyed-out or rounded figure, which still leaks two opinions",
+      "coverage_ids": [
+        "COV-ANON-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "review_template.active.D0"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Create a review with no answers\n2. Read its peer fields",
+      "expected": "Not ready, average exactly zero",
+      "executed_by": "uat/specs/web/anonymity.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-038",
+      "title": "Executive Overview fits a 320px phone",
+      "type": "SCREENSIZE",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "RESPONSIVE-01",
+      "oracle_source": "Purpose -> standing user directive: all custom UI at 320/375/414/768",
+      "catches_bug": "A right-hand column that does not exist on a phone, with nothing on screen to say so",
+      "coverage_ids": [
+        "COV-MOB-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the screen at 320px",
+      "expected": "Document scroll width does not exceed the viewport",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-039",
+      "title": "Progress vs Plan fits a 320px phone",
+      "type": "SCREENSIZE",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "RESPONSIVE-01",
+      "oracle_source": "Purpose -> standing user directive: all custom UI at 320/375/414/768",
+      "catches_bug": "A right-hand column that does not exist on a phone, with nothing on screen to say so",
+      "coverage_ids": [
+        "COV-MOB-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the screen at 320px",
+      "expected": "Document scroll width does not exceed the viewport",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-040",
+      "title": "Department Scorecard fits a 320px phone",
+      "type": "SCREENSIZE",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "RESPONSIVE-01",
+      "oracle_source": "Purpose -> standing user directive: all custom UI at 320/375/414/768",
+      "catches_bug": "A right-hand column that does not exist on a phone, with nothing on screen to say so",
+      "coverage_ids": [
+        "COV-MOB-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the screen at 320px",
+      "expected": "Document scroll width does not exceed the viewport",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-041",
+      "title": "Alignment Tree fits a 320px phone",
+      "type": "SCREENSIZE",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "RESPONSIVE-01",
+      "oracle_source": "Purpose -> standing user directive: all custom UI at 320/375/414/768",
+      "catches_bug": "A right-hand column that does not exist on a phone, with nothing on screen to say so",
+      "coverage_ids": [
+        "COV-MOB-04"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the screen at 320px",
+      "expected": "Document scroll width does not exceed the viewport",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-042",
+      "title": "Objectives fits a 320px phone",
+      "type": "SCREENSIZE",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "RESPONSIVE-01",
+      "oracle_source": "Purpose -> standing user directive: all custom UI at 320/375/414/768",
+      "catches_bug": "A right-hand column that does not exist on a phone, with nothing on screen to say so",
+      "coverage_ids": [
+        "COV-MOB-05"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the screen at 320px",
+      "expected": "Document scroll width does not exceed the viewport",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-043",
+      "title": "Check-ins fits a 320px phone",
+      "type": "SCREENSIZE",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Purpose",
+      "rule_ref": "RESPONSIVE-01",
+      "oracle_source": "Purpose -> standing user directive: all custom UI at 320/375/414/768",
+      "catches_bug": "A right-hand column that does not exist on a phone, with nothing on screen to say so",
+      "coverage_ids": [
+        "COV-MOB-06"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Open the screen at 320px",
+      "expected": "Document scroll width does not exceed the viewport",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "screenshot-final"
+      ]
+    },
+    {
+      "tc_id": "TC-044",
+      "title": "Controls on our own screens stay thumb-sized",
+      "type": "MOBILE-A11Y",
+      "platform": "web",
+      "persona": "manager",
+      "journey_ref": "J-MOBILE-01",
+      "priority": "P1",
+      "severity_if_fail": "S3",
+      "oracle_type": "Statute",
+      "rule_ref": "RESPONSIVE-02",
+      "oracle_source": "Statutes -> WCAG 2.2 target size; the project's 44px floor in design.md",
+      "catches_bug": "Buttons a thumb cannot hit, where the person blames themselves",
+      "coverage_ids": [
+        "COV-MOB-07"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "<all>"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Measure every button inside our components at 320px",
+      "expected": "No target under 44px high",
+      "executed_by": "uat/specs/web/responsive.spec.ts",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-045",
+      "title": "Close a cycle at enterprise scale within 60s",
+      "type": "PERFORMANCE",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-SCALE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Claim",
+      "rule_ref": "PERF-01",
+      "oracle_source": "Claims -> CLAUDE.md: close cycle < 60s at 2,000 employees / 80k lines",
+      "catches_bug": "A budget written down and never run, which is an aspiration",
+      "coverage_ids": [
+        "COV-PERF-01"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "scale.large"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Seed the large lot\n2. Move the cycle to review and closed, timed",
+      "expected": "Under 60 seconds, measured and printed",
+      "executed_by": "tools/seed_uat_scale.py",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-046",
+      "title": "Group the report by department at scale within 3s",
+      "type": "PERFORMANCE",
+      "platform": "api",
+      "persona": "manager",
+      "journey_ref": "J-SCALE-01",
+      "priority": "P1",
+      "severity_if_fail": "S2",
+      "oracle_type": "Claim",
+      "rule_ref": "PERF-02",
+      "oracle_source": "Claims -> CLAUDE.md: dashboard < 3s",
+      "catches_bug": "A leadership dashboard nobody waits for",
+      "coverage_ids": [
+        "COV-PERF-02"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "scale.large"
+      ],
+      "determinism": {
+        "auth_role": "manager",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. formatted_read_group the report by department over the large cycle",
+      "expected": "Under 3 seconds, measured and printed",
+      "executed_by": "tools/seed_uat_scale.py",
+      "evidence_required": [
+        "log"
+      ]
+    },
+    {
+      "tc_id": "TC-047",
+      "title": "Roll up every scorecard at enterprise scale",
+      "type": "PERFORMANCE",
+      "platform": "api",
+      "persona": "hr-admin",
+      "journey_ref": "J-SCALE-01",
+      "priority": "P2",
+      "severity_if_fail": "S3",
+      "oracle_type": "Claim",
+      "rule_ref": "PERF-03",
+      "oracle_source": "Claims -> CLAUDE.md: every _compute batches through read_group",
+      "catches_bug": "A per-record search loop that only shows itself at two thousand employees",
+      "coverage_ids": [
+        "COV-PERF-03"
+      ],
+      "backend_policy": "live",
+      "data_required": [
+        "scale.large"
+      ],
+      "determinism": {
+        "auth_role": "hr-admin",
+        "clock_freeze": null,
+        "network_stubs": [],
+        "serial": false
+      },
+      "locator_hint": null,
+      "seeding_method": "api",
+      "steps": "1. Read the score of every scorecard in the large cycle, timed",
+      "expected": "Under 60 seconds, measured and printed",
+      "executed_by": "tools/seed_uat_scale.py",
+      "evidence_required": [
+        "log"
+      ]
+    }
+  ]
+}

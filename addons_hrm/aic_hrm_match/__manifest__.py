@@ -50,8 +50,15 @@ Two free connectors extend it when the matching apps are installed.
         'views/aic_hrm_match_candidate_form.xml',
         'views/aic_hrm_match_views_cp6.xml',
         'views/aic_hrm_match_reports.xml',
-        'views/aic_hrm_match_config_views.xml',
+        # Menus first: two menu items in the config views hang off the
+        # Requests and Configuration containers defined here, and on a FRESH
+        # install those parents do not exist yet if this file loads last. An
+        # update never showed it - the xmlids were already in the database -
+        # so the failure was invisible to everyone except a new customer,
+        # which is everyone who buys the app. The menus file defines its own
+        # actions and depends on nothing loaded after it.
         'views/aic_hrm_match_menus.xml',
+        'views/aic_hrm_match_config_views.xml',
         'wizard/aic_hrm_match_wizard_views.xml',
     ],
     'assets': {
