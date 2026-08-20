@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM - White Label',
+    'name': 'HRM White Label',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'Present the suite under the customer-facing product identity',
     'description': """
 AIConnect HRM Pro — white label
-=========================
+===============================
 
 A performance suite is sold as a product, not as a stack. This module
 replaces the platform's own identity on the surfaces an end user sees:

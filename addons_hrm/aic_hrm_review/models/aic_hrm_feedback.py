@@ -44,10 +44,9 @@ class AicHrmFeedbackRequest(models.Model):
         'aic.hrm.feedback.response', 'request_id',
         groups='aic_hrm_base.group_hrm_admin')
 
-    _review_rater_uniq = models.Constraint(
-        'unique (review_id, rater_employee_id)',
-        'This person was already invited to this review.',
-    )
+    _sql_constraints = [
+        ('review_rater_uniq', 'unique(review_id, rater_employee_id)', 'This person was already invited to this review.'),
+    ]
 
     @api.depends('rater_employee_id')
     def _compute_rater_user(self):

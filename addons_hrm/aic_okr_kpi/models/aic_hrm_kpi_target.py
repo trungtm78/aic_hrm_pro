@@ -90,10 +90,9 @@ class AicHrmKpiTarget(models.Model):
         help="Normalized 0..cap achievement against the cycle target.")
     note = fields.Text()
 
-    _kpi_cycle_owner_uniq = models.Constraint(
-        'unique (kpi_id, cycle_id, employee_id)',
-        'This KPI is already assigned to this owner for this cycle.',
-    )
+    _sql_constraints = [
+        ('kpi_cycle_owner_uniq', 'unique(kpi_id, cycle_id, employee_id)', 'This KPI is already assigned to this owner for this cycle.'),
+    ]
 
     @api.depends('kpi_id', 'employee_id')
     def _compute_display_label(self):
@@ -333,10 +332,9 @@ class AicHrmKpiPeriodResult(models.Model):
         ('confirmed', 'Confirmed'),
     ], default='draft', required=True)
 
-    _period_uniq = models.Constraint(
-        'unique (kpi_target_id, date_from)',
-        'This period already has a result for this KPI target.',
-    )
+    _sql_constraints = [
+        ('period_uniq', 'unique(kpi_target_id, date_from)', 'This period already has a result for this KPI target.'),
+    ]
 
     @api.constrains('date_from', 'date_to')
     def _check_dates(self):

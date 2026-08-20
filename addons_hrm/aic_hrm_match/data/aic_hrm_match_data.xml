@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_aic_hrm_match_request" model="ir.sequence">
+        <field name="name">Staffing Request</field>
+        <field name="code">aic.hrm.match.request</field>
+        <field name="prefix">SR-%(year)s-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_aic_hrm_match_run" model="ir.sequence">
+        <field name="name">Staffing Ranking Run</field>
+        <field name="code">aic.hrm.match.run</field>
+        <field name="prefix">RUN-%(year)s-</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="cron_refresh_experience_recency" model="ir.cron">
+        <field name="name">Staffing: refresh experience recency</field>
+        <field name="model_id" ref="model_aic_hrm_match_experience"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_refresh_recency()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

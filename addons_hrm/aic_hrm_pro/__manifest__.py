@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'AIConnect HRM Pro - OKR, KPI & Performance Management',
+    'name': 'OKR KPI Performance',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Performance',
     'summary': 'AIConnect performance suite for Odoo: OKR, KPI, BSC, check-ins, 360 feedback, calibration and 9-box',

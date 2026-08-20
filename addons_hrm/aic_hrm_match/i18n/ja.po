@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* aic_hrm_match
+#
+# Translators:
+# Japanese Translation Team <support@aipower.vn>, 2026
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0
+"
+"Report-Msgid-Bugs-To: 
+"
+"POT-Creation-Date: 2026-08-10 06:39+0000
+"
+"PO-Revision-Date: 2026-08-10 06:39+0000
+"
+"Last-Translator: 
+"
+"Language-Team: Japanese
+"
+"Language: ja
+"
+"MIME-Version: 1.0
+"
+"Content-Type: text/plain; charset=UTF-8
+"
+"Content-Transfer-Encoding: 8bit
+"
+"Plural-Forms: nplurals=1; plural=0;
+"
+
+#. module: aic_hrm_match
+#: model:ir.ui.menu,name:aic_hrm_match.menu_aic_hrm_match_root
+msgid "Staffing"
+msgstr "スタッフィング"
+
+#. module: aic_hrm_match
+#: model:ir.ui.menu,name:aic_hrm_match.menu_aic_hrm_match_requests
+msgid "Requests"
+msgstr "リクエスト"
+
+#. module: aic_hrm_match
+#: model:ir.ui.menu,name:aic_hrm_match.menu_aic_hrm_match_decisions
+msgid "Decisions"
+msgstr "決定"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_availability
+msgid "Availability"
+msgstr "可用性"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_skill_match
+msgid "Skills"
+msgstr "スキル"
+
+#. module: aic_hrm_match
+#: model:aic.hrm.match.criterion,name:aic_hrm_match.criterion_certification
+msgid "Certifications"
+msgstr "認定資格"

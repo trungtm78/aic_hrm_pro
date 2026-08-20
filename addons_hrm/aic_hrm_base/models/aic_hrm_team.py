@@ -25,7 +25,6 @@ class AicHrmTeam(models.Model):
         'res.company', default=lambda self: self.env.company, index=True)
     active = fields.Boolean(default=True)
 
-    _name_company_uniq = models.Constraint(
-        'unique (name, company_id)',
-        'A team with this name already exists in this company.',
-    )
+    _sql_constraints = [
+        ('name_company_uniq', 'unique(name, company_id)', 'A team with this name already exists in this company.'),
+    ]

@@ -36,7 +36,6 @@ class AicHrmKsf(models.Model):
              "company-specific factors.")
     active = fields.Boolean(default=True)
 
-    _code_uniq = models.Constraint(
-        'unique (code)',
-        'Key success factor codes must be unique.',
-    )
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'Key success factor codes must be unique.'),
+    ]

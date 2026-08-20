@@ -48,10 +48,9 @@ class AicHrmCalibrationLine(models.Model):
         ('applied', 'Applied'),
     ], default='proposed', required=True)
 
-    _session_review_uniq = models.Constraint(
-        'unique (session_id, review_id)',
-        'This review is already on the session.',
-    )
+    _sql_constraints = [
+        ('session_review_uniq', 'unique(session_id, review_id)', 'This review is already on the session.'),
+    ]
 
     @api.model_create_multi
     def create(self, vals_list):

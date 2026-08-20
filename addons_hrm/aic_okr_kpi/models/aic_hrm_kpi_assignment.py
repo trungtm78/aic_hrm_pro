@@ -46,10 +46,9 @@ class AicHrmKpiAssignment(models.Model):
         ('done', 'Done'),
     ], default='draft', required=True, tracking=True, copy=False)
 
-    _employee_cycle_uniq = models.Constraint(
-        'unique (employee_id, cycle_id)',
-        'This employee already has a scorecard for this cycle.',
-    )
+    _sql_constraints = [
+        ('employee_cycle_uniq', 'unique(employee_id, cycle_id)', 'This employee already has a scorecard for this cycle.'),
+    ]
 
     @api.depends('employee_id', 'cycle_id')
     def _compute_display_label(self):
@@ -146,10 +145,9 @@ class AicHrmKpiAssignmentLine(models.Model):
     score = fields.Float(
         compute='_compute_score', store=True, aggregator='avg')
 
-    _assignment_target_uniq = models.Constraint(
-        'unique (assignment_id, kpi_target_id)',
-        'This KPI target is already on the scorecard.',
-    )
+    _sql_constraints = [
+        ('assignment_target_uniq', 'unique(assignment_id, kpi_target_id)', 'This KPI target is already on the scorecard.'),
+    ]
 
     @api.depends('kpi_target_id.achievement', 'kpi_target_id.actual_value',
                  'kpi_target_id.direction', 'personal_target',
