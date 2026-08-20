@@ -384,6 +384,113 @@
     </record>
 
     <!--
+        Check-in history.
+
+        Without it the demo could not show the one loop the product exists
+        for: record where a key result stands, watch the gap against elapsed
+        time, react. A fresh install had an empty Check-ins list, a cockpit
+        with no pace to draw and a progress report built from period results
+        alone - the app looked like a planning tool.
+
+        Each series ends on the value the key result already carries, so the
+        history explains the number instead of overwriting it. Two states are
+        deliberately left in: DKR3.1 has not been touched since April, which
+        is what the staleness rule and the alert queue are for, and DKR5.1 has
+        never been checked in at all.
+    -->
+    <record id="demo_checkin_11_feb" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_11"/>
+        <field name="date">2026-02-27</field>
+        <field name="value_current">20</field>
+        <field name="confidence">8</field>
+        <field name="note">Architecture signed off, build started.</field>
+    </record>
+    <record id="demo_checkin_11_may" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_11"/>
+        <field name="date">2026-05-29</field>
+        <field name="value_current">45</field>
+        <field name="confidence">7</field>
+        <field name="note">Payments and profile done; media pipeline left.</field>
+    </record>
+    <record id="demo_checkin_11_aug" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_11"/>
+        <field name="date">2026-08-14</field>
+        <field name="value_current">65</field>
+        <field name="confidence">6</field>
+        <field name="blocker">Waiting on the CDN contract to load-test at scale.</field>
+    </record>
+
+    <record id="demo_checkin_12_feb" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_12"/>
+        <field name="date">2026-02-27</field>
+        <field name="value_current">600</field>
+        <field name="confidence">7</field>
+    </record>
+    <record id="demo_checkin_12_may" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_12"/>
+        <field name="date">2026-05-29</field>
+        <field name="value_current">1400</field>
+        <field name="confidence">7</field>
+        <field name="note">Referral programme carrying most of the growth.</field>
+    </record>
+    <record id="demo_checkin_12_aug" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_12"/>
+        <field name="date">2026-08-14</field>
+        <field name="value_current">2100</field>
+        <field name="confidence">5</field>
+        <field name="blocker">Paid acquisition cost per subscriber doubled.</field>
+    </record>
+
+    <record id="demo_checkin_21_mar" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_21"/>
+        <field name="date">2026-03-27</field>
+        <field name="value_current">2</field>
+        <field name="confidence">8</field>
+    </record>
+    <record id="demo_checkin_21_jul" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_21"/>
+        <field name="date">2026-07-31</field>
+        <field name="value_current">4</field>
+        <field name="confidence">8</field>
+        <field name="note">Web and Android unified; iOS and TV to go.</field>
+    </record>
+
+    <record id="demo_checkin_31_feb" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_31"/>
+        <field name="date">2026-02-27</field>
+        <field name="value_current">1</field>
+        <field name="confidence">6</field>
+    </record>
+    <record id="demo_checkin_31_apr" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_31"/>
+        <field name="date">2026-04-24</field>
+        <field name="value_current">2</field>
+        <field name="confidence">4</field>
+        <field name="blocker">Second source needs a data-processing agreement.</field>
+    </record>
+
+    <record id="demo_checkin_41_mar" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_41"/>
+        <field name="date">2026-03-27</field>
+        <field name="value_current">3</field>
+        <field name="confidence">8</field>
+    </record>
+    <record id="demo_checkin_41_jun" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_41"/>
+        <field name="date">2026-06-26</field>
+        <field name="value_current">6</field>
+        <field name="confidence">6</field>
+    </record>
+    <record id="demo_checkin_41_aug" model="aic.hrm.checkin">
+        <field name="kr_id" ref="demo_kr_41"/>
+        <field name="date">2026-08-14</field>
+        <field name="value_current">8</field>
+        <field name="confidence">4</field>
+        <field name="note">Numbers rising, confidence falling - the pattern the
+            diagnosis is meant to notice.</field>
+    </record>
+
+    <!--
         Only the annual cycle opens. The cockpit lists open cycles newest
         first, so opening the quarter as well made it the default view -
         and the quarter carries one objective and no check-ins, so a first
