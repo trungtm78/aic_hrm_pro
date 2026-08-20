@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 02:38+0000\n"
-"PO-Revision-Date: 2026-08-02 02:38+0000\n"
+"POT-Creation-Date: 2026-08-20 11:35+0000\n"
+"PO-Revision-Date: 2026-08-20 11:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -263,6 +263,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__display_name
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__display_name
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_progress_report__display_name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_hr_employee__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -284,6 +286,7 @@ msgid ""
 msgstr ""
 
 #. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_hr_employee
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_apply_wizard__employee_id
 msgid "Employee"
 msgstr ""
@@ -364,6 +367,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_industry__id
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__id
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_objective_template__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_progress_report__id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_hr_employee__id
 msgid "ID"
 msgstr ""
 
@@ -472,11 +477,6 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: aic_hrm_library
-#: model:ir.ui.menu,name:aic_hrm_library.menu_library
-msgid "Library"
-msgstr ""
-
-#. module: aic_hrm_library
 #: model:ir.actions.act_window,name:aic_hrm_library.action_library_industries
 #: model:ir.ui.menu,name:aic_hrm_library.menu_library_industries
 msgid "Library Industries"
@@ -490,7 +490,13 @@ msgstr ""
 #. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_library_role
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_kpi__library_role_id
+#: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_progress_report__library_role_id
 msgid "Library Role"
+msgstr ""
+
+#. module: aic_hrm_library
+#: model_terms:ir.ui.view,arch_db:aic_hrm_library.view_progress_report_search_role
+msgid "Library role"
 msgstr ""
 
 #. module: aic_hrm_library
@@ -595,6 +601,11 @@ msgid "OKR/KPI Library"
 msgstr ""
 
 #. module: aic_hrm_library
+#: model:ir.model.fields,field_description:aic_hrm_library.field_hr_employee__aic_library_role_id
+msgid "OKR/KPI Library Role"
+msgstr ""
+
+#. module: aic_hrm_library
 #: model:ir.model,name:aic_hrm_library.model_aic_hrm_objective_template
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_role__objective_template_ids
 msgid "Objective Template"
@@ -640,6 +651,11 @@ msgid "Percentage"
 msgstr ""
 
 #. module: aic_hrm_library
+#: model:ir.model,name:aic_hrm_library.model_aic_hrm_progress_report
+msgid "Progress Against Plan"
+msgstr ""
+
+#. module: aic_hrm_library
 #: model:ir.model.fields,field_description:aic_hrm_library.field_aic_hrm_library_capture_wizard__raw_text
 msgid "Raw Text"
 msgstr ""
@@ -672,8 +688,20 @@ msgid "Role"
 msgstr ""
 
 #. module: aic_hrm_library
+#: model:ir.ui.menu,name:aic_hrm_library.menu_library
+msgid "Role Packs"
+msgstr ""
+
+#. module: aic_hrm_library
 #: model:ir.model.constraint,message:aic_hrm_library.constraint_aic_hrm_library_role_code_uniq
 msgid "Role codes must be unique."
+msgstr ""
+
+#. module: aic_hrm_library
+#: model:ir.model.fields,help:aic_hrm_library.field_hr_employee__aic_library_role_id
+msgid ""
+"Role pack this person is measured against. Set when a library pack is "
+"applied, and editable afterwards."
 msgstr ""
 
 #. module: aic_hrm_library
@@ -826,14 +854,4 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_library/wizard/aic_hrm_library_wizards.py:0
 msgid "id"
-msgstr ""
-
-#. module: aic_hrm_library
-#: model:ir.ui.menu,name
-msgid "Role Packs"
-msgstr ""
-
-#. module: aic_hrm_library
-#: model:ir.ui.menu,name
-msgid "OKR/KPI Library Role"
 msgstr ""

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 02:38+0000\n"
-"PO-Revision-Date: 2026-08-02 02:38+0000\n"
+"POT-Creation-Date: 2026-08-20 12:05+0000\n"
+"PO-Revision-Date: 2026-08-20 12:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -328,6 +328,11 @@ msgid "Every two weeks"
 msgstr ""
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_do
+msgid "Execute"
+msgstr ""
+
+#. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
 msgid "Field %(field)s does not exist on %(model)s."
@@ -499,6 +504,11 @@ msgid "Leave empty to share the profile across all companies."
 msgstr ""
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_library_root
+msgid "Library"
+msgstr ""
+
+#. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
 msgid "Lock"
 msgstr ""
@@ -583,6 +593,11 @@ msgstr ""
 msgid ""
 "Model %(model)s is not on the metric-source allowlist. An HR administrator "
 "must allowlist it first."
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_check
+msgid "Monitor"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -761,6 +776,11 @@ msgid "Performance: User"
 msgstr ""
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_plan
+msgid "Plan"
+msgstr ""
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__quarter
 msgid "Quarter"
 msgstr ""
@@ -836,6 +856,11 @@ msgid "Rejected"
 msgstr ""
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_reporting
+msgid "Reporting"
+msgstr ""
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_target_revision__state__requested
 msgid "Requested"
 msgstr ""
@@ -848,6 +873,11 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_act
+msgid "Review"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -1037,34 +1067,4 @@ msgstr ""
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_team_form
 msgid "e.g. Growth Squad"
-msgstr ""
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name
-msgid "Plan"
-msgstr ""
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name
-msgid "Execute"
-msgstr ""
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name
-msgid "Monitor"
-msgstr ""
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name
-msgid "Review"
-msgstr ""
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name
-msgid "Reporting"
-msgstr ""
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name
-msgid "Library"
 msgstr ""

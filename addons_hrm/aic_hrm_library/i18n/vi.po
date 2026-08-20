@@ -918,11 +918,11 @@ msgid "id"
 msgstr "id"
 
 #. module: aic_hrm_library
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_library.menu_library
 msgid "Role Packs"
 msgstr "Gói theo vai trò"
 
 #. module: aic_hrm_library
-#: model:ir.ui.menu,name
+#: model:ir.model.fields,field_description:aic_hrm_library.field_hr_employee__aic_library_role_id
 msgid "OKR/KPI Library Role"
 msgstr "Vai trò thư viện OKR/KPI"

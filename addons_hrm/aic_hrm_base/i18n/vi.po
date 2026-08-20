@@ -1047,31 +1047,31 @@ msgid "e.g. Growth Squad"
 msgstr "vd: Đội Tăng trưởng"
 
 #. module: aic_hrm_base
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_plan
 msgid "Plan"
 msgstr "Kế hoạch"
 
 #. module: aic_hrm_base
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_do
 msgid "Execute"
 msgstr "Thực hiện"
 
 #. module: aic_hrm_base
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_check
 msgid "Monitor"
 msgstr "Giám sát"
 
 #. module: aic_hrm_base
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_act
 msgid "Review"
 msgstr "Đánh giá"
 
 #. module: aic_hrm_base
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_reporting
 msgid "Reporting"
 msgstr "Báo cáo"
 
 #. module: aic_hrm_base
-#: model:ir.ui.menu,name
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_library_root
 msgid "Library"
 msgstr "Thư viện"
