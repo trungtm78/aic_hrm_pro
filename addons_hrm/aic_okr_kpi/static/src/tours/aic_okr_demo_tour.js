@@ -4,6 +4,28 @@ import { registry } from "@web/core/registry";
 import { stepUtils } from "@web_tour/tour_utils";
 
 /**
+ * The menu bar groups the app into stages of the operating loop, so a menu
+ * item is not on screen until its stage is open. These helpers say that once
+ * instead of every tour learning it the hard way - which is how both tours
+ * here broke when the menu was regrouped: they clicked items that had moved
+ * inside a dropdown and timed out looking for them.
+ */
+const openStage = (stage, label) => ({
+    content: `Open the ${label} stage`,
+    trigger: `[data-menu-xmlid='aic_hrm_base.menu_aic_hrm_${stage}']`,
+    run: "click",
+});
+
+const openItem = (xmlid, label) => ({
+    content: `Open ${label}`,
+    trigger: `[data-menu-xmlid='${xmlid}']`,
+    run: "click",
+});
+
+const PLAN = () => openStage("plan", "Plan");
+const EXECUTE = () => openStage("do", "Execute");
+
+/**
  * Demo walk: Performance app -> Objectives list -> Leadership Cockpit.
  * Used both as the customer demo script and as the E2E smoke test.
  */
@@ -16,20 +38,15 @@ registry.category("web_tour.tours").add("aic_okr_demo", {
             trigger: ".o_app[data-menu-xmlid='aic_hrm_base.menu_aic_hrm_root']",
             run: "click",
         },
-        {
-            content: "Open the Objectives menu",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_objectives']",
-            run: "click",
-        },
+        PLAN(),
+        openItem("aic_okr_kpi.menu_aic_hrm_objectives", "the Objectives menu"),
         {
             content: "Objective list renders",
             trigger: ".o_list_view, .o_view_nocontent",
         },
-        {
-            content: "Open the Cockpit",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_cockpit']",
-            run: "click",
-        },
+        // Cockpit hangs off the app root, not off a stage: it is the one
+        // screen you reach without choosing where you are in the loop.
+        openItem("aic_okr_kpi.menu_aic_hrm_cockpit", "the Cockpit"),
         {
             content: "Cockpit renders with the Muc & Thep shell",
             trigger: ".o_aic_hrm",
@@ -50,47 +67,32 @@ registry.category("web_tour.tours").add("aic_okr_screens", {
             trigger: ".o_app[data-menu-xmlid='aic_hrm_base.menu_aic_hrm_root']",
             run: "click",
         },
-        {
-            content: "Open Key Results",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_key_results']",
-            run: "click",
-        },
+        PLAN(),
+        openItem("aic_okr_kpi.menu_aic_hrm_key_results", "Key Results"),
         {
             content: "Key Results list renders",
             trigger: ".o_list_view, .o_view_nocontent",
         },
-        {
-            content: "Open KPI Targets",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_kpi_targets']",
-            run: "click",
-        },
+        PLAN(),
+        openItem("aic_okr_kpi.menu_aic_hrm_kpi_targets", "KPI Targets"),
         {
             content: "KPI Targets list renders",
             trigger: ".o_list_view, .o_view_nocontent",
         },
-        {
-            content: "Open Check-ins",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_checkins']",
-            run: "click",
-        },
+        EXECUTE(),
+        openItem("aic_okr_kpi.menu_aic_hrm_checkins", "Check-ins"),
         {
             content: "Check-ins list renders",
             trigger: ".o_list_view, .o_view_nocontent",
         },
-        {
-            content: "Open Scorecards",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_assignments']",
-            run: "click",
-        },
+        PLAN(),
+        openItem("aic_okr_kpi.menu_aic_hrm_assignments", "Scorecards"),
         {
             content: "Scorecards list renders",
             trigger: ".o_list_view, .o_view_nocontent",
         },
-        {
-            content: "Open the Alignment Tree",
-            trigger: "[data-menu-xmlid='aic_okr_kpi.menu_aic_hrm_alignment_tree']",
-            run: "click",
-        },
+        PLAN(),
+        openItem("aic_okr_kpi.menu_aic_hrm_alignment_tree", "the Alignment Tree"),
         {
             content: "Alignment tree renders in the design shell",
             trigger: ".o_aic_hrm",
