@@ -30,6 +30,11 @@ Thumbs.db
 
 # Real customer data - NEVER commit (stays local only)
 Docs/Requirements/
+# VTV Sales & Services operational dataset: real names, work e-mails and the
+# account sheet with initial passwords. The JSON under uat/data/ is extracted
+# from these files and carries the same people, so it is excluded too.
+Docs/OKR/
+uat/data/
 
 # Local tooling
 # Local session state, except the stop hook. That one is repository behaviour
