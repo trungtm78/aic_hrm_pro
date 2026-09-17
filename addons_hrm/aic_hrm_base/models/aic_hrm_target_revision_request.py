@@ -39,36 +39,39 @@ class AicHrmTargetRevisionRequest(models.TransientModel):
     res_id = fields.Many2oneReference(
         string='Record', required=True, readonly=True, model_field='res_model')
     record_name = fields.Char(compute='_compute_record')
-    field_name = fields.Selection(
-        selection='_selection_field_name', string='Field', required=True)
+    # A record, not a selection: the offered fields depend on which record is
+    # revised, and the web client caches a model's field descriptions without
+    # that context. A context-driven selection passed its unit tests and showed
+    # an empty list on the real screen.
+    allowed_field_ids = fields.Many2many(
+        'ir.model.fields', compute='_compute_allowed_field_ids')
+    field_id = fields.Many2one(
+        'ir.model.fields', string='Field', required=True, ondelete='cascade',
+        domain="[('id', 'in', allowed_field_ids)]")
     current_value = fields.Float(compute='_compute_record')
     new_value = fields.Float(required=True)
     reason = fields.Text(
         required=True, help="Why the approved number must change mid-cycle.")
 
-    @api.model
-    def _selection_field_name(self):
-        # The selection follows the record being revised, passed in the
-        # action context: a key result offers target, baseline and weight,
-        # never a cycle's score cap.
-        model_name = self.env.context.get('default_res_model')
+    @api.depends('res_model')
+    def _compute_allowed_field_ids(self):
         governed = self.env['aic.hrm.target.revision']._get_revisable_fields()
-        model = self.env.get(model_name) if model_name else None
-        if model is None:
-            return []
-        return [(name, model._fields[name].get_description(self.env)['string'])
-                for name in sorted(governed.get(model_name, ()))
-                if name in model._fields]
+        Fields = self.env['ir.model.fields'].sudo()
+        for request in self:
+            names = governed.get(request.res_model, ())
+            request.allowed_field_ids = Fields.search([
+                ('model', '=', request.res_model), ('name', 'in', list(names)),
+            ]) if names else Fields
 
-    @api.depends('res_model', 'res_id', 'field_name')
+    @api.depends('res_model', 'res_id', 'field_id')
     def _compute_record(self):
         for request in self:
             record = self.env[request.res_model].browse(request.res_id) \
                 if request.res_model in self.env and request.res_id \
                 else None
             request.record_name = record.display_name if record else False
-            request.current_value = record[request.field_name] \
-                if record and request.field_name else 0.0
+            request.current_value = record[request.field_id.name] \
+                if record and request.field_id else 0.0
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -87,7 +90,7 @@ class AicHrmTargetRevisionRequest(models.TransientModel):
         revision = self.env['aic.hrm.target.revision'].create({
             'res_model': self.res_model,
             'res_id': self.res_id,
-            'field_name': self.field_name,
+            'field_name': self.field_id.name,
             'new_value_float': self.new_value,
             'reason': self.reason,
         })

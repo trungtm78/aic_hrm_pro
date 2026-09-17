@@ -151,10 +151,11 @@
                         <field name="record_name" string="Record"/>
                         <field name="res_model" invisible="1"/>
                         <field name="res_id" invisible="1"/>
-                        <field name="field_name"/>
+                        <field name="allowed_field_ids" invisible="1"/>
+                        <field name="field_id" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                     <group>
-                        <field name="current_value" invisible="not field_name"/>
+                        <field name="current_value" invisible="not field_id"/>
                         <field name="new_value"/>
                     </group>
                 </group>

@@ -89,17 +89,15 @@ class TestObjectiveWorkflow(OkrCase):
         objective.action_submit()
         objective.action_approve()
         action = kr.action_request_target_revision()
-        Request = self.env[action['res_model']].with_context(action['context'])
-        self.assertEqual(
-            {key for key, _label in
-             Request.fields_get(['field_name'])['field_name']['selection']},
-            {'target', 'baseline', 'weight'})
-        request = Request.create({
-            'field_name': 'target', 'new_value': 150.56,
-            'reason': 'Typed with the wrong decimal separator.'})
-        self.assertAlmostEqual(request.current_value, 100.0)
+        form = Form(self.env[action['res_model']].with_context(action['context']))
+        self.assertEqual(set(form.allowed_field_ids[:].mapped('name')),
+                         {'target', 'baseline', 'weight'})
+        form.field_id = self.env['ir.model.fields']._get('aic.hrm.key.result', 'target')
+        self.assertAlmostEqual(form.current_value, 100.0)
+        form.new_value = 150.56
+        form.reason = 'Typed with the wrong decimal separator.'
         revision = self.env['aic.hrm.target.revision'].browse(
-            request.action_submit()['res_id'])
+            form.save().action_submit()['res_id'])
         revision.action_approve()
         self.assertAlmostEqual(kr.target, 150.56)
 
@@ -113,11 +111,9 @@ class TestObjectiveWorkflow(OkrCase):
                                  (target, {'target_value', 'baseline_value',
                                            'weight'})):
             action = record.action_request_target_revision()
-            Request = self.env[action['res_model']].with_context(
-                action['context'])
-            offered = {key for key, _label in Request.fields_get(
-                ['field_name'])['field_name']['selection']}
-            self.assertEqual(offered, expected, record._name)
+            form = Form(self.env[action['res_model']].with_context(action['context']))
+            self.assertEqual(set(form.allowed_field_ids[:].mapped('name')),
+                             expected, record._name)
 
     def test_new_key_result_is_diagnosed_without_an_unsaved_id(self):
         """Opening a new key result ran the diagnosis, which searched

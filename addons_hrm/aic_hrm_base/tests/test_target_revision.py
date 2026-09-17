@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 
 @tagged('post_install', '-at_install', 'aic_hrm_base')
@@ -86,8 +86,7 @@ class TestTargetRevisionRequest(TransactionCase):
 
     The revision form alone asks a manager to type a technical model name
     ("aic.hrm.key.result") and a field name ("target"). Requesting from the
-    record fills both in and offers only the fields that are governed, by
-    their labels.
+    record fills the record in and offers only the governed fields, by label.
     """
 
     @classmethod
@@ -97,14 +96,11 @@ class TestTargetRevisionRequest(TransactionCase):
             'name': 'FY 2026', 'code': 'FY26-REQ', 'cycle_type': 'year',
             'date_start': '2026-01-01', 'date_end': '2026-12-31',
         })
+        cls.score_cap = cls.env['ir.model.fields']._get('aic.hrm.cycle', 'score_cap')
 
-    def _request(self, **kw):
+    def _form(self):
         action = self.cycle.action_request_target_revision()
-        Request = self.env[action['res_model']].with_context(action['context'])
-        vals = {'field_name': 'score_cap', 'new_value': 1.2,
-                'reason': 'Sales may overachieve up to 120%.'}
-        vals.update(kw)
-        return Request.create(vals)
+        return Form(self.env[action['res_model']].with_context(action['context']))
 
     def test_action_opens_the_request_for_this_record(self):
         action = self.cycle.action_request_target_revision()
@@ -113,20 +109,34 @@ class TestTargetRevisionRequest(TransactionCase):
         self.assertEqual(action['context']['default_res_model'], 'aic.hrm.cycle')
         self.assertEqual(action['context']['default_res_id'], self.cycle.id)
 
-    def test_only_governed_fields_are_offered_by_label(self):
-        Request = self.env['aic.hrm.target.revision.request'].with_context(
-            default_res_model='aic.hrm.cycle')
-        selection = Request.fields_get(['field_name'])['field_name']['selection']
-        self.assertEqual([tuple(option) for option in selection],
-                         [('score_cap', 'Score Cap')])
+    def test_only_governed_fields_are_offered(self):
+        form = self._form()
+        self.assertEqual(form.allowed_field_ids[:], self.score_cap)
+        # the label names the field and the model it belongs to
+        self.assertEqual(self.score_cap.display_name, 'Score Cap (Performance Cycle)')
+
+    def test_offered_fields_do_not_depend_on_the_context(self):
+        """The web client caches field descriptions per model, without the
+        opening context. The first version derived the choices from that
+        context: unit tests passed and the real dialog offered nothing."""
+        Request = self.env['aic.hrm.target.revision.request']
+        description = Request.fields_get(['field_id'])['field_id']
+        self.assertNotIn('selection', description)
+        request = Request.new({'res_model': 'aic.hrm.cycle', 'res_id': self.cycle.id})
+        self.assertEqual(request.allowed_field_ids._origin, self.score_cap)
 
     def test_request_shows_the_current_value(self):
-        request = self._request()
-        self.assertAlmostEqual(request.current_value, 1.0)
-        self.assertEqual(request.record_name, self.cycle.display_name)
+        form = self._form()
+        form.field_id = self.score_cap
+        self.assertAlmostEqual(form.current_value, 1.0)
+        self.assertEqual(form.record_name, self.cycle.display_name)
 
     def test_submit_files_a_requested_revision_and_opens_it(self):
-        request = self._request()
+        form = self._form()
+        form.field_id = self.score_cap
+        form.new_value = 1.2
+        form.reason = 'Sales may overachieve up to 120%.'
+        request = form.save()
         action = request.action_submit()
         revision = self.env['aic.hrm.target.revision'].browse(action['res_id'])
         self.assertEqual(action['res_model'], 'aic.hrm.target.revision')
@@ -142,7 +152,7 @@ class TestTargetRevisionRequest(TransactionCase):
         profile = self.env['aic.hrm.rag.profile'].search([], limit=1)
         Request = self.env['aic.hrm.target.revision.request'].with_context(
             default_res_model='aic.hrm.rag.profile', default_res_id=profile.id)
-        self.assertEqual(
-            Request.fields_get(['field_name'])['field_name']['selection'], [])
+        self.assertFalse(Request.new({'res_model': 'aic.hrm.rag.profile'}).allowed_field_ids)
         with self.assertRaises(UserError):
-            Request.create({'new_value': 0.8, 'reason': 'Not governed.'})
+            Request.create({'new_value': 0.8, 'reason': 'Not governed.',
+                            'field_id': self.score_cap.id})

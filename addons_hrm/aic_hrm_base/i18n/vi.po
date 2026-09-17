@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 13:26+0000\n"
-"PO-Revision-Date: 2026-09-17 13:26+0000\n"
+"POT-Creation-Date: 2026-09-17 13:50+0000\n"
+"PO-Revision-Date: 2026-09-17 13:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -101,6 +101,11 @@ msgstr "Biểu tượng loại hoạt động"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__aggregate
 msgid "Aggregate"
 msgstr "Cách tổng hợp"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__allowed_field_ids
+msgid "Allowed Field"
+msgstr "Trường được phép"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__amber
@@ -380,7 +385,7 @@ msgid "Execute"
 msgstr "Thực hiện"
 
 #. module: aic_hrm_base
-#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__field_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__field_id
 msgid "Field"
 msgstr "Trường"
 
