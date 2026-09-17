@@ -113,6 +113,33 @@ def dataset():
         'ledger_by_account': {(7, '51131'): 38030000000.0, (8, '51131'): 43990000000.0},
         'ledger_by_partner': {(7, 'FPT'): 38030000000.0, (8, 'FPT'): 43990000000.0},
         'ledger_cost': {7: 18445937012.0},
+        # The controls behind a score, and the quarterly appraisal.
+        'audit_events': 41,
+        'audit_labels': {'create': 'Nhập số', 'confirm': 'Đã xác nhận', 'reset': 'Huỷ xác nhận',
+                         'edit': 'Sửa số', 'delete': 'Xoá số'},
+        'audit_sample': [{'event_date': '2026-09-18 03:25:00', 'kpi_target_id': [1, 'KDDV.PHONG.CP · Chưa phân công'],
+                          'action': 'reset', 'old_actual': 18.446, 'new_actual': 18.446,
+                          'user_id': [2, 'Administrator'], 'reason': 'Kiểm thử chốt kiểm soát'}],
+        'unstamped': 0,
+        'review_cycles': [{'name': 'Đánh giá Quý III/2026', 'state': 'open', 'perf_cycle_id': [2, 'Quý III/2026'],
+                           'date_start': '2026-10-01', 'date_end': '2026-10-15', 'review_ids': [1],
+                           'template_id': [1, 'Đánh giá quý']}],
+        'reviews': [{'employee_id': [5, 'Trần Ngọc Tú'], 'stage_id': [1, '1. Cá nhân tự đánh giá'],
+                     'goal_score': 1.0, 'goal_score_live': 1.0, 'goal_coverage_live': 53.3,
+                     'goal_score_snapshot_on': '2026-09-18 03:00:00',
+                     'goal_score_snapshot_by': [2, 'Administrator'],
+                     'self_score': 0.0, 'manager_score': 0.0, 'final_score': 0.0},
+                    {'employee_id': [7, 'Nguyễn Ánh Kim'], 'stage_id': [1, '1. Cá nhân tự đánh giá'],
+                     'goal_score': 0.0, 'goal_score_live': 0.0, 'goal_coverage_live': 0.0,
+                     'goal_score_snapshot_on': False, 'goal_score_snapshot_by': False,
+                     'self_score': 0.0, 'manager_score': 0.0, 'final_score': 0.0}],
+        'review_sections': [{'name': 'A. Ý thức và kỷ luật (30 điểm)', 'form_id': [1, 'Phiếu'], 'question_ids': [1, 2, 3]}],
+        'review_stages': [{'name': '1. Cá nhân tự đánh giá', 'stage_type': 'self', 'sequence': 10, 'duration_days': 3},
+                          {'name': '4. Chốt kết quả', 'stage_type': 'final', 'sequence': 40, 'duration_days': 1}],
+        'department_report': [{'cycle_id': [77, 'Tháng 7/2026'], 'employee_count': 19,
+                               'avg_composite': 0.18, 'avg_score_covered': 0.3,
+                               'avg_data_coverage': 21.6, 'avg_objective_score': 0.35,
+                               'objective_cycle_id': [2, 'Quý III/2026']}],
     }
 
 
@@ -318,6 +345,33 @@ class PageCase(unittest.TestCase):
             rows = builder(dataset(), source())
             self.assertTrue(rows, builder.__name__)
             self.assertTrue(all('class="ok"' in row[-1] for row in rows), builder.__name__)
+
+    def test_where_results_are_recorded_and_why_they_can_be_trusted(self):
+        for expected in ['Vết kiểm toán số thực hiện', 'Các chốt kiểm soát đang bật',
+                         'Phiếu đánh giá quý', 'Năm lớp bằng chứng',
+                         'Không ai sửa hay xoá được danh sách này',
+                         'Điểm OKR lấy từ chu kỳ']:
+            self.assertIn(expected, self.page, expected)
+
+    def test_an_appraisal_without_a_fixed_figure_says_so(self):
+        rows = handbook.review_rows(dataset())
+        fixed = [row for row in rows if row[0] == 'Trần Ngọc Tú'][0]
+        waiting = [row for row in rows if row[0] == 'Nguyễn Ánh Kim'][0]
+        self.assertEqual(fixed[3], '100,0%')
+        self.assertEqual(waiting[3], 'chưa chốt')
+        self.assertEqual(fixed[5], 'Administrator')
+
+    def test_the_controls_name_who_can_do_what(self):
+        rows = handbook.control_rows(dataset())
+        self.assertGreaterEqual(len(rows), 8)
+        self.assertTrue(all(len(row) == 3 and all(row) for row in rows))
+        self.assertTrue(any('Không ai' == row[2] for row in rows),
+                        'the audit trail is beyond everyone')
+
+    def test_the_result_places_point_at_a_menu_each(self):
+        rows = handbook.result_places_rows(dataset())
+        self.assertTrue(all('›' in row[2] for row in rows))
+        self.assertTrue(any('Vết kiểm toán' in row[0] for row in rows))
 
     def test_monthly_duties_and_scoring_are_both_explained(self):
         self.assertIn('Lấy số thực tế từ nguồn', self.page)

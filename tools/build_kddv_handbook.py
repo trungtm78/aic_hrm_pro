@@ -72,7 +72,10 @@ FIGURES = {
     '09-invoice-form': 'Một hoá đơn: đối tác, ngày, sản phẩm theo mảng doanh thu, tiền chưa VAT và thuế 8%.',
     '10-cost-entry': 'Bút toán chi phí tháng 7: mỗi dòng một tài khoản của sổ kế toán, đối ứng tài khoản trung gian 3388.',
     '11-metric-sources': 'Danh sách nguồn lấy số: cách hệ thống tự cộng số từ sổ kế toán vào KPI.',
-    '12-department-report': 'Báo cáo bảng điểm phòng ban: điểm trung bình của phòng theo từng chu kỳ.',
+    '12-department-report': 'Báo cáo bảng điểm phòng ban: điểm KPI, điểm trên phần có số liệu, độ phủ và điểm OKR của quý.',
+    '13-audit-trail': 'Vết kiểm toán số thực hiện: mỗi lần nhập, xác nhận, sửa hay huỷ xác nhận đều có người và thời điểm; không ai sửa hay xoá được danh sách này.',
+    '14-review-cycle': 'Chu kỳ đánh giá Quý III/2026 của phòng, với mẫu phiếu theo Quy chế 01 và danh sách phiếu đánh giá.',
+    '15-review-form': 'Một phiếu đánh giá quý: điểm KPI hiện tại, điểm KPI đã chốt (kèm người và thời điểm chốt), phần tự đánh giá và phần quản lý đánh giá.',
 }
 
 SECTIONS = [
@@ -82,8 +85,9 @@ SECTIONS = [
     ('D', 'Đọc kỹ ba phiếu giao KPI'),
     ('E', 'Việc phải làm hằng tháng với dữ liệu hiện tại'),
     ('F', 'Đánh giá hiệu suất được tính thế nào'),
-    ('G', 'Việc cần đơn vị cung cấp thêm'),
-    ('H', 'Phụ lục: toàn bộ dữ liệu đang có'),
+    ('G', 'Kết quả đánh giá được ghi ở đâu và làm sao biết là đúng'),
+    ('H', 'Việc cần đơn vị cung cấp thêm'),
+    ('I', 'Phụ lục: toàn bộ dữ liệu đang có'),
 ]
 
 # The reconciliation compares whole dong, which is what both the files and
@@ -188,6 +192,33 @@ def collect(client):
         'account.move', [('move_type', '=', 'entry'), ('state', '=', 'posted')],
         ['ref', 'name', 'date', 'journal_id', 'amount_total'], order='ref', context=VI)
     data['confirmed'] = client.call('aic.hrm.kpi.period.result', 'search_count', [[('state', '=', 'confirmed')]])
+    data['audit_events'] = client.call('aic.hrm.kpi.result.audit', 'search_count', [[]])
+    data['audit_sample'] = client.search_read(
+        'aic.hrm.kpi.result.audit', [], ['event_date', 'kpi_target_id', 'action', 'old_actual',
+                                         'new_actual', 'user_id', 'reason'],
+        limit=8, order='event_date desc, id desc', context=VI)
+    data['audit_labels'] = dict(client.call(
+        'aic.hrm.kpi.result.audit', 'fields_get', [['action']],
+        {'attributes': ['selection'], 'context': VI})['action']['selection'])
+    data['unstamped'] = client.call('aic.hrm.kpi.period.result', 'search_count',
+                                    [[('state', '=', 'confirmed'), ('confirmed_by', '=', False)]])
+    data['review_cycles'] = client.search_read(
+        'aic.hrm.review.cycle', [], ['name', 'state', 'perf_cycle_id', 'date_start', 'date_end',
+                                     'review_ids', 'template_id'], context=VI)
+    data['reviews'] = client.search_read(
+        'aic.hrm.review', [], ['employee_id', 'stage_id', 'goal_score', 'goal_score_live',
+                               'goal_coverage_live', 'goal_score_snapshot_on', 'goal_score_snapshot_by',
+                               'self_score', 'manager_score', 'final_score'],
+        order='employee_id', context=VI)
+    data['review_sections'] = client.search_read(
+        'aic.hrm.review.section', [], ['name', 'form_id', 'question_ids'], context=VI)
+    data['review_stages'] = client.search_read(
+        'aic.hrm.review.stage', [], ['name', 'stage_type', 'sequence', 'duration_days'],
+        order='sequence', context=VI)
+    data['department_report'] = client.search_read(
+        'aic.hrm.department.scorecard', [], ['cycle_id', 'employee_count', 'avg_composite',
+                                             'avg_score_covered', 'avg_data_coverage',
+                                             'avg_objective_score', 'objective_cycle_id'], context=VI)
     data['ledger_by_account'] = {}
     data['ledger_by_partner'] = {}
     # Every month of the year: the register holds revenue from January, and the
@@ -529,7 +560,55 @@ và hệ thống lưu lý do. Đây là vết kiểm soát khi đánh giá cuố
 </ul>
 {picture('12-department-report')}
 
-<h2 id="G">G. Việc cần đơn vị cung cấp thêm</h2>
+<h2 id="G">G. Kết quả đánh giá được ghi ở đâu và làm sao biết là đúng</h2>
+
+<h3>G1. Kết quả nằm ở những đâu</h3>
+{table(['Nơi ghi', 'Nội dung', 'Xem tại menu', 'Đang có'], result_places_rows(data))}
+
+<h3>G2. Vết kiểm toán số thực hiện</h3>
+<p>Mỗi lần một con số được nhập, xác nhận, sửa, huỷ xác nhận hay xoá, hệ thống ghi một dòng vào đây kèm
+người thực hiện, thời điểm, số trước, số sau và lý do. <b>Không ai sửa hay xoá được danh sách này</b> — kể cả
+quản trị viên hệ thống — và mỗi dòng có mã kiểm tra toàn vẹn để phát hiện can thiệp ở tầng cơ sở dữ liệu.
+Hiện có <b>{data['audit_events']} sự kiện</b>.</p>
+{table(['Thời điểm', 'Chỉ tiêu KPI', 'Hành động', 'Số trước', 'Số sau', 'Người thực hiện', 'Lý do'],
+       audit_sample_rows(data),
+       'Tám sự kiện gần nhất; xem đầy đủ tại Hiệu suất › Báo cáo › Vết kiểm toán số thực hiện.')}
+{picture('13-audit-trail')}
+
+<h3>G3. Các chốt kiểm soát đang bật</h3>
+{table(['Chốt kiểm soát', 'Nghĩa là', 'Ai làm được'], control_rows(data))}
+
+<h3>G4. Phiếu đánh giá quý (Quy chế 01/TTNTDVS)</h3>
+<p>Điểm KPI không được nhập tay vào phiếu đánh giá: phiếu đọc các phiếu giao KPI của quý (T7, T8, T9), và khi
+quản lý bấm <b>Chốt điểm KPI</b> — hoặc khi phiếu chuyển sang chặng quản lý — con số được đóng băng kèm người và
+thời điểm chốt. Từ đó số liệu tháng có thay đổi cũng không làm đổi điểm đã chốt của phiếu.</p>
+{table(['Chặng', 'Loại', 'Số ngày'],
+       [[stage['name'], stage['stage_type'], stage['duration_days']] for stage in data['review_stages']],
+       'Mẫu phiếu gồm ba phần theo Quy chế 01: Ý thức và kỷ luật 30 điểm · Kết quả KPI 60 điểm · '
+       'Thưởng vượt KPI 10 điểm.')}
+{table(['Họ tên', 'Chặng hiện tại', 'Điểm KPI hiện tại', 'Điểm KPI đã chốt', 'Độ phủ dữ liệu',
+        'Người chốt', 'Thời điểm chốt'], review_rows(data))}
+{picture('14-review-cycle')}
+{picture('15-review-form')}
+
+<h3>G5. Báo cáo bảng điểm phòng ban</h3>
+<p>Điểm OKR trên dòng của mỗi tháng là điểm của <b>chu kỳ quý</b> chứa tháng đó, vì OKR giao theo quý còn
+phiếu KPI giao theo tháng; cột cuối nói rõ điểm lấy từ chu kỳ nào.</p>
+{table(['Kỳ', 'Số người', 'Điểm KPI', 'Điểm trên phần có số liệu', 'Độ phủ dữ liệu', 'Điểm OKR',
+        'Điểm OKR lấy từ chu kỳ'], department_report_rows(data))}
+
+<h3>G6. Năm lớp bằng chứng để tin kết quả</h3>
+<div class="card"><ol>
+<li><b>Truy nguyên tới chứng từ.</b> Mỗi số thực hiện có nguồn là sổ kế toán; từ chỉ tiêu KPI mở được ra
+hoá đơn <code>PT2026-…</code> hoặc bút toán <code>CPTH2026-…</code>, <code>DTHU2026-…</code>.</li>
+<li><b>Đối chiếu tệp ↔ hệ thống bằng đồng</b> (mục B4–B6): chênh lệch bằng 0 ở tất cả các dòng.</li>
+<li><b>Chỉ số đã xác nhận mới vào điểm</b>, và mỗi lần xác nhận đều có người chịu trách nhiệm.</li>
+<li><b>Vết kiểm toán không thể sửa</b>: mọi thay đổi số liệu đều để lại dấu, huỷ xác nhận phải nêu lý do.</li>
+<li><b>Kiểm thử tự động</b>: cách tính điểm, độ phủ và các chốt kiểm soát được kiểm bằng bộ test tự động
+của sản phẩm; ngoài ra một bộ kiểm tra độc lập đọc số trên hệ thống, tự tính lại điểm rồi so sánh.</li>
+</ol></div>
+
+<h2 id="H">H. Việc cần đơn vị cung cấp thêm</h2>
 <ol>
 <li>Doanh thu tháng 9/2026 và chi phí tháng 8–9/2026 (hai tệp đã gửi chưa có).</li>
 <li>Xác nhận phần “đã thực hiện chưa xuất hoá đơn” của tháng 8 thuộc tháng nào: nhiều đối tác có cả hai phần
@@ -539,18 +618,18 @@ gần bằng nhau.</li>
 <li>Phân bổ tài khoản trung gian <b>3388</b> về lương, nhà cung cấp… theo sổ kế toán thật.</li>
 </ol>
 
-<h2 id="H">H. Phụ lục: toàn bộ dữ liệu đang có</h2>
-<h3>H1. Kết quả then chốt và mốc công việc</h3>
+<h2 id="I">I. Phụ lục: toàn bộ dữ liệu đang có</h2>
+<h3>I1. Kết quả then chốt và mốc công việc</h3>
 {table(['Mã', 'Kết quả then chốt', 'Trọng số', 'Cách đo', 'Chỉ tiêu', 'Thực hiện', 'Hạn', 'Mốc công việc'],
        kr_rows(data))}
-<h3>H2. Toàn bộ dòng KPI của {sum(len(c) for c in data['cards'].values())} phiếu giao</h3>
+<h3>I2. Toàn bộ dòng KPI của {sum(len(c) for c in data['cards'].values())} phiếu giao</h3>
 {table(['Tháng', 'Người', 'Nhóm', 'KPI', 'Chỉ tiêu giao', 'Trọng số', 'Thực hiện', 'Đạt'], all_line_rows(data),
        'Bảng này là toàn bộ nội dung các phiếu giao KPI đang có trong hệ thống.')}
-<h3>H3. Hoá đơn doanh thu đã vào sổ</h3>
+<h3>I3. Hoá đơn doanh thu đã vào sổ</h3>
 {table(['Tham chiếu', 'Số hoá đơn', 'Ngày', 'Đối tác', 'Chưa VAT', 'Thuế'],
        [[m['ref'], m['name'], m['invoice_date'], m['partner_id'][1], money(m['amount_untaxed']), money(m['amount_tax'])]
         for m in data['invoices']])}
-<h3>H4. Nguồn lấy số từ sổ kế toán</h3>
+<h3>I4. Nguồn lấy số từ sổ kế toán</h3>
 {table(['Tên nguồn', 'Đọc số từ', 'Quy đổi'],
        [[s['name'], 'số dư bút toán đã vào sổ' if s['field_name'] == 'balance' else 'phát sinh Nợ',
          'đồng → tỷ đồng' + (' (đảo dấu doanh thu)' if s['multiplier'] < 0 else '')] for s in data['sources']],
@@ -871,6 +950,105 @@ def irregularity_rows(source):
              'lump': 'Nghi hoá đơn gộp nhiều tháng', 'negative': 'Số âm (điều chỉnh giảm)'}
     return [[f"Tháng {issue['month']}", issue['partner'], kinds.get(issue['kind'], issue['kind']),
              issue['text']] for issue in source['irregularities']]
+
+
+def result_places_rows(data):
+    """Where a result is written, and the menu that shows it."""
+    reviews = len(data['reviews'])
+    return [
+        ['Kết quả theo kỳ', 'Số thực hiện từng tháng của từng chỉ tiêu, nguồn lấy số, trạng thái, '
+         'người và thời điểm xác nhận', 'Hiệu suất › Thực hiện › Kết quả theo kỳ',
+         f"{data['confirmed']} bản ghi đã xác nhận"],
+        ['Chỉ tiêu KPI', 'Thực hiện cả kỳ, % đạt, đèn RAG, nút mở lịch sử số liệu',
+         'Hiệu suất › Kế hoạch › Chỉ tiêu KPI', f"{data['targets']} chỉ tiêu"],
+        ['Phiếu giao KPI', 'Điểm, điểm trên KPI có số liệu, độ phủ dữ liệu, trạng thái phiếu',
+         'Hiệu suất › Kế hoạch › Bảng điểm cá nhân',
+         f"{sum(len(c) for c in data['cards'].values())} phiếu"],
+        ['Mục tiêu và kết quả then chốt', 'Điểm OKR của phòng, độ phủ, lịch sử check-in',
+         'Hiệu suất › Kế hoạch › Mục tiêu / Kết quả then chốt',
+         f"{len(data['objectives'])} mục tiêu · {len(data['krs'])} KR"],
+        ['Vết kiểm toán số thực hiện', 'Mọi lần nhập / xác nhận / sửa / huỷ xác nhận / xoá, kèm '
+         'người, thời điểm, số trước, số sau và lý do', 'Hiệu suất › Báo cáo › Vết kiểm toán số thực hiện',
+         f"{data['audit_events']} sự kiện"],
+        ['Báo cáo bảng điểm phòng ban', 'Điểm bình quân của phòng theo chu kỳ, kèm độ phủ và điểm OKR quý',
+         'Hiệu suất › Báo cáo › Bảng điểm phòng ban', f"{len(data['department_report'])} dòng"],
+        ['Phiếu đánh giá quý', 'Điểm KPI đã chốt, tự đánh giá, quản lý đánh giá, xếp loại 9 ô',
+         'Đánh giá › Phiếu đánh giá', f'{reviews} phiếu'],
+        ['Điều chỉnh chỉ tiêu', 'Mọi lần sửa chỉ tiêu đã duyệt: số cũ, số mới, lý do, người duyệt',
+         'Hiệu suất › Cấu hình › Điều chỉnh chỉ tiêu', 'ghi khi có điều chỉnh'],
+    ]
+
+
+def audit_sample_rows(data):
+    labels = data['audit_labels']
+    rows = []
+    for event in data['audit_sample']:
+        rows.append([event['event_date'], event['kpi_target_id'][1],
+                     labels.get(event['action'], event['action']),
+                     vn(event['old_actual']), vn(event['new_actual']),
+                     event['user_id'][1], (event['reason'] or '')[:120]])
+    return rows
+
+
+def control_rows(data):
+    """The gates that stand between a figure and a score."""
+    return [
+        ['Chỉ số đã xác nhận mới được tính điểm',
+         'Số vừa lấy về là bản nháp; phải có người xác nhận mới vào điểm',
+         'Quản lý hiệu suất (trưởng phòng)'],
+        ['Xác nhận luôn được đóng dấu người và thời điểm',
+         f"Hiện trên danh sách Kết quả theo kỳ; {data['confirmed'] - data['unstamped']}"
+         f"/{data['confirmed']} bản ghi đã có dấu", 'Hệ thống tự ghi'],
+        ['Không thể xác nhận bằng đường khác',
+         'Kể cả sửa trực tiếp qua giao diện kỹ thuật, hệ thống vẫn đòi quyền quản lý',
+         'Quản lý hiệu suất'],
+        ['Số đã xác nhận không sửa, không xoá được',
+         'Muốn sửa phải huỷ xác nhận trước — vì điểm đang dựa trên số đó',
+         'Quản lý hiệu suất'],
+        ['Huỷ xác nhận phải nêu lý do',
+         'Lý do được lưu trong vết kiểm toán và ghi lên chính KPI đó',
+         'Quản lý hiệu suất'],
+        ['Vết kiểm toán không ai sửa hay xoá được',
+         'Kể cả quản trị viên hệ thống; mỗi sự kiện có mã kiểm tra toàn vẹn',
+         'Không ai'],
+        ['Kỳ phải nằm trong chu kỳ của chỉ tiêu',
+         'Chặn số liệu ghi sai tháng làm điểm lệch mà không ai thấy', 'Hệ thống tự chặn'],
+        ['Chỉ tiêu đã duyệt chỉ đổi qua Yêu cầu điều chỉnh',
+         'Có số cũ, số mới, lý do và người duyệt', 'Quản lý hiệu suất duyệt'],
+        ['Điểm KPI của phiếu đánh giá được chốt ảnh',
+         'Khi phiếu vào chặng quản lý, điểm được đóng băng kèm người và thời điểm chốt',
+         'Quản lý hiệu suất'],
+        ['Không chốt đánh giá trên số còn trôi',
+         'Phiếu chưa chốt điểm KPI thì không cho chuyển sang chặng cuối', 'Hệ thống tự chặn'],
+    ]
+
+
+def review_rows(data):
+    rows = []
+    for review in data['reviews']:
+        rows.append([
+            review['employee_id'][1], review['stage_id'][1] if review['stage_id'] else '',
+            f"{vn(100 * review['goal_score_live'], 1)}%",
+            f"{vn(100 * review['goal_score'], 1)}%" if review['goal_score_snapshot_on'] else 'chưa chốt',
+            f"{vn(review['goal_coverage_live'], 1)}%",
+            review['goal_score_snapshot_by'][1] if review['goal_score_snapshot_by'] else '',
+            review['goal_score_snapshot_on'] or '',
+        ])
+    return rows
+
+
+def department_report_rows(data):
+    rows = []
+    for row in sorted(data['department_report'], key=lambda row: row['cycle_id'][1]):
+        rows.append([
+            row['cycle_id'][1], row['employee_count'],
+            f"{vn(100 * row['avg_composite'], 1)}%",
+            f"{vn(100 * row['avg_score_covered'], 1)}%",
+            f"{vn(row['avg_data_coverage'], 1)}%",
+            f"{vn(100 * row['avg_objective_score'], 1)}%",
+            row['objective_cycle_id'][1] if row['objective_cycle_id'] else '—',
+        ])
+    return rows
 
 
 def okr_rows(data):

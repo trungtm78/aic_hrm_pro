@@ -121,6 +121,9 @@ const invoices = await xmlid('account.action_move_out_invoice_type');
 const entries = await xmlid('account.action_move_journal_line');
 const report = await xmlid('aic_okr_kpi.action_aic_hrm_department_scorecard');
 const sources = await xmlid('aic_hrm_base.action_aic_hrm_metric_source');
+const auditTrail = await xmlid('aic_okr_kpi.action_aic_hrm_result_audit');
+const reviewCycles = await xmlid('aic_hrm_review.action_review_cycle');
+const reviews = await xmlid('aic_hrm_review.action_review');
 
 console.log('capturing:');
 await open(scorecards);
@@ -166,6 +169,20 @@ await shot('11-metric-sources');
 
 await open(report);
 await shot('12-department-report');
+
+// The controls a director asks about: who confirmed which figure, and the
+// quarterly appraisal the KPI score is fixed onto.
+await open(auditTrail);
+await shot('13-audit-trail');
+
+const reviewCycle = await recordId('aic.hrm.review.cycle', [['name', 'like', 'Đánh giá Quý III/2026']]);
+await open(reviewCycles, `/${reviewCycle}`);
+await shot('14-review-cycle');
+
+const review = await recordId('aic.hrm.review',
+  [['employee_id.name', '=', 'Trần Ngọc Tú'], ['review_cycle_id', '=', reviewCycle]]);
+await open(reviews, `/${review}`);
+await shot('15-review-form');
 
 await context.close();
 await browser.close();
