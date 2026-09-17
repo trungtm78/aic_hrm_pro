@@ -25,6 +25,19 @@ class TestObjectiveWorkflow(OkrCase):
         objective.action_finalize()
         self.assertEqual(objective.state, 'done')
 
+    def test_cycle_holding_objectives_cannot_be_deleted(self):
+        """The cycle guard lives in aic_hrm_base but must see records that
+        other modules file under a cycle."""
+        cycle = self.other_cycle
+        self._make_objective(cycle_id=cycle.id)
+        cycle.action_open()
+        with self.assertRaisesRegex(UserError, r'1 × Objective'):
+            cycle.unlink()
+        cycle.objective_ids.unlink() if 'objective_ids' in cycle._fields else \
+            self.Objective.search([('cycle_id', '=', cycle.id)]).unlink()
+        cycle.unlink()
+        self.assertFalse(cycle.exists())
+
     def test_illegal_jump_blocked(self):
         objective = self._make_objective()
         with self.assertRaises(UserError):

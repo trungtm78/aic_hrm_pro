@@ -695,7 +695,15 @@ msgstr ""
 #. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
-msgid "Only draft cycles can be deleted. Archive %(name)s instead."
+msgid "Cycle %(name)s is locked and cannot be deleted."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid ""
+"Cycle %(name)s still holds %(records)s. Remove them first, or archive the "
+"cycle instead."
 msgstr ""
 
 #. module: aic_hrm_base

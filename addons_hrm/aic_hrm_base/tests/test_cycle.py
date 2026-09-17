@@ -92,14 +92,38 @@ class TestCycle(TransactionCase):
         with self.assertRaises(UserError):
             cycle.write({'name': 'Tampered'})
 
-    def test_unlink_only_draft(self):
-        cycle = self._make_cycle()
-        cycle.action_open()
-        with self.assertRaises(UserError):
-            cycle.unlink()
+    def test_unlink_draft(self):
         draft = self._make_cycle(code='DRAFT-DEL')
         draft.unlink()
         self.assertFalse(draft.exists())
+
+    def test_unlink_opened_cycle_that_holds_nothing(self):
+        """An opened cycle emptied of every goal, target and review carries no
+        history, and there is no way back to draft - refusing it left trial
+        cycles undeletable for good."""
+        cycle = self._make_cycle()
+        cycle.action_open()
+        cycle.action_start_review()
+        cycle.unlink()
+        self.assertFalse(cycle.exists())
+
+    def test_unlink_refused_while_the_cycle_holds_records(self):
+        year = self._make_cycle()
+        self._make_cycle(code='Q1-26', cycle_type='quarter', parent_id=year.id,
+                         date_start='2026-01-01', date_end='2026-03-31')
+        year.action_open()
+        with self.assertRaisesRegex(UserError, 'Performance Cycle'):
+            year.unlink()
+        self.assertTrue(year.exists())
+
+    def test_locked_cycle_cannot_be_deleted(self):
+        cycle = self._make_cycle()
+        cycle.action_open()
+        cycle.action_start_review()
+        cycle.action_close()
+        cycle.action_lock()
+        with self.assertRaises(UserError):
+            cycle.unlink()
 
     def test_parent_company_must_match(self):
         other_company = self.env['res.company'].create({'name': 'Cycle Co 2'})

@@ -685,8 +685,18 @@ msgstr "Chỉ quản trị nhân sự mới được chạy nguồn số liệu.
 #. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
-msgid "Only draft cycles can be deleted. Archive %(name)s instead."
-msgstr "Chỉ xóa được chu kỳ nháp. Hãy lưu trữ %(name)s thay vì xóa."
+msgid "Cycle %(name)s is locked and cannot be deleted."
+msgstr "Chu kỳ %(name)s đã khóa, không thể xóa."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid ""
+"Cycle %(name)s still holds %(records)s. Remove them first, or archive the "
+"cycle instead."
+msgstr ""
+"Chu kỳ %(name)s vẫn còn chứa %(records)s. Hãy xóa các bản ghi này trước, hoặc "
+"lưu trữ chu kỳ thay vì xóa."
 
 #. module: aic_hrm_base
 #. odoo-python

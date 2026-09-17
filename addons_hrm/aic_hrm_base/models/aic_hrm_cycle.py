@@ -156,12 +156,49 @@ class AicHrmCycle(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        non_draft = self.filtered(lambda c: c.state != 'draft')
-        if non_draft:
+        # What must never be destroyed is performance history, and that
+        # history is the records filed under a cycle. Refusing by state
+        # instead blocked a cycle that had been opened and then emptied:
+        # there is no way back to draft, so it could never be removed.
+        locked = self.filtered(lambda c: c.state == 'locked')
+        if locked:
             raise UserError(_(
-                "Only draft cycles can be deleted. Archive %(name)s instead.",
-                name=non_draft[0].display_name))
+                "Cycle %(name)s is locked and cannot be deleted.",
+                name=locked[0].display_name))
+        for cycle in self:
+            holdings = cycle._held_records()
+            if holdings:
+                raise UserError(_(
+                    "Cycle %(name)s still holds %(records)s. Remove them "
+                    "first, or archive the cycle instead.",
+                    name=cycle.display_name,
+                    records=', '.join(
+                        f'{count} × {label}' for label, count in holdings)))
         return super().unlink()
+
+    def _held_records(self):
+        """``[(model description, count)]`` of stored records that point at
+        this cycle through a restricting many2one, in any installed module.
+
+        Read from the registry rather than a hard-coded list, so a module
+        that files new records under cycles is covered without touching this
+        one."""
+        self.ensure_one()
+        holdings = []
+        for model_name in sorted(self.env.registry):
+            model = self.env[model_name]
+            if model._abstract or model._transient or not model._auto:
+                continue
+            for field in model._fields.values():
+                if (field.type == 'many2one' and field.store
+                        and field.comodel_name == self._name
+                        and field.ondelete == 'restrict'):
+                    count = model.sudo().with_context(
+                        active_test=False).search_count(
+                        [(field.name, '=', self.id)])
+                    if count:
+                        holdings.append((model._description, count))
+        return holdings
 
     def action_open(self):
         self._transition('open')
