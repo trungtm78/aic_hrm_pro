@@ -10,7 +10,43 @@ cannot decode Vietnamese. The full working log, every byte of it, lives in
 Keep the status keyword on line 1 and nowhere else, and keep this file
 ASCII-only.
 
-## Current state: UAT dataset and acceptance run - complete
+## Current state: first customer department live on production - complete
+
+2026-09-17. okr.aipower.vn now holds the customer's Sales & Services plan for
+Q3/2026, entered through the browser only; the earlier trial data is gone.
+Design: `Docs/superpowers/specs/2026-09-17-kddv-q3-operational-dataset-design.md`.
+
+| Check | Result |
+|---|---|
+| Test suite, Odoo 19, eight suite modules | 283 pass, 0 fail, 0 error |
+| Tooling tests | 75 pass (1 skipped: needs customer files) |
+| 18.0 backport | transform + verify pass; 18 suite NOT run (no odoo18 tree in this checkout) |
+| Production E2E profile (`uat/playwright.prod.config.ts`, specs 01-06) | 6 pass; re-run changes 0 records in 18 models |
+| Independent acceptance (`99_acceptance`) | 6 of 7 pass; phone layout fails on the installed backend theme (see open items) |
+| Production log since deploy | 0 ERROR, 0 CRITICAL |
+
+Delivered on production: 6 departments, 21 staff + 5 department heads, 21
+logins (each proven by logging in), cycles 2026 > Q3 > Jul/Aug/Sep, 4
+objectives / 10 key results matching the signed decision, 58 monthly
+scorecards (412 KPI lines) matching the assignment workbook line by line.
+Account sheet for the customer: `Docs/OKR/` (git-ignored, contains passwords).
+
+Product changes shipped for it (commits 6bbff36, b3b76c6): emptied opened
+cycles can be deleted; KPI target links to a key result in an enclosing cycle;
+weighted KPI groups on scorecards; zero-tolerance targets; target wording;
+import of all of these; Review Forms and KPI Groups screens; key result notes.
+
+Open items (decisions for the owner):
+- The backend theme `aic_sale_pro_theme` (not part of this suite) widens every
+  page to 443 px on a 375 px phone a few seconds after load.
+- Published docs advertise this instance's admin password; the instance now
+  holds real people's data.
+- No "request target revision" entry on key result / KPI target / objective
+  forms: users must type technical model and field names.
+- Pre-existing log warning: `aic_hrm_diagnosis.py:77` searches with an unsaved
+  record id while a key result is being created.
+
+## Previous state: UAT dataset and acceptance run - complete
 
 | Check | Result |
 |---|---|
