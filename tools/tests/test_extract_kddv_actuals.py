@@ -102,3 +102,45 @@ class DatasetCase(unittest.TestCase):
         self.assertIn('MobiFone', texts)
         self.assertIn('Tâm Anh', texts)
         self.assertIn('FPT', texts)
+
+
+@unittest.skipUnless(HAVE_FILES, 'customer workbooks not present')
+class AccountingCase(unittest.TestCase):
+    """Documents that carry the two workbooks into Odoo accounting."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.books = extract.build(SOURCE)['accounting']
+
+    def test_one_posted_invoice_per_invoiced_cell(self):
+        invoices = self.books['invoices']
+        self.assertEqual(len(invoices), 96)
+        self.assertEqual(len({invoice['ref'] for invoice in invoices}), 96)
+        self.assertEqual(len(self.books['partners']), 21)
+        july = sum(invoice['untaxed'] for invoice in invoices if invoice['month'] == 7)
+        self.assertAlmostEqual(july / 1e9, 108.24, places=2)
+
+    def test_invoices_whose_file_vat_is_not_8_percent_say_so(self):
+        flagged = [invoice for invoice in self.books['invoices'] if 'khác 8%' in invoice['note']]
+        self.assertTrue(flagged)
+        self.assertTrue(all(abs(invoice['file_vat_rate'] - 8.0) > 0.5 for invoice in flagged))
+
+    def test_not_invoiced_revenue_is_one_accrual_in_august(self):
+        self.assertEqual(list(self.books['accruals']), ['8'])
+        august = self.books['accruals']['8']
+        self.assertEqual(len(august['lines']), 24)
+        self.assertAlmostEqual(august['total'] / 1e9, 77.00, places=2)
+        self.assertTrue(any(line['amount'] < 0 for line in august['lines']))
+
+    def test_cost_entries_match_the_ledger_groups(self):
+        self.assertEqual(self.books['ledger_check'], [])
+        entries = self.books['cost_entries']
+        self.assertEqual(list(entries), [str(m) for m in range(1, 8)])
+        self.assertEqual(sum(len(entry['lines']) for entry in entries.values()), 167)
+        self.assertEqual(entries['7']['total'], 18445937012)
+        self.assertEqual(len(self.books['cost_accounts']), 36)
+
+    def test_every_product_books_to_its_stream_account(self):
+        accounts = {item['code'] for item in self.books['stream_accounts'].values()}
+        self.assertEqual(len(self.books['products']), 7)
+        self.assertTrue(all(product['account'] in accounts for product in self.books['products']))

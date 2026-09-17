@@ -17,7 +17,12 @@ Decisions agreed with the customer's owner on 2026-09-17:
 * the register's business lines map onto the five planned revenue streams as
   SECTION_STREAM says; the digital-services stream has no line and is 0;
 * costs are tracked for the department, never weighted into anyone's score;
-* only numbers present in the files are produced; nothing is estimated.
+* only numbers present in the files are produced; nothing is estimated;
+* invoiced amounts become posted customer invoices (one per partner, section
+  and month, dated the month's last day, VAT 8%), amounts delivered but not
+  invoiced become one accrual journal entry per month, and each month's cost
+  postings become one journal entry against a clearing account. accounting()
+  describes those documents; the Playwright specs enter them through the UI.
 
 The script also lists what looks irregular (VAT not 8%, negative amounts, a
 partner both invoiced and not invoiced in one month, lump invoices) so the
@@ -87,6 +92,29 @@ KPI_STREAMS = {
 }
 REVENUE_KR = 'O1.KR1'
 
+# Accounting layout agreed for the Vietnamese chart of accounts (TT200).
+STREAM_ACCOUNT = {
+    'telco': ('51131', 'Doanh thu cấp quyền tiếp phát sóng kênh (Telco/ISP)'),
+    'vtvshop_mg': ('51132', 'Doanh thu VTVshop MG'),
+    'tnnd': ('51133', 'Doanh thu dịch vụ trải nghiệm nội dung (TNND)'),
+    'fast': ('51134', 'Doanh thu FAST Channel & Chuyên trang'),
+    'digital': ('51135', 'Doanh thu dịch vụ số'),
+}
+SECTION_PRODUCT = {
+    'I': 'Dịch vụ khác',
+    'II': 'Cấp quyền tiếp phát sóng kênh',
+    'III': 'Chuyên trang trên VTVgo',
+    'IV': 'VTVshop và dịch vụ GTGT',
+    'V': 'Gói trải nghiệm VTVgo',
+    'VI': 'Gói VTV Thể thao',
+    'VII': 'Gói World Cup',
+}
+ACCRUAL_ACCOUNT = ('1388', 'Phải thu doanh thu đã thực hiện chưa lập hoá đơn')
+COST_CLEARING_ACCOUNT = ('3388', 'Đối ứng tổng hợp chi phí (chờ kế toán phân bổ)')
+ACCRUAL_JOURNAL = ('DTHU', 'Dự thu doanh thu')
+COST_JOURNAL = ('CPTH', 'Chi phí tổng hợp')
+SALE_VAT = 8.0
+
 TRACKING = {
     'cost': {'code': 'KDDV.PHONG.CP', 'name': 'Chi phí hoạt động (sổ kế toán)', 'unit': 'tỷ VNĐ',
              'direction': 'lower'},
@@ -135,28 +163,101 @@ def read_register(path):
                 'uninvoiced': amount(row[base + 3]), 'uninvoiced_vat': amount(row[base + 4]),
                 'note': (row[base + 6] or '').strip() if isinstance(row[base + 6], str) else '',
             }
-        partners.append({'row': number, 'section': section, 'stream': SECTION_STREAM[section],
+        partners.append({'row': number, 'section': section, 'sequence': int(row[0]), 'stream': SECTION_STREAM[section],
                          'partner': ' '.join(str(row[1]).split()), 'months': months,
                          'year_total': amount(row[TOTAL_COLUMN])})
     return partners
 
 
 def read_ledger(path):
-    """{month: {'total': x, 'groups': [{account, name, amount}]}} for months with postings."""
+    """{month: {'total', 'groups', 'lines'}} for months with postings.
+
+    Roman-numbered rows carry a group total; numbered rows are the postings.
+    Both are kept so the postings can be checked against their group."""
     import openpyxl
     book = openpyxl.load_workbook(path, data_only=True)
     ledger = {}
     for month in range(1, 13):
         sheet = book['Tháng %d' % month]
-        groups = []
+        groups, lines = [], []
         for row in sheet.iter_rows(min_row=2, values_only=True):
             label = row[0]
+            entry = {'account': str(row[1]).strip() if row[1] is not None else '',
+                     'name': ' '.join(str(row[3]).split()) if row[3] else '', 'amount': amount(row[2])}
             if isinstance(label, str) and label.strip().isalpha() and row[2]:
-                groups.append({'account': str(row[1]), 'name': ' '.join(str(row[3]).split()),
-                               'amount': amount(row[2])})
+                groups.append(entry)
+            elif isinstance(label, int) and row[2]:
+                lines.append(dict(entry, group=groups[-1]['account'] if groups else ''))
         if groups:
-            ledger[month] = {'total': sum(group['amount'] for group in groups), 'groups': groups}
+            ledger[month] = {'total': sum(group['amount'] for group in groups), 'groups': groups, 'lines': lines}
     return ledger
+
+
+def month_end(month):
+    import calendar
+    return '%d-%02d-%02d' % (YEAR, month, calendar.monthrange(YEAR, month)[1])
+
+
+def dong(value):
+    return '{:,.0f}'.format(value).replace(',', '.')
+
+
+def accounting(partners, ledger):
+    """The documents that carry the register and the ledger in Odoo."""
+    invoices, accruals = [], {}
+    for partner in partners:
+        for month in range(1, 13):
+            cell = partner['months'][month]
+            if cell['invoiced']:
+                vat = 100 * cell['invoiced_vat'] / cell['invoiced']
+                note = ('Phiếu thu 2026, tháng %d, mục %s: doanh thu đã xuất hoá đơn %s đồng chưa VAT, '
+                        'VAT theo file %s đồng.' % (month, partner['section'], dong(cell['invoiced']),
+                                                     dong(cell['invoiced_vat'])))
+                if abs(vat - SALE_VAT) > 100 * VAT_TOLERANCE:
+                    note += ' VAT trong file là %.2f%%, khác 8%% — kế toán cần kiểm tra.' % vat
+                invoices.append({
+                    'ref': 'PT2026-T%02d-%s-%02d' % (month, partner['section'], partner['sequence']),
+                    'partner': partner['partner'], 'section': partner['section'], 'month': month,
+                    'date': month_end(month), 'product': SECTION_PRODUCT[partner['section']],
+                    'untaxed': round(cell['invoiced']), 'file_vat': round(cell['invoiced_vat']),
+                    'file_vat_rate': round(vat, 4), 'note': note})
+            if cell['uninvoiced']:
+                entry = accruals.setdefault(month, {'ref': 'DTHU2026-T%02d' % month, 'date': month_end(month),
+                                                    'lines': []})
+                entry['lines'].append({
+                    'partner': partner['partner'], 'section': partner['section'],
+                    'account': STREAM_ACCOUNT[partner['stream']][0],
+                    'label': '%s — %s (mục %s), T%d/%d chưa xuất HĐ' % (
+                        SECTION_PRODUCT[partner['section']], partner['partner'], partner['section'], month, YEAR),
+                    'amount': round(cell['uninvoiced'])})
+    for entry in accruals.values():
+        entry['total'] = sum(line['amount'] for line in entry['lines'])
+    costs, accounts = {}, {}
+    for month, data in ledger.items():
+        costs[month] = {'ref': 'CPTH2026-T%02d' % month, 'date': month_end(month),
+                        'lines': [{'account': line['account'], 'label': line['name'], 'amount': round(line['amount'])}
+                                  for line in data['lines']],
+                        'total': round(sum(line['amount'] for line in data['lines']))}
+        for line in data['lines']:
+            accounts.setdefault(line['account'], line['name'])
+    return {
+        'stream_accounts': {key: {'code': code, 'name': name} for key, (code, name) in STREAM_ACCOUNT.items()},
+        'products': [{'section': section, 'name': name, 'account': STREAM_ACCOUNT[SECTION_STREAM[section]][0]}
+                     for section, name in SECTION_PRODUCT.items()],
+        'accrual_account': dict(zip(('code', 'name'), ACCRUAL_ACCOUNT)),
+        'cost_clearing_account': dict(zip(('code', 'name'), COST_CLEARING_ACCOUNT)),
+        'accrual_journal': dict(zip(('code', 'name'), ACCRUAL_JOURNAL)),
+        'cost_journal': dict(zip(('code', 'name'), COST_JOURNAL)),
+        'sale_vat': SALE_VAT,
+        'partners': sorted({partner['partner'] for partner in partners}),
+        'invoices': invoices,
+        'accruals': {str(m): v for m, v in sorted(accruals.items())},
+        'cost_accounts': [{'code': code, 'name': name} for code, name in sorted(accounts.items())],
+        'cost_entries': {str(m): v for m, v in sorted(costs.items())},
+        'ledger_check': [{'month': m, 'group': g['account']} for m, data in ledger.items() for g in data['groups']
+                         if abs(sum(line['amount'] for line in data['lines'] if line['group'] == g['account'])
+                                - g['amount']) > 1],
+    }
 
 
 def irregularities(partners, months):
@@ -297,6 +398,7 @@ def build(source):
                           'groups': [dict(g, amount=billions(g['amount'])) for g in v['groups']]}
                  for m, v in ledger.items()},
         'irregularities': issues,
+        'accounting': accounting(partners, ledger),
         'register_check': [{'partner': p['partner'], 'row': p['row']} for p in partners
                            if abs(sum(c['invoiced'] + c['uninvoiced'] for c in p['months'].values())
                                   - p['year_total']) > 5],
