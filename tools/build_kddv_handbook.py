@@ -100,8 +100,13 @@ def figure(images, name, number):
         return (f'<p class="missing">[Thiếu ảnh minh hoạ {esc(name)} — chạy '
                 f'<code>node uat/capture_kddv_guide.mjs</code> rồi tạo lại tài liệu.]</p>')
     encoded = base64.b64encode(path.read_bytes()).decode('ascii')
-    return (f'<figure><img alt="{esc(caption)}" src="data:image/png;base64,{encoded}">'
-            f'<figcaption>Hình {number}. {esc(caption)}</figcaption></figure>')
+    source = f'data:image/png;base64,{encoded}'
+    # On a phone the shrunken screenshot is unreadable; opening it in its own
+    # tab shows it at full size, and needs no script.
+    return (f'<figure><a href="{source}" target="_blank" rel="noopener">'
+            f'<img alt="{esc(caption)}" src="{source}"></a>'
+            f'<figcaption>Hình {number}. {esc(caption)} '
+            f'<span class="muted">(bấm vào ảnh để xem cỡ đầy đủ)</span></figcaption></figure>')
 
 
 def collect(client):

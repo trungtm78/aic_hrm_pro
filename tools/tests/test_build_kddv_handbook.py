@@ -172,7 +172,11 @@ class PageCase(unittest.TestCase):
         self.assertIn('<html lang="vi">', self.page)
         self.assertIn('width=device-width', self.page)
         self.assertNotIn('<script', self.page)
-        self.assertEqual(self.page.count('data:image/png;base64,'), len(handbook.FIGURES))
+        # Each figure embeds its picture twice: once shown, once as the link
+        # that opens it full size.
+        self.assertEqual(self.page.count('<figure>'), len(handbook.FIGURES))
+        self.assertEqual(self.page.count('data:image/png;base64,'), 2 * len(handbook.FIGURES))
+        self.assertIn('bấm vào ảnh để xem cỡ đầy đủ', self.page)
 
     def test_every_section_has_a_heading_the_contents_can_reach(self):
         for key, title in handbook.SECTIONS:
