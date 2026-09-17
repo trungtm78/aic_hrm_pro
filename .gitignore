@@ -93,3 +93,4 @@ uat/node_modules/
 uat/test-results/
 uat/playwright-report/
 uat/package-lock.json
+uat/playwright-report-prod/
