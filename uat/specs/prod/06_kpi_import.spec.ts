@@ -56,7 +56,9 @@ test('monthly KPI scorecards July-September 2026', async ({ page }) => {
       await ui.pickMany2one('cycle_id', cycle.display_name, form);
       await ui.pickMany2one('department_id', sales, form);
       await form.locator('.o_field_widget[name="file"] input[type="file"]').setInputFiles(file);
-      await expect(form.locator('.o_field_widget[name="file"]')).toContainText('.xlsx', { timeout: 60_000 });
+      // The uploaded file's name is shown as the value of the widget's text input.
+      await expect(form.locator('.o_field_widget[name="file"] input:not([type="file"])'))
+        .toHaveValue(`KDDV_KPI_T${month}_${data.year}.xlsx`, { timeout: 90_000 });
       await ui.rpc('action_preview', `preview T${month}`, () =>
         dialog.locator('.modal-footer button[name="action_preview"]').click());
       await expect(form.locator('.o_field_widget[name="preview"]')).toContainText('KDDV.');
