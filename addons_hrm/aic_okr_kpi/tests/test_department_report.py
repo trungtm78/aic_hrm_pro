@@ -60,6 +60,15 @@ class TestDepartmentReport(KpiCase):
         self.assertAlmostEqual(row.avg_data_coverage, 60.0, places=2)
         self.assertEqual(row.employee_count, 1)
 
+    def test_objectives_are_weighted_not_averaged_flat(self):
+        """A 50% objective must not count the same as a 10% one."""
+        small = self._make_objective(cycle_id=self.q1.id, weight=25.0,
+                                     name='Mục tiêu nhỏ')
+        self._make_kr(small, baseline=0, target=100, current=0, weight=100.0)
+        [row] = self.row(self.january)
+        # 0.7 x 100 + 0.0 x 25, over 125
+        self.assertAlmostEqual(row.avg_objective_score, 0.56, places=4)
+
     def test_an_objective_on_the_row_cycle_wins_over_the_parent(self):
         own = self._make_objective(cycle_id=self.january.id, weight=100.0)
         self._make_kr(own, baseline=0, target=100, current=20, weight=100.0)

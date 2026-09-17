@@ -373,8 +373,13 @@ class AicHrmDepartmentScorecard(models.Model):
                     WHERE l.depth < 10
                 ),
                 objective_by_level AS (
+                    -- Weighted the way an objective roll-up is weighted
+                    -- everywhere else: O1 at 50% must not count the same as
+                    -- O4 at 10%.
                     SELECT l.cycle_id, l.ancestor_id, l.depth, o.department_id,
-                           AVG(o.score) AS objective_score
+                           CASE WHEN SUM(o.weight) > 0
+                                THEN SUM(o.score * o.weight) / SUM(o.weight)
+                                ELSE AVG(o.score) END AS objective_score
                     FROM lineage l
                     JOIN aic_hrm_objective o
                       ON o.cycle_id = l.ancestor_id
