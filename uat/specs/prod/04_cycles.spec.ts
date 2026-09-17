@@ -42,14 +42,14 @@ test('planning cycles 2026 > Q3 > July, August, September', async ({ page }) => 
         await ui.newRecord(action);
         await ui.fill('name', cycle.name);
         await ui.fill('code', cycle.code);
-        await ui.select('cycle_type', `"${cycle.type}"`);
+        await ui.select('aic.hrm.cycle', 'cycle_type', cycle.type);
         await ui.fill('date_start', toUserFormat(cycle.start, lang.date_format));
         await ui.fill('date_end', toUserFormat(cycle.end, lang.date_format));
         if (cycle.parent) {
           const [parent] = await read('aic.hrm.cycle', 'search_read', [[['code', '=', cycle.parent]]], { fields: ['display_name'] });
           await ui.pickMany2one('parent_id', parent.display_name);
         }
-        await ui.select('check_in_frequency', '"monthly"');
+        await ui.select('aic.hrm.cycle', 'check_in_frequency', 'monthly');
         const id = await ui.save(`cycle ${cycle.code}`);
         row = { id, state: 'draft' };
       }

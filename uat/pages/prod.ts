@@ -1,4 +1,5 @@
 import { expect, Locator, Page, Response } from '@playwright/test';
+import { read } from '../fixtures/prod';
 
 /**
  * Form and list helpers for entering data on production.
@@ -114,13 +115,39 @@ export class OdooUi {
   }
 
   async fill(name: string, value: string | number, scope?: Locator) {
-    const input = this.field(name, scope).locator('input, textarea').first();
-    await input.fill(String(value));
+    // HTML fields are an editor (contenteditable), not an input.
+    const input = this.field(name, scope).locator('input, textarea, [contenteditable="true"]').first();
+    await input.click();
+    await input.fill(typeof value === 'number' ? await this.userNumber(value) : value);
     await input.press('Tab');
   }
 
-  async select(name: string, value: string, scope?: Locator) {
-    await this.field(name, scope).locator('select').selectOption(value);
+  /**
+   * A number as the user would type it. In Vietnamese "." groups thousands,
+   * so typing 150.56 stored 15056 - caught by the OKR read-back.
+   */
+  async userNumber(value: number): Promise<string> {
+    if (!this.decimalPoint) {
+      const [user] = await read('res.users', 'search_read', [[['login', '=', 'admin']]], { fields: ['lang'] });
+      const [lang] = await read('res.lang', 'search_read', [[['code', '=', user.lang]]], { fields: ['decimal_point'] });
+      this.decimalPoint = lang.decimal_point;
+    }
+    return String(value).replace('.', this.decimalPoint!);
+  }
+
+  private decimalPoint?: string;
+
+  /**
+   * Choose a selection value by its technical key. Odoo 19 renders selection
+   * fields as a searchable select menu showing translated labels, so the
+   * label is looked up in the interface language first.
+   */
+  async select(model: string, name: string, value: string, scope?: Locator) {
+    const [user] = await read('res.users', 'search_read', [[['login', '=', 'admin']]], { fields: ['lang'] });
+    const fields = await read(model, 'fields_get', [[name]], { attributes: ['selection'], context: { lang: user.lang } });
+    const option = (fields[name].selection as [string, string][]).find(([key]) => key === value);
+    if (!option) throw new Error(`${model}.${name} has no selection value "${value}"`);
+    await this.selectMenu(name, new RegExp(`^\\s*${escapeRegExp(option[1])}\\s*$`), scope);
   }
 
   /** Selection fields rendered as Odoo's searchable select menu (a textbox, not a <select>). */
