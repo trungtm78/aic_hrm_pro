@@ -31,7 +31,7 @@ objectives / 10 key results matching the signed decision, 58 monthly
 scorecards (412 KPI lines) matching the assignment workbook line by line.
 Account sheet for the customer: `Docs/OKR/` (git-ignored, contains passwords).
 
-Product changes shipped for it (commits 6bbff36, b3b76c6): emptied opened
+Product changes shipped for it (commits 6bbff36, 943d62b): emptied opened
 cycles can be deleted; KPI target links to a key result in an enclosing cycle;
 weighted KPI groups on scorecards; zero-tolerance targets; target wording;
 import of all of these; Review Forms and KPI Groups screens; key result notes.
