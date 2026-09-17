@@ -336,27 +336,76 @@ class AicHrmDepartmentScorecard(models.Model):
     avg_composite = fields.Float(
         readonly=True, aggregator='avg',
         help="Average personal scorecard score in the department.")
+    avg_score_covered = fields.Float(
+        readonly=True, aggregator='avg',
+        help="Average score over the KPIs that have confirmed actuals.")
+    avg_data_coverage = fields.Float(
+        string='Data Coverage (%)', readonly=True, aggregator='avg',
+        help="Average share of scorecard weight that has confirmed actuals.")
     avg_objective_score = fields.Float(
         readonly=True, aggregator='avg',
-        help="Average department-level objective score.")
+        help="Average department-level objective score, taken from this cycle "
+             "or from the nearest cycle above it.")
+    objective_cycle_id = fields.Many2one(
+        'aic.hrm.cycle', string='OKR Cycle', readonly=True,
+        help="Which cycle the objective score came from. Objectives are often "
+             "set per quarter while scorecards are assigned per month.")
 
     def init(self):
+        # The objective score follows the cycle's ancestry (month -> quarter ->
+        # year) and the nearest level that actually has department objectives
+        # wins: KPIs are assigned monthly while objectives are set per quarter,
+        # and a monthly row that only looked at its own month reported a
+        # department with no strategy. `objective_cycle_id` says which level
+        # answered, so nobody has to guess.
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute(f"""
             CREATE OR REPLACE VIEW {self._table} AS (
+                WITH RECURSIVE lineage AS (
+                    SELECT c.id AS cycle_id, c.id AS ancestor_id,
+                           c.parent_id AS next_id, 0 AS depth
+                    FROM aic_hrm_cycle c
+                    UNION ALL
+                    SELECT l.cycle_id, c.id AS ancestor_id,
+                           c.parent_id AS next_id, l.depth + 1
+                    FROM lineage l
+                    JOIN aic_hrm_cycle c ON c.id = l.next_id
+                    WHERE l.depth < 10
+                ),
+                objective_by_level AS (
+                    SELECT l.cycle_id, l.ancestor_id, l.depth, o.department_id,
+                           AVG(o.score) AS objective_score
+                    FROM lineage l
+                    JOIN aic_hrm_objective o
+                      ON o.cycle_id = l.ancestor_id
+                     AND o.level = 'department'
+                     AND o.department_id IS NOT NULL
+                    GROUP BY l.cycle_id, l.ancestor_id, l.depth, o.department_id
+                ),
+                nearest_objective AS (
+                    SELECT DISTINCT ON (cycle_id, department_id)
+                           cycle_id, department_id, ancestor_id, objective_score
+                    FROM objective_by_level
+                    ORDER BY cycle_id, department_id, depth
+                )
                 SELECT
-                    row_number() OVER () AS id,
+                    -- A stable id per (department, cycle) group: row_number()
+                    -- changes between queries, so reading a row Odoo had just
+                    -- searched could land on a different department.
+                    MIN(a.id) AS id,
                     a.department_id AS department_id,
                     a.cycle_id AS cycle_id,
                     a.company_id AS company_id,
                     COUNT(DISTINCT a.employee_id) AS employee_count,
                     AVG(a.score) AS avg_composite,
-                    (SELECT AVG(o.score)
-                     FROM aic_hrm_objective o
-                     WHERE o.cycle_id = a.cycle_id
-                       AND o.department_id = a.department_id
-                       AND o.level = 'department') AS avg_objective_score
+                    AVG(a.score_covered) AS avg_score_covered,
+                    AVG(a.data_coverage) AS avg_data_coverage,
+                    MAX(n.objective_score) AS avg_objective_score,
+                    MAX(n.ancestor_id) AS objective_cycle_id
                 FROM aic_hrm_kpi_assignment a
+                LEFT JOIN nearest_objective n
+                       ON n.cycle_id = a.cycle_id
+                      AND n.department_id = a.department_id
                 WHERE a.department_id IS NOT NULL
                 GROUP BY a.department_id, a.cycle_id, a.company_id
             )

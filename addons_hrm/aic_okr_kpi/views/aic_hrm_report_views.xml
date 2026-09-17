@@ -144,8 +144,8 @@
                     <button name="action_confirm" type="object"
                             string="Confirm"
                             groups="aic_hrm_base.group_hrm_manager"/>
-                    <button name="action_reset_to_draft" type="object"
-                            string="Reset to Draft"
+                    <button name="action_open_reset_wizard" type="object"
+                            string="Withdraw Confirmation"
                             groups="aic_hrm_base.group_hrm_manager"/>
                 </header>
                 <field name="kpi_target_id"/>
@@ -156,6 +156,8 @@
                 <field name="source"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'confirmed'"/>
+                <field name="confirmed_by" optional="show"/>
+                <field name="confirmed_on" optional="hide"/>
                 <field name="note" optional="hide"/>
             </list>
         </field>
@@ -171,6 +173,9 @@
                         domain="[('state', '=', 'draft')]"/>
                 <filter name="confirmed" string="Confirmed"
                         domain="[('state', '=', 'confirmed')]"/>
+                <filter name="confirmed_by_me" string="Confirmed by me"
+                        domain="[('confirmed_by', '=', uid)]"/>
+                <field name="confirmed_by"/>
                 <group>
                     <filter name="group_target" string="KPI target"
                             domain="[]"
@@ -203,6 +208,80 @@
          figures a manager asks for were reachable only through a KPI
          target form. Recorded data nobody can navigate to is data the
          product may as well not hold. -->
+    <!-- The trail behind every figure: who entered it, who accepted it into
+         the score, who took that back and why. Read-only by construction. -->
+    <record id="view_aic_hrm_result_audit_list" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.result.audit.list</field>
+        <field name="model">aic.hrm.kpi.result.audit</field>
+        <field name="arch" type="xml">
+            <list string="Actual figure history" class="o_aic_hrm_view" create="false"
+                  edit="false" delete="false">
+                <field name="event_date"/>
+                <field name="kpi_target_id"/>
+                <field name="employee_id" optional="show"/>
+                <field name="cycle_id" optional="show"/>
+                <field name="date_from" optional="hide"/>
+                <field name="date_to" optional="hide"/>
+                <field name="action" widget="badge"
+                       decoration-success="action == 'confirm'"
+                       decoration-warning="action == 'reset'"
+                       decoration-danger="action == 'delete'"/>
+                <field name="old_actual" optional="show"/>
+                <field name="new_actual" optional="show"/>
+                <field name="user_id"/>
+                <field name="same_user" optional="hide"/>
+                <field name="reason" optional="show"/>
+                <field name="source" optional="hide"/>
+                <field name="evidence_checksum" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_result_audit_search" model="ir.ui.view">
+        <field name="name">aic.hrm.kpi.result.audit.search</field>
+        <field name="model">aic.hrm.kpi.result.audit</field>
+        <field name="arch" type="xml">
+            <search string="Actual figure history">
+                <field name="kpi_target_id"/>
+                <field name="employee_id"/>
+                <field name="user_id"/>
+                <filter name="withdrawn" string="Confirmations withdrawn"
+                        domain="[('action', '=', 'reset')]"/>
+                <filter name="same_user" string="Withdrawn by the confirmer"
+                        domain="[('same_user', '=', True)]"/>
+                <group>
+                    <filter name="group_action" string="Event"
+                            domain="[]" context="{'group_by': 'action'}"/>
+                    <filter name="group_user" string="Done by"
+                            domain="[]" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_month" string="Month"
+                            domain="[]" context="{'group_by': 'event_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_result_audit" model="ir.actions.act_window">
+        <field name="name">Actual Figure History</field>
+        <field name="res_model">aic.hrm.kpi.result.audit</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_aic_hrm_result_audit_search"/>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No changes recorded yet</p>
+            <p>
+                Every figure entered, confirmed, corrected or withdrawn is
+                written here, with who did it and why. The list cannot be
+                edited or deleted by anyone.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_result_audit" name="Actual Figure History"
+              parent="aic_hrm_base.menu_aic_hrm_reporting" sequence="40"
+              action="action_aic_hrm_result_audit"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
     <menuitem id="menu_aic_hrm_period_results" name="Period Results"
               parent="aic_hrm_base.menu_aic_hrm_do" sequence="20"
               action="action_aic_hrm_period_result"

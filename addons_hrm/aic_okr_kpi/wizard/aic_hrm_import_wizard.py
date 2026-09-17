@@ -166,10 +166,7 @@ class AicHrmImportWizard(models.TransientModel):
 
     def _cycle_lineage(self):
         """The import cycle and every cycle containing it."""
-        lineage = self.cycle_id
-        while lineage[-1:].parent_id:
-            lineage |= lineage[-1].parent_id
-        return lineage
+        return self.cycle_id._lineage()
 
     def _match_key_result(self, code, kpi_code, warnings):
         """A KPI serves a key result of this cycle or of a cycle above it

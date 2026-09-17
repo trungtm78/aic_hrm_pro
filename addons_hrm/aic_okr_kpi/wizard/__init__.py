@@ -3,3 +3,4 @@
 from . import aic_hrm_actuals_import_wizard
 from . import aic_hrm_import_wizard
 from . import aic_hrm_rollover_wizard
+from . import aic_hrm_result_reset_wizard

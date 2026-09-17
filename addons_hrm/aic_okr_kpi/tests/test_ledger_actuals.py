@@ -111,7 +111,8 @@ class TestConfirmPeriodResults(KpiCase):
         results.with_user(self.manager_user).action_confirm()
         self.assertEqual(set(results.mapped('state')), {'confirmed'})
         self.assertAlmostEqual(target.actual_value, 90.0)
-        results.with_user(self.manager_user).action_reset_to_draft()
+        results.with_user(self.manager_user).action_reset_to_draft(
+            reason='Kế toán điều chỉnh số nguồn, cần nhập lại cho cả hai kỳ.')
         self.assertEqual(set(results.mapped('state')), {'draft'})
         self.assertAlmostEqual(target.actual_value, 0.0)
 

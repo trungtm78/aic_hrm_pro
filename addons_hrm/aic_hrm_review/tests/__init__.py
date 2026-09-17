@@ -5,3 +5,4 @@ from . import test_review_flow
 from . import test_feedback_anonymity
 from . import test_calibration
 from . import test_talent
+from . import test_goal_snapshot

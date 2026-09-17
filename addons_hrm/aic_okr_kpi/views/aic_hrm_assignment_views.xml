@@ -128,7 +128,10 @@
                 <field name="cycle_id"/>
                 <field name="employee_count"/>
                 <field name="avg_composite" widget="percentage"/>
+                <field name="avg_score_covered" widget="percentage"/>
+                <field name="avg_data_coverage"/>
                 <field name="avg_objective_score" widget="percentage"/>
+                <field name="objective_cycle_id" optional="show"/>
             </list>
         </field>
     </record>

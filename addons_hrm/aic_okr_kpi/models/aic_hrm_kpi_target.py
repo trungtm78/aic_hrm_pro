@@ -249,9 +249,7 @@ class AicHrmKpiTarget(models.Model):
         # reports under may sit in the target's cycle or any cycle above it,
         # never in an unrelated or a shorter one.
         for target in self:
-            lineage = target.cycle_id
-            while lineage[-1:].parent_id:
-                lineage |= lineage[-1].parent_id
+            lineage = target.cycle_id._lineage()
             if target.objective_id and \
                     target.objective_id.cycle_id not in lineage:
                 raise ValidationError(_(
@@ -400,6 +398,31 @@ class AicHrmKpiTarget(models.Model):
                 target._pull_metric_period(date_from, date_to)
         return True
 
+    audit_count = fields.Integer(compute='_compute_audit_count')
+
+    def _compute_audit_count(self):
+        Audit = self.env['aic.hrm.kpi.result.audit']
+        counts = {}
+        real_ids = [i for i in self.ids if isinstance(i, int)]
+        if real_ids:
+            for target, count in Audit._read_group(
+                    [('kpi_target_id', 'in', real_ids)], ['kpi_target_id'], ['__count']):
+                counts[target.id] = count
+        for target in self:
+            target.audit_count = counts.get(target.id, 0)
+
+    def action_open_result_audit(self):
+        """Every change ever made to this KPI's figures, newest first."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Actual figure history'),
+            'res_model': 'aic.hrm.kpi.result.audit',
+            'view_mode': 'list,form',
+            'domain': [('kpi_target_id', '=', self.id)],
+            'context': {'create': False},
+        }
+
     def action_confirm(self):
         self.filtered(lambda t: t.state == 'draft').write(
             {'state': 'confirmed'})
@@ -407,6 +430,11 @@ class AicHrmKpiTarget(models.Model):
     def action_done(self):
         self.filtered(lambda t: t.state == 'confirmed').write(
             {'state': 'done'})
+
+
+# Once a figure is part of a score, these may only change after the
+# confirmation has been withdrawn with a reason.
+_LOCKED_ONCE_CONFIRMED = ('actual', 'date_from', 'date_to', 'kpi_target_id')
 
 
 class AicHrmKpiPeriodResult(models.Model):
@@ -435,6 +463,13 @@ class AicHrmKpiPeriodResult(models.Model):
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
     ], default='draft', required=True)
+    confirmed_by = fields.Many2one(
+        'res.users', string='Confirmed by', readonly=True, copy=False,
+        help="Who accepted this figure into the score.")
+    confirmed_on = fields.Datetime(readonly=True, copy=False)
+    audit_ids = fields.One2many(
+        'aic.hrm.kpi.result.audit', 'result_id', string='History',
+        readonly=True)
 
     _period_uniq = models.Constraint(
         'unique (kpi_target_id, date_from)',
@@ -448,23 +483,77 @@ class AicHrmKpiPeriodResult(models.Model):
                 raise ValidationError(_(
                     "Period end must be on or after its start."))
 
+    @api.constrains('date_from', 'date_to', 'kpi_target_id')
+    def _check_period_inside_cycle(self):
+        """A figure dated outside the cycle it scores is a data error that
+        silently moves someone's score."""
+        for result in self:
+            cycle = result.kpi_target_id.cycle_id
+            if not cycle:
+                continue
+            if result.date_from < cycle.date_start or result.date_to > cycle.date_end:
+                raise ValidationError(_(
+                    "The period %(start)s - %(end)s falls outside cycle "
+                    "%(cycle)s (%(from)s - %(to)s).",
+                    start=result.date_from, end=result.date_to,
+                    cycle=cycle.display_name, **{'from': cycle.date_start,
+                                                 'to': cycle.date_end}))
+
     @api.model_create_multi
     def create(self, vals_list):
         targets = self.env['aic.hrm.kpi.target'].browse(
             [vals['kpi_target_id'] for vals in vals_list
              if vals.get('kpi_target_id')])
         targets.cycle_id.ensure_editable()
-        return super().create(vals_list)
+        if any(vals.get('state') == 'confirmed' for vals in vals_list):
+            # Entering a figure and accepting it into the score are two
+            # different rights; creating it already confirmed needs the second.
+            self._check_manager()
+        results = super().create(vals_list)
+        Audit = self.env['aic.hrm.kpi.result.audit']
+        for result in results:
+            Audit.record_event(result, 'create')
+            if result.state == 'confirmed':
+                result.sudo().write({'confirmed_by': self.env.uid,
+                                     'confirmed_on': fields.Datetime.now()})
+                Audit.record_event(result, 'confirm', old={'state': 'draft'})
+        return results
 
     def write(self, vals):
         self.kpi_target_id.cycle_id.ensure_editable()
         if 'kpi_target_id' in vals:
             self.env['aic.hrm.kpi.target'].browse(
                 vals['kpi_target_id']).cycle_id.ensure_editable()
-        return super().write(vals)
+        if 'state' in vals:
+            self._validate_state_change(vals['state'])
+        locked = [field for field in _LOCKED_ONCE_CONFIRMED if field in vals]
+        if locked and not self.env.context.get('hrm_result_state_change'):
+            confirmed = self.filtered(lambda r: r.state == 'confirmed')
+            if confirmed:
+                raise UserError(_(
+                    "%(fields)s cannot change on a confirmed figure: withdraw "
+                    "the confirmation first, with a reason.",
+                    fields=', '.join(locked)))
+        before = {result.id: {'actual': result.actual, 'state': result.state}
+                  for result in self}
+        written = super().write(vals)
+        Audit = self.env['aic.hrm.kpi.result.audit']
+        for result in self:
+            old = before[result.id]
+            if 'actual' in vals and old['actual'] != result.actual:
+                Audit.record_event(result, 'edit', old=old)
+        return written
 
     def unlink(self):
         self.kpi_target_id.cycle_id.ensure_editable()
+        confirmed = self.filtered(lambda r: r.state == 'confirmed')
+        if confirmed:
+            raise UserError(_(
+                "A confirmed figure cannot be deleted: withdraw the "
+                "confirmation first, with a reason. The score depends on it."))
+        Audit = self.env['aic.hrm.kpi.result.audit']
+        for result in self:
+            Audit.record_event(result, 'delete')
         return super().unlink()
 
     def _check_manager(self):
@@ -473,13 +562,63 @@ class AicHrmKpiPeriodResult(models.Model):
             raise UserError(_(
                 "Only performance managers may confirm period results."))
 
+    def _validate_state_change(self, target_state):
+        """Confirming, and taking a confirmation back, are managers' acts -
+        whichever way they are written, form, list or RPC."""
+        self._check_manager()
+        if target_state == 'draft' and not self.env.context.get(
+                'hrm_result_reset_reason'):
+            withdrawing = self.filtered(lambda r: r.state == 'confirmed')
+            if withdrawing:
+                raise UserError(_(
+                    "Withdrawing a confirmed figure changes a score: do it "
+                    "through \"Withdraw confirmation\" and state the reason."))
+
     def action_confirm(self):
         """Confirm the selected results; only confirmed results score."""
         self._check_manager()
-        self.filtered(lambda r: r.state == 'draft').write({'state': 'confirmed'})
+        drafts = self.filtered(lambda r: r.state == 'draft')
+        Audit = self.env['aic.hrm.kpi.result.audit']
+        for result in drafts:
+            result.with_context(hrm_result_state_change=True).write({
+                'state': 'confirmed', 'confirmed_by': self.env.uid,
+                'confirmed_on': fields.Datetime.now()})
+            Audit.record_event(result, 'confirm', old={'state': 'draft'})
         return True
 
-    def action_reset_to_draft(self):
+    def action_open_reset_wizard(self):
+        """Ask for the reason before a confirmed figure leaves the score."""
         self._check_manager()
-        self.filtered(lambda r: r.state == 'confirmed').write({'state': 'draft'})
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Withdraw confirmation'),
+            'res_model': 'aic.hrm.kpi.result.reset.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_result_ids': self.ids},
+        }
+
+    def action_reset_to_draft(self, reason=False):
+        self._check_manager()
+        confirmed = self.filtered(lambda r: r.state == 'confirmed')
+        if confirmed and not reason:
+            raise UserError(_(
+                "Withdrawing a confirmed figure changes a score: state the "
+                "reason."))
+        Audit = self.env['aic.hrm.kpi.result.audit']
+        for result in confirmed:
+            # Who confirmed it is cleared by the write, so read it first.
+            confirmer = result.confirmed_by
+            result.with_context(hrm_result_state_change=True,
+                                hrm_result_reset_reason=True).write({
+                'state': 'draft', 'confirmed_by': False, 'confirmed_on': False})
+            Audit.record_event(result, 'reset', reason=reason,
+                               old={'state': 'confirmed'},
+                               same_user=confirmer.id == self.env.uid)
+            target = result.kpi_target_id
+            target.message_post(body=_(
+                "Confirmation withdrawn for the period %(start)s - %(end)s "
+                "(figure %(actual)s). Reason: %(reason)s",
+                start=result.date_from, end=result.date_to,
+                actual=result.actual, reason=reason))
         return True

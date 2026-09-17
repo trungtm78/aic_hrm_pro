@@ -6,14 +6,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 10:13+0000\n"
-"PO-Revision-Date: 2026-09-17 10:13+0000\n"
+"POT-Creation-Date: 2026-09-17 20:03+0000\n"
+"PO-Revision-Date: 2026-09-17 20:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid ""
+"%(count)s review(s) of %(name)s have not reached their final stage yet."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "%(created)s review(s) generated; %(total)s in this cycle."
+msgstr ""
 
 #. module: aic_hrm_review
 #. odoo-python
@@ -430,6 +443,14 @@ msgid "Finalize"
 msgstr ""
 
 #. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid ""
+"Fix the goal score of %(name)s first: an appraisal must not be signed on a "
+"figure that can still move."
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_follower_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__message_follower_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__message_follower_ids
@@ -468,8 +489,29 @@ msgid "Generate Reviews"
 msgstr ""
 
 #. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_coverage_live
+msgid "Goal Data Coverage (%)"
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_score
 msgid "Goal Score"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_score_live
+msgid "Goal Score Live"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_score_snapshot_on
+msgid "Goal Score Snapshot On"
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "Goal score fixed at %(score)s%% (data coverage %(coverage)s%%)."
 msgstr ""
 
 #. module: aic_hrm_review
@@ -780,6 +822,18 @@ msgstr ""
 #. module: aic_hrm_review
 #. odoo-python
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "Only performance managers may fix the goal score of a review."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "Only performance managers may move a review cycle."
+msgstr ""
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid ""
 "Only performance managers may set manager, potential or calibrated ratings."
 msgstr ""
@@ -1013,6 +1067,12 @@ msgid "Review Templates"
 msgstr ""
 
 #. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
+msgid "Review cycle %(name)s cannot go from %(current)s to %(target)s."
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.actions.act_window,name:aic_hrm_review.action_review
 #: model:ir.ui.menu,name:aic_hrm_review.menu_reviews
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
@@ -1098,15 +1158,18 @@ msgid "Session"
 msgstr ""
 
 #. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__goal_coverage_live
+msgid "Share of scorecard weight that actually has confirmed figures."
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__small_team_warning
 msgid "Small Team Warning"
 msgstr ""
 
 #. module: aic_hrm_review
-#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__goal_score
-msgid ""
-"Snapshot of the composite goal score when the review was generated; later "
-"goal edits never rewrite history."
+#: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__goal_score_snapshot_by
+msgid "Snapshot taken by"
 msgstr ""
 
 #. module: aic_hrm_review
@@ -1179,6 +1242,14 @@ msgstr ""
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_response__text
 msgid "Text"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__goal_score
+msgid ""
+"The goal score this appraisal was signed on: a snapshot, taken when the "
+"review reaches the manager stage or when a manager refreshes it. Later "
+"scorecard changes never rewrite it."
 msgstr ""
 
 #. module: aic_hrm_review
@@ -1267,6 +1338,13 @@ msgstr ""
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__website_message_ids
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_cycle__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__goal_score_live
+msgid ""
+"What the scorecards say right now, for this cycle and the cycles inside it "
+"(a quarterly review reads its months)."
 msgstr ""
 
 #. module: aic_hrm_review

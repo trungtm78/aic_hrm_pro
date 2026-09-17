@@ -62,6 +62,38 @@ class AicHrmReviewCycle(models.Model):
             else:
                 cycle.small_team_warning = ''
 
+    _CYCLE_TRANSITIONS = {
+        'draft': {'open'},
+        'open': {'calibration', 'draft'},
+        'calibration': {'closed', 'open'},
+        'closed': set(),
+    }
+
+    def _validate_state_change(self, target_state):
+        """A review cycle is the frame a whole department is judged in: it
+        moves one step at a time, only by a performance manager, and it does
+        not close over reviews that are still open."""
+        if not self.env.su and not self.env.user.has_group(
+                'aic_hrm_base.group_hrm_manager'):
+            raise UserError(_("Only performance managers may move a review cycle."))
+        for cycle in self:
+            if target_state not in self._CYCLE_TRANSITIONS[cycle.state]:
+                raise UserError(_(
+                    "Review cycle %(name)s cannot go from %(current)s to "
+                    "%(target)s.", name=cycle.name, current=cycle.state,
+                    target=target_state))
+            if target_state == 'closed':
+                unfinished = cycle.review_ids.filtered(lambda r: not r.is_final)
+                if unfinished:
+                    raise UserError(_(
+                        "%(count)s review(s) of %(name)s have not reached their "
+                        "final stage yet.", count=len(unfinished), name=cycle.name))
+
+    def write(self, vals):
+        if 'state' in vals:
+            self._validate_state_change(vals['state'])
+        return super().write(vals)
+
     def action_generate_reviews(self):
         for cycle in self:
             domain = [('company_id', '=', cycle.company_id.id)]
@@ -71,12 +103,16 @@ class AicHrmReviewCycle(models.Model):
             employees = self.env['hr.employee'].search(domain)
             existing = cycle.review_ids.mapped('employee_id')
             first_stage = cycle.template_id.stage_ids.sorted('sequence')[:1]
-            for employee in employees - existing:
-                self.env['aic.hrm.review'].create({
+            missing = employees - existing
+            if missing:
+                self.env['aic.hrm.review'].create([{
                     'review_cycle_id': cycle.id,
                     'employee_id': employee.id,
                     'stage_id': first_stage.id,
-                })
+                } for employee in missing])
+            cycle.message_post(body=_(
+                "%(created)s review(s) generated; %(total)s in this cycle.",
+                created=len(missing), total=len(cycle.review_ids)))
             if cycle.state == 'draft':
                 cycle.write({'state': 'open'})
 
@@ -99,8 +135,20 @@ class AicHrmReview(models.Model):
 
     goal_score = fields.Float(
         readonly=True, copy=False, aggregator='avg',
-        help="Snapshot of the composite goal score when the review was "
-             "generated; later goal edits never rewrite history.")
+        help="The goal score this appraisal was signed on: a snapshot, taken "
+             "when the review reaches the manager stage or when a manager "
+             "refreshes it. Later scorecard changes never rewrite it.")
+    goal_score_live = fields.Float(
+        compute='_compute_goal_live', aggregator='avg',
+        help="What the scorecards say right now, for this cycle and the "
+             "cycles inside it (a quarterly review reads its months).")
+    goal_coverage_live = fields.Float(
+        string='Goal Data Coverage (%)', compute='_compute_goal_live',
+        aggregator='avg',
+        help="Share of scorecard weight that actually has confirmed figures.")
+    goal_score_snapshot_on = fields.Datetime(readonly=True, copy=False)
+    goal_score_snapshot_by = fields.Many2one(
+        'res.users', readonly=True, copy=False, string='Snapshot taken by')
     self_score = fields.Float()
     manager_score = fields.Float(tracking=True)
     peer_score_avg = fields.Float(
@@ -199,16 +247,52 @@ class AicHrmReview(models.Model):
                 band(review.final_score),
                 potential_bands[review.potential_rating])]
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        reviews = super().create(vals_list)
-        for review in reviews:
-            assignment = self.env['aic.hrm.kpi.assignment'].search([
-                ('cycle_id', '=', review.review_cycle_id.perf_cycle_id.id),
-                ('employee_id', '=', review.employee_id.id)], limit=1)
-            if assignment:
-                review.goal_score = assignment.score
-        return reviews
+    def _goal_scorecards(self):
+        """Scorecards this review is judged on: the performance cycle itself
+        and every cycle inside it, because KPIs are usually assigned monthly
+        while a review covers a quarter or a year."""
+        self.ensure_one()
+        perf_cycle = self.review_cycle_id.perf_cycle_id
+        if not perf_cycle:
+            return self.env['aic.hrm.kpi.assignment']
+        cycles = self.env['aic.hrm.cycle'].search(
+            [('id', 'child_of', perf_cycle.id)])
+        return self.env['aic.hrm.kpi.assignment'].search([
+            ('cycle_id', 'in', cycles.ids),
+            ('employee_id', '=', self.employee_id.id)])
+
+    @api.depends('review_cycle_id.perf_cycle_id', 'employee_id')
+    def _compute_goal_live(self):
+        for review in self:
+            cards = review._goal_scorecards()
+            measured = cards.filtered('data_coverage')
+            review.goal_score_live = (
+                sum(measured.mapped('score_covered')) / len(measured)
+                if measured else 0.0)
+            review.goal_coverage_live = (
+                sum(cards.mapped('data_coverage')) / len(cards) if cards else 0.0)
+
+    def _snapshot_goal_score(self):
+        """Freeze the goal score onto the review, with who and when."""
+        for review in self:
+            review.sudo().write({
+                'goal_score': review.goal_score_live,
+                'goal_score_snapshot_on': fields.Datetime.now(),
+                'goal_score_snapshot_by': self.env.uid,
+            })
+            review.message_post(body=_(
+                "Goal score fixed at %(score)s%% (data coverage %(coverage)s%%).",
+                score=round(100 * review.goal_score_live, 1),
+                coverage=round(review.goal_coverage_live, 1)))
+
+    def action_refresh_goal_score(self):
+        """Re-read the scorecards and fix the result onto the review."""
+        if not self.env.su and not self.env.user.has_group(
+                'aic_hrm_base.group_hrm_manager'):
+            raise UserError(_(
+                "Only performance managers may fix the goal score of a review."))
+        self._snapshot_goal_score()
+        return True
 
     feedback_submitted_count = fields.Integer(
         compute='_compute_feedback_progress',
@@ -232,6 +316,13 @@ class AicHrmReview(models.Model):
             raise UserError(_(
                 "Only performance managers may set manager, potential or "
                 "calibrated ratings."))
+        if vals.get('stage_id'):
+            # From the manager stage onwards the appraisal is being signed, so
+            # the goal score stops moving: it is frozen on the way in.
+            stage = self.env['aic.hrm.review.stage'].browse(vals['stage_id'])
+            if self._stage_needs_snapshot(stage):
+                for review in self.filtered(lambda r: not r.goal_score_snapshot_on):
+                    review._snapshot_goal_score()
         if 'self_score' in vals and not self.env.su and \
                 not self.env.user.has_group('aic_hrm_base.group_hrm_admin'):
             for review in self:
@@ -242,6 +333,11 @@ class AicHrmReview(models.Model):
                         "Self-assessment is written by the employee, during "
                         "the self stage only."))
         return super().write(vals)
+
+    _SNAPSHOT_STAGES = ('manager', 'calibration', 'final')
+
+    def _stage_needs_snapshot(self, stage):
+        return stage.stage_type in self._SNAPSHOT_STAGES
 
     def action_next_stage(self):
         for review in self:
@@ -257,6 +353,11 @@ class AicHrmReview(models.Model):
 
     def action_finalize_review(self):
         for review in self:
+            if not review.goal_score_snapshot_on and not review.goal_score:
+                raise UserError(_(
+                    "Fix the goal score of %(name)s first: an appraisal must "
+                    "not be signed on a figure that can still move.",
+                    name=review.display_label))
             final_stage = review.review_cycle_id.template_id.stage_ids \
                 .filtered(lambda s: s.stage_type == 'final')[:1]
             review.stage_id = final_stage

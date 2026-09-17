@@ -212,6 +212,20 @@ class AicHrmCycle(models.Model):
     def action_lock(self):
         self._transition('locked')
 
+    def _lineage(self):
+        """This cycle and every cycle above it, nearest ancestor first.
+
+        A monthly plan serves the quarter and the quarter serves the year, so
+        most lookups have to walk upwards; this is the one place that does it.
+        """
+        lineage = self.browse()
+        for cycle in self:
+            node = cycle
+            while node and node not in lineage:
+                lineage |= node
+                node = node.parent_id
+        return lineage
+
     def ensure_editable(self):
         """Guard used by every model that hangs off a cycle.
 

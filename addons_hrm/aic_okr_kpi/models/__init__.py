@@ -7,6 +7,7 @@ from . import aic_hrm_perspective
 from . import aic_hrm_ksf
 from . import aic_hrm_kpi
 from . import aic_hrm_kpi_target
+from . import aic_hrm_kpi_result_audit
 from . import aic_hrm_kpi_assignment
 from . import aic_hrm_checkin
 from . import aic_hrm_alert_rule

@@ -20,14 +20,24 @@ class TestReviewFlow(ReviewCase):
         review_cycle.action_generate_reviews()
         self.assertEqual(len(review_cycle.review_ids), len(reviews))
 
-    def test_goal_score_snapshot(self):
+    def test_goal_score_is_live_until_it_is_fixed(self):
+        """A review generated while the period is still running must not
+        freeze a premature figure: it reads the scorecards live, and the
+        snapshot is taken when the appraisal is signed."""
         review_cycle = self._make_review_cycle()
         review = review_cycle.review_ids.filtered(
             lambda r: r.employee_id == self.reviewee)
+        self.assertAlmostEqual(review.goal_score_live, 0.9, places=2)
+        self.assertFalse(review.goal_score_snapshot_on)
+        review.action_refresh_goal_score()
         self.assertAlmostEqual(review.goal_score, 0.9, places=2)
-        # later goal changes must NOT rewrite the snapshot
-        self.assignment.line_ids.kpi_target_id.period_result_ids.write(
-            {'actual': 10.0})
+        # once fixed, later scorecard changes never rewrite the appraisal
+        results = self.assignment.line_ids.kpi_target_id.period_result_ids
+        results.action_reset_to_draft(reason='Rà soát lại số liệu của kỳ đánh giá.')
+        results.write({'actual': 10.0})
+        results.action_confirm()
+        review.invalidate_recordset()
+        self.assertAlmostEqual(review.goal_score_live, 0.1, places=2)
         self.assertAlmostEqual(review.goal_score, 0.9, places=2)
 
     def test_stage_progression(self):

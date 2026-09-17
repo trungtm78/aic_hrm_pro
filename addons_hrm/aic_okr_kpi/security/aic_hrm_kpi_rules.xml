@@ -184,6 +184,35 @@
         <field name="domain_force">[(1, '=', 1)]</field>
     </record>
 
+    <!-- Audit trail of actual figures: same visibility as the figures
+         themselves, read-only for everyone (see the ACL). -->
+    <record id="rule_result_audit_user_read" model="ir.rule">
+        <field name="name">Actual figure history: own figures</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_result_audit"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_user'))]"/>
+        <field name="domain_force">['|', ('kpi_target_id.employee_id.user_id', '=', user.id), ('kpi_target_id.employee_id', '=', False)]</field>
+    </record>
+
+    <record id="rule_result_audit_manager" model="ir.rule">
+        <field name="name">Actual figure history: manager covers reporting line</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_result_audit"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_manager'))]"/>
+        <field name="domain_force">['|', ('kpi_target_id.employee_id', 'child_of', user.employee_id.ids), ('kpi_target_id.employee_id', '=', False)]</field>
+    </record>
+
+    <record id="rule_result_audit_admin" model="ir.rule">
+        <field name="name">Actual figure history: administrators see all</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_result_audit"/>
+        <field name="groups" eval="[(4, ref('aic_hrm_base.group_hrm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_result_audit_company" model="ir.rule">
+        <field name="name">Actual figure history: multi-company</field>
+        <field name="model_id" ref="model_aic_hrm_kpi_result_audit"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
     <record id="rule_kpi_period_company" model="ir.rule">
         <field name="name">KPI period result: multi-company</field>
         <field name="model_id" ref="model_aic_hrm_kpi_period_result"/>

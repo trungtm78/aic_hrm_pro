@@ -20,3 +20,5 @@ from . import test_strategy
 from . import test_tour
 from . import test_progress_report
 from . import test_ledger_actuals
+from . import test_result_audit
+from . import test_department_report

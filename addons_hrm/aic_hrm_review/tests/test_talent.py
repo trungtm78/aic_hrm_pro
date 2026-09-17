@@ -25,6 +25,8 @@ class TestTalent(ReviewCase):
 
     def test_pip_suggested_below_threshold(self):
         self.review.write({'manager_score': 0.3})
+        # An appraisal is signed on a fixed goal score, so fix it first.
+        self.review.action_refresh_goal_score()
         self.review.action_finalize_review()
         self.assertTrue(
             self.review.pip_suggested,

@@ -153,6 +153,14 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_result_audit" type="object"
+                                class="oe_stat_button" icon="fa-history"
+                                groups="aic_hrm_base.group_hrm_user">
+                            <field name="audit_count" widget="statinfo"
+                                   string="Figure history"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="kpi_id"/>

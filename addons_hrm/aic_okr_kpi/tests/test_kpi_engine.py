@@ -162,6 +162,9 @@ class TestKpiAchievement(KpiCase):
         result = self._add_result(target, '2026-02-01', '2026-02-28', 30)
         # 2 - 30/10 = -1 -> clamped to 0, never negative on dashboards (OV#9)
         self.assertAlmostEqual(target.achievement, 0.0)
+        # A confirmed figure leaves the score only through a withdrawal with
+        # a reason, so that is how this scenario removes it.
+        result.action_reset_to_draft(reason='Dựng lại tình huống trong bài kiểm thử.')
         result.unlink()
         self._add_result(target, '2026-03-01', '2026-03-31', 2)
         # under target -> capped at score cap, not 1.8
@@ -171,7 +174,10 @@ class TestKpiAchievement(KpiCase):
         target = self._make_target(direction='boolean', target_value=1.0)
         self._add_result(target, '2026-01-01', '2026-03-31', 0)
         self.assertAlmostEqual(target.achievement, 0.0)
+        target.period_result_ids.action_reset_to_draft(
+            reason='Sửa số của kỳ sau khi rà soát, theo đúng quy trình.')
         target.period_result_ids.write({'actual': 1})
+        target.period_result_ids.action_confirm()
         self.assertAlmostEqual(target.achievement, 1.0)
 
     def test_period_unique_per_target(self):
