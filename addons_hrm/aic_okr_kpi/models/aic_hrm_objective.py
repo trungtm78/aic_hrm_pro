@@ -145,16 +145,18 @@ class AicHrmObjective(models.Model):
             objective.score_covered = utils.clamp(
                 utils.weighted_average(covered), 0.0, cap)
 
+    # Recursive: an objective's score depends on its child objectives' scores.
     score = fields.Float(
-        compute='_compute_score', store=True, readonly=True, aggregator='avg')
+        compute='_compute_score', store=True, readonly=True, aggregator='avg',
+        recursive=True)
     data_coverage = fields.Float(
         string='Data Coverage (%)', compute='_compute_score', store=True,
-        aggregator='avg',
+        aggregator='avg', recursive=True,
         help="Share of the objective's weight whose key results have "
              "reported progress.")
     score_covered = fields.Float(
         string='Score on Measured Key Results', compute='_compute_score',
-        store=True, aggregator='avg',
+        store=True, aggregator='avg', recursive=True,
         help="Weighted score over key results with reported progress only.")
 
     def _get_rag_profile(self):
