@@ -19,7 +19,8 @@ class AicHrmKeyResult(models.Model):
     _name = 'aic.hrm.key.result'
     _description = 'Key Result'
     _inherit = ['mail.thread', 'mail.activity.mixin',
-                'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin']
+                'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin',
+                'aic.hrm.revisable.mixin']
     _order = 'objective_id, code, id'
 
     name = fields.Char(required=True, tracking=True)

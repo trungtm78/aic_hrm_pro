@@ -23,7 +23,7 @@ _ADMIN_TRANSITIONS = {'locked'}
 class AicHrmCycle(models.Model):
     _name = 'aic.hrm.cycle'
     _description = 'Performance Cycle'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'aic.hrm.revisable.mixin']
     _order = 'date_start desc, id desc'
 
     name = fields.Char(required=True, tracking=True)

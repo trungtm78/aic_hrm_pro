@@ -28,6 +28,10 @@
         <field name="arch" type="xml">
             <form class="o_aic_hrm_view">
                 <header>
+                    <button name="action_request_target_revision" type="object"
+                            string="Request Target Revision"
+                            invisible="state == 'draft'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
                     <button name="action_open" type="object" string="Open"
                             class="btn-primary" invisible="state != 'draft'"
                             groups="aic_hrm_base.group_hrm_manager"/>

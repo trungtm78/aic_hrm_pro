@@ -3,6 +3,8 @@
 from . import utils
 from . import aic_hrm_mixins
 from . import aic_hrm_rag_profile
+# The revision entry-point mixin is inherited by cycles: load it first.
+from . import aic_hrm_target_revision_request
 from . import aic_hrm_cycle
 from . import aic_hrm_target_revision
 from . import aic_hrm_team

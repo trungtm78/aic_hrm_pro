@@ -21,7 +21,8 @@ class AicHrmKpiTarget(models.Model):
     """
     _name = 'aic.hrm.kpi.target'
     _description = 'KPI Target'
-    _inherit = ['mail.thread', 'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin']
+    _inherit = ['mail.thread', 'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin',
+                'aic.hrm.revisable.mixin']
     _order = 'cycle_id desc, kpi_id, id'
     _rec_name = 'display_label'
 

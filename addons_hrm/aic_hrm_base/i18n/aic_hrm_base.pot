@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-20 12:05+0000\n"
-"PO-Revision-Date: 2026-08-20 12:05+0000\n"
+"POT-Creation-Date: 2026-09-17 13:26+0000\n"
+"PO-Revision-Date: 2026-09-17 13:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
 msgid "%(field)s revised from %(old)s to %(new)s. Reason: %(reason)s"
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision_request.py:0
+msgid "%(model)s has no targets governed by revisions."
 msgstr ""
 
 #. module: aic_hrm_base
@@ -146,6 +152,11 @@ msgid "Average"
 msgstr ""
 
 #. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
+msgid "Cancel"
+msgstr ""
+
+#. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__check_in_frequency
 msgid "Check In Frequency"
 msgstr ""
@@ -206,6 +217,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__create_uid
 msgid "Created by"
 msgstr ""
@@ -216,8 +228,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__create_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__create_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__create_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__create_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__current_value
+msgid "Current Value"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -240,6 +258,12 @@ msgstr ""
 #. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s is locked and cannot be deleted."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
 msgid "Cycle %(name)s is locked and cannot be modified."
 msgstr ""
 
@@ -254,6 +278,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
 msgid "Cycle %(name)s must fall entirely within its parent cycle %(parent)s."
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid ""
+"Cycle %(name)s still holds %(records)s. Remove them first, or archive the "
+"cycle instead."
 msgstr ""
 
 #. module: aic_hrm_base
@@ -300,8 +332,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_revisable_mixin__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__display_name
 msgid "Display Name"
 msgstr ""
@@ -330,6 +364,11 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_do
 msgid "Execute"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__field_name
+msgid "Field"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -427,8 +466,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_revisable_mixin__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__id
 msgid "ID"
 msgstr ""
@@ -479,6 +520,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -489,6 +531,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__write_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__write_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__write_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__write_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -584,6 +627,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_model
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__res_model
 msgid "Model"
 msgstr ""
 
@@ -625,6 +669,7 @@ msgstr ""
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__new_value_float
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__new_value
 msgid "New Value"
 msgstr ""
 
@@ -690,20 +735,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_metric_source.py:0
 msgid "Only HR administrators may evaluate metric sources."
-msgstr ""
-
-#. module: aic_hrm_base
-#. odoo-python
-#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
-msgid "Cycle %(name)s is locked and cannot be deleted."
-msgstr ""
-
-#. module: aic_hrm_base
-#. odoo-python
-#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
-msgid ""
-"Cycle %(name)s still holds %(records)s. Remove them first, or archive the "
-"cycle instead."
 msgstr ""
 
 #. module: aic_hrm_base
@@ -836,12 +867,20 @@ msgstr ""
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__reason
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__reason
 msgid "Reason"
 msgstr ""
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__res_id
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
 msgid "Record"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__record_name
+msgid "Record Name"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -866,6 +905,18 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_reporting
 msgid "Reporting"
+msgstr ""
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision_request.py:0
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+msgid "Request Target Revision"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_target_revision_request
+msgid "Request a Target Revision"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -961,6 +1012,11 @@ msgid "Sub-cycles"
 msgstr ""
 
 #. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
+msgid "Submit for Approval"
+msgstr ""
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__sum
 msgid "Sum"
 msgstr ""
@@ -968,6 +1024,11 @@ msgstr ""
 #. module: aic_hrm_base
 #: model:ir.model,name:aic_hrm_base.model_aic_hrm_target_revision
 msgid "Target Revision"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_revisable_mixin
+msgid "Target Revision Entry Point"
 msgstr ""
 
 #. module: aic_hrm_base
@@ -1054,6 +1115,16 @@ msgstr ""
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_form
 msgid "Why is this change needed mid-cycle?"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
+msgid "Why must this approved number change mid-cycle?"
+msgstr ""
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision_request__reason
+msgid "Why the approved number must change mid-cycle."
 msgstr ""
 
 #. module: aic_hrm_base

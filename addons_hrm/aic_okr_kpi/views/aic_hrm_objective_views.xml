@@ -40,6 +40,10 @@
                 <header>
                     <button name="action_submit" type="object" string="Submit"
                             class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_request_target_revision" type="object"
+                            string="Request Target Revision"
+                            invisible="state in ('draft', 'submitted')"
+                            groups="aic_hrm_base.group_hrm_manager"/>
                     <button name="action_approve" type="object" string="Approve"
                             class="btn-primary" invisible="state != 'submitted'"
                             groups="aic_hrm_base.group_hrm_manager"/>
@@ -210,6 +214,11 @@
         <field name="model">aic.hrm.key.result</field>
         <field name="arch" type="xml">
             <form class="o_aic_hrm_view">
+                <header>
+                    <button name="action_request_target_revision" type="object"
+                            string="Request Target Revision"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>

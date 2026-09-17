@@ -73,8 +73,12 @@ class AicHrmKeyResultDiagnosis(models.Model):
         self.ensure_one()
         lines = []
         Checkin = self.env['aic.hrm.checkin']
+        # A key result being created in a form has only a placeholder id and
+        # cannot have check-ins yet; searching with the placeholder logged a
+        # warning on every creation.
         checkins = Checkin.search(
-            [('kr_id', '=', self.id)], order='date desc, id desc', limit=10)
+            [('kr_id', '=', self._origin.id)], order='date desc, id desc',
+            limit=10) if self._origin.id else Checkin
 
         if self.pace_status == 'behind':
             lines.append(_(

@@ -141,6 +141,33 @@
         </field>
     </record>
 
+    <record id="view_aic_hrm_target_revision_request_form" model="ir.ui.view">
+        <field name="name">aic.hrm.target.revision.request.form</field>
+        <field name="model">aic.hrm.target.revision.request</field>
+        <field name="arch" type="xml">
+            <form class="o_aic_hrm_view">
+                <group>
+                    <group>
+                        <field name="record_name" string="Record"/>
+                        <field name="res_model" invisible="1"/>
+                        <field name="res_id" invisible="1"/>
+                        <field name="field_name"/>
+                    </group>
+                    <group>
+                        <field name="current_value" invisible="not field_name"/>
+                        <field name="new_value"/>
+                    </group>
+                </group>
+                <field name="reason" placeholder="Why must this approved number change mid-cycle?"/>
+                <footer>
+                    <button name="action_submit" type="object" string="Submit for Approval"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record id="action_aic_hrm_target_revision" model="ir.actions.act_window">
         <field name="name">Target Revisions</field>
         <field name="res_model">aic.hrm.target.revision</field>

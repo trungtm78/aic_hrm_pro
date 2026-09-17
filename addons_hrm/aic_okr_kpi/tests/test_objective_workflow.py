@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 from odoo.exceptions import UserError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from .common import OkrCase
 
@@ -33,8 +33,7 @@ class TestObjectiveWorkflow(OkrCase):
         cycle.action_open()
         with self.assertRaisesRegex(UserError, r'1 × Objective'):
             cycle.unlink()
-        cycle.objective_ids.unlink() if 'objective_ids' in cycle._fields else \
-            self.Objective.search([('cycle_id', '=', cycle.id)]).unlink()
+        self.Objective.search([('cycle_id', '=', cycle.id)]).unlink()
         cycle.unlink()
         self.assertFalse(cycle.exists())
 
@@ -83,6 +82,54 @@ class TestObjectiveWorkflow(OkrCase):
         })
         revision.action_approve()
         self.assertAlmostEqual(kr.target, 120.0)
+
+    def test_revision_requested_from_the_key_result_itself(self):
+        objective = self._make_objective(weight=20.0)
+        kr = self._make_kr(objective)
+        objective.action_submit()
+        objective.action_approve()
+        action = kr.action_request_target_revision()
+        Request = self.env[action['res_model']].with_context(action['context'])
+        self.assertEqual(
+            {key for key, _label in
+             Request.fields_get(['field_name'])['field_name']['selection']},
+            {'target', 'baseline', 'weight'})
+        request = Request.create({
+            'field_name': 'target', 'new_value': 150.56,
+            'reason': 'Typed with the wrong decimal separator.'})
+        self.assertAlmostEqual(request.current_value, 100.0)
+        revision = self.env['aic.hrm.target.revision'].browse(
+            request.action_submit()['res_id'])
+        revision.action_approve()
+        self.assertAlmostEqual(kr.target, 150.56)
+
+    def test_objective_and_kpi_target_offer_their_governed_fields(self):
+        objective = self._make_objective()
+        target = self.env['aic.hrm.kpi.target'].create({
+            'kpi_id': self.env['aic.hrm.kpi'].create(
+                {'name': 'Revenue', 'code': 'KPI-REQ'}).id,
+            'cycle_id': self.year.id, 'target_value': 10.0})
+        for record, expected in ((objective, {'weight'}),
+                                 (target, {'target_value', 'baseline_value',
+                                           'weight'})):
+            action = record.action_request_target_revision()
+            Request = self.env[action['res_model']].with_context(
+                action['context'])
+            offered = {key for key, _label in Request.fields_get(
+                ['field_name'])['field_name']['selection']}
+            self.assertEqual(offered, expected, record._name)
+
+    def test_new_key_result_is_diagnosed_without_an_unsaved_id(self):
+        """Opening a new key result ran the diagnosis, which searched
+        check-ins with the unsaved record's placeholder id and logged a
+        warning on every creation."""
+        objective = self._make_objective()
+        with self.assertNoLogs('odoo.domains', level='WARNING'):
+            with Form(self.KeyResult) as form:
+                form.name = 'Unsaved'
+                form.objective_id = objective
+                form.target = 50.0
+                form.recommendations  # noqa: B018 - reading triggers the compute
 
     def test_kr_creation_blocked_after_approval(self):
         objective = self._make_objective()

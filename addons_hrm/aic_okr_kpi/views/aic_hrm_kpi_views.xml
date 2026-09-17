@@ -136,6 +136,10 @@
                     <button name="action_done" type="object" string="Mark Done"
                             invisible="state != 'confirmed'"
                             groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_request_target_revision" type="object"
+                            string="Request Target Revision"
+                            invisible="state == 'draft'"
+                            groups="aic_hrm_base.group_hrm_manager"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 02:38+0000\n"
-"PO-Revision-Date: 2026-08-02 02:38+0000\n"
+"POT-Creation-Date: 2026-09-17 13:26+0000\n"
+"PO-Revision-Date: 2026-09-17 13:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -24,6 +24,12 @@ msgstr "%(field)s được sửa từ %(old)s thành %(new)s. Lý do: %(reason)s
 
 #. module: aic_hrm_base
 #. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision_request.py:0
+msgid "%(model)s has no targets governed by revisions."
+msgstr "%(model)s không có chỉ tiêu nào được quản lý bằng phiếu điều chỉnh."
+
+#. module: aic_hrm_base
+#. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
 msgid "A cycle cannot contain itself."
 msgstr "Một chu kỳ không thể chứa chính nó."
@@ -33,16 +39,19 @@ msgstr "Một chu kỳ không thể chứa chính nó."
 msgid ""
 "A cycle frames every objective, KPI and review: a year, a quarter, a month "
 "or any custom period."
-msgstr "Chu kỳ là khung cho mọi mục tiêu, KPI và đợt đánh giá: một năm, một quý, một tháng hay bất kỳ khoảng thời gian tùy chọn nào."
-"Chu kỳ là khung cho mọi mục tiêu, KPI và kỳ đánh giá: năm, quý, tháng hoặc "
-"kỳ hạn tùy chỉnh."
+msgstr ""
+"Chu kỳ là khung cho mọi mục tiêu, KPI và đợt đánh giá: một năm, một quý, một"
+" tháng hay bất kỳ khoảng thời gian tùy chọn nào.Chu kỳ là khung cho mọi mục "
+"tiêu, KPI và kỳ đánh giá: năm, quý, tháng hoặc kỳ hạn tùy chỉnh."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_cycle__stale_days
 msgid ""
 "A goal with no check-in for this many days is flagged as stale. Defaults to "
 "twice the check-in interval."
-msgstr "Mục tiêu không có check-in quá số ngày này sẽ bị đánh dấu quá hạn. Mặc định gấp đôi khoảng cách check-in."
+msgstr ""
+"Mục tiêu không có check-in quá số ngày này sẽ bị đánh dấu quá hạn. Mặc định "
+"gấp đôi khoảng cách check-in."
 
 #. module: aic_hrm_base
 #: model:ir.model.constraint,message:aic_hrm_base.constraint_aic_hrm_team_name_company_uniq
@@ -149,6 +158,11 @@ msgid "Average"
 msgstr "Bình quân"
 
 #. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__check_in_frequency
 msgid "Check In Frequency"
 msgstr "Tần suất check-in"
@@ -186,7 +200,9 @@ msgstr "Cấu hình"
 msgid ""
 "Containing cycle, e.g. the year a quarter belongs to. Cross-cycle goal "
 "alignment follows this relation."
-msgstr "Chu kỳ bao ngoài, ví dụ năm mà quý này thuộc về. Liên kết mục tiêu xuyên chu kỳ đi theo quan hệ này."
+msgstr ""
+"Chu kỳ bao ngoài, ví dụ năm mà quý này thuộc về. Liên kết mục tiêu xuyên chu"
+" kỳ đi theo quan hệ này."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__count
@@ -209,6 +225,7 @@ msgstr "Tạo chu kỳ hiệu suất đầu tiên"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__create_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__create_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__create_uid
 msgid "Created by"
 msgstr "Người tạo"
@@ -219,9 +236,15 @@ msgstr "Người tạo"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__create_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__create_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__create_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__create_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__create_date
 msgid "Created on"
 msgstr "Ngày tạo"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__current_value
+msgid "Current Value"
+msgstr "Giá trị hiện tại"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__custom
@@ -243,6 +266,12 @@ msgstr "Chu kỳ %(name)s không thể chuyển từ %(current)s sang %(target)s
 #. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid "Cycle %(name)s is locked and cannot be deleted."
+msgstr "Chu kỳ %(name)s đã khóa, không thể xóa."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
 msgid "Cycle %(name)s is locked and cannot be modified."
 msgstr "Chu kỳ %(name)s đã khóa, không thể sửa."
 
@@ -251,15 +280,26 @@ msgstr "Chu kỳ %(name)s đã khóa, không thể sửa."
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
 msgid ""
 "Cycle %(name)s is locked. Corrections require an approved target revision."
-msgstr "Chu kỳ %(name)s đã khóa. Mọi điều chỉnh phải đi qua phiếu sửa chỉ tiêu đã được phê duyệt."
-"Chu kỳ %(name)s đã khóa. Muốn sửa phải qua phiếu điều chỉnh chỉ tiêu được "
-"duyệt."
+msgstr ""
+"Chu kỳ %(name)s đã khóa. Mọi điều chỉnh phải đi qua phiếu sửa chỉ tiêu đã "
+"được phê duyệt.Chu kỳ %(name)s đã khóa. Muốn sửa phải qua phiếu điều chỉnh "
+"chỉ tiêu được duyệt."
 
 #. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
 msgid "Cycle %(name)s must fall entirely within its parent cycle %(parent)s."
 msgstr "Chu kỳ %(name)s phải nằm trọn trong chu kỳ cha %(parent)s."
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
+msgid ""
+"Cycle %(name)s still holds %(records)s. Remove them first, or archive the "
+"cycle instead."
+msgstr ""
+"Chu kỳ %(name)s vẫn còn chứa %(records)s. Hãy xóa các bản ghi này trước, "
+"hoặc lưu trữ chu kỳ thay vì xóa."
 
 #. module: aic_hrm_base
 #. odoo-python
@@ -305,8 +345,10 @@ msgstr "Phòng ban"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_revisable_mixin__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__display_name
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__display_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__display_name
 msgid "Display Name"
 msgstr "Tên hiển thị"
@@ -333,6 +375,16 @@ msgid "Every two weeks"
 msgstr "Hai tuần một lần"
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_do
+msgid "Execute"
+msgstr "Thực hiện"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__field_name
+msgid "Field"
+msgstr "Trường"
+
+#. module: aic_hrm_base
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
 msgid "Field %(field)s does not exist on %(model)s."
@@ -343,7 +395,9 @@ msgstr "Trường %(field)s không tồn tại trên %(model)s."
 #: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
 msgid ""
 "Field %(field)s is not a float field; revisions govern numeric targets only."
-msgstr "Trường %(field)s không phải kiểu số thực; phiếu sửa chỉ quản lý các chỉ tiêu dạng số."
+msgstr ""
+"Trường %(field)s không phải kiểu số thực; phiếu sửa chỉ quản lý các chỉ tiêu"
+" dạng số."
 
 #. module: aic_hrm_base
 #. odoo-python
@@ -361,7 +415,9 @@ msgstr "Trường %(field)s phải là trường số được lưu trên %(mode
 #. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
 msgid "Field %(field)s on %(model)s is not governed by target revisions."
-msgstr "Trường %(field)s trên %(model)s không thuộc diện quản lý bằng phiếu sửa chỉ tiêu."
+msgstr ""
+"Trường %(field)s trên %(model)s không thuộc diện quản lý bằng phiếu sửa chỉ "
+"tiêu."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__field_name
@@ -427,8 +483,10 @@ msgstr "Phòng ban chủ quản; để trống nếu là team liên phòng ban."
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_revisable_mixin__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_scoring_mixin__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__id
 msgid "ID"
 msgstr "ID"
@@ -479,6 +537,7 @@ msgstr "Lần chạy gần nhất"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__write_uid
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__write_uid
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__write_uid
 msgid "Last Updated by"
 msgstr "Người cập nhật cuối"
@@ -489,6 +548,7 @@ msgstr "Người cập nhật cuối"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__write_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_rag_profile__write_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__write_date
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__write_date
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_team__write_date
 msgid "Last Updated on"
 msgstr "Ngày cập nhật cuối"
@@ -502,6 +562,11 @@ msgstr "Giá trị lần cuối"
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_rag_profile__company_id
 msgid "Leave empty to share the profile across all companies."
 msgstr "Để trống để dùng chung bộ ngưỡng cho mọi công ty."
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_library_root
+msgid "Library"
+msgstr "Thư viện"
 
 #. module: aic_hrm_base
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
@@ -579,6 +644,7 @@ msgstr "Nhỏ nhất"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_id
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_metric_source__model_name
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_model
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__res_model
 msgid "Model"
 msgstr "Model"
 
@@ -588,7 +654,14 @@ msgstr "Model"
 msgid ""
 "Model %(model)s is not on the metric-source allowlist. An HR administrator "
 "must allowlist it first."
-msgstr "Model %(model)s chưa nằm trong danh sách cho phép làm nguồn số liệu. Quản trị viên nhân sự phải thêm vào trước."
+msgstr ""
+"Model %(model)s chưa nằm trong danh sách cho phép làm nguồn số liệu. Quản "
+"trị viên nhân sự phải thêm vào trước."
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_check
+msgid "Monitor"
+msgstr "Giám sát"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__month
@@ -615,6 +688,7 @@ msgstr "Tên"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__new_value_float
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__new_value
 msgid "New Value"
 msgstr "Giá trị mới"
 
@@ -684,22 +758,6 @@ msgstr "Chỉ quản trị nhân sự mới được chạy nguồn số liệu.
 
 #. module: aic_hrm_base
 #. odoo-python
-#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
-msgid "Cycle %(name)s is locked and cannot be deleted."
-msgstr "Chu kỳ %(name)s đã khóa, không thể xóa."
-
-#. module: aic_hrm_base
-#. odoo-python
-#: code:addons/aic_hrm_base/models/aic_hrm_cycle.py:0
-msgid ""
-"Cycle %(name)s still holds %(records)s. Remove them first, or archive the "
-"cycle instead."
-msgstr ""
-"Chu kỳ %(name)s vẫn còn chứa %(records)s. Hãy xóa các bản ghi này trước, hoặc "
-"lưu trữ chu kỳ thay vì xóa."
-
-#. module: aic_hrm_base
-#. odoo-python
 #: code:addons/aic_hrm_base/models/aic_hrm_target_revision.py:0
 msgid "Only performance managers may approve target revisions."
 msgstr "Chỉ quản lý hiệu suất mới được duyệt điều chỉnh chỉ tiêu."
@@ -728,7 +786,9 @@ msgstr "Đang mở"
 msgid ""
 "Optional date/datetime field used to restrict the pull to a period when the "
 "caller passes bounds."
-msgstr "Trường ngày/ngày giờ tùy chọn, dùng để giới hạn việc lấy số liệu trong một kỳ khi bên gọi truyền mốc thời gian."
+msgstr ""
+"Trường ngày/ngày giờ tùy chọn, dùng để giới hạn việc lấy số liệu trong một "
+"kỳ khi bên gọi truyền mốc thời gian."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_owner_mixin__employee_id
@@ -776,6 +836,11 @@ msgid "Performance: User"
 msgstr "Hiệu suất: Người dùng"
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_plan
+msgid "Plan"
+msgstr "Kế hoạch"
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__quarter
 msgid "Quarter"
 msgstr "Quý"
@@ -813,7 +878,9 @@ msgstr "Bộ ngưỡng RAG %(profile)s thuộc công ty khác."
 msgid ""
 "RAG thresholds must satisfy 0 <= amber < green <= 1 (got amber=%(amber)s, "
 "green=%(green)s)."
-msgstr "Ngưỡng RAG phải thỏa 0 <= vàng < xanh <= 1 (đang là vàng=%(amber)s, xanh=%(green)s)."
+msgstr ""
+"Ngưỡng RAG phải thỏa 0 <= vàng < xanh <= 1 (đang là vàng=%(amber)s, "
+"xanh=%(green)s)."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__rating_ids
@@ -823,13 +890,21 @@ msgstr "Đánh giá"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__reason
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__reason
 msgid "Reason"
 msgstr "Lý do"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision__res_id
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__res_id
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
 msgid "Record"
 msgstr "Bản ghi"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_target_revision_request__record_name
+msgid "Record Name"
+msgstr "Tên bản ghi"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_key_result__rag__red
@@ -851,6 +926,23 @@ msgid "Rejected"
 msgstr "Đã từ chối"
 
 #. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_reporting
+msgid "Reporting"
+msgstr "Báo cáo"
+
+#. module: aic_hrm_base
+#. odoo-python
+#: code:addons/aic_hrm_base/models/aic_hrm_target_revision_request.py:0
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_cycle_form
+msgid "Request Target Revision"
+msgstr "Yêu cầu điều chỉnh chỉ tiêu"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_target_revision_request
+msgid "Request a Target Revision"
+msgstr "Yêu cầu điều chỉnh chỉ tiêu"
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_target_revision__state__requested
 msgid "Requested"
 msgstr "Đã yêu cầu"
@@ -864,6 +956,11 @@ msgstr "Người đề nghị"
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__activity_user_id
 msgid "Responsible User"
 msgstr "Người phụ trách"
+
+#. module: aic_hrm_base
+#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_act
+msgid "Review"
+msgstr "Đánh giá"
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__message_has_sms_error
@@ -925,7 +1022,11 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr "Trạng thái theo hoạt động\nQuá hạn: đã qua ngày đến hạn\nHôm nay: hoạt động đến hạn hôm nay\nĐã lên lịch: hoạt động trong tương lai."
+msgstr ""
+"Trạng thái theo hoạt động\n"
+"Quá hạn: đã qua ngày đến hạn\n"
+"Hôm nay: hoạt động đến hạn hôm nay\n"
+"Đã lên lịch: hoạt động trong tương lai."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_metric_source__field_name
@@ -938,6 +1039,11 @@ msgid "Sub-cycles"
 msgstr "Chu kỳ con"
 
 #. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
+msgid "Submit for Approval"
+msgstr "Gửi duyệt"
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_metric_source__aggregate__sum
 msgid "Sum"
 msgstr "Tổng"
@@ -946,6 +1052,11 @@ msgstr "Tổng"
 #: model:ir.model,name:aic_hrm_base.model_aic_hrm_target_revision
 msgid "Target Revision"
 msgstr "Điều chỉnh chỉ tiêu"
+
+#. module: aic_hrm_base
+#: model:ir.model,name:aic_hrm_base.model_aic_hrm_revisable_mixin
+msgid "Target Revision Entry Point"
+msgstr "Điểm yêu cầu điều chỉnh chỉ tiêu"
 
 #. module: aic_hrm_base
 #: model:ir.actions.act_window,name:aic_hrm_base.action_aic_hrm_target_revision
@@ -969,9 +1080,10 @@ msgstr "Team"
 msgid ""
 "Teams are the delivery units team-level objectives anchor to; departments "
 "stay the org chart."
-msgstr "Đội là đơn vị thực thi mà mục tiêu cấp đội neo vào; phòng ban vẫn giữ vai trò sơ đồ tổ chức."
-"Team là đơn vị thực thi mà mục tiêu cấp team neo vào; phòng ban vẫn là sơ đồ"
-" tổ chức."
+msgstr ""
+"Đội là đơn vị thực thi mà mục tiêu cấp đội neo vào; phòng ban vẫn giữ vai "
+"trò sơ đồ tổ chức.Team là đơn vị thực thi mà mục tiêu cấp team neo vào; "
+"phòng ban vẫn là sơ đồ tổ chức."
 
 #. module: aic_hrm_base
 #: model:ir.model.constraint,message:aic_hrm_base.constraint_aic_hrm_cycle_code_company_uniq
@@ -1011,7 +1123,9 @@ msgstr "Không nhận ra model %(model)s."
 msgid ""
 "Upper bound of the normalized score scale. 1.0 is the Google OKR convention;"
 " raise it to allow visible overachievement."
-msgstr "Trần của thang điểm chuẩn hóa. 1,0 là quy ước OKR của Google; nâng lên nếu muốn thể hiện mức vượt chỉ tiêu."
+msgstr ""
+"Trần của thang điểm chuẩn hóa. 1,0 là quy ước OKR của Google; nâng lên nếu "
+"muốn thể hiện mức vượt chỉ tiêu."
 
 #. module: aic_hrm_base
 #: model:ir.model.fields,field_description:aic_hrm_base.field_aic_hrm_cycle__website_message_ids
@@ -1036,6 +1150,16 @@ msgid "Why is this change needed mid-cycle?"
 msgstr "Vì sao cần thay đổi giữa chu kỳ?"
 
 #. module: aic_hrm_base
+#: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_target_revision_request_form
+msgid "Why must this approved number change mid-cycle?"
+msgstr "Vì sao con số đã duyệt phải thay đổi giữa chu kỳ?"
+
+#. module: aic_hrm_base
+#: model:ir.model.fields,help:aic_hrm_base.field_aic_hrm_target_revision_request__reason
+msgid "Why the approved number must change mid-cycle."
+msgstr "Lý do con số đã duyệt phải thay đổi giữa chu kỳ."
+
+#. module: aic_hrm_base
 #: model:ir.model.fields.selection,name:aic_hrm_base.selection__aic_hrm_cycle__cycle_type__year
 msgid "Year"
 msgstr "Năm"
@@ -1055,33 +1179,3 @@ msgstr "ví dụ: Năm tài chính 2026"
 #: model_terms:ir.ui.view,arch_db:aic_hrm_base.view_aic_hrm_team_form
 msgid "e.g. Growth Squad"
 msgstr "vd: Đội Tăng trưởng"
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_plan
-msgid "Plan"
-msgstr "Kế hoạch"
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_do
-msgid "Execute"
-msgstr "Thực hiện"
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_check
-msgid "Monitor"
-msgstr "Giám sát"
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_act
-msgid "Review"
-msgstr "Đánh giá"
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_reporting
-msgid "Reporting"
-msgstr "Báo cáo"
-
-#. module: aic_hrm_base
-#: model:ir.ui.menu,name:aic_hrm_base.menu_aic_hrm_library_root
-msgid "Library"
-msgstr "Thư viện"

@@ -30,7 +30,8 @@ class AicHrmObjective(models.Model):
     _name = 'aic.hrm.objective'
     _description = 'Objective'
     _inherit = ['mail.thread', 'mail.activity.mixin',
-                'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin']
+                'aic.hrm.owner.mixin', 'aic.hrm.scoring.mixin',
+                'aic.hrm.revisable.mixin']
     _order = 'cycle_id desc, code, id'
 
     name = fields.Char(required=True, tracking=True)
