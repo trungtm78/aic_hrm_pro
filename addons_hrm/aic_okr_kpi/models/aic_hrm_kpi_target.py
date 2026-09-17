@@ -336,9 +336,15 @@ class AicHrmKpiTarget(models.Model):
             ('cycle_id.state', '=', 'open'),
         ])
         today = fields.Date.context_today(self)
-        month_start = today.replace(day=1)
         for target in targets:
-            target._pull_metric_period(month_start, today)
+            # Only periods of the target's own cycle: pulling "this month" for
+            # every open cycle filed September figures on July targets, which
+            # left drafts nobody could confirm and no month could explain.
+            for date_from, date_to in target._metric_periods(today):
+                if date_to < today.replace(day=1) and target.period_result_ids.filtered(
+                        lambda result: result.date_from == date_from):
+                    continue  # a closed month that already has its figure
+                target._pull_metric_period(date_from, date_to)
 
     def _pull_metric_period(self, date_from, date_to):
         """Upsert one automatic draft result for the period.

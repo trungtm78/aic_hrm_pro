@@ -90,6 +90,18 @@ class TestPullActuals(KpiCase):
         target.action_pull_metric_actuals()
         self.assertFalse(target.period_result_ids)
 
+    def test_the_nightly_pull_stays_inside_each_target_cycle(self):
+        """Pulling "this month" for every open cycle filed figures of the
+        current month onto targets of earlier months."""
+        july = self._make_target(cycle_id=self.july.id, metric_source_id=self.source.id)
+        self.july.action_open()
+        self.env['aic.hrm.kpi.target']._cron_refresh_metric_sources()
+        periods = {(r.date_from.isoformat(), r.date_to.isoformat()) for r in july.period_result_ids}
+        self.assertEqual(periods, {('2025-07-01', '2025-07-31')})
+        for result in july.period_result_ids:
+            self.assertGreaterEqual(result.date_from, self.july.date_start)
+            self.assertLessEqual(result.date_to, self.july.date_end)
+
     def test_targets_without_source_are_refused(self):
         target = self._make_target(cycle_id=self.july.id)
         with self.assertRaisesRegex(UserError, 'source'):
