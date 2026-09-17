@@ -35,12 +35,19 @@
                     <div class="o_aic_stat_label">Committed objectives</div>
                 </div>
                 <div class="o_aic_stat">
-                    <div class="o_aic_stat_value" t-esc="formatPercent(state.stats.checkinRate)"/>
-                    <div class="o_aic_stat_label">Fresh check-ins</div>
+                    <div class="o_aic_stat_value" t-esc="formatShare(state.stats.coverage)"/>
+                    <div class="o_aic_stat_label">Data coverage</div>
+                </div>
+                <div class="o_aic_stat">
+                    <div class="o_aic_stat_value" t-esc="formatPercent(state.stats.reportedRate)"/>
+                    <div class="o_aic_stat_label">Key results with progress reported</div>
                 </div>
                 <div class="o_aic_stat">
                     <div class="o_aic_stat_value o_aic_hrm_num" t-esc="state.stats.objectiveCount"/>
                     <div class="o_aic_stat_label">Objectives</div>
+                    <div class="o_aic_stat_note" t-if="state.stats.unmeasuredCount">
+                        <t t-esc="state.stats.unmeasuredCount"/> not measured yet
+                    </div>
                 </div>
             </div>
 

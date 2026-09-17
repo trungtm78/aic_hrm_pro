@@ -60,8 +60,20 @@ class AicHrmScoringMixin(models.AbstractModel):
         return self.env.ref('aic_hrm_base.rag_profile_default',
                             raise_if_not_found=False)
 
+    def _has_measurement(self):
+        """Whether this record has any figure behind its score.
+
+        A record with nothing measured scores 0, and a 0 resolves to red -
+        which reads as "off track" when it means "not measured yet". Models
+        that know about coverage say so here."""
+        self.ensure_one()
+        return True
+
     @api.depends('score')
     def _compute_rag(self):
         for record in self:
             profile = record._get_rag_profile()
-            record.rag = profile.resolve(record.score) if profile else 'none'
+            if not record._has_measurement():
+                record.rag = 'none'
+            else:
+                record.rag = profile.resolve(record.score) if profile else 'none'

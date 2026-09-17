@@ -150,15 +150,31 @@ class AicHrmKeyResult(models.Model):
         compute='_compute_has_actual', store=True,
         help="Progress has been reported: a check-in or a completed milestone.")
 
-    @api.depends('last_checkin_date', 'milestone_ids.is_done')
+    @api.depends('last_checkin_date', 'milestone_ids.is_done', 'current',
+                 'baseline', 'metric_type')
     def _compute_has_actual(self):
         for kr in self:
-            kr.has_actual = bool(kr.last_checkin_date) or any(
+            # Progress can arrive as a check-in, as a completed milestone, or
+            # as a figure written straight onto the key result (an import, a
+            # correction). Any of the three means somebody reported something.
+            reported = bool(kr.last_checkin_date) or any(
                 kr.milestone_ids.mapped('is_done'))
+            if not reported and kr.metric_type in ('number', 'percent', 'boolean'):
+                reported = float_compare(
+                    kr.current, kr.baseline, precision_digits=6) != 0
+            kr.has_actual = reported
 
     def _get_rag_profile(self):
         self.ensure_one()
         return self.cycle_id.rag_profile_id or super()._get_rag_profile()
+
+    def _has_measurement(self):
+        self.ensure_one()
+        return bool(self.has_actual)
+
+    @api.depends('has_actual')
+    def _compute_rag(self):
+        super()._compute_rag()
 
     @api.constrains('metric_type', 'baseline', 'target')
     def _check_span(self):

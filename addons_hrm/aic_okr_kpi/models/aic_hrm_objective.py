@@ -163,6 +163,14 @@ class AicHrmObjective(models.Model):
         self.ensure_one()
         return self.cycle_id.rag_profile_id or super()._get_rag_profile()
 
+    def _has_measurement(self):
+        self.ensure_one()
+        return bool(self.data_coverage)
+
+    @api.depends('data_coverage')
+    def _compute_rag(self):
+        super()._compute_rag()
+
     @api.constrains('weight')
     def _check_weight(self):
         for objective in self:

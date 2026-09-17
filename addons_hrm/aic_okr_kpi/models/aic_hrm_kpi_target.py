@@ -214,7 +214,11 @@ class AicHrmKpiTarget(models.Model):
         compute='_compute_actuals', store=True, readonly=True,
         aggregator='avg')
 
-    @api.depends('score', 'is_tracking')
+    def _has_measurement(self):
+        self.ensure_one()
+        return bool(self.has_actual)
+
+    @api.depends('score', 'is_tracking', 'has_actual')
     def _compute_rag(self):
         tracking = self.filtered('is_tracking')
         tracking.rag = 'none'

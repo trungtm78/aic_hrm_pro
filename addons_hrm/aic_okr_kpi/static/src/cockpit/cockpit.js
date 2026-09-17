@@ -10,6 +10,38 @@ import { _t } from "@web/core/l10n/translation";
  * per department, and the risk queue. Data comes from three batched ORM
  * calls per cycle switch; everything else is client-side arithmetic.
  */
+/**
+ * Score of a set of objectives, weighted the way an objective roll-up is
+ * weighted everywhere else: a 50% objective must not count the same as a 10%
+ * one. Falls back to a flat average when no weight is set at all.
+ */
+export function weightedScore(objectives) {
+    if (!objectives.length) {
+        return 0;
+    }
+    const weight = objectives.reduce((total, o) => total + (o.weight || 0), 0);
+    if (!weight) {
+        return objectives.reduce((total, o) => total + (o.score || 0), 0)
+            / objectives.length;
+    }
+    return objectives.reduce(
+        (total, o) => total + (o.score || 0) * (o.weight || 0), 0) / weight;
+}
+
+/** Share of the weight that has figures behind it, in percent. */
+export function coverageOf(objectives) {
+    if (!objectives.length) {
+        return 0;
+    }
+    const weight = objectives.reduce((total, o) => total + (o.weight || 0), 0);
+    if (!weight) {
+        return objectives.reduce((total, o) => total + (o.data_coverage || 0), 0)
+            / objectives.length;
+    }
+    return objectives.reduce(
+        (total, o) => total + (o.data_coverage || 0) * (o.weight || 0), 0) / weight;
+}
+
 export class AicHrmCockpit extends Component {
     static template = "aic_okr_kpi.Cockpit";
     static props = ["*"];
@@ -32,7 +64,20 @@ export class AicHrmCockpit extends Component {
                 { order: "date_start desc" },
             );
             if (this.state.cycles.length) {
-                this.state.cycleId = this.state.cycles[0].id;
+                // The newest cycle is often a month that carries scorecards
+                // but no objectives; open on the newest one that actually has
+                // objectives, so the desk does not start empty.
+                const counts = await this.orm.readGroup(
+                    "aic.hrm.objective",
+                    [["cycle_id", "in", this.state.cycles.map((c) => c.id)]],
+                    ["cycle_id"],
+                    ["cycle_id"],
+                );
+                const withObjectives = new Set(
+                    counts.map((group) => group.cycle_id && group.cycle_id[0]));
+                const first = this.state.cycles.find(
+                    (cycle) => withObjectives.has(cycle.id)) || this.state.cycles[0];
+                this.state.cycleId = first.id;
                 await this.loadCycle();
             }
             this.state.loading = false;
@@ -55,13 +100,14 @@ export class AicHrmCockpit extends Component {
                 "aic.hrm.objective",
                 [["cycle_id", "=", cycleId]],
                 ["id", "code", "name", "department_id", "objective_type",
-                 "score", "rag", "state"],
+                 "score", "score_covered", "data_coverage", "weight", "rag",
+                 "state"],
                 { limit: 500 },
             ),
             this.orm.searchRead(
                 "aic.hrm.key.result",
                 [["cycle_id", "=", cycleId]],
-                ["id", "is_stale", "rag"],
+                ["id", "is_stale", "rag", "has_actual", "last_checkin_date"],
                 { limit: 2000 },
             ),
             this.orm.searchRead(
@@ -75,16 +121,22 @@ export class AicHrmCockpit extends Component {
         ]);
         const committed = objectives.filter(
             (o) => o.objective_type === "committed");
-        const avg = (items) => items.length
-            ? items.reduce((total, o) => total + (o.score || 0), 0)
-                / items.length
-            : 0;
-        const freshKrs = krs.filter((kr) => !kr.is_stale);
+        const measured = objectives.filter((o) => o.data_coverage > 0);
+        const reported = krs.filter((kr) => kr.has_actual);
+        const stale = krs.filter((kr) => kr.is_stale);
         this.state.stats = {
-            overall: avg(objectives),
-            committed: avg(committed),
-            checkinRate: krs.length ? freshKrs.length / krs.length : 0,
+            overall: weightedScore(objectives),
+            committed: weightedScore(committed),
+            // What has been reported at all, not what has been reported
+            // recently: `is_stale` only flags a key result that was checked
+            // in once and then left, so counting "not stale" as fresh read
+            // 100% while nine of ten key results had no update whatsoever.
+            reportedRate: krs.length ? reported.length / krs.length : 0,
+            staleCount: stale.length,
+            krCount: krs.length,
             objectiveCount: objectives.length,
+            unmeasuredCount: objectives.length - measured.length,
+            coverage: coverageOf(objectives),
         };
         this.state.heatmapRows = this.buildHeatmap(objectives);
         this.state.risks = risks;
@@ -111,10 +163,8 @@ export class AicHrmCockpit extends Component {
         }
         const rows = [...byDepartment.entries()].map(([department, list]) => {
             const counts = { red: 0, amber: 0, green: 0, none: 0 };
-            let total = 0;
             for (const objective of list) {
                 counts[objective.rag || "none"] += 1;
-                total += objective.score || 0;
             }
             list.sort((a, b) => (RANK[a.rag || "none"] - RANK[b.rag || "none"])
                 || ((a.score || 0) - (b.score || 0)));
@@ -122,7 +172,8 @@ export class AicHrmCockpit extends Component {
                 department,
                 objectives: list,
                 counts,
-                score: list.length ? total / list.length : 0,
+                score: weightedScore(list),
+                coverage: coverageOf(list),
                 isUnassigned: department === unassigned,
             };
         });
@@ -135,6 +186,11 @@ export class AicHrmCockpit extends Component {
 
     formatPercent(value) {
         return `${Math.round((value || 0) * 100)}%`;
+    }
+
+    /** A percentage that is already 0..100 (coverage), not 0..1. */
+    formatShare(value) {
+        return `${Math.round(value || 0)}%`;
     }
 
     ragLabel(rag) {

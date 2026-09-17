@@ -166,6 +166,13 @@
         letter-spacing: 0.02em;
         margin-top: 0.15rem;
       }
+
+      // "3 not measured yet" under a headline figure: a caveat, not a value.
+      .o_aic_stat_note {
+        color: var(--aic-muted);
+        font-size: 0.72rem;
+        margin-top: 0.1rem;
+      }
     }
   }
 

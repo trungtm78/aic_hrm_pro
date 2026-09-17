@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 20:03+0000\n"
-"PO-Revision-Date: 2026-09-17 20:03+0000\n"
+"POT-Creation-Date: 2026-09-17 23:57+0000\n"
+"PO-Revision-Date: 2026-09-17 23:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -1118,6 +1118,12 @@ msgid "Data and digital capability"
 msgstr "Năng lực dữ liệu và số hóa"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Data coverage"
+msgstr "Độ phủ dữ liệu"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__date
@@ -1636,12 +1642,6 @@ msgstr "Mô tả vai trò nhập tự do, ví dụ lấy từ bảng phân công
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__frequency
 msgid "Frequency"
 msgstr "Tần suất"
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
-msgid "Fresh check-ins"
-msgstr "Check-in mới"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_list
@@ -2237,6 +2237,12 @@ msgstr "Các kết quả then chốt"
 #: code:addons/aic_okr_kpi/models/aic_hrm_key_result.py:0
 msgid "Key results cannot be moved under the approved objective %(name)s."
 msgstr "Không thể chuyển kết quả then chốt vào mục tiêu đã duyệt %(name)s."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Key results with progress reported"
+msgstr "KR đã báo cáo tiến độ"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -4617,6 +4623,12 @@ msgstr "không có check-in gần đây"
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid "not found"
 msgstr "không tìm thấy"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "not measured yet"
+msgstr "chưa có số liệu"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
