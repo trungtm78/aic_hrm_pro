@@ -81,7 +81,7 @@ test('KPI actuals pulled from the ledger', async ({ page }) => {
   await loginAsAdmin(page);
 
   await test.step('journal items may feed metric sources', async () => {
-    const lineModel = await read('ir.model', 'search_read', [[['model', '=', 'account.move.line']]], { fields: ['display_name'] });
+    const lineModel = await read('ir.model', 'search_read', [[['model', '=', 'account.move.line']]], { fields: ['display_name'], context: { lang: 'vi_VN' } });
     if (await read('aic.hrm.metric.allowed.model', 'search_count', [[['model_id', '=', lineModel[0].id]]])) return;
     await ui.openAction(await xmlid('aic_hrm_base.action_aic_hrm_metric_allowed_model'));
     await page.locator('.o_list_button_add:visible').first().click();
@@ -90,6 +90,8 @@ test('KPI actuals pulled from the ledger', async ({ page }) => {
     await ui.rpc('web_save', 'allowlist journal items', () => page.locator('.o_list_button_save:visible').first().click());
   });
 
+  const [lineModelRow] = await read('ir.model', 'search_read', [[['model', '=', 'account.move.line']]], { fields: ['display_name'], context: { lang: 'vi_VN' } });
+  const lineModelName = new RegExp(`^\\s*${lineModelRow.display_name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`);
   const sourceAction = await xmlid('aic_hrm_base.action_aic_hrm_metric_source');
   await ui.gotoWithRetry(`/odoo/action-${sourceAction}?debug=1`);
   for (const source of SOURCES) {
@@ -97,7 +99,7 @@ test('KPI actuals pulled from the ledger', async ({ page }) => {
       if (await read('aic.hrm.metric.source', 'search_count', [[['name', '=', source.name]]])) return;
       await ui.newRecord(sourceAction);
       await ui.fill('name', source.name);
-      await ui.pickMany2one('model_id', 'account.move.line', undefined, /account\.move\.line|Phát sinh|Journal Item|Bút toán/);
+      await ui.pickMany2one('model_id', 'account.move.line', undefined, lineModelName);
       await ui.fill('field_name', source.field);
       await ui.select('aic.hrm.metric.source', 'aggregate', 'sum');
       await ui.fill('multiplier', source.multiplier);
@@ -122,6 +124,12 @@ test('KPI actuals pulled from the ledger', async ({ page }) => {
 
   await test.step('tracking indicators for the department', async () => {
     const kpiAction = await xmlid('aic_okr_kpi.action_aic_hrm_kpi');
+    // An earlier run quick-created a KPI named after a code from a many2one
+    // "Create" entry; remove such strays through their form.
+    for (const stray of await read('aic.hrm.kpi', 'search_read', [[['name', 'in', TRACKING.map((t) => t.code)]]], { fields: ['id'] })) {
+      await ui.openRecord(kpiAction, stray.id);
+      await ui.deleteOpenRecord(`stray KPI ${stray.id}`);
+    }
     for (const item of TRACKING) {
       let [kpi] = await read('aic.hrm.kpi', 'search_read', [[['code', '=', item.code]]], { fields: ['id'] });
       if (!kpi) {
@@ -138,13 +146,14 @@ test('KPI actuals pulled from the ledger', async ({ page }) => {
         const exists = await read('aic.hrm.kpi.target', 'search_count', [[['kpi_id', '=', kpi.id], ['cycle_id', '=', cycles[code]], ['employee_id', '=', false]]]);
         if (exists) continue;
         await ui.newRecord(targetAction);
-        await ui.pickMany2one('kpi_id', item.code, undefined, new RegExp(item.code.replace(/\./g, '\\.')));
-        await ui.pickMany2one('cycle_id', code, undefined, new RegExp(code));
+        const [kpiRow] = await read('aic.hrm.kpi', 'read', [[kpi.id]], { fields: ['display_name'] });
+        const [cycleRow] = await read('aic.hrm.cycle', 'read', [[cycles[code]]], { fields: ['display_name'] });
+        await ui.pickMany2one('kpi_id', kpiRow.display_name);
+        await ui.pickMany2one('cycle_id', cycleRow.display_name);
         await ui.check('is_tracking', true);
         await ui.fill('weight', 0);
         await ui.fill('target_value', 0);
-        await ui.fill('note', `Chỉ số theo dõi cấp Phòng Kinh doanh và Dịch vụ, không chấm điểm. Nguồn: ${item.source}. `
-          + 'Chi phí là số sổ kế toán tổng hợp (chi_phi_2026.xlsx), cần xác nhận phạm vi phòng.');
+        await ui.fill('target_note', 'Chỉ số theo dõi cấp phòng, không chấm điểm; số sổ kế toán, cần xác nhận phạm vi phòng');
         await ui.tab(/Cách thu thập|How to Collect/);
         await ui.pickMany2one('metric_source_id', item.source);
         await ui.save(`${item.code} ${code}`);
@@ -221,7 +230,10 @@ test('KPI actuals pulled from the ledger', async ({ page }) => {
     if (kr.last_checkin_date === '2026-08-31' && Math.abs(kr.current - total) < 0.005) return;
     await ui.newRecord(await xmlid('aic_okr_kpi.action_aic_hrm_checkin'));
     await ui.pickMany2one('kr_id', kr.display_name.slice(0, 40), undefined, new RegExp(`^\\s*${kr.display_name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`));
+    const dateButton = ui.field('date').locator('button').first();
+    if (await dateButton.isVisible().catch(() => false)) await dateButton.click();
     await ui.fill('date', '31/08/2026');
+    await page.keyboard.press('Escape');
     await ui.fill('value_current', total);
     await ui.fill('note', `Doanh thu Quý III/2026 lũy kế đến hết T8, đọc từ kế toán (hoá đơn đã vào sổ + bút toán dự thu, chưa VAT): `
       + monthly.map((t: any) => `${t.cycle_id[1]} ${String(t.actual_value.toFixed(2)).replace('.', ',')} tỷ`).join(' + ')

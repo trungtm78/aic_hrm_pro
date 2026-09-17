@@ -172,7 +172,12 @@ export class OdooUi {
     for (let attempt = 1; ; attempt += 1) {
       await input.click();
       await input.fill(text);
-      const exact = menu.locator('.o-autocomplete--dropdown-item').filter({ hasText: wanted });
+      // Never the "Create ..." / "Search more" entries: a loose pattern once
+      // matched 'Create "KDDV.PHONG.CP"' and quick-created a stray KPI.
+      const exact = menu.locator('.o-autocomplete--dropdown-item:not(:has(.o_m2o_dropdown_option))')
+        .filter({ hasNot: menu.locator('.o_m2o_dropdown_option') })
+        .filter({ hasText: wanted })
+        .filter({ hasNotText: /^\s*(Tạo|Create|Tìm kiếm thêm|Search More)\b/ });
       try {
         await expect(input).toHaveValue(text, { timeout: 5_000 });
         await expect(exact.first(), `"${text}" must be offered for ${name}`).toBeVisible({ timeout: 20_000 });
