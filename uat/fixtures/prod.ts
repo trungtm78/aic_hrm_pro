@@ -34,11 +34,23 @@ export function adminPassword(): string {
 }
 
 async function jsonRpc(service: string, method: string, args: any[]): Promise<any> {
-  const response = await fetch(`${PROD_URL}/jsonrpc`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'User-Agent': USER_AGENT },
-    body: JSON.stringify({ jsonrpc: '2.0', method: 'call', params: { service, method, args }, id: Date.now() }),
-  });
+  // Transport failures (the network between this machine and the CDN drops
+  // for seconds at a time) are retried with backoff. Answers from Odoo,
+  // including errors, are never retried: those are results, not hiccups.
+  let response: Response | undefined;
+  for (let attempt = 1; !response; attempt += 1) {
+    try {
+      response = await fetch(`${PROD_URL}/jsonrpc`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'User-Agent': USER_AGENT },
+        body: JSON.stringify({ jsonrpc: '2.0', method: 'call', params: { service, method, args }, id: Date.now() }),
+        signal: AbortSignal.timeout(60_000),
+      });
+    } catch (error) {
+      if (attempt >= 6) throw error;
+      await new Promise((done) => setTimeout(done, 5_000 * attempt));
+    }
+  }
   if (!response.ok) {
     throw new Error(`RPC transport failure: HTTP ${response.status}`);
   }
@@ -74,11 +86,23 @@ export async function actionFor(model: string): Promise<number> {
 }
 
 export async function login(page: Page, loginName: string, password: string) {
-  await page.goto('/web/login');
-  await page.locator('input[name="login"]').fill(loginName);
-  await page.locator('input[name="password"]').fill(password);
-  await page.locator('form button[type="submit"]').click();
-  await page.waitForURL(/\/(odoo|aic)(\/|$|\?)/, { timeout: 60_000 });
+  // A fresh browser context downloads the whole asset bundle; retry a stalled
+  // load instead of reporting a network hiccup as a failed login.
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      await page.goto('/web/login', { waitUntil: 'domcontentloaded', timeout: 90_000 });
+      await page.locator('input[name="login"]').fill(loginName);
+      await page.locator('input[name="password"]').fill(password);
+      await page.locator('form button[type="submit"]').click();
+      await page.waitForURL(/\/(odoo|aic)(\/|$|\?)/, { timeout: 90_000, waitUntil: 'domcontentloaded' });
+      await page.locator('.o_action_manager').first().waitFor({ timeout: 90_000 });
+      break;
+    } catch (error) {
+      if (attempt >= 3 || page.url().includes('/web/login') && await page.locator('.alert-danger').count()) {
+        throw error;
+      }
+    }
+  }
   const db = await page.evaluate(() => (window as any).odoo?.info?.db);
   if (db !== PROD_DB) {
     throw new Error(`Logged in to database "${db}", expected "${PROD_DB}". Stopping before touching anything.`);

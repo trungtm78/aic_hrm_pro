@@ -87,26 +87,29 @@ test('every Sales & Services employee can log in', async ({ page }) => {
         userId = (await read('hr.employee', 'read', [[record.id]], { fields: ['user_id'] }))[0].user_id[0];
       }
 
-      const [user] = await read('res.users', 'read', [[userId]], { fields: ['login', 'group_ids', 'lang', 'tz'] });
+      // all_group_ids includes implied groups: a manager holds "user" only by implication.
+      const [user] = await read('res.users', 'read', [[userId]], { fields: ['login', 'all_group_ids', 'lang', 'tz'] });
       expect(user.login).toBe(employee.email);
+      // The user form offers no timezone; accounts inherit the creator's,
+      // which must at least be UTC+7 like Hanoi.
+      expect(['Asia/Ho_Chi_Minh', 'Asia/Bangkok']).toContain(user.tz);
       const wantsManager = employee.performance_role === 'manager';
-      const hasManager = user.group_ids.includes(managerGroup);
-      const hasAdmin = user.group_ids.includes(adminGroup);
+      const hasManager = user.all_group_ids.includes(managerGroup);
+      const hasAdmin = user.all_group_ids.includes(adminGroup);
       const rightsOk = (wantsManager === hasManager) && !hasAdmin &&
-        user.group_ids.includes(await groupId(ROLE_GROUP.user));
-      if (!rightsOk || user.lang !== 'vi_VN' || user.tz !== 'Asia/Ho_Chi_Minh') {
+        user.all_group_ids.includes(await groupId(ROLE_GROUP.user));
+      if (!rightsOk || user.lang !== 'vi_VN') {
         await ui.openRecord(userAction, userId);
         if (!rightsOk) {
-          const privilege = page.locator('.o_wrap_field').filter({ has: page.locator('label', { hasText: /^\s*AIConnect HRM Pro\s*\??\s*$/ }) })
-            .locator('.o_select_menu').first();
-          await privilege.click();
+          // The privilege picker is a textbox named after the suite's category;
+          // its label is not wrapped with it, so address it by role and name.
+          await page.getByRole('textbox', { name: /^\s*AIConnect HRM Pro\s*\??\s*$/ }).click();
           await page.locator('.o_select_menu_item, .o-dropdown--menu .dropdown-item')
             .filter({ hasText: ROLE_LABEL[employee.performance_role] }).first().click();
         }
-        if (user.lang !== 'vi_VN' || user.tz !== 'Asia/Ho_Chi_Minh') {
+        if (user.lang !== 'vi_VN') {
           await ui.tab(/Tùy chọn|Preferences/);
-          await ui.select('lang', '"vi_VN"').catch(() => ui.select('lang', 'vi_VN'));
-          await ui.select('tz', '"Asia/Ho_Chi_Minh"').catch(() => ui.select('tz', 'Asia/Ho_Chi_Minh'));
+          await ui.selectMenu('lang', /Vietnamese|Tiếng Việt/);
         }
         await ui.save(`rights of ${employee.email}`);
       }
@@ -130,14 +133,22 @@ test('every Sales & Services employee can log in', async ({ page }) => {
     });
   }
 
-  await test.step('queued invitations are deleted (no mail server; they carry sign-up tokens)', async () => {
-    const mailAction = await actionFor('mail.mail');
-    const queued = await read('mail.mail', 'search', [[['state', 'in', ['exception', 'outgoing']]]], ALL);
-    for (const id of queued) {
-      await ui.openRecord(mailAction, id);
-      await ui.deleteOpenRecord(`queued mail #${id}`);
-    }
-    expect(await read('mail.mail', 'search_count', [[['state', 'in', ['exception', 'outgoing']]]], ALL)).toBe(0);
+  await test.step('no queued mail can hand an account to someone else', async () => {
+    // The server has no mail relay, so everything Odoo queues stays in the
+    // queue. Creating users from the employee form sends no invitation; what
+    // is queued are "password changed" notices, which carry no secret. The
+    // check that matters is that nothing waiting there holds a sign-up or
+    // reset link, or one of the passwords just set.
+    const queued = await read('mail.mail', 'search_read', [[]], { ...ALL, fields: ['subject', 'body_html'] });
+    const passwords = Object.values(accounts).map((account) => account.password);
+    const leaks = queued.filter((mail: any) => {
+      const body = mail.body_html || '';
+      // A plain /web/reset_password link (in every "password changed" notice)
+      // grants nothing; only a link carrying a token does.
+      return /(signup_token|[?&]token)=[^&"\s]+/.test(body.replace(/\/digest\/\d+\/unsubscribe\?token=[^"\s]+/g, ''))
+        || passwords.some((password) => body.includes(password));
+    }).map((mail: any) => `#${mail.id} ${mail.subject}`);
+    expect(leaks, 'queued mails exposing account access').toEqual([]);
   });
 
   await test.step('every account logs in with its own password', async () => {

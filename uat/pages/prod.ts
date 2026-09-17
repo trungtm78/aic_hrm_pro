@@ -48,14 +48,64 @@ export class OdooUi {
     return body.result as T;
   }
 
+  /**
+   * Open an action (optionally one record, or a new one).
+   *
+   * Once the web client is running, navigation goes through its action
+   * service - what a menu click does - instead of reloading the page. A full
+   * reload fetches megabytes of assets through the CDN; over hundreds of
+   * records one stalled download (seen: 92 s for the JS bundle during a
+   * network hiccup) failed the run. The first load, and any recovery, is a
+   * real page load with retries.
+   */
   async openAction(actionId: number, suffix = '') {
-    await this.page.goto(`/odoo/action-${actionId}${suffix}`);
-    await this.page.locator('.o_action_manager .o_view_controller').first().waitFor({ timeout: 60_000 });
+    const record = suffix.replace('/', '');
+    const inApp = await this.page.evaluate(() =>
+      Boolean((window as any).odoo?.__WOWL_DEBUG__?.root?.env?.services?.action)).catch(() => false);
+    if (inApp) {
+      const navigation = this.page.evaluate(async ({ actionId, record }) => {
+        const action = (window as any).odoo.__WOWL_DEBUG__.root.env.services.action;
+        const options: any = { clearBreadcrumbs: true };
+        if (record) {
+          options.viewType = 'form';
+          if (record !== 'new') options.props = { resId: Number(record) };
+        }
+        await action.doAction(actionId, options);
+      }, { actionId, record });
+      // doAction waits on anything that blocks leaving the current screen (an
+      // unsaved-changes prompt, a failed auto-save). Without a bound the run
+      // hangs silently until the whole test times out, with no trace.
+      let timer: NodeJS.Timeout | undefined;
+      await Promise.race([
+        navigation,
+        new Promise((_, reject) => {
+          timer = setTimeout(() => reject(new Error(
+            `Navigation to action ${actionId}${suffix} did not finish in 90 s - `
+            + 'the current screen is blocking it (see screenshot).')), 90_000);
+        }),
+      ]).finally(() => clearTimeout(timer));
+    } else {
+      await this.gotoWithRetry(`/odoo/action-${actionId}${suffix}`);
+    }
+    await this.page.locator('.o_action_manager .o_view_controller').first().waitFor({ timeout: 90_000 });
+  }
+
+  async gotoWithRetry(url: string, attempts = 3) {
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90_000 });
+        await this.page.locator('.o_action_manager').first().waitFor({ timeout: 90_000 });
+        return;
+      } catch (error) {
+        if (attempt >= attempts) throw error;
+      }
+    }
   }
 
   async openRecord(actionId: number, recordId: number) {
     await this.openAction(actionId, `/${recordId}`);
     await this.page.locator('.o_form_view .o_form_sheet_bg, .o_form_view .o_form_sheet').first().waitFor();
+    await expect(this.page).toHaveURL(new RegExp(`/${recordId}(\\?|$)`));
   }
 
   async newRecord(actionId: number) {
@@ -71,6 +121,12 @@ export class OdooUi {
 
   async select(name: string, value: string, scope?: Locator) {
     await this.field(name, scope).locator('select').selectOption(value);
+  }
+
+  /** Selection fields rendered as Odoo's searchable select menu (a textbox, not a <select>). */
+  async selectMenu(name: string, option: RegExp, scope?: Locator) {
+    await this.field(name, scope).locator('input').first().click();
+    await this.page.locator('.o_select_menu_item').filter({ hasText: option }).first().click();
   }
 
   async check(name: string, checked: boolean, scope?: Locator) {
@@ -107,7 +163,9 @@ export class OdooUi {
   }
 
   async clickButton(method: string, context: string) {
-    await this.rpc('call_button', context, () =>
+    // Buttons post to /web/dataset/call_button/<model>/<method> with the
+    // button's own method name in the body, not "call_button".
+    await this.rpc(method, context, () =>
       this.page.locator(`.o_form_view button[name="${method}"]:visible`).first().click());
   }
 
