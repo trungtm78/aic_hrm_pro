@@ -23,7 +23,9 @@ function accountSheet(): Array<{ code: string; name: string; login: string; pass
     'rows = [r for r in sheet.iter_rows(min_row=5, values_only=True) if r[1]]',
     'print(json.dumps([dict(code=r[1], name=r[2], login=r[5], password=r[6], role=r[7]) for r in rows], ensure_ascii=False))',
   ].join('\n');
-  return JSON.parse(execFileSync('py', ['-3.12', '-c', script, SHEET], { encoding: 'utf-8' }));
+  // Windows consoles default to a legacy code page; names are Vietnamese.
+  return JSON.parse(execFileSync('py', ['-3.12', '-c', script, SHEET],
+    { encoding: 'utf-8', env: { ...process.env, PYTHONIOENCODING: 'utf-8' } }));
 }
 
 async function visibleRecordCount(page: any, model: string): Promise<number> {
@@ -177,7 +179,16 @@ test('the scorecard screen works on a phone', async () => {
       [[['res_model', '=', 'aic.hrm.kpi.assignment'], ['view_mode', 'ilike', 'list']]], { fields: ['id'], limit: 1, order: 'id' });
     await page.goto(`/odoo/action-${action.id}/${card.id}`);
     await page.locator('.o_form_view').first().waitFor({ timeout: 60_000 });
-    expect(await horizontalOverflow(page)).toBeLessThanOrEqual(0);
+    // Measure the settled page: the installed backend theme injects its
+    // sidebar favourites a few seconds after load, and that is what widened
+    // the page (to 443 px at 375). Measuring early passed by accident.
+    await page.waitForTimeout(8_000);
+    const content = await page.evaluate(() => {
+      const root = document.querySelector('.o_action_manager')!;
+      return root.scrollWidth - root.clientWidth;
+    });
+    expect(content, 'the scorecard screen itself fits the phone').toBeLessThanOrEqual(0);
+    expect(await horizontalOverflow(page), 'the page as a whole does not scroll sideways').toBeLessThanOrEqual(0);
     await context.close();
   } finally {
     await browser.close();
