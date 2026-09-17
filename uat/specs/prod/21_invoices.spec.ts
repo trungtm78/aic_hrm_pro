@@ -34,19 +34,46 @@ test('posted customer invoices from the receipts register', async ({ page }) => 
     return lang.date_format.replace('%d', d).replace('%m', m).replace('%Y', y);
   };
 
+  await test.step('no half-entered invoices left behind', async () => {
+    // An interrupted run can leave an auto-saved draft without reference.
+    const leftovers = await read('account.move', 'search_read', [[
+      ['move_type', '=', 'out_invoice'], ['state', '=', 'draft'], ['ref', '=', false]]], { fields: ['id'] });
+    for (const leftover of leftovers) {
+      await ui.openRecord(action, leftover.id);
+      await ui.deleteOpenRecord(`draft invoice ${leftover.id}`);
+    }
+  });
+
   for (const invoice of books.invoices) {
     await test.step(invoice.ref, async () => {
       let [move] = await read('account.move', 'search_read',
-        [[['ref', '=', invoice.ref], ['move_type', '=', 'out_invoice']]], { fields: ['state'] });
+        [[['ref', '=', invoice.ref], ['move_type', '=', 'out_invoice']]], { fields: ['state', 'amount_untaxed'] });
+      if (move && move.state === 'draft' && move.amount_untaxed !== invoice.untaxed) {
+        // Auto-saved by an interrupted run before its line was complete.
+        await ui.openRecord(action, move.id);
+        await ui.deleteOpenRecord(`incomplete ${invoice.ref}`);
+        move = undefined;
+      }
       if (!move) {
         const [partner] = await read('res.partner', 'search_read', [[['name', '=', invoice.partner], ['is_company', '=', true]]], { fields: ['display_name'] });
         await ui.newRecord(action);
         await ui.pickMany2one('partner_id', invoice.partner, undefined,
           new RegExp(`^\\s*${partner.display_name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`));
         await ui.fill('invoice_date', userDate(invoice.date));
-        await ui.tab(/Dòng hóa đơn|Dòng hoá đơn|Invoice Lines/);
-        await page.locator('.o_field_widget[name="invoice_line_ids"] .o_field_x2many_list_row_add a').first().click();
-        const row = page.locator('.o_field_widget[name="invoice_line_ids"] .o_selected_row').first();
+        await ui.tab(/Chi tiết hóa đơn|Chi tiết hoá đơn|Invoice Lines/);
+        const lines = page.locator('.o_field_widget[name="invoice_line_ids"]').first();
+        {
+          // The product column is optional and hidden by default; the choice
+          // is not reliably remembered, so it is checked on every invoice.
+          if (!(await lines.locator('th[data-name="product_id"]').count())) {
+            await lines.locator('.o_optional_columns_dropdown button, .o_optional_columns_dropdown_toggle').first().click();
+            await page.locator('.o-dropdown--menu .o-dropdown-item, .o-dropdown--menu .dropdown-item')
+              .filter({ hasText: /^\s*(Sản phẩm|Product)\s*$/ }).first().click();
+            await expect(lines.locator('th[data-name="product_id"]')).toHaveCount(1);
+            await page.keyboard.press('Escape');
+          }
+        }
+        const row = await ui.addRow('invoice_line_ids');
         await ui.pickMany2one('product_id', invoice.product, row);
         await ui.fill('price_unit', invoice.untaxed, row);
         await ui.fill('narration', invoice.note);

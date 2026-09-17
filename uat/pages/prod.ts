@@ -164,15 +164,49 @@ export class OdooUi {
   /** Type `text` into a many2one and pick the suggestion matching `match` (default: exactly `text`). */
   async pickMany2one(name: string, text: string, scope?: Locator, match?: RegExp) {
     const input = this.field(name, scope).locator('input').first();
-    await input.click();
-    await input.fill(text);
     const menu = this.page.locator('.o-autocomplete--dropdown-menu').last();
-    await menu.waitFor();
-    const exact = menu.locator('.o-autocomplete--dropdown-item')
-      .filter({ hasText: match ?? new RegExp(`^\\s*${escapeRegExp(text)}\\s*$`) });
-    await expect(exact.first(), `"${text}" must be offered for ${name}`).toBeVisible({ timeout: 20_000 });
-    await exact.first().click();
-    await expect(menu).toBeHidden();
+    const wanted = match ?? new RegExp(`^\\s*${escapeRegExp(text)}\\s*$`);
+    // A row that was just added (or a form still applying an onchange) can
+    // swallow the typed text; the search then never offers the record. Type
+    // again once before failing.
+    for (let attempt = 1; ; attempt += 1) {
+      await input.click();
+      await input.fill(text);
+      const exact = menu.locator('.o-autocomplete--dropdown-item').filter({ hasText: wanted });
+      try {
+        await expect(input).toHaveValue(text, { timeout: 5_000 });
+        await expect(exact.first(), `"${text}" must be offered for ${name}`).toBeVisible({ timeout: 20_000 });
+        await exact.first().click();
+        await expect(menu).toBeHidden();
+        return;
+      } catch (error) {
+        if (attempt >= 2) throw error;
+        await this.page.keyboard.press('Escape').catch(() => undefined);
+        await this.page.waitForTimeout(2_000);
+      }
+    }
+  }
+
+  /** Click "Add a line" on a one2many list and return the row being edited. */
+  async addRow(fieldName: string): Promise<Locator> {
+    const list = this.page.locator(`.o_field_widget[name="${fieldName}"]`).first();
+    const rows = list.locator('.o_data_row');
+    const row = list.locator('.o_data_row.o_selected_row').last();
+    for (let attempt = 1; ; attempt += 1) {
+      // The previous line stays selected for a moment after the click; only
+      // a grown row count proves the new line exists.
+      const before = await rows.count();
+      await list.locator('.o_field_x2many_list_row_add a, .o_field_x2many_list_row_add button').first().click();
+      try {
+        await expect(rows).toHaveCount(before + 1, { timeout: 15_000 });
+        await expect(rows.last()).toHaveClass(/o_selected_row/, { timeout: 15_000 });
+        await rows.last().locator('.o_field_widget input').first().waitFor({ timeout: 15_000 });
+        return rows.last();
+      } catch (error) {
+        if (attempt >= 3) throw error;
+        await this.page.waitForTimeout(2_000);
+      }
+    }
   }
 
   async tab(label: RegExp) {

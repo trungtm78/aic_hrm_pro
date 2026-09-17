@@ -29,9 +29,7 @@ async function xmlid(name: string): Promise<number> {
 }
 
 async function addLine(ui: OdooUi, page: Page, line: Line) {
-  await page.locator('.o_field_widget[name="line_ids"] .o_field_x2many_list_row_add a').first().click();
-  const row = page.locator('.o_field_widget[name="line_ids"] .o_selected_row').first();
-  await row.waitFor();
+  const row = await ui.addRow('line_ids');
   await ui.pickMany2one('account_id', line.account, row, new RegExp(`^\\s*${line.account}\\b`));
   if (line.partner) {
     await ui.pickMany2one('partner_id', line.partner, row);
@@ -75,14 +73,25 @@ test('accrual and cost journal entries', async ({ page }) => {
 
   for (const entry of entries()) {
     await test.step(entry.ref, async () => {
-      let [move] = await read('account.move', 'search_read', [[['ref', '=', entry.ref], ['move_type', '=', 'entry']]], { fields: ['state'] });
+      let [move] = await read('account.move', 'search_read', [[['ref', '=', entry.ref], ['move_type', '=', 'entry']]], { fields: ['state', 'line_ids'] });
+      if (move && move.state === 'draft' && move.line_ids.length !== entry.lines.length) {
+        // A draft auto-saved by an interrupted run: never post it half-typed.
+        await ui.openRecord(action, move.id);
+        await ui.deleteOpenRecord(`incomplete ${entry.ref}`);
+        move = undefined;
+      }
       if (!move) {
         const [journal] = await read('account.journal', 'search_read', [[['code', '=', entry.journal]]], { fields: ['display_name'] });
         await ui.newRecord(action);
         await ui.pickMany2one('journal_id', journal.display_name.replace(/\s*\(.*\)$/, ''), undefined,
           new RegExp(journal.display_name.replace(/\s*\(.*\)$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+        // The accounting date renders as a compact button until clicked.
+        const dateButton = ui.field('date').locator('button').first();
+        if (await dateButton.isVisible().catch(() => false)) await dateButton.click();
         await ui.fill('date', userDate(entry.date));
+        await page.keyboard.press('Escape');
         await ui.fill('ref', entry.ref);
+        await ui.tab(/Hạng mục bút toán|Journal Items/);
         for (const line of entry.lines) await addLine(ui, page, line);
         const id = await ui.save(entry.ref);
         move = { id, state: 'draft' };
