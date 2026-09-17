@@ -67,3 +67,14 @@ def weighted_average(pairs):
     if not total_weight:
         return 0.0
     return sum(value * weight for value, weight in pairs) / total_weight
+
+
+def coverage(covered, pairs):
+    """Percent of the total weight of ``pairs`` carried by ``covered``.
+
+    Both are ``[(value, weight), ...]``; 0.0 when there is no weight at all.
+    """
+    total_weight = sum(weight for _value, weight in pairs)
+    if not total_weight:
+        return 0.0
+    return 100.0 * sum(weight for _value, weight in covered) / total_weight

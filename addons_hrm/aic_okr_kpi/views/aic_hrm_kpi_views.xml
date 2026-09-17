@@ -102,6 +102,9 @@
                             type="action" string="Import Actuals"
                             display="always"
                             groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_pull_metric_actuals" type="object"
+                            string="Pull Actuals from Source"
+                            groups="aic_hrm_base.group_hrm_admin"/>
                 </header>
                 <field name="kpi_id"/>
                 <field name="cycle_id"/>
@@ -115,6 +118,9 @@
                 <field name="actual_value"/>
                 <field name="unit" optional="show"/>
                 <field name="achievement" widget="percentage"/>
+                <field name="has_actual" optional="hide"/>
+                <field name="is_tracking" optional="hide"/>
+                <field name="metric_source_id" optional="hide"/>
                 <field name="rag" widget="badge"
                        decoration-success="rag == 'green'"
                        decoration-warning="rag == 'amber'"
@@ -140,6 +146,10 @@
                             string="Request Target Revision"
                             invisible="state == 'draft'"
                             groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_pull_metric_actuals" type="object"
+                            string="Pull Actuals from Source"
+                            invisible="not metric_source_id"
+                            groups="aic_hrm_base.group_hrm_admin"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -149,6 +159,7 @@
                             <field name="cycle_id"/>
                             <field name="employee_id"/>
                             <field name="team_id"/>
+                            <field name="is_tracking"/>
                             <field name="kr_id"/>
                             <field name="objective_id"/>
                             <field name="weight"/>
@@ -163,8 +174,9 @@
                             <field name="target_note"
                                    placeholder="Target as assigned, e.g. LIVE on 7/9 with at least 10 merchants"/>
                             <field name="actual_value"/>
-                            <field name="achievement" widget="percentage"/>
-                            <field name="rag"/>
+                            <field name="achievement" widget="percentage"
+                                   invisible="is_tracking"/>
+                            <field name="rag" invisible="is_tracking"/>
                         </group>
                     </group>
                     <notebook>

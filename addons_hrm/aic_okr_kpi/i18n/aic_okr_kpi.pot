@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 13:26+0000\n"
-"PO-Revision-Date: 2026-09-17 13:26+0000\n"
+"POT-Creation-Date: 2026-09-17 16:32+0000\n"
+"PO-Revision-Date: 2026-09-17 16:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,12 @@ msgid "%(person)s's scorecard weights do not add up: %(issue)s."
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid "%(targets)s: set a metric source before pulling actuals."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_checkin__confidence
 msgid "1 = will miss badly, 10 = will certainly hit."
 msgstr ""
@@ -111,6 +117,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
 msgid "A lower-is-better target cannot be negative. Use 0 for zero tolerance."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid ""
+"A target on a scorecard carries weight; it cannot be made tracking-only."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -366,6 +379,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "At Risk"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__has_actual
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__has_actual
+msgid "At least one confirmed period result exists."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -692,6 +711,7 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_list
 msgid "Confirm"
 msgstr ""
 
@@ -902,6 +922,12 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:aic.hrm.perspective,name:aic_okr_kpi.dimension_hoshin_daily
 msgid "Daily Management"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__data_coverage
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__data_coverage
+msgid "Data Coverage (%)"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1263,6 +1289,13 @@ msgid ""
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__is_tracking
+msgid ""
+"Followed for information (e.g. department costs): the actual is shown but "
+"not scored, and the target cannot sit on a weighted scorecard line."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__message_follower_ids
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__message_follower_ids
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__message_follower_ids
@@ -1374,6 +1407,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__group_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_search
 msgid "Group"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__has_actual
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__has_actual
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__has_actual
+msgid "Has Actual"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1766,6 +1806,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
 msgid "KPI target %(target)s belongs to another cycle than the scorecard."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid ""
+"KPI target %(target)s is tracking-only and cannot carry weight on a "
+"scorecard."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2671,6 +2719,12 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid "Only performance managers may confirm period results."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
 msgid "Only performance managers may move objectives to %(target)s."
 msgstr ""
@@ -2924,6 +2978,11 @@ msgid "Progress Snapshot"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
+msgid "Progress has been reported: a check-in or a completed milestone."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_progress_report
 msgid "Progress vs Plan"
 msgstr ""
@@ -2938,6 +2997,12 @@ msgstr ""
 msgid ""
 "Public goals are visible to every performance user; private ones only to the"
 " owner, their managers and HR."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_list
+msgid "Pull Actuals from Source"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3027,6 +3092,11 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__required_run_rate_factor
 msgid "Required Run Rate Factor"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_list
+msgid "Reset to Draft"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3125,6 +3195,16 @@ msgid "Score"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__score_covered
+msgid "Score on Measured KPIs"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__score_covered
+msgid "Score on Measured Key Results"
+msgstr ""
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
 msgid ""
@@ -3188,6 +3268,17 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_objective
 msgid "Set the first objective of this cycle"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__data_coverage
+msgid ""
+"Share of the objective's weight whose key results have reported progress."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__data_coverage
+msgid "Share of the scorecard's weight whose KPIs have confirmed actuals."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3565,6 +3656,11 @@ msgid "Total Weight"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__is_tracking
+msgid "Tracking Only"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__activity_exception_decoration
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__activity_exception_decoration
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__activity_exception_decoration
@@ -3676,6 +3772,18 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "Weighted roll-up"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__score_covered
+msgid "Weighted score over key results with reported progress only."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__score_covered
+msgid ""
+"Weighted score over the KPIs that have confirmed actuals only. Read it "
+"together with the data coverage."
 msgstr ""
 
 #. module: aic_okr_kpi

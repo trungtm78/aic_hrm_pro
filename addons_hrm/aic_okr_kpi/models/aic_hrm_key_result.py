@@ -146,6 +146,15 @@ class AicHrmKeyResult(models.Model):
     score = fields.Float(
         compute='_compute_progress', store=True, readonly=True,
         aggregator='avg')
+    has_actual = fields.Boolean(
+        compute='_compute_has_actual', store=True,
+        help="Progress has been reported: a check-in or a completed milestone.")
+
+    @api.depends('last_checkin_date', 'milestone_ids.is_done')
+    def _compute_has_actual(self):
+        for kr in self:
+            kr.has_actual = bool(kr.last_checkin_date) or any(
+                kr.milestone_ids.mapped('is_done'))
 
     def _get_rag_profile(self):
         self.ensure_one()

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -103,6 +105,14 @@ class AicHrmKpiTarget(models.Model):
     achievement = fields.Float(
         compute='_compute_actuals', store=True, aggregator='avg',
         help="Normalized 0..cap achievement against the cycle target.")
+    has_actual = fields.Boolean(
+        compute='_compute_actuals', store=True,
+        help="At least one confirmed period result exists.")
+    is_tracking = fields.Boolean(
+        string='Tracking Only',
+        help="Followed for information (e.g. department costs): the actual is "
+             "shown but not scored, and the target cannot sit on a weighted "
+             "scorecard line.")
     note = fields.Text()
 
     _kpi_cycle_owner_uniq = models.Constraint(
@@ -164,7 +174,7 @@ class AicHrmKpiTarget(models.Model):
     @api.depends('period_result_ids', 'period_result_ids.actual',
                  'period_result_ids.state', 'period_result_ids.date_to',
                  'aggregation', 'direction', 'target_value',
-                 'cycle_id.score_cap')
+                 'cycle_id.score_cap', 'is_tracking')
     def _compute_actuals(self):
         actuals = self._load_actuals_map()
         for target in self:
@@ -178,6 +188,7 @@ class AicHrmKpiTarget(models.Model):
                          max(results, key=lambda r: r.date_to).actual
                          if results else 0.0]
             total, count, last_actual = entry
+            target.has_actual = bool(count)
             if not count:
                 target.actual_value = 0.0
                 target.achievement = 0.0
@@ -189,8 +200,12 @@ class AicHrmKpiTarget(models.Model):
                 actual = total / count
             else:
                 actual = last_actual
-            cap = target.cycle_id.score_cap or 1.0
             target.actual_value = actual
+            if target.is_tracking:
+                target.achievement = 0.0
+                target.score = 0.0
+                continue
+            cap = target.cycle_id.score_cap or 1.0
             target.achievement = utils.achievement(
                 actual, target.target_value, target.direction, cap=cap)
             target.score = target.achievement
@@ -198,6 +213,21 @@ class AicHrmKpiTarget(models.Model):
     score = fields.Float(
         compute='_compute_actuals', store=True, readonly=True,
         aggregator='avg')
+
+    @api.depends('score', 'is_tracking')
+    def _compute_rag(self):
+        tracking = self.filtered('is_tracking')
+        tracking.rag = 'none'
+        super(AicHrmKpiTarget, self - tracking)._compute_rag()
+
+    @api.constrains('is_tracking')
+    def _check_tracking_not_weighted(self):
+        lines = self.env['aic.hrm.kpi.assignment.line'].search_count(
+            [('kpi_target_id', 'in', self.filtered('is_tracking').ids)], limit=1)
+        if lines:
+            raise ValidationError(_(
+                "A target on a scorecard carries weight; it cannot be made "
+                "tracking-only."))
 
     def _get_rag_profile(self):
         self.ensure_one()
@@ -307,30 +337,68 @@ class AicHrmKpiTarget(models.Model):
             ('metric_source_id', '!=', False),
             ('cycle_id.state', '=', 'open'),
         ])
-        PeriodResult = self.env['aic.hrm.kpi.period.result']
         today = fields.Date.context_today(self)
         month_start = today.replace(day=1)
         for target in targets:
-            value = target.metric_source_id.compute_value(
-                date_from=month_start, date_to=today)
-            existing = PeriodResult.search([
-                ('kpi_target_id', '=', target.id),
-                ('date_from', '=', month_start),
-            ], limit=1)
-            if existing:
-                # Manual always beats automatic: only auto-created drafts
-                # may be refreshed by the metric pull.
-                if existing.state == 'draft' and existing.source == 'auto':
-                    existing.write({'actual': value})
-            else:
-                PeriodResult.create({
-                    'kpi_target_id': target.id,
-                    'date_from': month_start,
-                    'date_to': today,
-                    'actual': value,
-                    'source': 'auto',
-                    'state': 'draft',
-                })
+            target._pull_metric_period(month_start, today)
+
+    def _pull_metric_period(self, date_from, date_to):
+        """Upsert one automatic draft result for the period.
+
+        Manual always beats automatic: an existing result is refreshed only
+        while it is still an automatic draft."""
+        self.ensure_one()
+        value = self.metric_source_id.compute_value(
+            date_from=date_from, date_to=date_to)
+        PeriodResult = self.env['aic.hrm.kpi.period.result']
+        existing = PeriodResult.search([
+            ('kpi_target_id', '=', self.id),
+            ('date_from', '=', date_from),
+        ], limit=1)
+        if existing:
+            if existing.state == 'draft' and existing.source == 'auto':
+                existing.write({'actual': value, 'date_to': date_to})
+            return existing
+        return PeriodResult.create({
+            'kpi_target_id': self.id,
+            'date_from': date_from,
+            'date_to': date_to,
+            'actual': value,
+            'source': 'auto',
+            'state': 'draft',
+        })
+
+    def _metric_periods(self, today):
+        """Periods of the target's cycle that have started by ``today``:
+        one per month for monthly targets, the whole cycle otherwise."""
+        self.ensure_one()
+        start, end = self.cycle_id.date_start, self.cycle_id.date_end
+        if start > today:
+            return []
+        if self.frequency != 'monthly':
+            return [(start, min(end, today))]
+        periods, month_start = [], start
+        while month_start <= min(end, today):
+            month_end = month_start + relativedelta(day=31)
+            periods.append((month_start, min(month_end, end, today)))
+            month_start = month_end + relativedelta(days=1)
+        return periods
+
+    def action_pull_metric_actuals(self):
+        """Read every started period of each target from its metric source,
+        e.g. July and August revenue from posted invoices, not only the
+        current month the nightly pull covers."""
+        without = self.filtered(lambda target: not target.metric_source_id)
+        if without:
+            raise UserError(_(
+                "%(targets)s: set a metric source before pulling actuals.",
+                targets=', '.join(without.mapped('display_label'))))
+        self.cycle_id.ensure_editable()
+        today = fields.Date.context_today(self)
+        for target in self:
+            for date_from, date_to in target._metric_periods(today):
+                target._pull_metric_period(date_from, date_to)
+        return True
 
     def action_confirm(self):
         self.filtered(lambda t: t.state == 'draft').write(
@@ -398,3 +466,20 @@ class AicHrmKpiPeriodResult(models.Model):
     def unlink(self):
         self.kpi_target_id.cycle_id.ensure_editable()
         return super().unlink()
+
+    def _check_manager(self):
+        if not self.env.su and not self.env.user.has_group(
+                'aic_hrm_base.group_hrm_manager'):
+            raise UserError(_(
+                "Only performance managers may confirm period results."))
+
+    def action_confirm(self):
+        """Confirm the selected results; only confirmed results score."""
+        self._check_manager()
+        self.filtered(lambda r: r.state == 'draft').write({'state': 'confirmed'})
+        return True
+
+    def action_reset_to_draft(self):
+        self._check_manager()
+        self.filtered(lambda r: r.state == 'confirmed').write({'state': 'draft'})
+        return True

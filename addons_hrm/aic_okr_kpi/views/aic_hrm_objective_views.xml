@@ -23,6 +23,8 @@
                 <field name="weight" optional="show"/>
                 <field name="kr_count" string="KRs"/>
                 <field name="score" widget="percentage" optional="show"/>
+                <field name="score_covered" widget="percentage" optional="hide"/>
+                <field name="data_coverage" optional="hide"/>
                 <field name="rag" widget="badge"
                        decoration-success="rag == 'green'"
                        decoration-warning="rag == 'amber'"
@@ -90,6 +92,8 @@
                                    required="level == 'department'"/>
                             <field name="weight"/>
                             <field name="score" widget="percentage"/>
+                            <field name="score_covered" widget="percentage"/>
+                            <field name="data_coverage"/>
                             <field name="rag"/>
                             <field name="parent_id"/>
                             <field name="contributes_to_ids" widget="many2many_tags"/>

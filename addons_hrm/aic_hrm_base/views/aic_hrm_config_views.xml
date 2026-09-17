@@ -29,6 +29,7 @@
                 <field name="model_id"/>
                 <field name="field_name"/>
                 <field name="aggregate"/>
+                <field name="multiplier" optional="show"/>
                 <field name="last_run"/>
                 <field name="last_value"/>
             </list>
@@ -47,6 +48,7 @@
                             <field name="model_id"/>
                             <field name="field_name"/>
                             <field name="aggregate"/>
+                            <field name="multiplier"/>
                         </group>
                         <group>
                             <field name="domain" widget="domain" options="{'model': 'model_name'}"/>

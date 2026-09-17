@@ -49,6 +49,18 @@ class TestMetricSource(TransactionCase):
         count_source = self._make_source(name='Count', aggregate='count')
         self.assertAlmostEqual(count_source.compute_value(), 2.0)
 
+    def test_multiplier_scales_and_signs_the_value(self):
+        """Ledger revenue is a credit balance in currency units while the KPI
+        is counted in billions: the source turns one into the other."""
+        source = self._make_source(name='Scaled', aggregate='sum', multiplier=-0.5)
+        self.assertAlmostEqual(source.compute_value(), -0.7)
+        self.assertAlmostEqual(source.last_value, -0.7)
+        self.assertEqual(self._make_source(name='Default').multiplier, 1.0)
+
+    def test_multiplier_cannot_be_zero(self):
+        with self.assertRaises(ValidationError):
+            self._make_source(name='Zero', multiplier=0.0)
+
     def test_bad_domain_raises_validation(self):
         with self.assertRaises(ValidationError):
             self._make_source(domain="[('nonexistent', '=', 1)]").compute_value()

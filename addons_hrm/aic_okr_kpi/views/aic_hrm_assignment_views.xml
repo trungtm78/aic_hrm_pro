@@ -13,6 +13,8 @@
                        decoration-danger="not weight_ok"/>
                 <field name="weight_ok" column_invisible="1"/>
                 <field name="score" widget="percentage"/>
+                <field name="score_covered" widget="percentage" optional="show"/>
+                <field name="data_coverage" optional="show"/>
                 <field name="rag" widget="badge"
                        decoration-success="rag == 'green'"
                        decoration-warning="rag == 'amber'"
@@ -55,6 +57,8 @@
                             <field name="total_weight" decoration-danger="not weight_ok"/>
                             <field name="weight_ok" invisible="1"/>
                             <field name="score" widget="percentage"/>
+                            <field name="score_covered" widget="percentage"/>
+                            <field name="data_coverage"/>
                             <field name="rag"/>
                         </group>
                     </group>

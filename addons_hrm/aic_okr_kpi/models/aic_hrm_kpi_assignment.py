@@ -67,6 +67,7 @@ class AicHrmKpiAssignment(models.Model):
                 f'{assignment.cycle_id.code or ""}')
 
     @api.depends('line_ids', 'line_ids.weight', 'line_ids.score',
+                 'line_ids.has_actual',
                  'line_ids.group_id', 'line_ids.weight_in_group',
                  'group_ids.weight', 'group_ids.group_id',
                  'group_ids.total_in_group', 'cycle_id.score_cap')
@@ -78,13 +79,28 @@ class AicHrmKpiAssignment(models.Model):
             assignment.weight_ok = not assignment.weight_issue
             pairs = [(line.score, line.weight)
                      for line in assignment.line_ids]
+            cap = assignment.cycle_id.score_cap or 1.0
             assignment.score = utils.clamp(
-                utils.weighted_average(pairs), 0.0,
-                assignment.cycle_id.score_cap or 1.0)
+                utils.weighted_average(pairs), 0.0, cap)
+            covered = [(line.score, line.weight)
+                       for line in assignment.line_ids if line.has_actual]
+            assignment.data_coverage = utils.coverage(covered, pairs)
+            assignment.score_covered = utils.clamp(
+                utils.weighted_average(covered), 0.0, cap)
 
     score = fields.Float(
         compute='_compute_totals', store=True, readonly=True,
         aggregator='avg')
+    data_coverage = fields.Float(
+        string='Data Coverage (%)', compute='_compute_totals', store=True,
+        aggregator='avg',
+        help="Share of the scorecard's weight whose KPIs have confirmed "
+             "actuals.")
+    score_covered = fields.Float(
+        string='Score on Measured KPIs', compute='_compute_totals',
+        store=True, aggregator='avg',
+        help="Weighted score over the KPIs that have confirmed actuals only. "
+             "Read it together with the data coverage.")
 
     def _weight_issue(self, total):
         """First reason the weights do not add up, or False.
@@ -193,6 +209,8 @@ class AicHrmKpiAssignmentLine(models.Model):
         precompute=True,
         help="Share of the whole scorecard. On a grouped line it is derived: "
              "group weight x weight in group.")
+    has_actual = fields.Boolean(
+        related='kpi_target_id.has_actual', store=True)
     personal_target = fields.Float(
         help="Optional personal target when it differs from the KPI "
              "target's cycle value.")
@@ -239,6 +257,15 @@ class AicHrmKpiAssignmentLine(models.Model):
             if share <= 0:
                 raise ValidationError(_(
                     "Assignment line weights must be positive."))
+
+    @api.constrains('kpi_target_id')
+    def _check_not_tracking(self):
+        for line in self:
+            if line.kpi_target_id.is_tracking:
+                raise ValidationError(_(
+                    "KPI target %(target)s is tracking-only and cannot carry "
+                    "weight on a scorecard.",
+                    target=line.kpi_target_id.display_label))
 
     @api.constrains('kpi_target_id', 'assignment_id')
     def _check_same_cycle(self):

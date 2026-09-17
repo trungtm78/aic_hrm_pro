@@ -140,6 +140,14 @@
         <field name="arch" type="xml">
             <list string="Period Results" class="o_aic_hrm_view"
                   editable="bottom">
+                <header>
+                    <button name="action_confirm" type="object"
+                            string="Confirm"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            groups="aic_hrm_base.group_hrm_manager"/>
+                </header>
                 <field name="kpi_target_id"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
@@ -148,6 +156,7 @@
                 <field name="source"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'confirmed'"/>
+                <field name="note" optional="hide"/>
             </list>
         </field>
     </record>

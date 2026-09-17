@@ -124,22 +124,38 @@ class AicHrmObjective(models.Model):
         for objective in self:
             objective.kr_count = len(objective.kr_ids)
 
-    @api.depends('kr_ids.score', 'kr_ids.weight',
+    @api.depends('kr_ids.score', 'kr_ids.weight', 'kr_ids.has_actual',
                  'child_ids.score', 'child_ids.weight',
-                 'cycle_id.score_cap')
+                 'child_ids.data_coverage', 'cycle_id.score_cap')
     def _compute_score(self):
         for objective in self:
             pairs = [(kr.score, kr.weight) for kr in objective.kr_ids]
-            pairs += [(child.score, child.weight)
-                      for child in objective.child_ids]
+            covered = [(kr.score, kr.weight) for kr in objective.kr_ids
+                       if kr.has_actual]
+            for child in objective.child_ids:
+                pairs.append((child.score, child.weight))
+                if child.data_coverage:
+                    covered.append((child.score, child.weight))
             # Clamp against OWN cycle cap: a child cycle with a higher cap
             # must not push the parent above its scale.
+            cap = objective.cycle_id.score_cap or 1.0
             objective.score = utils.clamp(
-                utils.weighted_average(pairs), 0.0,
-                objective.cycle_id.score_cap or 1.0)
+                utils.weighted_average(pairs), 0.0, cap)
+            objective.data_coverage = utils.coverage(covered, pairs)
+            objective.score_covered = utils.clamp(
+                utils.weighted_average(covered), 0.0, cap)
 
     score = fields.Float(
         compute='_compute_score', store=True, readonly=True, aggregator='avg')
+    data_coverage = fields.Float(
+        string='Data Coverage (%)', compute='_compute_score', store=True,
+        aggregator='avg',
+        help="Share of the objective's weight whose key results have "
+             "reported progress.")
+    score_covered = fields.Float(
+        string='Score on Measured Key Results', compute='_compute_score',
+        store=True, aggregator='avg',
+        help="Weighted score over key results with reported progress only.")
 
     def _get_rag_profile(self):
         self.ensure_one()

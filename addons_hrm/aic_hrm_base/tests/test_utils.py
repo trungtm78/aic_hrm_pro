@@ -81,3 +81,9 @@ class TestScoringUtils(TransactionCase):
             utils.weighted_average([(1.0, 60), (0.5, 40)]), 0.8)
         self.assertEqual(utils.weighted_average([]), 0.0)
         self.assertEqual(utils.weighted_average([(0.7, 0)]), 0.0)
+
+    def test_coverage_is_the_measured_share_of_weight(self):
+        pairs = [(1.0, 60), (0.0, 30), (0.5, 10)]
+        self.assertAlmostEqual(utils.coverage([pairs[0], pairs[2]], pairs), 70.0)
+        self.assertEqual(utils.coverage([], pairs), 0.0)
+        self.assertEqual(utils.coverage([], []), 0.0)

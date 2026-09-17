@@ -52,6 +52,11 @@ class AicHrmMetricSource(models.Model):
     date_field = fields.Char(
         help="Optional date/datetime field used to restrict the pull to a "
              "period when the caller passes bounds.")
+    multiplier = fields.Float(
+        default=1.0, required=True, digits=(16, 12),
+        help="The aggregate is multiplied by this before it is used: -1 turns "
+             "a credit balance (revenue) into a positive figure, 0.000000001 "
+             "turns currency units into billions.")
     last_run = fields.Datetime(readonly=True, copy=False)
     last_value = fields.Float(readonly=True, copy=False)
     active = fields.Boolean(default=True)
@@ -66,6 +71,14 @@ class AicHrmMetricSource(models.Model):
                     "Model %(model)s is not on the metric-source allowlist. "
                     "An HR administrator must allowlist it first.",
                     model=source.model_id.model))
+
+    @api.constrains('multiplier')
+    def _check_multiplier(self):
+        for source in self:
+            if not source.multiplier:
+                raise ValidationError(_(
+                    "The multiplier of metric source %(name)s cannot be 0.",
+                    name=source.name))
 
     @api.constrains('model_id', 'field_name', 'date_field')
     def _check_fields(self):
@@ -117,6 +130,7 @@ class AicHrmMetricSource(models.Model):
                 spec = f'{self.field_name}:{self.aggregate}'
                 result = model._read_group(domain, [], [spec])
                 value = float(result[0][0] or 0.0)
+            value *= self.multiplier
         except ValidationError:
             raise
         except Exception as error:
