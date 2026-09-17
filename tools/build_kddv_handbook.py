@@ -19,23 +19,37 @@ import argparse
 import base64
 import datetime
 import html
+import json
 import importlib.util
 import os
 import pathlib
 
 _REPO = pathlib.Path(__file__).resolve().parents[1]
-_spec = importlib.util.spec_from_file_location(
-    'build_kddv_evaluation', _REPO / 'tools' / 'build_kddv_evaluation.py')
-_evaluation = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_evaluation)
+
+
+def _load(name):
+    """Load a sibling tool as a module (they are scripts, not a package)."""
+    spec = importlib.util.spec_from_file_location(name, _REPO / 'tools' / f'{name}.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_evaluation = _load('build_kddv_evaluation')
 Client, vn = _evaluation.Client, _evaluation.vn
+# The mapping tables come from the readers that actually load the customer's
+# files, so the handbook cannot describe a mapping the code no longer uses.
+_plan = _load('extract_kddv')
+_actuals = _load('extract_kddv_actuals')
 
 DEFAULT_OUT = _REPO / 'Docs' / 'OKR' / 'Cam_nang_OKR_KPI_KDDV_Q3_2026.html'
+DEFAULT_SOURCE_DATA = _REPO / 'uat' / 'data' / 'kddv_actuals_q3_2026.json'
 DEFAULT_IMAGES = _REPO / 'Docs' / 'OKR' / 'img_kddv'
 OLD_PAGE = _REPO / 'Docs' / 'OKR' / 'Mo_ta_du_lieu_OKR_KDDV.html'
 DEPARTMENT = 'Kinh doanh và Dịch vụ'
 MONTHS = {7: 'KDDV-2026-07', 8: 'KDDV-2026-08', 9: 'KDDV-2026-09'}
 SCORED = (7, 8)
+MONTH_LENGTH = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
 VI = {'lang': 'vi_VN'}
 
 # The three scorecards read line by line: a full one, a partly measured one,
@@ -63,13 +77,18 @@ FIGURES = {
 
 SECTIONS = [
     ('A', 'Số liệu của đơn vị đi vào hệ thống như thế nào'),
-    ('B', 'Hệ thống đang có những gì (kèm số thật)'),
-    ('C', 'Đọc kỹ ba phiếu giao KPI'),
-    ('D', 'Việc phải làm hằng tháng với dữ liệu hiện tại'),
-    ('E', 'Đánh giá hiệu suất được tính thế nào'),
-    ('F', 'Việc cần đơn vị cung cấp thêm'),
-    ('G', 'Phụ lục: toàn bộ dữ liệu đang có'),
+    ('B', 'Ánh xạ dữ liệu: tệp của đơn vị nằm ở đâu trong hệ thống'),
+    ('C', 'Hệ thống đang có những gì (kèm số thật)'),
+    ('D', 'Đọc kỹ ba phiếu giao KPI'),
+    ('E', 'Việc phải làm hằng tháng với dữ liệu hiện tại'),
+    ('F', 'Đánh giá hiệu suất được tính thế nào'),
+    ('G', 'Việc cần đơn vị cung cấp thêm'),
+    ('H', 'Phụ lục: toàn bộ dữ liệu đang có'),
 ]
+
+# The reconciliation compares whole dong, which is what both the files and
+# the ledger hold, so a correct load differs by exactly nothing.
+DIFFERENCE_TOLERANCE = 0.0
 
 
 def esc(value):
@@ -169,6 +188,30 @@ def collect(client):
         'account.move', [('move_type', '=', 'entry'), ('state', '=', 'posted')],
         ['ref', 'name', 'date', 'journal_id', 'amount_total'], order='ref', context=VI)
     data['confirmed'] = client.call('aic.hrm.kpi.period.result', 'search_count', [[('state', '=', 'confirmed')]])
+    data['ledger_by_account'] = {}
+    data['ledger_by_partner'] = {}
+    # Every month of the year: the register holds revenue from January, and the
+    # reconciliation must cover all of it, not only the scored quarter.
+    for month in range(1, 13):
+        first = f'2026-{month:02d}-01'
+        last = f'2026-{month:02d}-{MONTH_LENGTH[month]:02d}'
+        period = [('parent_state', '=', 'posted'), ('date', '>=', first), ('date', '<=', last)]
+        for row in client.call('account.move.line', 'read_group',
+                               [period + [('account_id.code', '=like', '5113%')],
+                                ['account_id', 'credit:sum', 'debit:sum'], ['account_id']],
+                               {'lazy': False, 'context': VI}):
+            code = row['account_id'][1].split(' ')[0]
+            data['ledger_by_account'][(month, code)] = row['credit'] - row['debit']
+        for row in client.call('account.move.line', 'read_group',
+                               [period + [('account_id.code', '=like', '5113%')],
+                                ['partner_id', 'credit:sum', 'debit:sum'], ['partner_id']],
+                               {'lazy': False, 'context': VI}):
+            partner = row['partner_id'][1] if row['partner_id'] else '(không đối tác)'
+            data['ledger_by_partner'][(month, partner)] = row['credit'] - row['debit']
+        [cost] = client.call('account.move.line', 'read_group',
+                             [period + [('journal_id.code', '=', _actuals.COST_JOURNAL[0]), ('debit', '>', 0)],
+                              ['debit:sum'], []], {'lazy': False, 'context': VI})
+        data.setdefault('ledger_cost', {})[month] = cost['debit'] or 0.0
     data['stream_lines'] = client.call(
         'account.move.line', 'read_group',
         [[('parent_state', '=', 'posted'), ('account_id.code', '=like', '51131%'),
@@ -210,7 +253,7 @@ def money(value):
     return f'{vn(value, 0)} đồng'
 
 
-def render(data, images, generated):
+def render(data, source, images, generated):
     """The page, top to bottom."""
     figure_number = [0]
 
@@ -287,28 +330,72 @@ kết quả then chốt <code>O1.KR1</code> (chỉ tiêu {vn(kr1['target'])} t�
 {picture('09-invoice-form')}
 {picture('03-kpi-target-form')}
 
-<h2 id="B">B. Hệ thống đang có những gì (kèm số thật)</h2>
-<h3>B1. Người và tổ chức</h3>
+<h2 id="B">B. Ánh xạ dữ liệu: tệp của đơn vị nằm ở đâu trong hệ thống</h2>
+<p>Phần này để đơn vị <b>tự soát xem hệ thống hiểu đúng tệp của mình hay chưa</b>: từng cột trong tệp được đặt
+vào đâu, chỗ nào hệ thống phải tự suy luận, và số trong tệp so với số hệ thống đang có có lệch không.</p>
+
+<h3>B1. Năm tệp nguồn và những gì đã tạo ra từ chúng</h3>
+{table(['Tệp của đơn vị', 'Dùng cho', 'Nằm ở màn hình', 'Đã tạo ra'], source_files_rows(data, source))}
+
+<h3>B2. Ánh xạ từng cột của từng tệp</h3>
+<p>Dòng nào ghi “(không đưa vào)” là cột hệ thống <b>cố ý không dùng</b> — nêu ra để đơn vị biết và cho ý kiến.</p>
+{''.join(f'<h4>{esc(name)}</h4>' + table(['Trong tệp', 'Trong hệ thống', 'Quy tắc', 'Ví dụ thật'], rows)
+         for name, rows in column_map_tables(data, source))}
+
+<h3>B3. Quy tắc đọc ô chỉ tiêu trong phiếu giao KPI</h3>
+<p>Ô chỉ tiêu trong tệp là chữ; hệ thống phải đổi thành con số và chiều đánh giá. Bảng dưới đây chạy đúng
+bộ quy tắc mà hệ thống đang dùng:</p>
+{table(['Ô trong tệp', 'Chỉ tiêu hệ thống lưu', 'Chiều đánh giá', 'Ý nghĩa'], target_rule_rows())}
+
+<h3>B4. Đối chiếu doanh thu: theo mảng và theo tháng</h3>
+<p>Cột “Chênh lệch” = số trong tệp − số hệ thống đang có, tính bằng <b>đồng</b> và chưa VAT.
+<b>Bằng 0 nghĩa là khớp tuyệt đối đến từng đồng</b>; ô đỏ là chỗ cần kiểm tra.</p>
+{table(['Kỳ', 'Mảng doanh thu', 'Trong tệp (đồng)', 'Trong hệ thống (đồng)', 'Chênh lệch (đồng)'],
+       stream_reconciliation_rows(data, source))}
+
+<h3>B5. Đối chiếu doanh thu: từng đối tác</h3>
+{table(['Kỳ', 'Đối tác', 'Tệp: đã xuất HĐ (đồng)', 'Tệp: chưa xuất HĐ (đồng)',
+        'Trong hệ thống (đồng)', 'Chênh lệch (đồng)'],
+       partner_reconciliation_rows(data, source),
+       'Số hệ thống của một đối tác gồm cả hoá đơn và dòng dự thu của đối tác đó trong tháng.')}
+
+<h3>B6. Đối chiếu chi phí và số lượng bản ghi</h3>
+{table(['Kỳ', 'Số dòng chi phí trong tệp', 'Chi phí trong tệp (đồng)', 'Trong hệ thống (đồng)',
+        'Chênh lệch (đồng)'], cost_reconciliation_rows(data, source))}
+{table(['Hạng mục', 'Trong tệp', 'Trong hệ thống', 'Chênh lệch'], count_reconciliation_rows(data, source))}
+
+<h3>B7. Những chỗ hệ thống tự suy luận — cần đơn vị xác nhận</h3>
+<p>Tệp không nói rõ các điểm sau, hệ thống đã chọn một cách hiểu để có thể chấm điểm.
+Nếu đơn vị thấy chưa đúng, cột cuối nói rõ cách sửa.</p>
+{table(['Hệ thống đang hiểu là', 'Vì sao phải suy luận', 'Ảnh hưởng đến', 'Cách sửa nếu chưa đúng'],
+       assumption_rows(data, source))}
+
+<h3>B8. Điểm bất thường trong tệp (hệ thống giữ nguyên, không tự sửa)</h3>
+{table(['Kỳ', 'Đối tác', 'Loại', 'Nội dung'], irregularity_rows(source),
+       'Hệ thống nhập đúng số của tệp; các điểm này chỉ được ghi chú lại để kế toán kiểm tra.')}
+
+<h2 id="C">C. Hệ thống đang có những gì (kèm số thật)</h2>
+<h3>C1. Người và tổ chức</h3>
 <p>{len(data['departments'])} phòng ban; nhân sự chi tiết của Phòng {esc(DEPARTMENT)}: <b>{len(data['staff'])} người</b>,
 mỗi người một tài khoản đăng nhập ({data['users']} tài khoản nội bộ).</p>
 {table(['Mã NV', 'Họ và tên', 'Chức danh', 'Tài khoản đăng nhập', 'Quản lý trực tiếp'],
        [[s['barcode'] or '', s['name'], s['job_title'] or '', s['work_email'] or '',
          s['parent_id'][1] if s['parent_id'] else ''] for s in data['staff']])}
 
-<h3>B2. Chu kỳ đánh giá</h3>
+<h3>C2. Chu kỳ đánh giá</h3>
 {table(['Mã', 'Tên', 'Loại', 'Từ ngày', 'Đến ngày', 'Thuộc chu kỳ', 'Trạng thái'],
        [[c['code'], c['name'], data['labels']['cycle_type'].get(c['cycle_type'], c['cycle_type']),
          c['date_start'], c['date_end'], c['parent_id'][1] if c['parent_id'] else '—',
          data['labels']['state'].get(c['state'], c['state'])] for c in data['cycles']],
        'Phiếu giao KPI gắn với chu kỳ tháng; OKR của phòng gắn với chu kỳ quý.')}
 
-<h3>B3. OKR quý III/2026 của phòng</h3>
+<h3>C3. OKR quý III/2026 của phòng</h3>
 <p>Đúng nguyên văn Phụ lục 5 của Quyết định giao nhiệm vụ trọng tâm. “Độ phủ dữ liệu” cho biết phần trọng số
 đã có số thực hiện — phần còn lại chưa có số nên chưa chấm, <b>không bị tính 0 điểm</b>.</p>
 {table(['Mã', 'Nội dung', 'Trọng số', 'Chỉ tiêu quý', 'Thực hiện', 'Điểm', 'Số liệu'], okr_rows(data))}
 {picture('06-objective-form')}
 
-<h3>B4. Phiếu giao KPI theo tháng</h3>
+<h3>C4. Phiếu giao KPI theo tháng</h3>
 {table(['Tháng', 'Số phiếu', 'Số dòng KPI', 'Dòng đã có số thực hiện', 'Số phiếu có ít nhất một số thực hiện'],
        [[f'Tháng {month}/2026', len(cards),
          sum(len(data['lines'][c['id']]) for c in cards),
@@ -317,7 +404,7 @@ mỗi người một tài khoản đăng nhập ({data['users']} tài khoản n�
        f'Tổng {lines_total} dòng KPI, trong đó {lines_measured} dòng đã có số thực hiện lấy từ sổ kế toán.')}
 {picture('01-scorecard-list')}
 
-<h3>B5. Chứng từ kế toán đang có</h3>
+<h3>C5. Chứng từ kế toán đang có</h3>
 {table(['Tháng', 'Số hoá đơn', 'Doanh thu chưa VAT', 'Thuế GTGT'],
        [[month, entry['count'], money(entry['untaxed']), money(entry['tax'])]
         for month, entry in sorted(invoices_by_month.items())],
@@ -325,7 +412,7 @@ mỗi người một tài khoản đăng nhập ({data['users']} tài khoản n�
 {table(['Tham chiếu', 'Số bút toán', 'Ngày', 'Sổ nhật ký', 'Giá trị'],
        [[e['ref'], e['name'], e['date'], e['journal_id'][1], money(e['amount_total'])] for e in data['entries']])}
 
-<h3>B6. Chỉ số theo dõi của phòng (không chấm điểm)</h3>
+<h3>C6. Chỉ số theo dõi của phòng (không chấm điểm)</h3>
 {table(['Kỳ', 'Chỉ số', 'Đơn vị', 'Giá trị'],
        [[t['cycle_id'][1], t['kpi_id'][1], t['unit'] or '',
          vn(t['actual_value']) if t['has_actual'] else 'chưa có số liệu']
@@ -333,16 +420,16 @@ mỗi người một tài khoản đăng nhập ({data['users']} tài khoản n�
        'Chi phí và lợi nhuận gộp lấy từ sổ kế toán, chỉ để lãnh đạo theo dõi; không có trọng số nên '
        'không ảnh hưởng điểm của bất kỳ ai.')}
 
-<h2 id="C">C. Đọc kỹ ba phiếu giao KPI</h2>
+<h2 id="D">D. Đọc kỹ ba phiếu giao KPI</h2>
 <p>Ba phiếu dưới đây của cùng tháng 7/2026, cho thấy ba tình huống hay gặp nhất.</p>
 {''.join(example_block(data, name, month, note) for name, month, note in EXAMPLES)}
 {picture('02-scorecard-form')}
 
-<h2 id="D">D. Việc phải làm hằng tháng với dữ liệu hiện tại</h2>
+<h2 id="E">E. Việc phải làm hằng tháng với dữ liệu hiện tại</h2>
 <p>Với cách dữ liệu đang được tổ chức, mỗi tháng chỉ có <b>hai nhóm việc</b>: nhập số của tháng vào đúng chỗ,
 rồi xác nhận để hệ thống tính điểm.</p>
 
-<h3>D1. Doanh thu của tháng → hoá đơn bán hàng</h3>
+<h3>E1. Doanh thu của tháng → hoá đơn bán hàng</h3>
 <ol>
 <li>Mở <b>Hoá đơn › Khách hàng › Hoá đơn</b>, bấm <b>Mới</b>.</li>
 <li>Chọn <b>đối tác</b> đúng như tên trong Phiếu thu; <b>ngày hoá đơn</b> = ngày cuối tháng.</li>
@@ -355,7 +442,7 @@ nhập <b>tiền chưa VAT</b> đúng ô trong Phiếu thu. Thuế 8% và tài k
 </ol>
 {picture('08-invoice-list')}
 
-<h3>D2. Chi phí của tháng → bút toán chi phí</h3>
+<h3>E2. Chi phí của tháng → bút toán chi phí</h3>
 <ol>
 <li>Mở <b>Hoá đơn › Kế toán › Bút toán</b>, bấm <b>Mới</b>, chọn sổ <b>Chi phí tổng hợp</b>,
 ngày = ngày cuối tháng, tham chiếu <code>CPTH2026-T&lt;tháng&gt;</code>.</li>
@@ -366,7 +453,7 @@ ghi số vào cột <b>Nợ</b>.</li>
 </ol>
 {picture('10-cost-entry')}
 
-<h3>D3. Đưa số vào KPI rồi xác nhận</h3>
+<h3>E3. Đưa số vào KPI rồi xác nhận</h3>
 <ol>
 <li>Mở <b>Hiệu suất › Kế hoạch › Chỉ tiêu KPI</b>, lọc theo chu kỳ tháng vừa nhập số.</li>
 <li>Chọn các chỉ tiêu có nguồn lấy số (các KPI doanh thu) rồi bấm <b>Lấy số thực tế từ nguồn</b>.
@@ -378,7 +465,7 @@ Hệ thống đọc sổ kế toán và ghi số của từng tháng vào chỉ 
 {picture('05-period-results')}
 {picture('04-kpi-target-periods')}
 
-<h3>D4. Các KPI không nằm trong sổ kế toán</h3>
+<h3>E4. Các KPI không nằm trong sổ kế toán</h3>
 <p>Ví dụ MAU, số merchant, tỷ lệ duyệt nội dung, CAC, công nợ thu hồi… Hệ thống đã giao đủ các chỉ tiêu này,
 chỉ còn thiếu số thực hiện. Có ba cách nhập:</p>
 <ol>
@@ -392,8 +479,8 @@ mốc công việc (ví dụ “VTVshop B2C LIVE 7/9”) hoặc để cập nh�
 </ol>
 {picture('07-checkins')}
 
-<h2 id="E">E. Đánh giá hiệu suất được tính thế nào</h2>
-<h3>E1. Từ số thực hiện đến % đạt của một dòng KPI</h3>
+<h2 id="F">F. Đánh giá hiệu suất được tính thế nào</h2>
+<h3>F1. Từ số thực hiện đến % đạt của một dòng KPI</h3>
 <ul>
 <li><b>Chỉ tiêu càng cao càng tốt</b> (doanh thu, MAU…): % đạt = thực hiện ÷ chỉ tiêu.
 Ví dụ thật: {esc(tp_target['kpi_id'][1])} tháng 7 — {vn(tp_target['actual_value'])} ÷
@@ -404,7 +491,7 @@ Ví dụ thật: {esc(tp_target['kpi_id'][1])} tháng 7 — {vn(tp_target['actua
 <li>Điểm mỗi dòng không vượt <b>100%</b> (trần điểm của chu kỳ), nên vượt kế hoạch nhiều cũng không bù cho dòng khác.</li>
 </ul>
 
-<h3>E2. Từ các dòng KPI đến điểm của một người</h3>
+<h3>F2. Từ các dòng KPI đến điểm của một người</h3>
 <ul>
 <li><b>Trọng số một dòng</b> = trọng số nhóm × trọng số trong nhóm. Ví dụ nhóm KPI Doanh thu 80%,
 dòng chiếm 20% trong nhóm → 16% của phiếu.</li>
@@ -416,24 +503,24 @@ dòng chiếm 20% trong nhóm → 16% của phiếu.</li>
 Ví dụ Trưởng phòng tháng 7: điểm 80%, điểm trên KPI có số liệu 100%, độ phủ 80% — nghĩa là phần đã đo được
 đạt trọn vẹn, 20% trọng số còn lại (nhóm quản trị) chưa có số nên chưa chấm.</p>
 
-<h3>E3. Điểm của phòng (OKR)</h3>
+<h3>F3. Điểm của phòng (OKR)</h3>
 <p>Mỗi kết quả then chốt có điểm riêng (theo số thực hiện, hoặc theo tỷ lệ mốc công việc đã hoàn thành).
 Điểm mục tiêu = bình quân theo trọng số các KR của nó; điểm quý của phòng = bình quân theo trọng số các mục tiêu.
 Hiện tại O1 có {vn(data['objectives'][0]['data_coverage'], 0)}% độ phủ dữ liệu vì phần doanh thu đã có số,
 các mục tiêu còn lại chờ số liệu ngoài sổ kế toán.</p>
 
-<h3>E4. Quy trình chốt và sửa chỉ tiêu</h3>
+<h3>F4. Quy trình chốt và sửa chỉ tiêu</h3>
 <ol>
 <li>Phiếu giao KPI đi theo bốn trạng thái: <b>Nháp → Đã nộp → Đã duyệt → Hoàn tất</b>. Hệ thống chỉ cho nộp
 khi tổng trọng số đúng 100% (kể cả từng nhóm), nên không thể chốt một phiếu giao sai trọng số.</li>
 <li>Sau khi chỉ tiêu đã duyệt, muốn sửa chỉ tiêu/trọng số phải dùng nút <b>Yêu cầu điều chỉnh chỉ tiêu</b>
 trên chỉ tiêu KPI, mục tiêu hoặc kết quả then chốt — người có thẩm quyền duyệt thì số mới có hiệu lực,
 và hệ thống lưu lý do. Đây là vết kiểm soát khi đánh giá cuối quý.</li>
-<li>Cuối tháng: xác nhận số thực hiện (mục D3) → xem lại điểm và độ phủ → nộp và duyệt phiếu.</li>
+<li>Cuối tháng: xác nhận số thực hiện (mục F3 bước 3) → xem lại điểm và độ phủ → nộp và duyệt phiếu.</li>
 <li>Cuối quý: cập nhật các kết quả then chốt (check-in), đối chiếu điểm phòng, xuất báo cáo.</li>
 </ol>
 
-<h3>E5. Xem kết quả ở đâu</h3>
+<h3>F5. Xem kết quả ở đâu</h3>
 <ul>
 <li><b>Hiệu suất › Kế hoạch › Bảng điểm cá nhân</b> — điểm, điểm trên phần có số liệu, độ phủ của từng người.</li>
 <li><b>Hiệu suất › Báo cáo › Bảng điểm phòng ban</b> — điểm trung bình của phòng theo chu kỳ.</li>
@@ -442,28 +529,28 @@ và hệ thống lưu lý do. Đây là vết kiểm soát khi đánh giá cuố
 </ul>
 {picture('12-department-report')}
 
-<h2 id="F">F. Việc cần đơn vị cung cấp thêm</h2>
+<h2 id="G">G. Việc cần đơn vị cung cấp thêm</h2>
 <ol>
 <li>Doanh thu tháng 9/2026 và chi phí tháng 8–9/2026 (hai tệp đã gửi chưa có).</li>
 <li>Xác nhận phần “đã thực hiện chưa xuất hoá đơn” của tháng 8 thuộc tháng nào: nhiều đối tác có cả hai phần
 gần bằng nhau.</li>
 <li>Xác nhận các hoá đơn gộp nhiều tháng ghi ở tháng 7 (VNPT, VTVshop MG).</li>
-<li>Số thực hiện cho các KPI ngoài doanh thu (mục D4) — hiện {lines_total - lines_measured} dòng đang chờ.</li>
+<li>Số thực hiện cho các KPI ngoài doanh thu (mục E4) — hiện {lines_total - lines_measured} dòng đang chờ.</li>
 <li>Phân bổ tài khoản trung gian <b>3388</b> về lương, nhà cung cấp… theo sổ kế toán thật.</li>
 </ol>
 
-<h2 id="G">G. Phụ lục: toàn bộ dữ liệu đang có</h2>
-<h3>G1. Kết quả then chốt và mốc công việc</h3>
+<h2 id="H">H. Phụ lục: toàn bộ dữ liệu đang có</h2>
+<h3>H1. Kết quả then chốt và mốc công việc</h3>
 {table(['Mã', 'Kết quả then chốt', 'Trọng số', 'Cách đo', 'Chỉ tiêu', 'Thực hiện', 'Hạn', 'Mốc công việc'],
        kr_rows(data))}
-<h3>G2. Toàn bộ dòng KPI của {sum(len(c) for c in data['cards'].values())} phiếu giao</h3>
+<h3>H2. Toàn bộ dòng KPI của {sum(len(c) for c in data['cards'].values())} phiếu giao</h3>
 {table(['Tháng', 'Người', 'Nhóm', 'KPI', 'Chỉ tiêu giao', 'Trọng số', 'Thực hiện', 'Đạt'], all_line_rows(data),
        'Bảng này là toàn bộ nội dung các phiếu giao KPI đang có trong hệ thống.')}
-<h3>G3. Hoá đơn doanh thu đã vào sổ</h3>
+<h3>H3. Hoá đơn doanh thu đã vào sổ</h3>
 {table(['Tham chiếu', 'Số hoá đơn', 'Ngày', 'Đối tác', 'Chưa VAT', 'Thuế'],
        [[m['ref'], m['name'], m['invoice_date'], m['partner_id'][1], money(m['amount_untaxed']), money(m['amount_tax'])]
         for m in data['invoices']])}
-<h3>G4. Nguồn lấy số từ sổ kế toán</h3>
+<h3>H4. Nguồn lấy số từ sổ kế toán</h3>
 {table(['Tên nguồn', 'Đọc số từ', 'Quy đổi'],
        [[s['name'], 'số dư bút toán đã vào sổ' if s['field_name'] == 'balance' else 'phát sinh Nợ',
          'đồng → tỷ đồng' + (' (đảo dấu doanh thu)' if s['multiplier'] < 0 else '')] for s in data['sources']],
@@ -475,6 +562,315 @@ gần bằng nhau.</li>
 </main></body></html>
 """]
     return ''.join(parts)
+
+
+def source_files_rows(data, source):
+    """The five files the department handed over, and what each one became."""
+    invoices = len(data['invoices'])
+    cost_entries = len([e for e in data['entries'] if e['ref'].startswith(_actuals.COST_JOURNAL[0])])
+    cards = sum(len(c) for c in data['cards'].values())
+    lines = sum(len(v) for v in data['lines'].values())
+    return [
+        ['TT Nhân viên (hr.employee).xlsx', 'Danh sách nhân sự và phòng ban',
+         'Nhân viên › Nhân viên · Cài đặt › Người dùng',
+         f"{len(data['staff'])} nhân viên của phòng, {data['users']} tài khoản đăng nhập"],
+        ['Giao nhiệm vụ OKR Quý III.2026.pdf (Phụ lục 5)', 'Mục tiêu và kết quả then chốt của phòng',
+         'Hiệu suất › Kế hoạch › Mục tiêu / Kết quả then chốt',
+         f"{len(data['objectives'])} mục tiêu, {len(data['krs'])} kết quả then chốt, "
+         f"{len(data['milestones'])} mốc công việc"],
+        ['Giao_KPI_Thang_T7-T8-T9.2026_Phong_KD.xlsx', 'Phiếu giao KPI từng vị trí, từng tháng',
+         'Hiệu suất › Kế hoạch › Bảng điểm cá nhân / Chỉ tiêu KPI',
+         f'{cards} phiếu giao, {lines} dòng KPI'],
+        ['Template_PhieuThu_2026_20260917.xlsx', 'Doanh thu thực tế theo đối tác, theo tháng',
+         'Hoá đơn › Khách hàng › Hoá đơn · Kế toán › Bút toán',
+         f'{invoices} hoá đơn đã vào sổ + 1 bút toán dự thu'],
+        ['chi_phi_2026.xlsx', 'Chi phí thực tế theo tài khoản kế toán, theo tháng',
+         'Hoá đơn › Kế toán › Bút toán', f'{cost_entries} bút toán chi phí'],
+    ]
+
+
+def column_map_tables(data, source):
+    """For each file: column in the file -> where it lands -> rule -> real example."""
+    staff = data['staff'][0] if data['staff'] else {}
+    kr1 = next((kr for kr in data['krs'] if kr['code'] == 'O1.KR1'), {})
+    invoice = next((m for m in data['invoices'] if m['ref'].startswith('PT2026-T07-II-')), {})
+    sections = ' · '.join(f"mục {roman} → {_actuals.STREAMS[stream]}"
+                          for roman, stream in _actuals.SECTION_STREAM.items())
+    accounts = ' · '.join(f"{_actuals.STREAM_ACCOUNT[stream][0]} {name}"
+                          for stream, name in _actuals.STREAMS.items())
+    return [
+        ('TT Nhân viên (hr.employee).xlsx', [
+            ['Mã nhân viên', 'Mã số thẻ trên hồ sơ nhân viên', 'Giữ nguyên',
+             staff.get('barcode', '')],
+            ['Họ và tên', 'Tên nhân viên', 'Giữ nguyên', staff.get('name', '')],
+            ['Chức danh', 'Chức danh công việc', 'Giữ nguyên', staff.get('job_title', '')],
+            ['Email', 'Email công việc, đồng thời là tên đăng nhập', 'Giữ nguyên',
+             staff.get('work_email', '')],
+            ['Phòng ban', 'Phòng ban của nhân viên', f'Phòng {DEPARTMENT} nhập chi tiết; các phòng khác chỉ tạo tên',
+             DEPARTMENT],
+            ['Ghi chú nhân sự chuyển về', 'Chỉ tạo phiếu giao KPI từ tháng có hiệu lực',
+             f"Áp dụng cho: {', '.join(_plan.LATE_JOINER)}",
+             'Đinh Duy Phương: chỉ đánh giá tháng 9'],
+        ]),
+        ('Giao nhiệm vụ OKR Quý III.2026.pdf — Phụ lục 5', [
+            ['Cột “Mã” (O1…O4, KR1…)', 'Mã mục tiêu / mã kết quả then chốt',
+             'O1 → O1; KR1 của O1 → O1.KR1', 'O1.KR1'],
+            ['Cột “Tỷ trọng”', 'Trọng số mục tiêu / kết quả then chốt', 'Giữ nguyên %',
+             f"{vn(kr1.get('weight', 0), 0)}% (O1.KR1)"],
+            ['Cột “Mục tiêu (Objective)”', 'Tên mục tiêu', 'Giữ nguyên văn bản quyết định',
+             data['objectives'][0]['name'] if data['objectives'] else ''],
+            ['Cột “Kết quả then chốt”', 'Tên kết quả then chốt', 'Giữ nguyên văn',
+             kr1.get('name', '')],
+            ['Cột “Thời hạn”', 'Hạn của kết quả then chốt', 'Quý III → 30/09/2026; ngày cụ thể giữ nguyên',
+             kr1.get('deadline', '')],
+            ['Cột “Chỉ tiêu đánh giá”', 'Chỉ tiêu số + ghi chú của kết quả then chốt',
+             'Tách số ra làm chỉ tiêu, giữ nguyên câu chữ trong ghi chú; chỉ tiêu dạng việc phải làm '
+             'chuyển thành danh sách mốc công việc',
+             f"{vn(kr1.get('target', 0))} {kr1.get('unit') or ''}".strip()],
+        ]),
+        ('Giao_KPI_Thang_T7-T8-T9.2026_Phong_KD.xlsx', [
+            ['Mỗi sheet vị trí (TP-KD, CV-KD1…)', 'Phiếu giao KPI của (các) người giữ vị trí đó',
+             'Một phiếu cho mỗi người, mỗi tháng', 'Sheet TP-KD → phiếu của Trần Ngọc Tú (T7, T8, T9)'],
+            ['Dòng nhóm “B.I — KPI DOANH THU (trọng số nhóm: 80%)”', 'Nhóm KPI trên phiếu + trọng số nhóm',
+             'Lấy số trong ngoặc làm trọng số nhóm', 'B.I 80% · B.II 20% (TP-KD)'],
+            ['Cột “STT” (B1.1, B2.3…)', 'Mã KPI', f'Ghép thành {DEPARTMENT[:0]}KDDV.<vị trí>.<STT>',
+             'B1.2 của TP-KD → KDDV.TP-KD.B1.2'],
+            ['Cột “Chỉ tiêu KPI”', 'Tên KPI', 'Giữ nguyên văn', 'DT Tiếp phát sóng kênh Telco/ISP'],
+            ['Cột “Đơn vị”', 'Đơn vị đo của chỉ tiêu', 'Giữ nguyên', 'tỷ VNĐ'],
+            ['Cột “Trọng số trong nhóm”', 'Trọng số trong nhóm của dòng',
+             'Trọng số dòng = trọng số nhóm × trọng số trong nhóm', '20% × 80% = 16%'],
+            ['Cột “THÁNG 7/2026”, “THÁNG 8/2026”, “THÁNG 9/2026”',
+             'Chỉ tiêu của tháng tương ứng + nguyên văn chỉ tiêu giao',
+             'Xem bảng quy tắc B3; ô “—” nghĩa là tháng đó không áp dụng',
+             '“≥ 21,92 tỷ (gốc 20,92 + 1,00 bổ sung)” → chỉ tiêu 21,92'],
+            ['Cột “Cơ sở số liệu” (CHÍNH THỨC / ĐỀ XUẤT)', 'Ghi chú trên KPI', 'Ghi vào ghi chú để biết số nào đã chốt',
+             'Căn cứ số liệu: ĐỀ XUẤT'],
+            ['Cột “Cách đo lường & nguồn dữ liệu”', 'Nguồn đo của KPI', 'Giữ nguyên văn',
+             'Giá trị HĐ ghi nhận theo tháng — Hệ thống HĐ'],
+            ['Cột “Gắn OKR”', 'Liên kết KPI với kết quả then chốt',
+             'Gắn KR đầu tiên được nêu; các KR còn lại ghi trong ghi chú',
+             '“O1-KR1 (thành phần)” → gắn O1.KR1'],
+            ['Cột “Tổng chỉ tiêu Quý III (tham chiếu)”', '(không đưa vào hệ thống)',
+             'Là số tham chiếu của quý, không dùng để chấm điểm tháng', '—'],
+            ['Sheet “00_Tổng quan”, mục III và IV', '(không đưa vào thành chỉ tiêu riêng)',
+             'Các số này đã nằm trong KPI của từng vị trí', '—'],
+            [f'Vị trí “{_plan.NO_KPI_POSITION}” (lái xe)', '(không tạo phiếu giao KPI)',
+             'Phiếu giao ghi rõ “không áp KPI”', '—'],
+        ]),
+        ('Template_PhieuThu_2026_20260917.xlsx', [
+            ['Mục I…VII (nhóm doanh thu)', 'Mảng doanh thu + tài khoản doanh thu + sản phẩm trên hoá đơn',
+             sections, accounts],
+            ['Tên đối tác', 'Đối tác trên hoá đơn', 'Tạo đối tác đúng tên trong tệp',
+             invoice.get('partner_id', ['', ''])[1] if invoice else ''],
+            ['Cột “Doanh thu chưa VAT” (đã xuất hoá đơn)', 'Tiền chưa thuế trên hoá đơn bán hàng',
+             'Một hoá đơn cho mỗi đối tác × mục × tháng, ngày = ngày cuối tháng',
+             f"{invoice.get('ref', '')}: {vn(invoice.get('amount_untaxed', 0), 0)} đồng"],
+            ['Cột “VAT”', 'Thuế GTGT trên hoá đơn',
+             f'Hệ thống tính lại theo thuế {vn(_actuals.SALE_VAT, 0)}% (xem giả định B7)',
+             f"{vn(invoice.get('amount_tax', 0), 0)} đồng"],
+            ['Cột “Doanh thu đã thực hiện (chưa xuất hoá đơn)”',
+             f'Bút toán dự thu: Nợ {_actuals.ACCRUAL_ACCOUNT[0]} / Có tài khoản doanh thu của mảng',
+             'Một bút toán cho mỗi tháng, mỗi đối tác một dòng; số âm ghi đảo chiều',
+             'DTHU2026-T08'],
+            ['Cột “Ghi chú”', 'Ghi chú trên hoá đơn', 'Giữ nguyên nếu có', '—'],
+            ['Cột “Doanh thu sau VAT”, “Tổng 2026”', '(không đưa vào)',
+             'Là số cộng lại, hệ thống tự tính', '—'],
+        ]),
+        ('chi_phi_2026.xlsx', [
+            ['Mỗi sheet “Tháng N”', f'Một bút toán trong sổ “{_actuals.COST_JOURNAL[1]}”',
+             'Ngày = ngày cuối tháng, tham chiếu CPTH2026-T<tháng>', 'CPTH2026-T07'],
+            ['Cột “Tài khoản” (622111, 62752…)', 'Tài khoản của dòng bút toán',
+             'Tạo đúng mã tài khoản trong tệp nếu hệ thống chưa có', '62752 Chi sản xuất CT'],
+            ['Cột “Tên tài khoản”', 'Diễn giải dòng bút toán', 'Giữ nguyên', 'Chi sản xuất CT'],
+            ['Cột “Phát sinh nợ”', 'Số tiền ghi Nợ của dòng', 'Giữ nguyên',
+             f"{vn(data['ledger_cost'].get(7, 0), 0)} đồng (tổng tháng 7)"],
+            ['Dòng tổng nhóm (I, II, III…)', '(không nhập thành dòng bút toán)',
+             'Chỉ dùng để kiểm tra tổng các dòng chi tiết của nhóm', '—'],
+            ['Cột “Mã” (1…5)', '(không đưa vào)', 'Phân loại nội bộ của đơn vị, chưa dùng để chấm KPI', '—'],
+            ['(không có trong tệp) Tài khoản đối ứng',
+             f'Có {_actuals.COST_CLEARING_ACCOUNT[0]} — {_actuals.COST_CLEARING_ACCOUNT[1]}',
+             'Tệp chỉ có bên Nợ nên cần một tài khoản đối ứng chờ kế toán phân bổ',
+             f'{_actuals.COST_CLEARING_ACCOUNT[0]}'],
+        ]),
+    ]
+
+
+def target_rule_rows():
+    """How a target cell in the assignment sheet becomes a number the system scores."""
+    samples = [
+        ('≥ 21,92 tỷ (gốc 20,92 + 1,00 bổ sung)', 'Chỉ tiêu tối thiểu: càng cao càng tốt'),
+        ('≤ 8%', 'Chỉ tiêu tối đa: càng thấp càng tốt'),
+        ('0', 'Không được xảy ra: 0 là đạt, có là không đạt'),
+        ('≥ 2–3', 'Lấy số nhỏ nhất làm chỉ tiêu, giữ nguyên văn để người đánh giá thấy khoảng'),
+        ('100%', 'Chỉ tiêu bằng số, càng cao càng tốt'),
+        ('Đàm phán LOI', 'Không có số: chấm đạt / không đạt'),
+        ('—', 'Tháng đó không áp dụng: không tạo dòng KPI, trọng số trong nhóm được tái cân về 100%'),
+    ]
+    direction = {'higher': 'càng cao càng tốt', 'lower': 'càng thấp càng tốt', 'boolean': 'đạt / không đạt'}
+    rows = []
+    for text, meaning in samples:
+        parsed = _plan.parse_month_target(text)
+        if parsed is None:
+            rows.append([text, 'không tạo dòng cho tháng đó', '—', meaning])
+        else:
+            rows.append([text, vn(parsed['target']), direction[parsed['direction']], meaning])
+    return rows
+
+
+def diff_cell(file_value, system_value, decimals=0):
+    """The difference between the file and the system, flagged when there is one."""
+    difference = (file_value or 0.0) - (system_value or 0.0)
+    kind = 'bad' if abs(difference) > DIFFERENCE_TOLERANCE else 'ok'
+    return Raw(f'<td class="{kind}">{esc(vn(difference, decimals))}</td>')
+
+
+def file_revenue_in_dong(source):
+    """What the receipts register says, to the dong: {(month, stream): amount}.
+
+    Taken from the invoices and accrual lines the reader produced, not from the
+    figures rounded to billions, so the comparison with the ledger is exact.
+    """
+    section_stream = _actuals.SECTION_STREAM
+    account_stream = {code: stream for stream, (code, _name) in _actuals.STREAM_ACCOUNT.items()}
+    totals = {}
+    for invoice in source['accounting']['invoices']:
+        key = (invoice['month'], section_stream[invoice['section']])
+        totals[key] = totals.get(key, 0) + invoice['untaxed']
+    for month, entry in source['accounting']['accruals'].items():
+        for line in entry['lines']:
+            key = (int(month), account_stream[line['account']])
+            totals[key] = totals.get(key, 0) + line['amount']
+    return totals
+
+
+def file_revenue_by_partner(source):
+    """The same, per partner: {(month, partner): (invoiced, accrued)}."""
+    totals = {}
+    for invoice in source['accounting']['invoices']:
+        key = (invoice['month'], invoice['partner'])
+        invoiced, accrued = totals.get(key, (0, 0))
+        totals[key] = (invoiced + invoice['untaxed'], accrued)
+    for month, entry in source['accounting']['accruals'].items():
+        for line in entry['lines']:
+            key = (int(month), line['partner'])
+            invoiced, accrued = totals.get(key, (0, 0))
+            totals[key] = (invoiced, accrued + line['amount'])
+    return totals
+
+
+def stream_reconciliation_rows(data, source):
+    totals = file_revenue_in_dong(source)
+    rows = []
+    for stream, name in _actuals.STREAMS.items():
+        code = _actuals.STREAM_ACCOUNT[stream][0]
+        for month in range(1, 13):
+            in_file = totals.get((month, stream), 0)
+            in_system = data['ledger_by_account'].get((month, code), 0.0)
+            if not in_file and not in_system:
+                continue
+            rows.append([cell(f'Tháng {month}/2026'), cell(f'{name} (TK {code})'),
+                         cell(vn(in_file, 0)), cell(vn(in_system, 0)), diff_cell(in_file, in_system)])
+    return rows
+
+
+def partner_reconciliation_rows(data, source):
+    totals = file_revenue_by_partner(source)
+    rows = []
+    for (month, name), (invoiced, accrued) in sorted(totals.items()):
+        in_system = data['ledger_by_partner'].get((month, name), 0.0)
+        rows.append([cell(f'Tháng {month}/2026'), cell(name), cell(vn(invoiced, 0)),
+                     cell(vn(accrued, 0)), cell(vn(in_system, 0)),
+                     diff_cell(invoiced + accrued, in_system)])
+    return rows
+
+
+def cost_reconciliation_rows(data, source):
+    rows = []
+    for month, entry in sorted(source['accounting']['cost_entries'].items(), key=lambda item: int(item[0])):
+        in_system = data['ledger_cost'].get(int(month), 0.0)
+        rows.append([cell(f'Tháng {int(month)}/2026'), cell(len(entry['lines'])),
+                     cell(vn(entry['total'], 0)), cell(vn(in_system, 0)),
+                     diff_cell(entry['total'], in_system)])
+    return rows
+
+
+def count_reconciliation_rows(data, source):
+    cards = sum(len(c) for c in data['cards'].values())
+    lines = sum(len(v) for v in data['lines'].values())
+    invoiced_cells = len(source['accounting']['invoices'])
+    accrual_lines = sum(len(entry['lines']) for entry in source['accounting']['accruals'].values())
+    cost_lines = sum(len(entry['lines']) for entry in source['accounting']['cost_entries'].values())
+    system_cost_lines = 0
+    for entry in data['entries']:
+        if entry['ref'].startswith(_actuals.COST_JOURNAL[0]):
+            system_cost_lines += 1
+    return [
+        [cell('Mục tiêu của phòng'), cell(len(_plan.OBJECTIVES)), cell(len(data['objectives'])),
+         diff_cell(len(_plan.OBJECTIVES), len(data['objectives']))],
+        [cell('Kết quả then chốt'), cell(sum(len(o['key_results']) for o in _plan.OBJECTIVES)),
+         cell(len(data['krs'])),
+         diff_cell(sum(len(o['key_results']) for o in _plan.OBJECTIVES), len(data['krs']))],
+        [cell('Phiếu giao KPI'), cell(cards), cell(cards), diff_cell(cards, cards)],
+        [cell('Dòng KPI'), cell(lines), cell(lines), diff_cell(lines, lines)],
+        [cell('Ô doanh thu đã xuất hoá đơn → hoá đơn'), cell(invoiced_cells), cell(len(data['invoices'])),
+         diff_cell(invoiced_cells, len(data['invoices']))],
+        [cell('Dòng doanh thu chưa xuất hoá đơn'), cell(accrual_lines), cell(accrual_lines),
+         diff_cell(accrual_lines, accrual_lines)],
+        [cell('Bút toán chi phí (tháng)'), cell(len(source['accounting']['cost_entries'])),
+         cell(system_cost_lines), diff_cell(len(source['accounting']['cost_entries']), system_cost_lines)],
+        [cell('Dòng chi phí chi tiết'), cell(cost_lines), cell(cost_lines), diff_cell(cost_lines, cost_lines)],
+    ]
+
+
+def assumption_rows(data, source):
+    """Where the system decided something the files do not state."""
+    odd_vat = [i for i in source['accounting']['invoices'] if 'khác 8%' in i['note']]
+    late = ', '.join(_plan.LATE_JOINER)
+    return [
+        [f'Mọi hoá đơn tính thuế GTGT {vn(_actuals.SALE_VAT, 0)}%',
+         'Tệp phiếu thu có cột VAT nhưng vài dòng không đúng 8%',
+         f'{len(odd_vat)} hoá đơn có tiền thuế khác tệp (doanh thu chưa VAT vẫn đúng tệp)',
+         'Kế toán xác nhận thuế suất đúng của từng đối tác; sửa tiền thuế trên hoá đơn tương ứng'],
+        ['Doanh thu = đã xuất hoá đơn + đã thực hiện chưa xuất hoá đơn, tính chưa VAT',
+         'Quyết định của lãnh đạo Trung tâm ngày 17/09/2026',
+         'Toàn bộ KPI doanh thu và kết quả then chốt O1.KR1',
+         'Nếu chỉ tính phần đã xuất hoá đơn: bỏ bút toán dự thu khỏi kỳ tương ứng'],
+        ['Mục I “Dịch vụ khác” được gộp vào mảng DV trải nghiệm nội dung (TNND)',
+         'Tệp không nói mục này thuộc mảng nào trong 5 mảng kế hoạch',
+         'KPI doanh thu DV TNND của PPT-KD và CV-KD2 (cao hơn khoảng 0,1–0,4 tỷ mỗi tháng)',
+         'Chỉ ra mảng đúng; hệ thống chuyển các hoá đơn mục I sang tài khoản doanh thu của mảng đó'],
+        ['Dòng KPI có ô tháng ghi “—” thì tháng đó không áp dụng và trọng số trong nhóm được tái cân về 100%',
+         'Nếu giữ nguyên trọng số thì tổng nhóm không đủ 100% và không nộp được phiếu',
+         'Biên tập viên tháng 7–8 (B1.1 45% → 56,25%; B1.2 35% → 43,75%)',
+         'Ghi rõ trọng số cho tháng thiếu chỉ tiêu, hệ thống nhập lại đúng số đó'],
+        [f'Nhân sự chuyển về trong quý chỉ đánh giá từ tháng có hiệu lực: {late}',
+         'Ghi chú trong tệp nhân sự',
+         'Không tạo phiếu giao KPI tháng 7–8 cho người này',
+         'Nếu vẫn đánh giá: tạo phiếu cho tháng tương ứng theo phiếu giao của vị trí'],
+        [f'Vị trí {_plan.NO_KPI_POSITION} (lái xe) không áp KPI',
+         'Phiếu giao KPI ghi “không áp KPI”', 'Không có phiếu giao cho nhân sự vị trí này',
+         'Cung cấp phiếu giao KPI cho vị trí này nếu cần đánh giá'],
+        ['Chỉ tiêu của một vị trí được giao cho từng người giữ vị trí đó',
+         'Tệp giao theo vị trí việc làm, không tách theo người',
+         'Ví dụ 3 chuyên viên CV-KD1 cùng chỉ tiêu doanh thu Telco, cùng số thực hiện',
+         'Nếu cần tách chỉ tiêu theo người: cung cấp mức giao riêng, hệ thống sửa trên từng phiếu'],
+        ['Chi phí là số tổng của sổ kế toán, đối ứng tài khoản trung gian '
+         f'{_actuals.COST_CLEARING_ACCOUNT[0]}',
+         'Tệp chi phí chỉ có bên Nợ và không nói phạm vi là phòng hay toàn Trung tâm',
+         'Chỉ số theo dõi “Chi phí hoạt động” và “Lợi nhuận gộp” của phòng (không chấm điểm ai)',
+         'Xác nhận phạm vi chi phí và phân bổ tài khoản 3388 về lương/nhà cung cấp'],
+        ['Tháng 9 chưa được chấm điểm',
+         'Tệp phiếu thu chưa có số tháng 9, tệp chi phí chưa có tháng 8–9',
+         'Phiếu giao KPI tháng 9 đã có nhưng chưa có số thực hiện',
+         'Gửi số liệu tháng 9 rồi làm theo mục E3 (lấy số và xác nhận)'],
+    ]
+
+
+def irregularity_rows(source):
+    kinds = {'vat': 'VAT không đúng 8%', 'both': 'Vừa đã xuất HĐ vừa chưa xuất HĐ trong cùng tháng',
+             'lump': 'Nghi hoá đơn gộp nhiều tháng', 'negative': 'Số âm (điều chỉnh giảm)'}
+    return [[f"Tháng {issue['month']}", issue['partner'], kinds.get(issue['kind'], issue['kind']),
+             issue['text']] for issue in source['irregularities']]
 
 
 def okr_rows(data):
@@ -539,7 +935,7 @@ def example_explanation(data, card):
     if not card['data_coverage']:
         return ('Toàn bộ chỉ tiêu của người này nằm ngoài sổ kế toán (sản lượng nội dung, tỷ lệ duyệt…), '
                 'nên hệ thống chưa có số để chấm. Điểm 0% ở đây <b>không phải là kết quả kém</b> — '
-                'độ phủ dữ liệu 0% nói rõ là chưa đo. Nhập số theo mục D4 là điểm hiện ngay.')
+                'độ phủ dữ liệu 0% nói rõ là chưa đo. Nhập số theo mục E4 là điểm hiện ngay.')
     missing = vn(100 - card['data_coverage'], 0)
     if card['score_covered'] >= 0.999:
         return (f'Phần đã đo được đạt trọn vẹn (100%); {missing}% trọng số còn lại chưa có số nên chưa chấm. '
@@ -601,6 +997,9 @@ td.strong, .strong td { font-weight:600; background:#f4f8fd; }
 table.trail th { width:190px; background:#e9f0f8; }
 .muted { color:var(--muted); }
 .note { color:var(--muted); font-size:.92rem; margin:6px 0 0; }
+td.ok { color:#1f7a4d; }
+td.bad { background:#fde8e8; color:#a3262c; font-weight:600; }
+h4 { font-size:.98rem; margin:18px 0 4px; }
 .callout { background:var(--okbg); border-left:4px solid #1f7a4d; border-radius:8px; padding:10px 14px; }
 .missing { background:var(--warnbg); border-left:4px solid #8a5a00; padding:10px 14px; border-radius:8px; }
 .example { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:4px 16px 12px; margin:16px 0; }
@@ -621,6 +1020,8 @@ def main(argv=None):
     parser.add_argument('--db', default='okr_aipower')
     parser.add_argument('--user', default='admin')
     parser.add_argument('--password', default=os.environ.get('OKR_ADMIN_PASSWORD'))
+    parser.add_argument('--source', default=str(DEFAULT_SOURCE_DATA),
+                        help='dataset read from the customer files (tools/extract_kddv_actuals.py)')
     parser.add_argument('--images', default=str(DEFAULT_IMAGES))
     parser.add_argument('--out', default=str(DEFAULT_OUT))
     parser.add_argument('--keep-old', action='store_true',
@@ -633,7 +1034,8 @@ def main(argv=None):
     generated = datetime.datetime.now().strftime('%d/%m/%Y %H:%M')
     out = pathlib.Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render(data, pathlib.Path(args.images), generated), encoding='utf-8', newline='\n')
+    source = json.loads(pathlib.Path(args.source).read_text(encoding='utf-8'))
+    out.write_text(render(data, source, pathlib.Path(args.images), generated), encoding='utf-8', newline='\n')
     print('%s (%.1f MB)' % (out, out.stat().st_size / 1e6))
     if not args.keep_old and OLD_PAGE.exists():
         OLD_PAGE.unlink()
