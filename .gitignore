@@ -94,3 +94,8 @@ uat/test-results/
 uat/playwright-report/
 uat/package-lock.json
 uat/playwright-report-prod/
+
+# Local agent workspace files that ended up inside a module directory
+addons_hrm/*/.claude/
+addons_hrm/*/CLAUDE.md
+addons_hrm/*/PROGRESS.md
