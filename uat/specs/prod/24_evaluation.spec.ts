@@ -146,6 +146,36 @@ test('department cost and profit are tracked, not scored', async () => {
   }
 });
 
+test('the department roll-up reads the quarter OKR and the coverage', async () => {
+  const rows = await read('aic.hrm.department.scorecard', 'search_read', [[]],
+    { fields: ['cycle_id', 'avg_composite', 'avg_score_covered', 'avg_data_coverage',
+               'avg_objective_score', 'objective_cycle_id', 'employee_count'] });
+  expect(rows.length).toBeGreaterThan(0);
+  const [o1] = await read('aic.hrm.objective', 'search_read', [[['level', '=', 'department']]],
+    { fields: ['score', 'weight'] });
+  expect(o1).toBeTruthy();
+  for (const row of rows) {
+    // KPIs are monthly, objectives quarterly: the monthly rows must still
+    // show the quarter's OKR score and name the cycle it came from.
+    expect(row.objective_cycle_id?.[1], `${row.cycle_id[1]}: OKR cycle`).toBe('Quý III/2026');
+    expect(row.avg_objective_score, `${row.cycle_id[1]}: OKR score`).toBeGreaterThan(0);
+    expect(row.employee_count).toBeGreaterThan(0);
+  }
+  const july = rows.find((row: any) => row.cycle_id[1].includes('7/2026'));
+  expect(july.avg_score_covered).toBeGreaterThan(july.avg_composite);
+  expect(july.avg_data_coverage).toBeGreaterThan(0);
+});
+
+test('the figures behind the scores are all accounted for', async () => {
+  const confirmed = await read('aic.hrm.kpi.period.result', 'search_count', [[['state', '=', 'confirmed']]]);
+  const events = await read('aic.hrm.kpi.result.audit', 'search_count', [[]]);
+  expect(confirmed).toBeGreaterThan(0);
+  expect(events, 'every confirmed figure has at least one audit event').toBeGreaterThanOrEqual(confirmed);
+  const unstamped = await read('aic.hrm.kpi.period.result', 'search_count', [[
+    ['state', '=', 'confirmed'], ['confirmed_by', '=', false]]]);
+  expect(unstamped).toBe(0);
+});
+
 test('what is not measured is visible as such', async () => {
   const unmeasured = await read('aic.hrm.kpi.assignment.line', 'search_count', [[
     ['assignment_id.cycle_id.code', 'in', [MONTH_CODE[7], MONTH_CODE[8]]], ['has_actual', '=', false]]]);
