@@ -1,5 +1,5 @@
 import { test as base, expect, Page } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 /**
@@ -12,7 +12,8 @@ import { resolve } from 'node:path';
  * find what already exists (so a rerun does not duplicate) and to check the
  * result afterwards.
  *
- * Credentials come from the environment and are never written to disk.
+ * Credentials come from the environment, or from git-ignored files under
+ * uat/data that the account specs write; nothing with a password is committed.
  */
 export const PROD_URL = process.env.PROD_URL ?? 'https://okr.aipower.vn';
 export const PROD_DB = process.env.PROD_DB ?? 'okr_aipower';
@@ -25,10 +26,14 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 
 const QUERY_METHODS = new Set(['search_read', 'search_count', 'search', 'read', 'fields_get', 'read_group']);
 
+const ADMIN_SECRET = resolve(__dirname, '..', 'data', 'prod_admin.json');
+
+/** From PROD_ADMIN_PASSWORD, else from the git-ignored file 08_admin_password writes. */
 export function adminPassword(): string {
-  const password = process.env.PROD_ADMIN_PASSWORD;
+  const password = process.env.PROD_ADMIN_PASSWORD
+    || (existsSync(ADMIN_SECRET) ? JSON.parse(readFileSync(ADMIN_SECRET, 'utf-8')).password : '');
   if (!password) {
-    throw new Error('Set PROD_ADMIN_PASSWORD before running the production profile.');
+    throw new Error('Set PROD_ADMIN_PASSWORD (or keep uat/data/prod_admin.json) to run the production profile.');
   }
   return password;
 }

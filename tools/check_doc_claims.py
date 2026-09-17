@@ -89,8 +89,10 @@ def main(argv=None):
     parser.add_argument('--url', default='https://okr.aipower.vn')
     parser.add_argument('--db', default='okr_aipower')
     parser.add_argument('--user', default='admin')
-    parser.add_argument('--password', default='Okr@2026')
+    parser.add_argument('--password', default=os.environ.get('OKR_ADMIN_PASSWORD'))
     args = parser.parse_args(argv)
+    if not args.password:
+        parser.error('pass --password or set OKR_ADMIN_PASSWORD')
 
     html = io.open(args.doc, encoding='utf-8').read()
     client = Client(args.url, args.db, args.user, args.password)
