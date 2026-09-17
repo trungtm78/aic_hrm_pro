@@ -8,11 +8,13 @@ from . import test_dashboard
 from . import test_diagnosis
 from . import test_import_rollover
 from . import test_kpi_engine
+from . import test_kpi_plan_links
 from . import test_kr_progress
 from . import test_levels
 from . import test_objective_scoring
 from . import test_objective_workflow
 from . import test_perf_enterprise
+from . import test_scorecard_groups
 from . import test_security
 from . import test_strategy
 from . import test_tour

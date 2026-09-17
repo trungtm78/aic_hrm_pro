@@ -53,12 +53,18 @@ class TestKpiLibrary(KpiCase):
         with self.assertRaises(Exception), self.env.cr.savepoint():
             self.Kpi.create({'name': 'Duplicate', 'code': 'KPI-MRR'})
 
-    def test_lower_better_needs_positive_default_target(self):
+    def test_lower_better_default_target_cannot_be_negative(self):
         with self.assertRaises(ValidationError):
             self.Kpi.create({
                 'name': 'Critical bugs', 'code': 'KPI-BUG',
-                'direction': 'lower', 'default_target': 0.0,
+                'direction': 'lower', 'default_target': -1.0,
             })
+        # zero is zero tolerance ("0 copyright incidents"), a real target
+        zero = self.Kpi.create({
+            'name': 'Copyright incidents', 'code': 'KPI-BUG0',
+            'direction': 'lower', 'default_target': 0.0,
+        })
+        self.assertTrue(zero.id)
         kpi = self.Kpi.create({
             'name': 'Critical bugs', 'code': 'KPI-BUG2',
             'direction': 'lower', 'default_target': 3.0,
@@ -113,9 +119,9 @@ class TestKpiTargetInheritance(KpiCase):
         with self.assertRaises(Exception), self.env.cr.savepoint():
             self._make_target()
 
-    def test_lower_better_target_positive(self):
+    def test_lower_better_target_not_negative(self):
         with self.assertRaises(ValidationError):
-            self._make_target(target_value=0.0, direction='lower')
+            self._make_target(target_value=-0.5, direction='lower')
 
 
 @tagged('post_install', '-at_install', 'aic_okr_kpi')

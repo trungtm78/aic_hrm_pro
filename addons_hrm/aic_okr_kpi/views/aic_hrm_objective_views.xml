@@ -259,6 +259,13 @@
                                 </list>
                             </field>
                         </page>
+                        <!-- The spreadsheet import has always written this
+                             note, but no screen showed it: a key result's
+                             evaluation criterion was stored and invisible. -->
+                        <page string="Notes" name="notes">
+                            <field name="note"
+                                   placeholder="Evaluation criterion, source document, assumptions"/>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>

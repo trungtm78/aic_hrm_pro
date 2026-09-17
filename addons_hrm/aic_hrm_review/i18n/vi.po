@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 05:26+0000\n"
-"PO-Revision-Date: 2026-08-02 05:26+0000\n"
+"POT-Creation-Date: 2026-09-17 10:13+0000\n"
+"PO-Revision-Date: 2026-09-17 10:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -52,7 +52,9 @@ msgstr "Mẫu đánh giá phải có một bước cuối cùng."
 msgid ""
 "A scoped department has fewer than 6 people: anonymous feedback can often be"
 " guessed. Prefer department-level aggregates."
-msgstr "Phòng ban trong phạm vi có dưới 6 người: phản hồi ẩn danh thường bị suy ngược ra danh tính. Nên dùng số liệu tổng hợp ở cấp phòng ban."
+msgstr ""
+"Phòng ban trong phạm vi có dưới 6 người: phản hồi ẩn danh thường bị suy "
+"ngược ra danh tính. Nên dùng số liệu tổng hợp ở cấp phòng ban."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_idp__action_ids
@@ -122,7 +124,8 @@ msgstr "Tính ẩn danh yếu về mặt số học trong các đội quá nhỏ
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review_stage__min_raters
 msgid "Anonymous aggregates only appear once this many raters have submitted."
-msgstr "Số liệu tổng hợp ẩn danh chỉ hiện khi đủ số người đánh giá này đã gửi."
+msgstr ""
+"Số liệu tổng hợp ẩn danh chỉ hiện khi đủ số người đánh giá này đã gửi."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_calibration_line__state__applied
@@ -139,6 +142,11 @@ msgstr "Dòng hiệu chỉnh đã áp dụng là bản ghi kiểm toán bất bi
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_calibration_session_form
 msgid "Apply"
 msgstr "Áp dụng"
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "Archived"
+msgstr "Đã lưu trữ"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_calibration_session__message_attachment_count
@@ -778,7 +786,9 @@ msgstr "Số tin nhắn bị lỗi gửi"
 #: code:addons/aic_hrm_review/models/aic_hrm_review.py:0
 msgid ""
 "Only performance managers may set manager, potential or calibrated ratings."
-msgstr "Chỉ quản lý hiệu suất mới được đặt điểm quản lý, tiềm năng hoặc điểm sau hiệu chỉnh."
+msgstr ""
+"Chỉ quản lý hiệu suất mới được đặt điểm quản lý, tiềm năng hoặc điểm sau "
+"hiệu chỉnh."
 
 #. module: aic_hrm_review
 #. odoo-python
@@ -827,7 +837,8 @@ msgstr "Phản hồi đồng nghiệp"
 msgid ""
 "People do not rate themselves through 360 feedback; self-assessment has its "
 "own stage."
-msgstr "Không ai tự đánh giá mình qua phản hồi 360; tự đánh giá có bước riêng."
+msgstr ""
+"Không ai tự đánh giá mình qua phản hồi 360; tự đánh giá có bước riêng."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_cycle__perf_cycle_id
@@ -884,6 +895,11 @@ msgstr "Câu hỏi"
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__question_type
 msgid "Question Type"
 msgstr "Loại câu hỏi"
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "Questions"
+msgstr "Câu hỏi"
 
 #. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_employee_id
@@ -977,6 +993,12 @@ msgid "Review Form Section"
 msgstr "Phần của biểu mẫu đánh giá"
 
 #. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_review_questionnaire
+#: model:ir.ui.menu,name:aic_hrm_review.menu_review_questionnaires
+msgid "Review Forms"
+msgstr "Bộ câu hỏi đánh giá"
+
+#. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_question
 msgid "Review Question"
 msgstr "Câu hỏi đánh giá"
@@ -1044,6 +1066,11 @@ msgid "Section"
 msgstr "Phần"
 
 #. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "Sections"
+msgstr "Phần"
+
+#. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review__self_score
 msgid "Self Score"
 msgstr "Điểm tự đánh giá"
@@ -1087,7 +1114,9 @@ msgstr "Cảnh báo đội nhỏ"
 msgid ""
 "Snapshot of the composite goal score when the review was generated; later "
 "goal edits never rewrite history."
-msgstr "Ảnh chụp điểm mục tiêu tổng hợp tại thời điểm sinh phiếu; các chỉnh sửa mục tiêu sau đó không bao giờ viết lại lịch sử."
+msgstr ""
+"Ảnh chụp điểm mục tiêu tổng hợp tại thời điểm sinh phiếu; các chỉnh sửa mục "
+"tiêu sau đó không bao giờ viết lại lịch sử."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_review__nine_box_position__solid_contributor
@@ -1128,7 +1157,11 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr "Trạng thái theo hoạt động\nQuá hạn: đã qua ngày đến hạn\nHôm nay: hoạt động đến hạn hôm nay\nĐã lên lịch: hoạt động trong tương lai."
+msgstr ""
+"Trạng thái theo hoạt động\n"
+"Quá hạn: đã qua ngày đến hạn\n"
+"Hôm nay: hoạt động đến hạn hôm nay\n"
+"Đã lên lịch: hoạt động trong tương lai."
 
 #. module: aic_hrm_review
 #: model:ir.model.fields.selection,name:aic_hrm_review.selection__aic_hrm_idp_action__action_type__project
@@ -1143,7 +1176,8 @@ msgstr "Đã gửi"
 #. module: aic_hrm_review
 #: model:ir.model.fields,help:aic_hrm_review.field_aic_hrm_review__feedback_submitted_count
 msgid "Submitted 360 invitations — aggregate only, never per-rater."
-msgstr "Các lời mời 360 đã gửi — chỉ xem tổng hợp, không bao giờ theo từng người."
+msgstr ""
+"Các lời mời 360 đã gửi — chỉ xem tổng hợp, không bao giờ theo từng người."
 
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_form
@@ -1188,6 +1222,16 @@ msgstr "Phản hồi này đã được gửi."
 #: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_feedback_request_review_rater_uniq
 msgid "This person was already invited to this review."
 msgstr "Người này đã được mời tham gia đánh giá."
+
+#. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid ""
+"This rater has no login of their own. Only an HR administrator may record "
+"their answers."
+msgstr ""
+"Người đánh giá này không có tài khoản đăng nhập riêng. Chỉ quản trị viên "
+"nhân sự mới được ghi nhận câu trả lời thay họ."
 
 #. module: aic_hrm_review
 #: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_calibration_line_session_review_uniq
@@ -1254,4 +1298,9 @@ msgstr "Có / Không"
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
 msgid "e.g. 2026 annual review"
+msgstr "ví dụ: Đánh giá năm 2026"
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "e.g. Annual review 2026"
 msgstr "ví dụ: Đánh giá năm 2026"

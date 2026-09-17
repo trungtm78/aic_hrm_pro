@@ -58,13 +58,22 @@
                             <field name="rag"/>
                         </group>
                     </group>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="weight_ok or not weight_issue">
+                        Weights do not add up: <field name="weight_issue" class="d-inline"/>
+                    </div>
                     <notebook>
                         <page string="KPI Lines" name="lines">
                             <field name="line_ids">
                                 <list editable="bottom">
+                                    <field name="group_id" optional="show"
+                                           column_invisible="not parent.group_ids"/>
                                     <field name="kpi_target_id"
                                            domain="[('cycle_id', '=', parent.cycle_id)]"/>
-                                    <field name="weight"/>
+                                    <field name="weight_in_group" optional="show"
+                                           column_invisible="not parent.group_ids"
+                                           readonly="not group_id"/>
+                                    <field name="weight" readonly="group_id"/>
                                     <field name="personal_target" optional="show"/>
                                     <field name="score" widget="percentage"/>
                                 </list>
@@ -74,6 +83,17 @@
                                        decoration-danger="not weight_ok"
                                        decoration-success="weight_ok"/>
                             </group>
+                        </page>
+                        <page string="KPI Groups" name="groups">
+                            <field name="group_ids">
+                                <list editable="bottom">
+                                    <field name="group_id"/>
+                                    <field name="weight"/>
+                                    <field name="total_in_group"
+                                           string="Σ Lines in Group (must equal 100%)"
+                                           decoration-danger="total_in_group != 100"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Responsibility" name="responsibility">
                             <field name="responsibility"/>

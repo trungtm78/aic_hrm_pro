@@ -99,12 +99,10 @@ class AicHrmKpi(models.Model):
     @api.constrains('direction', 'default_target')
     def _check_lower_target(self):
         for kpi in self:
-            if kpi.direction == 'lower' and kpi.default_target <= 0.0:
+            if kpi.direction == 'lower' and kpi.default_target < 0.0:
                 raise ValidationError(_(
-                    "KPI %(name)s: lower-is-better KPIs need a strictly "
-                    "positive target — the linear achievement formula is "
-                    "undefined at target 0. Model 'zero incidents' goals as "
-                    "Pass/Fail instead.", name=kpi.name))
+                    "KPI %(name)s: a lower-is-better target cannot be "
+                    "negative. Use 0 for zero tolerance.", name=kpi.name))
 
     @api.constrains('is_template', 'company_id')
     def _check_template_shared(self):

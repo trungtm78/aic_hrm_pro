@@ -27,6 +27,7 @@ class AicHrmRolloverWizard(models.TransientModel):
                 "Source and target cycles must differ."))
         self.target_cycle_id.ensure_editable()
         objective_map = {}
+        kr_map = {}
         if self.copy_objectives:
             objectives = self.env['aic.hrm.objective'].search(
                 [('cycle_id', '=', self.source_cycle_id.id)])
@@ -57,12 +58,19 @@ class AicHrmRolloverWizard(models.TransientModel):
                     new_objective.contributes_to_ids = [
                         (6, 0, contributions)]
                 for kr in objective.kr_ids:
-                    kr.copy({
+                    kr_map[kr.id] = kr.copy({
                         'objective_id': new_objective.id,
                         'code': kr.code,
                         'current': 0.0,
                         'last_checkin_date': False,
                     })
+
+        # Goals in a cycle above the target cycle (a quarter above a month)
+        # stay valid for the copy and are kept; goals of the source cycle
+        # follow their copies, or are dropped when they were not copied.
+        above = self.target_cycle_id.parent_id
+        while above[-1:].parent_id:
+            above |= above[-1].parent_id
 
         target_map = {}
         if self.copy_kpi_targets:
@@ -76,12 +84,19 @@ class AicHrmRolloverWizard(models.TransientModel):
                 key = (kpi_target.kpi_id.id, kpi_target.employee_id.id)
                 if key in existing_targets:
                     continue
+                objective = objective_map.get(kpi_target.objective_id.id) or (
+                    kpi_target.objective_id
+                    if kpi_target.objective_id.cycle_id in above
+                    else self.env['aic.hrm.objective'])
+                kr = kr_map.get(kpi_target.kr_id.id) or (
+                    kpi_target.kr_id
+                    if kpi_target.kr_id.objective_id == objective
+                    else self.env['aic.hrm.key.result'])
                 target_map[kpi_target.id] = kpi_target.copy({
                     'cycle_id': self.target_cycle_id.id,
                     'state': 'draft',
-                    'objective_id': objective_map.get(
-                        kpi_target.objective_id.id,
-                        self.env['aic.hrm.objective']).id or False,
+                    'kr_id': kr.id or False,
+                    'objective_id': objective.id or False,
                 })
 
         if self.copy_assignments and self.copy_kpi_targets:

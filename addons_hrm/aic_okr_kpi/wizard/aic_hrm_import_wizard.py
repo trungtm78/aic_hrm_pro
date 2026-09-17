@@ -107,12 +107,22 @@ class AicHrmImportWizard(models.TransientModel):
 
         kpi_rows = []
         for row in self._rows(workbook[KPI_SHEET]):
+            # Columns 13-16 are optional, so sheets made before they existed
+            # import unchanged: group weight and weight inside the group
+            # (a scorecard in weighted sections), the key result the KPI
+            # serves, and the target in the sheet's own words.
             kpi_id, group, objective_code, name, direction, aggregation, \
-                unit, weight, target, owner, source, note = (
-                    list(row) + [None] * 12)[:12]
+                unit, weight, target, owner, source, note, group_weight, \
+                weight_in_group, kr_code, target_note = (
+                    list(row) + [None] * 16)[:16]
             if not kpi_id:
                 continue
             kpi_rows.append({
+                'group_weight': self._optional_float(group_weight),
+                'weight_in_group': self._optional_float(weight_in_group),
+                'kr_code': str(kr_code or '').strip(),
+                'target_note': str(target_note if target_note is not None
+                                   else '').strip(),
                 'code': str(kpi_id).strip(),
                 'group': str(group or '').strip(),
                 'objective_code': str(objective_code or '').strip(),
@@ -149,6 +159,42 @@ class AicHrmImportWizard(models.TransientModel):
                     'total': float(total or 0.0),
                 })
         return okr_rows, kpi_rows, assign_rows, warnings
+
+    @staticmethod
+    def _optional_float(value):
+        return None if value in (None, '') else float(value)
+
+    def _cycle_lineage(self):
+        """The import cycle and every cycle containing it."""
+        lineage = self.cycle_id
+        while lineage[-1:].parent_id:
+            lineage |= lineage[-1].parent_id
+        return lineage
+
+    def _match_key_result(self, code, kpi_code, warnings):
+        """A KPI serves a key result of this cycle or of a cycle above it
+        (a monthly sheet refers to the quarter's key results). An unknown or
+        ambiguous code is reported and left unlinked - never guessed."""
+        if not code:
+            return self.env['aic.hrm.key.result']
+        found = self.env['aic.hrm.key.result'].search([
+            ('code', '=', code),
+            ('objective_id.cycle_id', 'in', self._cycle_lineage().ids),
+        ], limit=2)
+        if len(found) != 1:
+            warnings.append(_(
+                "Key result %(code)s on KPI %(kpi)s is %(problem)s in this "
+                "cycle or the cycles above it; the KPI is not linked to a key "
+                "result.", code=code, kpi=kpi_code,
+                problem=_('ambiguous') if found else _('not found')))
+            return self.env['aic.hrm.key.result']
+        return found
+
+    def _match_group(self, name):
+        Group = self.env['aic.hrm.kpi.group']
+        group = Group.with_context(active_test=False).search(
+            [('name', '=ilike', name)], limit=1)
+        return group or Group.create({'name': name})
 
     def _match_job(self, title, warnings):
         """Turn the sheet's position text into a real hr.job.
@@ -329,6 +375,7 @@ class AicHrmImportWizard(models.TransientModel):
                 })
 
         kpi_targets = {}
+        kpi_groups = {}
         created_kpis = 0
         for row in kpi_rows:
             direction = direction_map.get(row['direction'].lower(), 'higher')
@@ -359,11 +406,24 @@ class AicHrmImportWizard(models.TransientModel):
                 Objective.search([
                     ('cycle_id', '=', self.cycle_id.id),
                     ('code', '=', row['objective_code'])], limit=1)
+            kr = self._match_key_result(row['kr_code'], row['code'], warnings)
             target_vals = {
                 'weight': row['weight'],
                 'target_value': row['target'],
-                'objective_id': objective.id if objective else False,
+                # Direction is set per target: one position's KPI can be a
+                # milestone in July and a number in September.
+                'direction': direction,
+                'target_note': row['target_note'] or False,
+                'kr_id': kr.id or False,
             }
+            if not kr:
+                # With a key result the objective follows it.
+                target_vals['objective_id'] = objective.id if objective \
+                    else False
+            if row['group'] and row['group_weight'] is not None:
+                kpi_groups[row['code']] = (
+                    self._match_group(row['group']), row['group_weight'],
+                    row['weight_in_group'] or 0.0)
             if target:
                 target.write(target_vals)
             else:
@@ -411,24 +471,64 @@ class AicHrmImportWizard(models.TransientModel):
                             "the KPI sheet — line skipped.",
                             code=code, person=row['person']))
                         continue
-                    target = KpiTarget.create({
-                        'kpi_id': reference.kpi_id.id,
-                        'cycle_id': self.cycle_id.id,
-                        'employee_id': employee.id,
+                    target = KpiTarget.search([
+                        ('kpi_id', '=', reference.kpi_id.id),
+                        ('cycle_id', '=', self.cycle_id.id),
+                        ('employee_id', '=', employee.id)], limit=1)
+                    clone_vals = {
                         'weight': reference.weight,
                         'target_value': reference.target_value,
+                        'direction': reference.direction,
+                        'target_note': reference.target_note,
+                        'kr_id': reference.kr_id.id or False,
                         'objective_id': reference.objective_id.id or False,
-                    })
+                    }
+                    if target:
+                        target.write(clone_vals)
+                    else:
+                        target = KpiTarget.create({
+                            **clone_vals,
+                            'kpi_id': reference.kpi_id.id,
+                            'cycle_id': self.cycle_id.id,
+                            'employee_id': employee.id,
+                        })
                     kpi_targets[(code, employee.id)] = target
+                line_vals = {'weight': target.weight or 1.0}
+                if code in kpi_groups:
+                    group, group_weight, weight_in_group = kpi_groups[code]
+                    section = assignment.group_ids.filtered(
+                        lambda s: s.group_id == group)
+                    if section:
+                        section.weight = group_weight
+                    else:
+                        assignment.group_ids.create({
+                            'assignment_id': assignment.id,
+                            'group_id': group.id,
+                            'weight': group_weight,
+                        })
+                    line_vals = {'group_id': group.id,
+                                 'weight_in_group': weight_in_group}
                 line = assignment.line_ids.filtered(
                     lambda l: l.kpi_target_id == target)
-                if not line:
+                if line:
+                    if code in kpi_groups:
+                        line.write(line_vals)
+                else:
                     assignment.line_ids.create({
+                        **line_vals,
                         'assignment_id': assignment.id,
                         'kpi_target_id': target.id,
-                        'weight': target.weight or 1.0,
                     })
-            self._normalise_scorecard(assignment, row, warnings)
+            if assignment.group_ids:
+                # Grouped weights are derived from the sheet's two levels;
+                # rescaling them would change what was assigned.
+                if not assignment.weight_ok:
+                    warnings.append(_(
+                        "%(person)s's scorecard weights do not add up: "
+                        "%(issue)s.", person=row['person'],
+                        issue=assignment.weight_issue))
+            else:
+                self._normalise_scorecard(assignment, row, warnings)
         self.write({
             'state': 'done',
             'warning_log': '\n'.join(warnings) or False,

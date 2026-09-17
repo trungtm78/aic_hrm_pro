@@ -31,9 +31,23 @@ class AicHrmKpiTarget(models.Model):
         'aic.hrm.cycle', required=True, index=True, ondelete='restrict')
     company_id = fields.Many2one(
         related='cycle_id.company_id', store=True, index=True)
+    kr_id = fields.Many2one(
+        'aic.hrm.key.result', string='Key Result', index=True,
+        ondelete='set null',
+        help="Key result this KPI serves. It may belong to a longer cycle "
+             "than the target, e.g. a quarterly key result for a monthly "
+             "KPI.")
     objective_id = fields.Many2one(
         'aic.hrm.objective', index=True, ondelete='set null',
-        help="Objective this KPI reports under, if any.")
+        compute='_compute_objective_id', store=True, readonly=False,
+        precompute=True,
+        help="Objective this KPI reports under, if any. Follows the key "
+             "result when one is set.")
+    target_note = fields.Char(
+        string='Target as Assigned',
+        help="The target in the words of the assignment sheet. Needed when "
+             "the target is a milestone ('LIVE on 7/9 with 10 merchants') "
+             "rather than a number, and kept next to the number otherwise.")
     team_id = fields.Many2one(
         'aic.hrm.team', string='Team', index=True, ondelete='restrict',
         help="Team this target is tracked for, when the KPI is a team "
@@ -100,6 +114,14 @@ class AicHrmKpiTarget(models.Model):
         for target in self:
             owner = target.employee_id.name or _('Unassigned')
             target.display_label = f'{target.kpi_id.code} · {owner}'
+
+    @api.depends('kr_id')
+    def _compute_objective_id(self):
+        for target in self:
+            if target.kr_id:
+                target.objective_id = target.kr_id.objective_id
+            else:
+                target.objective_id = target.objective_id
 
     @api.depends('kpi_id')
     def _compute_inherited(self):
@@ -185,18 +207,30 @@ class AicHrmKpiTarget(models.Model):
     @api.constrains('direction', 'target_value')
     def _check_lower_target(self):
         for target in self:
-            if target.direction == 'lower' and target.target_value <= 0.0:
+            if target.direction == 'lower' and target.target_value < 0.0:
                 raise ValidationError(_(
-                    "Lower-is-better targets must be strictly positive; "
-                    "model 'zero incidents' goals as Pass/Fail."))
+                    "A lower-is-better target cannot be negative. Use 0 for "
+                    "zero tolerance."))
 
-    @api.constrains('objective_id', 'cycle_id')
+    @api.constrains('objective_id', 'kr_id', 'cycle_id')
     def _check_objective_cycle(self):
+        # A monthly KPI serves a quarterly (or yearly) plan: the goal it
+        # reports under may sit in the target's cycle or any cycle above it,
+        # never in an unrelated or a shorter one.
         for target in self:
+            lineage = target.cycle_id
+            while lineage[-1:].parent_id:
+                lineage |= lineage[-1].parent_id
             if target.objective_id and \
-                    target.objective_id.cycle_id != target.cycle_id:
+                    target.objective_id.cycle_id not in lineage:
                 raise ValidationError(_(
-                    "The linked objective belongs to a different cycle."))
+                    "The linked objective belongs to a cycle that does not "
+                    "contain %(cycle)s.", cycle=target.cycle_id.display_name))
+            if target.kr_id and target.kr_id.objective_id != target.objective_id:
+                raise ValidationError(_(
+                    "Key result %(kr)s belongs to another objective than the "
+                    "one this KPI reports under.",
+                    kr=target.kr_id.display_name))
 
     @api.constrains('kpi_id', 'cycle_id')
     def _check_kpi_company(self):

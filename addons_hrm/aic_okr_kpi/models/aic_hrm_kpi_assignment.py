@@ -35,10 +35,18 @@ class AicHrmKpiAssignment(models.Model):
     responsibility = fields.Text()
     line_ids = fields.One2many(
         'aic.hrm.kpi.assignment.line', 'assignment_id')
+    group_ids = fields.One2many(
+        'aic.hrm.kpi.assignment.group', 'assignment_id', string='KPI Groups',
+        copy=True,
+        help="Weighted sections of the scorecard, e.g. revenue KPIs 80% and "
+             "management KPIs 20%. Leave empty for a flat scorecard.")
     total_weight = fields.Float(
         compute='_compute_totals', store=True,
         help="Sum of line weights; must reach exactly 100% to submit.")
     weight_ok = fields.Boolean(compute='_compute_totals', store=True)
+    weight_issue = fields.Char(
+        compute='_compute_totals', store=True,
+        help="Why the weights do not add up, when they do not.")
     state = fields.Selection([
         ('draft', 'Draft'),
         ('submitted', 'Submitted'),
@@ -59,13 +67,15 @@ class AicHrmKpiAssignment(models.Model):
                 f'{assignment.cycle_id.code or ""}')
 
     @api.depends('line_ids', 'line_ids.weight', 'line_ids.score',
-                 'cycle_id.score_cap')
+                 'line_ids.group_id', 'line_ids.weight_in_group',
+                 'group_ids.weight', 'group_ids.group_id',
+                 'group_ids.total_in_group', 'cycle_id.score_cap')
     def _compute_totals(self):
         for assignment in self:
             total = sum(assignment.line_ids.mapped('weight'))
             assignment.total_weight = total
-            assignment.weight_ok = float_compare(
-                total, 100.0, precision_digits=_WEIGHT_PRECISION) == 0
+            assignment.weight_issue = assignment._weight_issue(total)
+            assignment.weight_ok = not assignment.weight_issue
             pairs = [(line.score, line.weight)
                      for line in assignment.line_ids]
             assignment.score = utils.clamp(
@@ -75,6 +85,39 @@ class AicHrmKpiAssignment(models.Model):
     score = fields.Float(
         compute='_compute_totals', store=True, readonly=True,
         aggregator='avg')
+
+    def _weight_issue(self, total):
+        """First reason the weights do not add up, or False.
+
+        With groups, both levels must hold on their own: two groups whose
+        lines total 120% and 80% still make exactly 100 overall, and a
+        total-only check would pass a scorecard nobody drew up."""
+        self.ensure_one()
+
+        def off(value):
+            return float_compare(
+                value, 100.0, precision_digits=_WEIGHT_PRECISION) != 0
+
+        if not self.group_ids:
+            return (_("line weights total %(total)s%%", total=total)
+                    if off(total) else False)
+        if self.line_ids.filtered(lambda line: not line.group_id):
+            return _("every line must belong to one of the scorecard's "
+                     "groups")
+        declared = self.group_ids.group_id
+        stray = self.line_ids.group_id - declared
+        if stray:
+            return _("group %(group)s is used by a line but not declared on "
+                     "the scorecard", group=stray[0].display_name)
+        group_total = sum(self.group_ids.mapped('weight'))
+        if off(group_total):
+            return _("the groups total %(total)s%%", total=group_total)
+        for group in self.group_ids:
+            if off(group.total_in_group):
+                return _("the lines of group %(group)s total %(total)s%%",
+                         group=group.group_id.display_name,
+                         total=group.total_in_group)
+        return False
 
     def _get_rag_profile(self):
         self.ensure_one()
@@ -96,10 +139,10 @@ class AicHrmKpiAssignment(models.Model):
                     current=assignment.state, target=target_state))
             if target_state == 'submitted' and not assignment.weight_ok:
                 raise UserError(_(
-                    "Scorecard %(name)s weighs %(total)s%%: line weights "
-                    "must sum to exactly 100%% before submission.",
+                    "Scorecard %(name)s cannot be submitted: %(issue)s. "
+                    "Weights must add up to exactly 100%%.",
                     name=assignment.display_label,
-                    total=assignment.total_weight))
+                    issue=assignment.weight_issue))
 
     def write(self, vals):
         if 'state' in vals:
@@ -139,7 +182,17 @@ class AicHrmKpiAssignmentLine(models.Model):
         related='assignment_id.company_id', store=True)
     kpi_target_id = fields.Many2one(
         'aic.hrm.kpi.target', required=True, index=True, ondelete='restrict')
-    weight = fields.Float(required=True)
+    group_id = fields.Many2one(
+        'aic.hrm.kpi.group', string='KPI Group', index=True,
+        ondelete='restrict')
+    weight_in_group = fields.Float(
+        string='Weight in Group',
+        help="Share of this line inside its group, in percent.")
+    weight = fields.Float(
+        required=True, compute='_compute_weight', store=True, readonly=False,
+        precompute=True,
+        help="Share of the whole scorecard. On a grouped line it is derived: "
+             "group weight x weight in group.")
     personal_target = fields.Float(
         help="Optional personal target when it differs from the KPI "
              "target's cycle value.")
@@ -150,6 +203,20 @@ class AicHrmKpiAssignmentLine(models.Model):
         'unique (assignment_id, kpi_target_id)',
         'This KPI target is already on the scorecard.',
     )
+
+    @api.depends('group_id', 'weight_in_group',
+                 'assignment_id.group_ids.group_id',
+                 'assignment_id.group_ids.weight')
+    def _compute_weight(self):
+        for line in self:
+            section = line.assignment_id.group_ids.filtered(
+                lambda group: group.group_id == line.group_id)[:1]
+            if line.group_id and section:
+                line.weight = round(
+                    section.weight * line.weight_in_group / 100.0,
+                    _WEIGHT_PRECISION + 2)
+            else:
+                line.weight = line.weight
 
     @api.depends('kpi_target_id.achievement', 'kpi_target_id.actual_value',
                  'kpi_target_id.direction', 'personal_target',
@@ -165,10 +232,11 @@ class AicHrmKpiAssignmentLine(models.Model):
             else:
                 line.score = target.achievement
 
-    @api.constrains('weight')
+    @api.constrains('weight', 'weight_in_group', 'group_id')
     def _check_weight(self):
         for line in self:
-            if line.weight <= 0:
+            share = line.weight_in_group if line.group_id else line.weight
+            if share <= 0:
                 raise ValidationError(_(
                     "Assignment line weights must be positive."))
 
@@ -180,6 +248,50 @@ class AicHrmKpiAssignmentLine(models.Model):
                     "KPI target %(target)s belongs to another cycle than "
                     "the scorecard.",
                     target=line.kpi_target_id.display_label))
+
+
+class AicHrmKpiAssignmentGroup(models.Model):
+    """A weighted section of one scorecard, e.g. "revenue KPIs: 80%"."""
+    _name = 'aic.hrm.kpi.assignment.group'
+    _description = 'Scorecard KPI Group'
+    _order = 'assignment_id, sequence, id'
+
+    assignment_id = fields.Many2one(
+        'aic.hrm.kpi.assignment', required=True, index=True,
+        ondelete='cascade')
+    company_id = fields.Many2one(
+        related='assignment_id.company_id', store=True)
+    sequence = fields.Integer(related='group_id.sequence', store=True)
+    group_id = fields.Many2one(
+        'aic.hrm.kpi.group', string='KPI Group', required=True,
+        ondelete='restrict')
+    weight = fields.Float(
+        required=True, help="Share of the scorecard, in percent.")
+    total_in_group = fields.Float(
+        compute='_compute_total_in_group', store=True,
+        help="Sum of the in-group weights of this group's lines; must be "
+             "100%.")
+
+    _assignment_group_uniq = models.Constraint(
+        'unique (assignment_id, group_id)',
+        'This KPI group is already on the scorecard.',
+    )
+
+    @api.depends('assignment_id.line_ids.group_id',
+                 'assignment_id.line_ids.weight_in_group')
+    def _compute_total_in_group(self):
+        for section in self:
+            section.total_in_group = sum(
+                section.assignment_id.line_ids.filtered(
+                    lambda line: line.group_id == section.group_id
+                ).mapped('weight_in_group'))
+
+    @api.constrains('weight')
+    def _check_weight(self):
+        for section in self:
+            if section.weight <= 0:
+                raise ValidationError(_(
+                    "KPI group weights must be positive."))
 
 
 class AicHrmDepartmentScorecard(models.Model):

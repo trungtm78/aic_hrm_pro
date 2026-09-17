@@ -43,14 +43,19 @@ def achievement(actual, target, direction, cap=1.0):
 
     direction:
         'higher'  -- actual / target
-        'lower'   -- 2 - actual / target (linear penalty; requires target > 0,
-                     enforced upstream by model constraints)
+        'lower'   -- 2 - actual / target (linear penalty). A target of 0 is
+                     zero tolerance: nothing scores 1, anything above 0
+                     scores 0 (the linear formula is undefined there).
+                     Negative targets are refused upstream.
         'boolean' -- pass (>= 1) / fail
     """
     if direction == 'boolean':
         raw = 1.0 if actual >= 1 else 0.0
     elif direction == 'lower':
-        raw = 2.0 - safe_div(actual, target, default=2.0) if target > 0 else 0.0
+        if target > 0:
+            raw = 2.0 - safe_div(actual, target, default=2.0)
+        else:
+            raw = 1.0 if actual <= 0 and target == 0 else 0.0
     else:
         raw = safe_div(actual, target) if target > 0 else 0.0
     return clamp(raw, 0.0, cap)

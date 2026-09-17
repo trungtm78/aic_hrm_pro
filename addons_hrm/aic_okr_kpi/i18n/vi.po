@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 02:38+0000\n"
-"PO-Revision-Date: 2026-08-02 02:38+0000\n"
+"POT-Creation-Date: 2026-09-17 10:20+0000\n"
+"PO-Revision-Date: 2026-09-17 10:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -22,7 +22,9 @@ msgstr ""
 msgid ""
 "%(count)d linked project task(s) still open — walk the list with the team "
 "and split or reassign the oldest ones."
-msgstr "Còn %(count)d công việc dự án liên kết chưa đóng — rà lại danh sách cùng đội và tách nhỏ hoặc giao lại những việc tồn lâu nhất."
+msgstr ""
+"Còn %(count)d công việc dự án liên kết chưa đóng — rà lại danh sách cùng đội"
+" và tách nhỏ hoặc giao lại những việc tồn lâu nhất."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -30,7 +32,9 @@ msgstr "Còn %(count)d công việc dự án liên kết chưa đóng — rà l�
 msgid ""
 "%(fields)s on approved objectives change only through an approved target "
 "revision."
-msgstr "%(fields)s trên mục tiêu đã duyệt chỉ thay đổi qua phiếu sửa chỉ tiêu đã được phê duyệt."
+msgstr ""
+"%(fields)s trên mục tiêu đã duyệt chỉ thay đổi qua phiếu sửa chỉ tiêu đã "
+"được phê duyệt."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -38,7 +42,9 @@ msgstr "%(fields)s trên mục tiêu đã duyệt chỉ thay đổi qua phiếu 
 msgid ""
 "%(fields)s on confirmed KPI targets change only through an approved target "
 "revision."
-msgstr "%(fields)s trên chỉ tiêu KPI đã xác nhận chỉ thay đổi qua phiếu sửa chỉ tiêu đã được phê duyệt."
+msgstr ""
+"%(fields)s trên chỉ tiêu KPI đã xác nhận chỉ thay đổi qua phiếu sửa chỉ tiêu"
+" đã được phê duyệt."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -46,7 +52,9 @@ msgstr "%(fields)s trên chỉ tiêu KPI đã xác nhận chỉ thay đổi qua 
 msgid ""
 "%(fields)s on key results of approved objectives change only through an "
 "approved target revision."
-msgstr "%(fields)s trên kết quả then chốt của mục tiêu đã duyệt chỉ thay đổi qua phiếu sửa chỉ tiêu đã được phê duyệt."
+msgstr ""
+"%(fields)s trên kết quả then chốt của mục tiêu đã duyệt chỉ thay đổi qua "
+"phiếu sửa chỉ tiêu đã được phê duyệt."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -54,9 +62,10 @@ msgstr "%(fields)s trên kết quả then chốt của mục tiêu đã duyệt 
 msgid ""
 "%(kpi)s KPI period value(s) and %(kr)s key-result check-in(s) ready to "
 "import into cycle %(cycle)s."
-msgstr "%(kpi)s giá trị KPI theo kỳ và %(kr)s check-in kết quả then chốt sẵn sàng nhập vào chu kỳ %(cycle)s."
-"%(kpi)s giá trị kỳ KPI và %(kr)s check-in KR sẵn sàng import vào chu kỳ "
-"%(cycle)s."
+msgstr ""
+"%(kpi)s giá trị KPI theo kỳ và %(kr)s check-in kết quả then chốt sẵn sàng "
+"nhập vào chu kỳ %(cycle)s.%(kpi)s giá trị kỳ KPI và %(kr)s check-in KR sẵn "
+"sàng import vào chu kỳ %(cycle)s."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -70,7 +79,25 @@ msgstr "Mục tiêu cấp %(level)s phải gắn với %(unit)s."
 msgid ""
 "%(link)s: objective %(other)s belongs to cycle %(other_cycle)s, which is "
 "neither this objective's cycle nor its containing cycle."
-msgstr "%(link)s: mục tiêu %(other)s thuộc chu kỳ %(other_cycle)s, không phải chu kỳ của mục tiêu này cũng không phải chu kỳ bao ngoài."
+msgstr ""
+"%(link)s: mục tiêu %(other)s thuộc chu kỳ %(other_cycle)s, không phải chu kỳ"
+" của mục tiêu này cũng không phải chu kỳ bao ngoài."
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid ""
+"%(person)s's row states a total of %(stated)s; scorecard weights were scaled"
+" to 100 so it can be submitted."
+msgstr ""
+"Dòng của %(person)s ghi tổng %(stated)s; trọng số phiếu giao đã được quy đổi"
+" về 100 để có thể gửi duyệt."
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "%(person)s's scorecard weights do not add up: %(issue)s."
+msgstr "Trọng số phiếu giao của %(person)s chưa khớp: %(issue)s."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_checkin__confidence
@@ -88,13 +115,51 @@ msgid ""
 "A KPI record carries its full documentation form: definition, formula, "
 "direction, aggregation, source and thresholds. The template library ships "
 "ready-made human-capital KPIs."
-msgstr "Mỗi KPI mang trọn hồ sơ tài liệu: định nghĩa, công thức, chiều đo, cách tổng hợp, nguồn số liệu và ngưỡng. Thư viện mẫu có sẵn bộ KPI nhân sự dựng sẵn."
+msgstr ""
+"Mỗi KPI mang trọn hồ sơ tài liệu: định nghĩa, công thức, chiều đo, cách tổng"
+" hợp, nguồn số liệu và ngưỡng. Thư viện mẫu có sẵn bộ KPI nhân sự dựng sẵn."
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_checkin.py:0
 msgid "A check-in belongs to exactly one key result or one KPI target."
 msgstr "Mỗi check-in thuộc đúng một kết quả then chốt hoặc một chỉ tiêu KPI."
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid "A lower-is-better target cannot be negative. Use 0 for zero tolerance."
+msgstr ""
+"Chỉ tiêu càng thấp càng tốt không được âm. Dùng 0 cho chỉ tiêu không dung "
+"sai (không được xảy ra)."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__achieved
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
+msgid "Achieved"
+msgstr "Thực đạt"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid ""
+"Achieved against the\n"
+"                                calendar the cycle set. Two bars per month:\n"
+"                                the pale one is plan."
+msgstr ""
+"Kết quả đạt được so với lịch của chu kỳ. Mỗi tháng có hai cột: cột nhạt là "
+"kế hoạch."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_progress_report__gap
+msgid "Achieved minus expected. Negative means behind plan."
+msgstr "Đạt được trừ kỳ vọng. Số âm nghĩa là chậm so với kế hoạch."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Achieved to date"
+msgstr "Đã đạt đến nay"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__achievement
@@ -210,6 +275,12 @@ msgid "Aggregation method"
 msgstr "Cách tổng hợp"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Ahead / behind plan"
+msgstr "Vượt / chậm kế hoạch"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__ahead
 msgid "Ahead of pace"
 msgstr "Vượt tiến độ"
@@ -221,7 +292,15 @@ msgid ""
 "Ahead of pace (+%(gap)d%%): consider raising the target through a target "
 "revision if this is an aspirational goal, or reallocating effort to red key "
 "results."
-msgstr "Vượt tiến độ (+%(gap)d%%): cân nhắc nâng chỉ tiêu qua phiếu sửa chỉ tiêu nếu đây là mục tiêu tham vọng, hoặc dồn nguồn lực sang các kết quả then chốt đang đỏ."
+msgstr ""
+"Vượt tiến độ (+%(gap)d%%): cân nhắc nâng chỉ tiêu qua phiếu sửa chỉ tiêu nếu"
+" đây là mục tiêu tham vọng, hoặc dồn nguồn lực sang các kết quả then chốt "
+"đang đỏ."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Ahead of plan"
+msgstr "Vượt kế hoạch"
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_alert_rule
@@ -279,6 +358,7 @@ msgstr "Đã duyệt"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__objective_type__aspirational
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__objective_type__aspirational
 msgid "Aspirational"
 msgstr "Khát vọng"
 
@@ -287,9 +367,12 @@ msgstr "Khát vọng"
 msgid ""
 "Assign weighted KPI targets to an employee; the composite score follows "
 "their results automatically. Weights must total exactly 100%."
-msgstr "Giao các chỉ tiêu KPI có trọng số cho một nhân viên; điểm tổng hợp tự động chạy theo kết quả của họ. Tổng trọng số phải đúng 100%."
+msgstr ""
+"Giao các chỉ tiêu KPI có trọng số cho một nhân viên; điểm tổng hợp tự động "
+"chạy theo kết quả của họ. Tổng trọng số phải đúng 100%."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__assignment_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__assignment_id
 msgid "Assignment"
 msgstr "Phân công"
@@ -315,6 +398,8 @@ msgstr "Có rủi ro"
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__rag__amber
 msgid "At risk"
 msgstr "Có rủi ro"
 
@@ -408,9 +493,10 @@ msgstr "Góc nhìn Balanced Scorecard mà KPI này báo cáo theo."
 msgid ""
 "Balanced Scorecard perspective this objective serves; leadership uses it to "
 "check the portfolio is balanced."
-msgstr "Khía cạnh Balanced Scorecard mà mục tiêu này phục vụ; lãnh đạo dùng để kiểm tra danh mục mục tiêu có cân bằng không."
-"Góc nhìn Balanced Scorecard mà mục tiêu này phục vụ; lãnh đạo dùng để soi độ"
-" cân bằng của danh mục mục tiêu."
+msgstr ""
+"Khía cạnh Balanced Scorecard mà mục tiêu này phục vụ; lãnh đạo dùng để kiểm "
+"tra danh mục mục tiêu có cân bằng không.Góc nhìn Balanced Scorecard mà mục "
+"tiêu này phục vụ; lãnh đạo dùng để soi độ cân bằng của danh mục mục tiêu."
 
 #. module: aic_okr_kpi
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_framework
@@ -418,10 +504,13 @@ msgid ""
 "Balanced Scorecard, Hoshin Kanri and 4DX ship built in, each with its "
 "dimensions. Tag objectives with dimensions from any framework to read the "
 "portfolio through several management lenses at once."
-msgstr "Balanced Scorecard, Hoshin Kanri và 4DX được dựng sẵn, mỗi framework kèm các chiều phân loại riêng. Gắn thẻ mục tiêu bằng chiều của bất kỳ framework nào để đọc danh mục qua nhiều lăng kính quản trị cùng lúc."
-"Balanced Scorecard, Hoshin Kanri và 4DX có sẵn, mỗi framework kèm các chiều "
-"phân loại riêng. Gắn thẻ mục tiêu bằng chiều của bất kỳ framework nào để đọc"
-" danh mục qua nhiều lăng kính quản trị cùng lúc."
+msgstr ""
+"Balanced Scorecard, Hoshin Kanri và 4DX được dựng sẵn, mỗi framework kèm các"
+" chiều phân loại riêng. Gắn thẻ mục tiêu bằng chiều của bất kỳ framework nào"
+" để đọc danh mục qua nhiều lăng kính quản trị cùng lúc.Balanced Scorecard, "
+"Hoshin Kanri và 4DX có sẵn, mỗi framework kèm các chiều phân loại riêng. Gắn"
+" thẻ mục tiêu bằng chiều của bất kỳ framework nào để đọc danh mục qua nhiều "
+"lăng kính quản trị cùng lúc."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__baseline
@@ -444,7 +533,15 @@ msgstr "Chậm tiến độ"
 msgid ""
 "Behind pace: progress %(actual)d%% vs %(expected)d%% expected. The remaining"
 " work needs %(factor).1fx the average pace so far to still hit the target."
-msgstr "Chậm tiến độ: đạt %(actual)d%% so với %(expected)d%% kỳ vọng. Phần việc còn lại cần chạy nhanh gấp %(factor).1f lần nhịp bình quân từ đầu kỳ mới kịp chỉ tiêu."
+msgstr ""
+"Chậm tiến độ: đạt %(actual)d%% so với %(expected)d%% kỳ vọng. Phần việc còn "
+"lại cần chạy nhanh gấp %(factor).1f lần nhịp bình quân từ đầu kỳ mới kịp chỉ"
+" tiêu."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Behind plan"
+msgstr "Chậm so với kế hoạch"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__blocker
@@ -454,6 +551,7 @@ msgstr "Vướng mắc"
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__branch_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__branch
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__level__branch
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Branch"
 msgstr "Chi nhánh"
@@ -463,8 +561,10 @@ msgstr "Chi nhánh"
 msgid ""
 "Branch or subsidiary this objective belongs to (for branch-level "
 "objectives)."
-msgstr "Chi nhánh hoặc công ty con mà mục tiêu này thuộc về (dành cho mục tiêu cấp chi nhánh)."
-"Chi nhánh/công ty con mà mục tiêu này thuộc về (cho mục tiêu cấp chi nhánh)."
+msgstr ""
+"Chi nhánh hoặc công ty con mà mục tiêu này thuộc về (dành cho mục tiêu cấp "
+"chi nhánh).Chi nhánh/công ty con mà mục tiêu này thuộc về (cho mục tiêu cấp "
+"chi nhánh)."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.perspective,name:aic_okr_kpi.dimension_hoshin_breakthrough
@@ -487,12 +587,19 @@ msgid "Business definition every reader agrees on"
 msgstr "Định nghĩa nghiệp vụ mà mọi người đọc đều thống nhất"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "By department"
+msgstr "Theo phòng ban"
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.perspective_learning
 msgid ""
 "Can we keep improving? People capability, culture, systems, innovation."
-msgstr "Chúng ta có tiếp tục cải thiện được không? Năng lực con người, văn hóa, hệ thống, đổi mới."
-"Chúng ta có tiếp tục tiến bộ? Năng lực con người, văn hóa, hệ thống, đổi "
-"mới."
+msgstr ""
+"Chúng ta có tiếp tục cải thiện được không? Năng lực con người, văn hóa, hệ "
+"thống, đổi mới.Chúng ta có tiếp tục tiến bộ? Năng lực con người, văn hóa, hệ"
+" thống, đổi mới."
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_rollover_wizard_form
@@ -565,11 +672,14 @@ msgstr "Phương thức thu thập"
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_cash_health
 msgid "Collections, inventory and payables keep cash available for the plan."
-msgstr "Thu hồi công nợ, tồn kho và công nợ phải trả giữ đủ dòng tiền cho kế hoạch."
-"Thu hồi công nợ, tồn kho và phải trả giữ tiền mặt sẵn sàng cho kế hoạch."
+msgstr ""
+"Thu hồi công nợ, tồn kho và công nợ phải trả giữ đủ dòng tiền cho kế "
+"hoạch.Thu hồi công nợ, tồn kho và phải trả giữ tiền mặt sẵn sàng cho kế "
+"hoạch."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__objective_type__committed
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__objective_type__committed
 msgid "Committed"
 msgstr "Cam kết"
 
@@ -584,7 +694,9 @@ msgstr "Mục tiêu cam kết"
 msgid ""
 "Committed objectives are expected to land at 100%. Aspirational ones are "
 "moonshots where ~70% is a success."
-msgstr "Mục tiêu cam kết được kỳ vọng đạt 100%. Mục tiêu tham vọng là mục tiêu vươn xa, đạt khoảng 70% đã là thành công."
+msgstr ""
+"Mục tiêu cam kết được kỳ vọng đạt 100%. Mục tiêu tham vọng là mục tiêu vươn "
+"xa, đạt khoảng 70% đã là thành công."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__company_id
@@ -594,6 +706,7 @@ msgstr "Mục tiêu cam kết được kỳ vọng đạt 100%. Mục tiêu tham
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__company_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__company_id
@@ -602,8 +715,10 @@ msgstr "Mục tiêu cam kết được kỳ vọng đạt 100%. Mục tiêu tham
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__company_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__company_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__company
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__level__company
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Company"
 msgstr "Công ty"
@@ -633,6 +748,7 @@ msgstr "Xác nhận"
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_period_result__state__confirmed
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__state__confirmed
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
 msgid "Confirmed"
 msgstr "Đã xác nhận"
 
@@ -692,7 +808,9 @@ msgstr "Tạo nhân viên còn thiếu"
 msgid ""
 "Create hr.employee records (flagged for HR completion) for names the matcher"
 " cannot find. Off by default: unmatched rows are skipped with a warning."
-msgstr "Tạo bản ghi hr.employee (đánh dấu cần HR bổ sung) cho những tên không khớp được. Mặc định tắt: dòng không khớp sẽ bị bỏ qua kèm cảnh báo."
+msgstr ""
+"Tạo bản ghi hr.employee (đánh dấu cần HR bổ sung) cho những tên không khớp "
+"được. Mặc định tắt: dòng không khớp sẽ bị bỏ qua kèm cảnh báo."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__created_assignment_count
@@ -719,6 +837,7 @@ msgstr "Số mục tiêu đã tạo"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__create_uid
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__create_uid
@@ -734,6 +853,12 @@ msgid "Created by"
 msgstr "Người tạo"
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "Created job position %(title)s."
+msgstr "Đã tạo vị trí công việc %(title)s."
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__create_date
@@ -743,6 +868,7 @@ msgstr "Người tạo"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__create_date
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__create_date
@@ -787,6 +913,7 @@ msgstr "Khách hàng hài lòng, ở lại và giới thiệu chúng ta."
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__cycle_id
@@ -795,9 +922,11 @@ msgstr "Khách hàng hài lòng, ở lại và giới thiệu chúng ta."
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__cycle_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__cycle_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Cycle"
 msgstr "Chu kỳ"
 
@@ -805,6 +934,12 @@ msgstr "Chu kỳ"
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_rollover_wizard
 msgid "Cycle Rollover"
 msgstr "Nhân bản chu kỳ"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Cycle health, department heatmap and the risk queue"
+msgstr "Sức khỏe chu kỳ, bản đồ nhiệt theo phòng ban và hàng đợi rủi ro"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__not_started
@@ -833,6 +968,7 @@ msgstr "Năng lực dữ liệu và số hóa"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__date
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__date
 msgid "Date"
 msgstr "Ngày"
@@ -857,7 +993,9 @@ msgstr "Đến ngày"
 msgid ""
 "Days an alert activity may stay open before the owner's manager is alerted "
 "too."
-msgstr "Số ngày một cảnh báo được để mở trước khi quản lý của người phụ trách cũng nhận được cảnh báo."
+msgstr ""
+"Số ngày một cảnh báo được để mở trước khi quản lý của người phụ trách cũng "
+"nhận được cảnh báo."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__deadline
@@ -892,16 +1030,27 @@ msgstr "Định nghĩa"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid ""
+"Delivery against plan over time,\n"
+"                    by department, and what is dragging"
+msgstr ""
+"Tiến độ so với kế hoạch theo thời gian, theo phòng ban, và những gì đang kéo"
+" lùi"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__department_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__department_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__department
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__level__department
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Department"
 msgstr "Phòng ban"
 
@@ -913,12 +1062,19 @@ msgid "Department Scorecard"
 msgstr "Bảng điểm phòng ban"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Department heatmap"
+msgstr "Bản đồ nhiệt theo phòng ban"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_import_wizard__department_id
 msgid ""
 "Department the imported objectives belong to. Empty = company-level "
 "objectives."
-msgstr "Phòng ban mà các mục tiêu nhập vào thuộc về. Để trống = mục tiêu cấp công ty."
-"Phòng ban của các mục tiêu được import. Để trống = mục tiêu cấp công ty."
+msgstr ""
+"Phòng ban mà các mục tiêu nhập vào thuộc về. Để trống = mục tiêu cấp công "
+"ty.Phòng ban của các mục tiêu được import. Để trống = mục tiêu cấp công ty."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__description
@@ -959,6 +1115,7 @@ msgstr "Nhãn hiển thị"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__display_name
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__display_name
@@ -968,6 +1125,7 @@ msgstr "Nhãn hiển thị"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__display_name
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_rollover_wizard__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_target_revision__display_name
@@ -1007,6 +1165,7 @@ msgstr "Đạt / Không đạt"
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__state__draft
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__state__draft
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_review_meeting__state__draft
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
 msgid "Draft"
 msgstr "Nháp"
 
@@ -1025,7 +1184,9 @@ msgstr "Nhân viên"
 #. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid "Employee '%(name)s' not found — row imported without owner or skipped."
-msgstr "Không tìm thấy nhân viên '%(name)s' — dòng được nhập không có chủ sở hữu hoặc bị bỏ qua."
+msgstr ""
+"Không tìm thấy nhân viên '%(name)s' — dòng được nhập không có chủ sở hữu "
+"hoặc bị bỏ qua."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__employee_count
@@ -1040,24 +1201,27 @@ msgstr "Để trống với các mẫu dùng chung."
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_ksf__company_id
 msgid "Empty on the shared built-in catalog; set on company-specific factors."
-msgstr "Để trống với danh mục dựng sẵn dùng chung; chỉ điền cho yếu tố riêng của công ty."
-"Để trống với danh mục dùng chung có sẵn; đặt giá trị với yếu tố riêng của "
-"công ty."
+msgstr ""
+"Để trống với danh mục dựng sẵn dùng chung; chỉ điền cho yếu tố riêng của "
+"công ty.Để trống với danh mục dùng chung có sẵn; đặt giá trị với yếu tố "
+"riêng của công ty."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_framework__company_id
 msgid "Empty on the shared built-in frameworks; set on company-specific ones."
-msgstr "Để trống với các framework dựng sẵn dùng chung; chỉ điền cho framework riêng của công ty."
-"Để trống với framework dùng chung có sẵn; đặt giá trị với framework riêng "
-"của công ty."
+msgstr ""
+"Để trống với các framework dựng sẵn dùng chung; chỉ điền cho framework riêng"
+" của công ty.Để trống với framework dùng chung có sẵn; đặt giá trị với "
+"framework riêng của công ty."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_perspective__company_id
 msgid ""
 "Empty on the shared built-in perspectives; set on company-specific ones."
-msgstr "Để trống với các khía cạnh dựng sẵn dùng chung; chỉ điền cho khía cạnh riêng của công ty."
-"Để trống với góc nhìn dùng chung có sẵn; đặt giá trị với góc nhìn riêng của "
-"công ty."
+msgstr ""
+"Để trống với các khía cạnh dựng sẵn dùng chung; chỉ điền cho khía cạnh riêng"
+" của công ty.Để trống với góc nhìn dùng chung có sẵn; đặt giá trị với góc "
+"nhìn riêng của công ty."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_import_wizard__state__error
@@ -1076,9 +1240,34 @@ msgid "Escalation Days"
 msgstr "Số ngày trước khi chuyển cấp"
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
+msgid "Evaluation criterion, source document, assumptions"
+msgstr "Tiêu chí đánh giá, văn bản căn cứ, giả định"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+#: model:ir.actions.client,name:aic_okr_kpi.action_aic_hrm_report_overview
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_report_overview
+msgid "Executive Overview"
+msgstr "Tổng quan lãnh đạo"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__expected
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
+msgid "Expected"
+msgstr "Kỳ vọng"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__expected_progress
 msgid "Expected Progress"
 msgstr "Tiến độ kỳ vọng"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Expected by now"
+msgstr "Lẽ ra phải đạt"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__file
@@ -1128,7 +1317,14 @@ msgid ""
 "                            <code>value</code>, <code>note</code>.\n"
 "                            Confirmed periods and manual entries are never\n"
 "                            overwritten."
-msgstr "Bảng phẳng, mỗi dòng một số đo. Các cột:\n                            <code>type</code> (kpi/kr, mặc định kpi),\n                            <code>code</code>, <code>employee</code>,\n                            <code>date_from</code>, <code>date_to</code>,\n                            <code>value</code>, <code>note</code>.\n                            Kỳ đã xác nhận và số liệu nhập tay không bao giờ\n                            bị ghi đè."
+msgstr ""
+"Bảng phẳng, mỗi dòng một số đo. Các cột:\n"
+"                            <code>type</code> (kpi/kr, mặc định kpi),\n"
+"                            <code>code</code>, <code>employee</code>,\n"
+"                            <code>date_from</code>, <code>date_to</code>,\n"
+"                            <code>value</code>, <code>note</code>.\n"
+"                            Kỳ đã xác nhận và số liệu nhập tay không bao giờ\n"
+"                            bị ghi đè."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__focus_quarters
@@ -1140,9 +1336,11 @@ msgstr "Quý trọng tâm"
 msgid ""
 "Focus on wildly important goals, act on lead measures, keep a compelling "
 "scoreboard, hold a cadence of accountability."
-msgstr "Tập trung vào các mục tiêu tối quan trọng, hành động theo chỉ số dẫn dắt, duy trì bảng điểm hấp dẫn, giữ nhịp cam kết trách nhiệm."
-"Tập trung vào mục tiêu tối quan trọng, hành động trên thước đo dẫn dắt, giữ "
-"bảng điểm hấp dẫn, duy trì nhịp giải trình."
+msgstr ""
+"Tập trung vào các mục tiêu tối quan trọng, hành động theo chỉ số dẫn dắt, "
+"duy trì bảng điểm hấp dẫn, giữ nhịp cam kết trách nhiệm.Tập trung vào mục "
+"tiêu tối quan trọng, hành động trên thước đo dẫn dắt, giữ bảng điểm hấp dẫn,"
+" duy trì nhịp giải trình."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__message_follower_ids
@@ -1231,6 +1429,23 @@ msgid "From Previous Cycle"
 msgstr "Từ kỳ trước"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Furthest behind"
+msgstr "Chậm nhất"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__gap
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
+msgid "Gap"
+msgstr "Chênh lệch"
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Goal level"
+msgstr "Cấp mục tiêu"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_checkin__rag_snapshot__green
 msgid "Green"
 msgstr "Xanh"
@@ -1281,16 +1496,25 @@ msgstr "Hoshin Kanri"
 #. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.perspective_customer
 msgid "How do customers see us? Satisfaction, retention, market share, brand."
-msgstr "Khách hàng nhìn chúng ta thế nào? Hài lòng, giữ chân, thị phần, thương hiệu."
-"Khách hàng nhìn chúng ta thế nào? Hài lòng, giữ chân, thị phần, thương hiệu."
+msgstr ""
+"Khách hàng nhìn chúng ta thế nào? Hài lòng, giữ chân, thị phần, thương "
+"hiệu.Khách hàng nhìn chúng ta thế nào? Hài lòng, giữ chân, thị phần, thương "
+"hiệu."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.perspective_financial
 msgid ""
 "How do we look to shareholders? Revenue, margin, cost discipline, cash."
-msgstr "Cổ đông nhìn chúng ta thế nào? Doanh thu, biên lợi nhuận, kỷ luật chi phí, dòng tiền."
+msgstr ""
 "Cổ đông nhìn chúng ta thế nào? Doanh thu, biên lợi nhuận, kỷ luật chi phí, "
-"dòng tiền."
+"dòng tiền.Cổ đông nhìn chúng ta thế nào? Doanh thu, biên lợi nhuận, kỷ luật "
+"chi phí, dòng tiền."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "How every key result rolls up into the company plan"
+msgstr "Mỗi kết quả then chốt cộng dồn lên kế hoạch công ty như thế nào"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_alert_rule__streak_length
@@ -1302,7 +1526,9 @@ msgstr "Bao nhiêu check-in giảm liên tiếp thì kích hoạt quy tắc đ�
 msgid ""
 "How much faster than the average pace so far the remaining work must move to"
 " still hit the target (1.0 = keep pace)."
-msgstr "Phần việc còn lại phải chạy nhanh hơn nhịp bình quân từ đầu kỳ bao nhiêu lần mới kịp chỉ tiêu (1,0 = giữ nguyên nhịp)."
+msgstr ""
+"Phần việc còn lại phải chạy nhanh hơn nhịp bình quân từ đầu kỳ bao nhiêu lần"
+" mới kịp chỉ tiêu (1,0 = giữ nguyên nhịp)."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__aggregation
@@ -1324,9 +1550,11 @@ msgstr "Cách thu thập"
 msgid ""
 "How to collect this number - defined once on the KPI, shown here so the "
 "owner knows the operating procedure."
-msgstr "Cách thu thập con số này - khai báo một lần trên KPI, hiển thị ở đây để người phụ trách nắm quy trình vận hành."
-"Cách thu thập con số này — định nghĩa một lần trên KPI, hiển thị ở đây để "
-"người phụ trách biết quy trình vận hành."
+msgstr ""
+"Cách thu thập con số này - khai báo một lần trên KPI, hiển thị ở đây để "
+"người phụ trách nắm quy trình vận hành.Cách thu thập con số này — định nghĩa"
+" một lần trên KPI, hiển thị ở đây để người phụ trách biết quy trình vận "
+"hành."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__id
@@ -1339,6 +1567,7 @@ msgstr "Cách thu thập con số này - khai báo một lần trên KPI, hiển
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__id
@@ -1348,6 +1577,7 @@ msgstr "Cách thu thập con số này - khai báo một lần trên KPI, hiển
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_rollover_wizard__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_target_revision__id
@@ -1465,6 +1695,7 @@ msgstr "Đang thực hiện"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__individual
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__level__individual
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Individual"
 msgstr "Cá nhân"
@@ -1504,11 +1735,28 @@ msgid "Is Template"
 msgstr "Là mẫu"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__job_id
+msgid "Job Position"
+msgstr "Vị trí công việc"
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Job position"
+msgstr "Vị trí công việc"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__kind__kpi
+msgid "KPI"
+msgstr "KPI"
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid ""
 "KPI %(code)s on %(person)s's row is not in the KPI sheet — line skipped."
-msgstr "KPI %(code)s ở dòng của %(person)s không có trong sheet KPI — bỏ qua dòng này."
+msgstr ""
+"KPI %(code)s ở dòng của %(person)s không có trong sheet KPI — bỏ qua dòng "
+"này."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1520,10 +1768,11 @@ msgstr "KPI %(kpi)s thuộc công ty khác với chu kỳ."
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi.py:0
 msgid ""
-"KPI %(name)s: lower-is-better KPIs need a strictly positive target — the "
-"linear achievement formula is undefined at target 0. Model 'zero incidents' "
-"goals as Pass/Fail instead."
-msgstr "KPI %(name)s: KPI càng thấp càng tốt cần chỉ tiêu dương thực sự — công thức mức đạt tuyến tính không xác định khi chỉ tiêu bằng 0. Hãy mô hình hóa mục tiêu 'không sự cố' bằng kiểu Đạt/Không đạt."
+"KPI %(name)s: a lower-is-better target cannot be negative. Use 0 for zero "
+"tolerance."
+msgstr ""
+"KPI %(name)s: chỉ tiêu càng thấp càng tốt không được âm. Dùng 0 cho chỉ tiêu"
+" không dung sai."
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_kpi_assignment
@@ -1542,7 +1791,17 @@ msgstr "Định nghĩa KPI"
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_kpi_group
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__group_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__group_id
 msgid "KPI Group"
+msgstr "Nhóm KPI"
+
+#. module: aic_okr_kpi
+#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_kpi_group
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__group_ids
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_kpi_groups
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+msgid "KPI Groups"
 msgstr "Nhóm KPI"
 
 #. module: aic_okr_kpi
@@ -1584,15 +1843,32 @@ msgstr "Chiều đo của KPI"
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "KPI group weights must be positive."
+msgstr "Trọng số nhóm KPI phải lớn hơn 0."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
+msgid "KPI target"
+msgstr "Chỉ tiêu KPI"
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
 msgid "KPI target %(name)s cannot go from %(current)s to %(target)s."
-msgstr "Chỉ tiêu KPI %(name)s không thể chuyển từ %(current)s sang %(target)s."
+msgstr ""
+"Chỉ tiêu KPI %(name)s không thể chuyển từ %(current)s sang %(target)s."
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
 msgid "KPI target %(target)s belongs to another cycle than the scorecard."
 msgstr "Chỉ tiêu KPI %(target)s thuộc chu kỳ khác với bảng điểm."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "KPIs"
+msgstr "Các KPI"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1613,6 +1889,8 @@ msgstr "Kaplan–Norton: đọc danh mục mục tiêu qua bốn góc nhìn cân
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_key_result
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__kr_id
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 msgid "Key Result"
 msgstr "Kết quả then chốt"
 
@@ -1643,17 +1921,53 @@ msgid "Key Success Factors"
 msgstr "Yếu tố thành công then chốt"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__kind__kr
+msgid "Key result"
+msgstr "Kết quả then chốt"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid ""
+"Key result %(code)s on KPI %(kpi)s is %(problem)s in this cycle or the "
+"cycles above it; the KPI is not linked to a key result."
+msgstr ""
+"Kết quả then chốt %(code)s của KPI %(kpi)s %(problem)s trong chu kỳ này hoặc"
+" các chu kỳ cấp trên; KPI chưa được gắn với kết quả then chốt nào."
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid ""
+"Key result %(kr)s belongs to another objective than the one this KPI reports"
+" under."
+msgstr ""
+"Kết quả then chốt %(kr)s thuộc một mục tiêu khác với mục tiêu mà KPI này báo"
+" cáo."
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_key_result.py:0
 msgid ""
 "Key result %(name)s: target and baseline must differ, otherwise progress is "
 "undefined."
-msgstr "Kết quả then chốt %(name)s: chỉ tiêu và giá trị gốc phải khác nhau, nếu không sẽ không tính được tiến độ."
+msgstr ""
+"Kết quả then chốt %(name)s: chỉ tiêu và giá trị gốc phải khác nhau, nếu "
+"không sẽ không tính được tiến độ."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_alert_rule__rule_type__rag_red
 msgid "Key result in the red band"
 msgstr "Kết quả then chốt ở vùng đỏ"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__kr_id
+msgid ""
+"Key result this KPI serves. It may belong to a longer cycle than the target,"
+" e.g. a quarterly key result for a monthly KPI."
+msgstr ""
+"Kết quả then chốt mà KPI này phục vụ. Có thể thuộc chu kỳ dài hơn chỉ tiêu, "
+"ví dụ kết quả then chốt của quý cho một KPI tháng."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1665,6 +1979,13 @@ msgstr "Trọng số kết quả then chốt không được âm."
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_alert_rule__rule_type__stale_kr
 msgid "Key result without recent check-in"
 msgstr "Kết quả then chốt lâu chưa check-in"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Key results"
+msgstr "Các kết quả then chốt"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1689,10 +2010,17 @@ msgid ""
 "Key success factors are the few areas where things must go right for the "
 "strategy to work. Objectives drive them; KPIs measure them. A starter "
 "catalog ships built in."
-msgstr "Yếu tố thành công then chốt là số ít lĩnh vực bắt buộc phải làm đúng thì chiến lược mới chạy. Mục tiêu thúc đẩy chúng; KPI đo lường chúng. Hệ thống có sẵn danh mục khởi đầu."
-"Yếu tố thành công then chốt là số ít lĩnh vực buộc phải làm đúng để chiến "
-"lược thành công. Mục tiêu thúc đẩy chúng; KPI đo lường chúng. Danh mục khởi "
-"điểm có sẵn trong sản phẩm."
+msgstr ""
+"Yếu tố thành công then chốt là số ít lĩnh vực bắt buộc phải làm đúng thì "
+"chiến lược mới chạy. Mục tiêu thúc đẩy chúng; KPI đo lường chúng. Hệ thống "
+"có sẵn danh mục khởi đầu.Yếu tố thành công then chốt là số ít lĩnh vực buộc "
+"phải làm đúng để chiến lược thành công. Mục tiêu thúc đẩy chúng; KPI đo "
+"lường chúng. Danh mục khởi điểm có sẵn trong sản phẩm."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__kind
+msgid "Kind"
+msgstr "Loại"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__kpi_id
@@ -1703,12 +2031,14 @@ msgstr "KPI"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__kpi_target_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__kpi_target_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__kpi_target_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__kpi_target_id
 msgid "Kpi Target"
 msgstr "Chỉ tiêu KPI"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__kr_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__kr_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__kr_id
 msgid "Kr"
 msgstr "Kết quả then chốt"
 
@@ -1737,6 +2067,7 @@ msgstr "Ngày check-in gần nhất"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__write_uid
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__write_uid
@@ -1761,6 +2092,7 @@ msgstr "Người cập nhật cuối"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__write_date
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__write_date
@@ -1804,6 +2136,7 @@ msgstr "Học hỏi & Phát triển"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__level
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__level
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Level"
 msgstr "Cấp"
@@ -1824,7 +2157,9 @@ msgstr "Dòng %(line)s (%(code)s): dòng KPI cần có date_from."
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
 msgid ""
 "Line %(line)s (%(code)s): no KPI target in cycle %(cycle)s for this owner."
-msgstr "Dòng %(line)s (%(code)s): không có chỉ tiêu KPI trong chu kỳ %(cycle)s cho người phụ trách này."
+msgstr ""
+"Dòng %(line)s (%(code)s): không có chỉ tiêu KPI trong chu kỳ %(cycle)s cho "
+"người phụ trách này."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1845,7 +2180,9 @@ msgstr "Dòng %(line)s (%(code)s): kỳ %(date)s đã được xác nhận - b�
 msgid ""
 "Line %(line)s (%(code)s): period %(date)s was entered manually - manual "
 "wins, skipped."
-msgstr "Dòng %(line)s (%(code)s): kỳ %(date)s đã nhập tay - nhập tay được ưu tiên, bỏ qua."
+msgstr ""
+"Dòng %(line)s (%(code)s): kỳ %(date)s đã nhập tay - nhập tay được ưu tiên, "
+"bỏ qua."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1875,7 +2212,9 @@ msgstr "Dòng %(line)s: không có KPI nào mang mã %(code)s."
 #. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
 msgid "Line %(line)s: no key result with code %(code)s in cycle %(cycle)s."
-msgstr "Dòng %(line)s: không có kết quả then chốt mã %(code)s trong chu kỳ %(cycle)s."
+msgstr ""
+"Dòng %(line)s: không có kết quả then chốt mã %(code)s trong chu kỳ "
+"%(cycle)s."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1892,6 +2231,7 @@ msgstr "KPI đang dùng"
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
 msgid "Loading…"
 msgstr "Đang tải…"
 
@@ -1899,8 +2239,10 @@ msgstr "Đang tải…"
 #: model:aic.hrm.perspective,description:aic_okr_kpi.dimension_hoshin_kaizen
 msgid ""
 "Local improvement work owned by teams, below the leadership review line."
-msgstr "Việc cải tiến tại chỗ do các đội tự chủ, nằm dưới ngưỡng rà soát của lãnh đạo."
-"Việc cải tiến cục bộ do các team làm chủ, dưới tuyến rà soát của lãnh đạo."
+msgstr ""
+"Việc cải tiến tại chỗ do các đội tự chủ, nằm dưới ngưỡng rà soát của lãnh "
+"đạo.Việc cải tiến cục bộ do các team làm chủ, dưới tuyến rà soát của lãnh "
+"đạo."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__priority__low
@@ -1914,16 +2256,6 @@ msgstr "Thấp"
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__direction__lower
 msgid "Lower is better"
 msgstr "Càng thấp càng tốt"
-
-#. module: aic_okr_kpi
-#. odoo-python
-#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
-msgid ""
-"Lower-is-better targets must be strictly positive; model 'zero incidents' "
-"goals as Pass/Fail."
-msgstr "Chỉ tiêu càng thấp càng tốt phải dương thực sự; mục tiêu 'không sự cố' nên dùng kiểu Đạt/Không đạt."
-"Chỉ tiêu càng-thấp-càng-tốt phải lớn hơn 0; mục tiêu \"0 sự cố\" hãy dùng "
-"kiểu Đạt/Không đạt."
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_framework
@@ -1965,9 +2297,20 @@ msgid "Market position and brand"
 msgstr "Vị thế thị trường và thương hiệu"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__label
+msgid "Measured"
+msgstr "Đối tượng đo"
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_form
 msgid "Measurement"
 msgstr "Đo lường"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Measurements"
+msgstr "Số phép đo"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__kpi_ids
@@ -2043,13 +2386,26 @@ msgstr "Biên bản"
 msgid ""
 "Missing column(s): %(columns)s. Expected a header row with at least: code, "
 "value (and optionally: type, employee, date_from, date_to, note)."
-msgstr "Thiếu cột: %(columns)s. Cần dòng tiêu đề có tối thiểu: code, value (tùy chọn thêm: type, employee, date_from, date_to, note)."
+msgstr ""
+"Thiếu cột: %(columns)s. Cần dòng tiêu đề có tối thiểu: code, value (tùy chọn"
+" thêm: type, employee, date_from, date_to, note)."
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid "Missing sheet(s): %(sheets)s. Expected %(expected)s."
 msgstr "Thiếu sheet: %(sheets)s. Cần có %(expected)s."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Month"
+msgstr "Tháng"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Month by month"
+msgstr "Theo từng tháng"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__frequency__monthly
@@ -2101,16 +2457,18 @@ msgstr "Cần chú ý"
 msgid ""
 "New and recurring revenue grows on plan, with a healthy mix across products "
 "and segments."
-msgstr "Doanh thu mới và doanh thu lặp lại tăng đúng kế hoạch, với cơ cấu lành mạnh giữa các sản phẩm và phân khúc."
-"Doanh thu mới và định kỳ tăng đúng kế hoạch, cơ cấu lành mạnh giữa các sản "
-"phẩm và phân khúc."
+msgstr ""
+"Doanh thu mới và doanh thu lặp lại tăng đúng kế hoạch, với cơ cấu lành mạnh "
+"giữa các sản phẩm và phân khúc.Doanh thu mới và định kỳ tăng đúng kế hoạch, "
+"cơ cấu lành mạnh giữa các sản phẩm và phân khúc."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_innovation_pipeline
 msgid ""
 "New products and improvements move from idea to market on a steady cadence."
-msgstr "Sản phẩm mới và cải tiến đi từ ý tưởng ra thị trường theo một nhịp ổn định."
-"Sản phẩm mới và cải tiến đi từ ý tưởng ra thị trường theo nhịp đều đặn."
+msgstr ""
+"Sản phẩm mới và cải tiến đi từ ý tưởng ra thị trường theo một nhịp ổn "
+"định.Sản phẩm mới và cải tiến đi từ ý tưởng ra thị trường theo nhịp đều đặn."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__activity_date_deadline
@@ -2142,7 +2500,10 @@ msgstr "Loại hoạt động kế tiếp"
 msgid ""
 "No check-in recorded yet: without a cadence the score is a guess. Ask the "
 "owner for a first check-in (value + confidence + blockers)."
-msgstr "Chưa có check-in nào: không có nhịp cập nhật thì điểm số chỉ là phỏng đoán. Hãy đề nghị người phụ trách check-in lần đầu (giá trị + độ tự tin + vướng mắc)."
+msgstr ""
+"Chưa có check-in nào: không có nhịp cập nhật thì điểm số chỉ là phỏng đoán. "
+"Hãy đề nghị người phụ trách check-in lần đầu (giá trị + độ tự tin + vướng "
+"mắc)."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__is_stale
@@ -2150,19 +2511,19 @@ msgid "No check-in within the cycle's stale threshold."
 msgstr "Không có check-in trong ngưỡng quá hạn của chu kỳ."
 
 #. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
-msgid "No department"
-msgstr "Chưa có phòng ban"
-
-#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
 msgid ""
 "No guideline documented yet - define it on the KPI so the owner knows how to"
 " collect this number."
-msgstr "Chưa có hướng dẫn - hãy khai báo trên KPI để người phụ trách biết cách thu thập con số này."
-"Chưa có hướng dẫn — hãy định nghĩa trên KPI để người phụ trách biết cách thu"
-" thập con số này."
+msgstr ""
+"Chưa có hướng dẫn - hãy khai báo trên KPI để người phụ trách biết cách thu "
+"thập con số này.Chưa có hướng dẫn — hãy định nghĩa trên KPI để người phụ "
+"trách biết cách thu thập con số này."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_progress_report
+msgid "No measurements yet"
+msgstr "Chưa có số đo"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -2177,8 +2538,20 @@ msgstr "Chu kỳ chưa có mục tiêu — nhập từ Excel hoặc thêm mục 
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid ""
 "No open cycle yet. Create and open a performance cycle, then come back."
-msgstr "Chưa có chu kỳ nào đang mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay lại."
-"Chưa có chu kỳ nào mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay lại."
+msgstr ""
+"Chưa có chu kỳ nào đang mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay "
+"lại.Chưa có chu kỳ nào mở. Hãy tạo và mở một chu kỳ hiệu suất rồi quay lại."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "No open cycle yet. Open a performance cycle, then come back."
+msgstr "Chưa có chu kỳ đang mở. Hãy mở một chu kỳ đánh giá rồi quay lại."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_progress_report__achieved
+msgid "Normalised progress on that date, 0..1."
+msgstr "Tiến độ chuẩn hóa tại ngày đó, từ 0 đến 1."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__achievement
@@ -2206,7 +2579,15 @@ msgstr "Tiến độ chuẩn hóa ngay sau check-in này."
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Not assigned to a department"
+msgstr "Chưa gán phòng ban"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_checkin__rag_snapshot__none
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__rag__none
 msgid "Not scored"
 msgstr "Chưa chấm điểm"
 
@@ -2221,15 +2602,32 @@ msgid "Note"
 msgstr "Ghi chú"
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
 msgid "Notes"
 msgstr "Ghi chú"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid "Nothing behind plan. Keep the cadence going."
+msgstr "Không có gì chậm kế hoạch. Hãy giữ nhịp độ này."
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_review_meeting.py:0
 msgid "Nothing is red, stale or blocked. Confirm scores and move on."
 msgstr "Không có gì đỏ, trễ hay vướng. Xác nhận điểm và đi tiếp."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid ""
+"Nothing measured in this cycle yet. Record a check-in or confirm\n"
+"            a KPI period result and this fills itself."
+msgstr ""
+"Chu kỳ này chưa có số đo nào. Hãy ghi nhận một lần check-in hoặc xác nhận "
+"kết quả kỳ của KPI, phần này sẽ tự cập nhật."
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -2287,6 +2685,8 @@ msgstr "Nhập OKR/KPI từ Excel"
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_objective
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__objective_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__objective_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__objective_id
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Objective"
 msgstr "Mục tiêu"
 
@@ -2302,24 +2702,32 @@ msgstr "Mục tiêu %(name)s không thể chuyển từ %(current)s sang %(targe
 msgid ""
 "Objective %(name)s is approved: adding key results now would silently change"
 " its score. Send it back to draft or go through a target revision."
-msgstr "Mục tiêu %(name)s đã được duyệt: thêm kết quả then chốt lúc này sẽ âm thầm làm đổi điểm. Hãy trả về nháp hoặc đi qua phiếu sửa chỉ tiêu."
+msgstr ""
+"Mục tiêu %(name)s đã được duyệt: thêm kết quả then chốt lúc này sẽ âm thầm "
+"làm đổi điểm. Hãy trả về nháp hoặc đi qua phiếu sửa chỉ tiêu."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__objective_type
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__objective_type
 msgid "Objective Type"
 msgstr "Loại mục tiêu"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__objective_id
-msgid "Objective this KPI reports under, if any."
-msgstr "Mục tiêu mà KPI này báo cáo lên, nếu có."
+msgid ""
+"Objective this KPI reports under, if any. Follows the key result when one is"
+" set."
+msgstr ""
+"Mục tiêu mà KPI này báo cáo (nếu có). Tự theo kết quả then chốt khi đã chọn."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__parent_id
 msgid ""
 "Objective this one cascades from — in the same cycle or in the containing "
 "cycle (e.g. a quarterly objective under an annual one)."
-msgstr "Mục tiêu mà mục tiêu này phân rã từ đó — cùng chu kỳ hoặc thuộc chu kỳ bao ngoài (ví dụ mục tiêu quý nằm dưới mục tiêu năm)."
+msgstr ""
+"Mục tiêu mà mục tiêu này phân rã từ đó — cùng chu kỳ hoặc thuộc chu kỳ bao "
+"ngoài (ví dụ mục tiêu quý nằm dưới mục tiêu năm)."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2329,6 +2737,7 @@ msgstr "Trọng số mục tiêu phải nằm trong khoảng 0-100 (đang là %(
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_objective
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_objectives
@@ -2340,7 +2749,9 @@ msgstr "Mục tiêu"
 msgid ""
 "Objectives carry weighted key results; scores roll up automatically as "
 "check-ins land."
-msgstr "Mục tiêu mang các kết quả then chốt có trọng số; điểm tự động cộng dồn lên khi có check-in."
+msgstr ""
+"Mục tiêu mang các kết quả then chốt có trọng số; điểm tự động cộng dồn lên "
+"khi có check-in."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2351,6 +2762,8 @@ msgstr "Mục tiêu: %(codes)s"
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__rag__red
 msgid "Off track"
 msgstr "Lệch tiến độ"
 
@@ -2362,8 +2775,20 @@ msgstr "Đúng tiến độ"
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__rag__green
 msgid "On track"
 msgstr "Đúng tiến độ"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid ""
+"One tile per objective, worst first. The band comes from the cycle's "
+"thresholds, not from opinion."
+msgstr ""
+"Mỗi ô là một mục tiêu, xấu xếp trước. Màu lấy theo ngưỡng của chu kỳ, không "
+"theo cảm tính."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2409,9 +2834,10 @@ msgstr "Vướng mắc còn mở từ check-in"
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_cost_discipline
 msgid "Operating costs stay inside budget and unit economics keep improving."
-msgstr "Chi phí vận hành nằm trong ngân sách và hiệu quả trên từng đơn vị tiếp tục cải thiện."
-"Chi phí vận hành nằm trong ngân sách và hiệu quả kinh tế trên đơn vị tiếp "
-"tục cải thiện."
+msgstr ""
+"Chi phí vận hành nằm trong ngân sách và hiệu quả trên từng đơn vị tiếp tục "
+"cải thiện.Chi phí vận hành nằm trong ngân sách và hiệu quả kinh tế trên đơn "
+"vị tiếp tục cải thiện."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__collection_guideline
@@ -2419,9 +2845,12 @@ msgid ""
 "Operating instructions for whoever collects this number: which system or "
 "report to pull from, the exact query or export steps, cadence, and who is "
 "responsible."
-msgstr "Hướng dẫn vận hành cho người thu thập con số này: lấy từ hệ thống hay báo cáo nào, truy vấn hoặc các bước kết xuất chính xác, tần suất, và ai chịu trách nhiệm."
-"Hướng dẫn vận hành cho người thu thập con số này: lấy từ hệ thống/báo cáo "
-"nào, các bước truy vấn hoặc xuất dữ liệu, chu kỳ, và ai chịu trách nhiệm."
+msgstr ""
+"Hướng dẫn vận hành cho người thu thập con số này: lấy từ hệ thống hay báo "
+"cáo nào, truy vấn hoặc các bước kết xuất chính xác, tần suất, và ai chịu "
+"trách nhiệm.Hướng dẫn vận hành cho người thu thập con số này: lấy từ hệ "
+"thống/báo cáo nào, các bước truy vấn hoặc xuất dữ liệu, chu kỳ, và ai chịu "
+"trách nhiệm."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_operational_excellence
@@ -2443,13 +2872,15 @@ msgstr "Tùy chọn ghi đè ngưỡng RAG của chu kỳ cho riêng KPI này."
 msgid ""
 "Optional period-specific target when it differs from a simple pro-rata of "
 "the cycle target."
-msgstr "Chỉ tiêu riêng cho kỳ, dùng khi khác với cách chia đều chỉ tiêu cả chu kỳ."
+msgstr ""
+"Chỉ tiêu riêng cho kỳ, dùng khi khác với cách chia đều chỉ tiêu cả chu kỳ."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__personal_target
 msgid ""
 "Optional personal target when it differs from the KPI target's cycle value."
-msgstr "Chỉ tiêu cá nhân riêng, dùng khi khác với giá trị chu kỳ của chỉ tiêu KPI."
+msgstr ""
+"Chỉ tiêu cá nhân riêng, dùng khi khác với giá trị chu kỳ của chỉ tiêu KPI."
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -2463,8 +2894,10 @@ msgstr "Điểm tổng thể"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__employee_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__owner_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__employee_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__employee_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Owner"
 msgstr "Chủ sở hữu"
 
@@ -2474,7 +2907,9 @@ msgstr "Chủ sở hữu"
 msgid ""
 "Owner confidence is falling (%(series)s): schedule a 1-1 and decide between "
 "unblocking support or a target revision with a documented reason."
-msgstr "Độ tự tin của người phụ trách đang giảm (%(series)s): hãy hẹn gặp 1-1 và chọn giữa hỗ trợ gỡ vướng hay sửa chỉ tiêu kèm lý do được ghi lại."
+msgstr ""
+"Độ tự tin của người phụ trách đang giảm (%(series)s): hãy hẹn gặp 1-1 và "
+"chọn giữa hỗ trợ gỡ vướng hay sửa chỉ tiêu kèm lý do được ghi lại."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__pace_gap
@@ -2506,9 +2941,10 @@ msgstr "Đạt / Không đạt"
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_safety_compliance
 msgid "People are safe and obligations are met - no incidents, no findings."
-msgstr "Con người an toàn và nghĩa vụ được tuân thủ - không sự cố, không phát hiện vi phạm."
-"Con người an toàn và nghĩa vụ được đáp ứng — không sự cố, không phát hiện vi"
-" phạm."
+msgstr ""
+"Con người an toàn và nghĩa vụ được tuân thủ - không sự cố, không phát hiện "
+"vi phạm.Con người an toàn và nghĩa vụ được đáp ứng — không sự cố, không phát"
+" hiện vi phạm."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__metric_type__percent
@@ -2536,7 +2972,11 @@ msgid "Period Result"
 msgstr "Kết quả theo kỳ"
 
 #. module: aic_okr_kpi
+#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_period_result
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_period_results
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_list
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
 msgid "Period Results"
 msgstr "Kết quả theo kỳ"
 
@@ -2544,6 +2984,11 @@ msgstr "Kết quả theo kỳ"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__period_target
 msgid "Period Target"
 msgstr "Chỉ tiêu theo kỳ"
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
+msgid "Period end"
+msgstr "Kết thúc kỳ"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2555,6 +3000,11 @@ msgstr "Ngày kết thúc kỳ phải bằng hoặc sau ngày bắt đầu."
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__personal_target
 msgid "Personal Target"
 msgstr "Chỉ tiêu cá nhân"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__perspective_id
+msgid "Perspective"
+msgstr "Khía cạnh"
 
 #. module: aic_okr_kpi
 #: model:ir.model.constraint,message:aic_okr_kpi.constraint_aic_hrm_perspective_code_uniq
@@ -2571,9 +3021,10 @@ msgstr "Góc nhìn mà yếu tố thành công này thuộc về."
 msgid ""
 "Policy deployment: separate the few breakthrough bets from daily management "
 "and continuous improvement."
-msgstr "Triển khai chính sách: tách số ít cược đột phá khỏi quản trị hằng ngày và cải tiến liên tục."
-"Triển khai chính sách: tách số ít cú đặt cược đột phá khỏi quản lý hằng ngày"
-" và cải tiến liên tục."
+msgstr ""
+"Triển khai chính sách: tách số ít cược đột phá khỏi quản trị hằng ngày và "
+"cải tiến liên tục.Triển khai chính sách: tách số ít cú đặt cược đột phá khỏi"
+" quản lý hằng ngày và cải tiến liên tục."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__job_note
@@ -2596,9 +3047,10 @@ msgstr "Xem trước"
 msgid ""
 "Primary way actuals for this KPI are expected to arrive. Manual entry stays "
 "allowed regardless and always wins over automatic collection."
-msgstr "Cách chính để số liệu thực tế của KPI này được đưa vào. Nhập tay luôn được phép và luôn thắng thu thập tự động."
-"Đường về chính của số liệu thực tế cho KPI này. Nhập tay luôn được phép và "
-"luôn thắng thu thập tự động."
+msgstr ""
+"Cách chính để số liệu thực tế của KPI này được đưa vào. Nhập tay luôn được "
+"phép và luôn thắng thu thập tự động.Đường về chính của số liệu thực tế cho "
+"KPI này. Nhập tay luôn được phép và luôn thắng thu thập tự động."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__priority
@@ -2614,8 +3066,18 @@ msgstr "Riêng tư"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Progress"
 msgstr "Tiến độ"
+
+#. module: aic_okr_kpi
+#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_progress_report
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_progress_report
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_graph
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_pivot
+msgid "Progress Against Plan"
+msgstr "Tiến độ so với kế hoạch"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
@@ -2628,6 +3090,11 @@ msgid "Progress Snapshot"
 msgstr "Ảnh chụp tiến độ"
 
 #. module: aic_okr_kpi
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_progress_report
+msgid "Progress vs Plan"
+msgstr "Tiến độ so với kế hoạch"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__visibility__public
 msgid "Public"
 msgstr "Công khai"
@@ -2637,7 +3104,14 @@ msgstr "Công khai"
 msgid ""
 "Public goals are visible to every performance user; private ones only to the"
 " owner, their managers and HR."
-msgstr "Mục tiêu công khai hiển thị với mọi người dùng hệ hiệu suất; mục tiêu riêng chỉ hiện với người phụ trách, quản lý của họ và HR."
+msgstr ""
+"Mục tiêu công khai hiển thị với mọi người dùng hệ hiệu suất; mục tiêu riêng "
+"chỉ hiện với người phụ trách, quản lý của họ và HR."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Quarter"
+msgstr "Quý"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__frequency__quarterly
@@ -2652,6 +3126,11 @@ msgstr "Hằng quý"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__rag
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "RAG"
+msgstr "RAG"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__rag
+msgid "Rag"
 msgstr "RAG"
 
 #. module: aic_okr_kpi
@@ -2678,9 +3157,11 @@ msgstr "Đánh giá"
 msgid ""
 "Read this objective through additional frameworks - e.g. Hoshin "
 "'Breakthrough' or 4DX 'Wildly Important Goal' on top of its BSC perspective."
-msgstr "Đọc mục tiêu này qua các framework khác - ví dụ Hoshin 'Breakthrough' hay 4DX 'Wildly Important Goal' bên cạnh khía cạnh BSC của nó."
-"Đọc mục tiêu này qua các framework bổ sung — vd: \"Đột phá\" của Hoshin hay "
-"\"Mục tiêu tối quan trọng\" của 4DX bên cạnh góc nhìn BSC."
+msgstr ""
+"Đọc mục tiêu này qua các framework khác - ví dụ Hoshin 'Breakthrough' hay "
+"4DX 'Wildly Important Goal' bên cạnh khía cạnh BSC của nó.Đọc mục tiêu này "
+"qua các framework bổ sung — vd: \"Đột phá\" của Hoshin hay \"Mục tiêu tối "
+"quan trọng\" của 4DX bên cạnh góc nhìn BSC."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__recommendations
@@ -2719,7 +3200,9 @@ msgstr "Hệ số nhịp độ cần đạt"
 msgid ""
 "Resolve the blocker reported on %(date)s: \"%(blocker)s\" — bring it to the "
 "next review meeting if it is outside the owner's control."
-msgstr "Xử lý vướng mắc đã báo ngày %(date)s: \"%(blocker)s\" — đưa vào phiên rà soát kế tiếp nếu nằm ngoài tầm kiểm soát của người phụ trách."
+msgstr ""
+"Xử lý vướng mắc đã báo ngày %(date)s: \"%(blocker)s\" — đưa vào phiên rà "
+"soát kế tiếp nếu nằm ngoài tầm kiểm soát của người phụ trách."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__responsibility
@@ -2738,7 +3221,8 @@ msgstr "Người phụ trách"
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_alert_rule__cycle_id
 msgid "Restrict the rule to one cycle; empty covers all open cycles."
-msgstr "Giới hạn quy tắc trong một chu kỳ; để trống là áp cho mọi chu kỳ đang mở."
+msgstr ""
+"Giới hạn quy tắc trong một chu kỳ; để trống là áp cho mọi chu kỳ đang mở."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_revenue_growth
@@ -2811,16 +3295,23 @@ msgstr "Điểm"
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
-msgid "Scorecard %(name)s cannot go from %(current)s to %(target)s."
-msgstr "Bảng điểm %(name)s không thể chuyển từ %(current)s sang %(target)s."
+msgid ""
+"Scorecard %(name)s cannot be submitted: %(issue)s. Weights must add up to "
+"exactly 100%%."
+msgstr ""
+"Không thể gửi duyệt phiếu giao %(name)s: %(issue)s. Tổng trọng số phải đúng "
+"100%%."
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
-msgid ""
-"Scorecard %(name)s weighs %(total)s%%: line weights must sum to exactly "
-"100%% before submission."
-msgstr "Bảng điểm %(name)s đang có tổng trọng số %(total)s%%: tổng trọng số các dòng phải đúng 100%% mới gửi được."
+msgid "Scorecard %(name)s cannot go from %(current)s to %(target)s."
+msgstr "Bảng điểm %(name)s không thể chuyển từ %(current)s sang %(target)s."
+
+#. module: aic_okr_kpi
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_kpi_assignment_group
+msgid "Scorecard KPI Group"
+msgstr "Nhóm KPI trên phiếu giao"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_alert_rule__rule_type__weight_incomplete
@@ -2851,6 +3342,7 @@ msgstr "Trả lại"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__sequence
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__sequence
@@ -2867,6 +3359,25 @@ msgstr "Chất lượng dịch vụ và giao hàng"
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_objective
 msgid "Set the first objective of this cycle"
 msgstr "Đặt mục tiêu đầu tiên của chu kỳ"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__weight
+msgid "Share of the scorecard, in percent."
+msgstr "Tỷ trọng trong phiếu giao, tính theo phần trăm."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight
+msgid ""
+"Share of the whole scorecard. On a grouped line it is derived: group weight "
+"x weight in group."
+msgstr ""
+"Tỷ trọng trong toàn phiếu giao. Với dòng thuộc nhóm, được tính = trọng số "
+"nhóm × trọng số trong nhóm."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight_in_group
+msgid "Share of this line inside its group, in percent."
+msgstr "Tỷ trọng của dòng này trong nhóm, tính theo phần trăm."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__contributes_to_ids
@@ -2923,6 +3434,11 @@ msgid "State"
 msgstr "Trạng thái"
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
+msgid "Status"
+msgstr "Trạng thái"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__activity_state
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__activity_state
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__activity_state
@@ -2932,16 +3448,21 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr "Trạng thái theo hoạt động\nQuá hạn: đã qua ngày đến hạn\nHôm nay: hoạt động đến hạn hôm nay\nĐã lên lịch: hoạt động trong tương lai."
+msgstr ""
+"Trạng thái theo hoạt động\n"
+"Quá hạn: đã qua ngày đến hạn\n"
+"Hôm nay: hoạt động đến hạn hôm nay\n"
+"Đã lên lịch: hoạt động trong tương lai."
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_form
 msgid ""
 "Step-by-step: which system/report, export or query, cadence, responsible "
 "person"
-msgstr "Từng bước: hệ thống/báo cáo nào, kết xuất hay truy vấn, tần suất, người chịu trách nhiệm"
-"Từng bước: hệ thống/báo cáo nào, cách xuất hoặc truy vấn, chu kỳ, người chịu"
-" trách nhiệm"
+msgstr ""
+"Từng bước: hệ thống/báo cáo nào, kết xuất hay truy vấn, tần suất, người chịu"
+" trách nhiệmTừng bước: hệ thống/báo cáo nào, cách xuất hoặc truy vấn, chu "
+"kỳ, người chịu trách nhiệm"
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_perspective
@@ -2975,14 +3496,20 @@ msgstr "Yếu tố thành công mà KPI này đo lường."
 msgid ""
 "Success factor this objective drives - the strategy-level 'must go right' it"
 " exists for."
-msgstr "Yếu tố thành công mà mục tiêu này thúc đẩy - điều 'bắt buộc phải đúng' ở tầm chiến lược mà mục tiêu tồn tại vì nó."
-"Yếu tố thành công mà mục tiêu này thúc đẩy — điều \"phải làm đúng\" ở tầm "
-"chiến lược mà nó tồn tại vì."
+msgstr ""
+"Yếu tố thành công mà mục tiêu này thúc đẩy - điều 'bắt buộc phải đúng' ở tầm"
+" chiến lược mà mục tiêu tồn tại vì nó.Yếu tố thành công mà mục tiêu này thúc"
+" đẩy — điều \"phải làm đúng\" ở tầm chiến lược mà nó tồn tại vì."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__total_weight
 msgid "Sum of line weights; must reach exactly 100% to submit."
 msgstr "Tổng trọng số các dòng; phải đúng 100% mới gửi được."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__total_in_group
+msgid "Sum of the in-group weights of this group's lines; must be 100%."
+msgstr "Tổng trọng số trong nhóm của các dòng thuộc nhóm; phải bằng 100%."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_supply_reliability
@@ -3030,9 +3557,21 @@ msgid "Target Value"
 msgstr "Giá trị đích"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__target_note
+msgid "Target as Assigned"
+msgstr "Chỉ tiêu nguyên văn"
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+msgid "Target as assigned, e.g. LIVE on 7/9 with at least 10 merchants"
+msgstr ""
+"Chỉ tiêu theo phiếu giao, ví dụ LIVE ngày 7/9 với tối thiểu 10 merchant"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__team_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__team_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__team
+#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__level__team
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 msgid "Team"
@@ -3048,8 +3587,10 @@ msgstr "Team mà mục tiêu này thuộc về (cho mục tiêu cấp team)."
 msgid ""
 "Team this target is tracked for, when the KPI is a team number rather than a"
 " personal one."
-msgstr "Đội mà chỉ tiêu này theo dõi, khi KPI là con số của đội chứ không phải của cá nhân."
-"Team được theo dõi chỉ tiêu này, khi KPI là con số của team thay vì cá nhân."
+msgstr ""
+"Đội mà chỉ tiêu này theo dõi, khi KPI là con số của đội chứ không phải của "
+"cá nhân.Team được theo dõi chỉ tiêu này, khi KPI là con số của team thay vì "
+"cá nhân."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_import_term__value
@@ -3072,7 +3613,9 @@ msgstr "Mẫu"
 msgid ""
 "Templates are shared across companies and copied into real KPIs; they never "
 "carry live targets themselves."
-msgstr "Mẫu được dùng chung giữa các công ty và được sao chép thành KPI thật; bản thân mẫu không bao giờ mang chỉ tiêu đang chạy."
+msgstr ""
+"Mẫu được dùng chung giữa các công ty và được sao chép thành KPI thật; bản "
+"thân mẫu không bao giờ mang chỉ tiêu đang chạy."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__term_type
@@ -3084,9 +3627,10 @@ msgstr "Loại thuật ngữ"
 msgid ""
 "The 3-5 bets that change the business this year; reviewed by leadership "
 "every month."
-msgstr "3-5 cược thay đổi cục diện doanh nghiệp trong năm; lãnh đạo rà soát hằng tháng."
-"3–5 cú đặt cược thay đổi doanh nghiệp trong năm; lãnh đạo rà soát hằng "
-"tháng."
+msgstr ""
+"3-5 cược thay đổi cục diện doanh nghiệp trong năm; lãnh đạo rà soát hằng "
+"tháng.3–5 cú đặt cược thay đổi doanh nghiệp trong năm; lãnh đạo rà soát hằng"
+" tháng."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3095,14 +3639,17 @@ msgstr "3-5 cược thay đổi cục diện doanh nghiệp trong năm; lãnh đ
 msgid ""
 "The Python library 'openpyxl' is required to read Excel files. Ask your "
 "administrator to install it (pip install openpyxl)."
-msgstr "Cần thư viện Python 'openpyxl' để đọc tệp Excel. Hãy đề nghị quản trị viên cài đặt (pip install openpyxl)."
+msgstr ""
+"Cần thư viện Python 'openpyxl' để đọc tệp Excel. Hãy đề nghị quản trị viên "
+"cài đặt (pip install openpyxl)."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_market_position
 msgid "The brand is known and preferred in the segments we compete in."
-msgstr "Thương hiệu được biết đến và được ưa chuộng trong các phân khúc chúng ta cạnh tranh."
-"Thương hiệu được biết đến và được ưu tiên trong các phân khúc chúng ta cạnh "
-"tranh."
+msgstr ""
+"Thương hiệu được biết đến và được ưa chuộng trong các phân khúc chúng ta "
+"cạnh tranh.Thương hiệu được biết đến và được ưu tiên trong các phân khúc "
+"chúng ta cạnh tranh."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3116,16 +3663,19 @@ msgid ""
 "The four Balanced Scorecard perspectives ship built in; add company-specific"
 " ones (e.g. Sustainability) as needed. Tag objectives and KPIs to keep the "
 "goal portfolio balanced."
-msgstr "Bốn khía cạnh Balanced Scorecard được dựng sẵn; thêm khía cạnh riêng của công ty (ví dụ Phát triển bền vững) khi cần. Gắn thẻ cho mục tiêu và KPI để giữ danh mục mục tiêu cân bằng."
-"Bốn góc nhìn Balanced Scorecard có sẵn; thêm góc nhìn riêng của công ty (vd:"
-" Bền vững) khi cần. Gắn thẻ mục tiêu và KPI để giữ danh mục mục tiêu cân "
-"bằng."
+msgstr ""
+"Bốn khía cạnh Balanced Scorecard được dựng sẵn; thêm khía cạnh riêng của "
+"công ty (ví dụ Phát triển bền vững) khi cần. Gắn thẻ cho mục tiêu và KPI để "
+"giữ danh mục mục tiêu cân bằng.Bốn góc nhìn Balanced Scorecard có sẵn; thêm "
+"góc nhìn riêng của công ty (vd: Bền vững) khi cần. Gắn thẻ mục tiêu và KPI "
+"để giữ danh mục mục tiêu cân bằng."
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
-msgid "The linked objective belongs to a different cycle."
-msgstr "Mục tiêu được liên kết thuộc một chu kỳ khác."
+msgid ""
+"The linked objective belongs to a cycle that does not contain %(cycle)s."
+msgstr "Mục tiêu được gắn thuộc một chu kỳ không bao gồm %(cycle)s."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.dimension_4dx_wig
@@ -3138,13 +3688,30 @@ msgid "The right people join, grow and stay."
 msgstr "Đúng người gia nhập, phát triển và ở lại."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__target_note
+msgid ""
+"The target in the words of the assignment sheet. Needed when the target is a"
+" milestone ('LIVE on 7/9 with 10 merchants') rather than a number, and kept "
+"next to the number otherwise."
+msgstr ""
+"Chỉ tiêu đúng như câu chữ trên phiếu giao. Bắt buộc khi chỉ tiêu là một mốc "
+"tiến độ ('LIVE ngày 7/9 với 10 merchant') thay vì một con số; các trường hợp"
+" khác được giữ cạnh con số."
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.dimension_4dx_sustain
 msgid ""
 "The whirlwind: necessary operational work that must not crowd out the wildly"
 " important."
-msgstr "Cơn lốc công việc: phần vận hành cần thiết nhưng không được lấn át những việc tối quan trọng."
-"Cơn lốc công việc: việc vận hành cần thiết nhưng không được lấn át điều tối "
-"quan trọng."
+msgstr ""
+"Cơn lốc công việc: phần vận hành cần thiết nhưng không được lấn át những "
+"việc tối quan trọng.Cơn lốc công việc: việc vận hành cần thiết nhưng không "
+"được lấn át điều tối quan trọng."
+
+#. module: aic_okr_kpi
+#: model:ir.model.constraint,message:aic_okr_kpi.constraint_aic_hrm_kpi_assignment_group_assignment_group_uniq
+msgid "This KPI group is already on the scorecard."
+msgstr "Nhóm KPI này đã có trên phiếu giao."
 
 #. module: aic_okr_kpi
 #: model:ir.model.constraint,message:aic_okr_kpi.constraint_aic_hrm_kpi_target_kpi_cycle_owner_uniq
@@ -3167,9 +3734,24 @@ msgid "This period already has a result for this KPI target."
 msgstr "Kỳ này đã có kết quả cho chỉ tiêu KPI đó."
 
 #. module: aic_okr_kpi
+#: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_progress_report
+msgid ""
+"This report reads check-ins and confirmed KPI period\n"
+"                results. Record a check-in or confirm a period result and\n"
+"                the history builds itself."
+msgstr ""
+"Báo cáo này đọc các lần check-in và kết quả kỳ KPI đã xác nhận. Hãy ghi nhận"
+" check-in hoặc xác nhận kết quả kỳ, lịch sử sẽ tự hình thành."
+
+#. module: aic_okr_kpi
 #: model:ir.model.constraint,message:aic_okr_kpi.constraint_aic_hrm_import_term_term_uniq
 msgid "This spreadsheet term is already mapped."
 msgstr "Thuật ngữ này trong bảng tính đã được ánh xạ."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "This year"
+msgstr "Năm nay"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
@@ -3180,6 +3762,11 @@ msgstr "Chuyển quản lý đánh giá"
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_meeting_action__state__todo
 msgid "To do"
 msgstr "Cần làm"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__total_in_group
+msgid "Total In Group"
+msgstr "Tổng trong nhóm"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__total_weight
@@ -3259,13 +3846,25 @@ msgid "Website communication history"
 msgstr "Lịch sử trao đổi qua website"
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
+msgid "Week"
+msgstr "Tuần"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__weight
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__weight
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__weight
 msgid "Weight"
 msgstr "Trọng số"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_issue
+msgid "Weight Issue"
+msgstr "Vấn đề trọng số"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_ok
@@ -3273,9 +3872,34 @@ msgid "Weight Ok"
 msgstr "Trọng số hợp lệ"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight_in_group
+msgid "Weight in Group"
+msgstr "Trọng số trong nhóm"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__weight
 msgid "Weight of this KPI inside its owner's scorecard."
 msgstr "Trọng số của KPI này trong bảng điểm của người sở hữu."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "Weighted roll-up"
+msgstr "Tổng hợp có trọng số"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__group_ids
+msgid ""
+"Weighted sections of the scorecard, e.g. revenue KPIs 80% and management "
+"KPIs 20%. Leave empty for a flat scorecard."
+msgstr ""
+"Các nhóm có trọng số của phiếu giao, ví dụ KPI doanh thu 80% và KPI quản trị"
+" 20%. Để trống nếu phiếu giao không chia nhóm."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+msgid "Weights do not add up:"
+msgstr "Trọng số chưa khớp:"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_ksf_form
@@ -3316,9 +3940,10 @@ msgstr "Điều gì phải làm đúng?"
 #: model:aic.hrm.perspective,description:aic_okr_kpi.perspective_process
 msgid ""
 "What must we excel at? Quality, speed, reliability, cost of operations."
-msgstr "Chúng ta phải giỏi ở đâu? Chất lượng, tốc độ, độ tin cậy, chi phí vận hành."
-"Chúng ta phải xuất sắc ở đâu? Chất lượng, tốc độ, độ tin cậy, chi phí vận "
-"hành."
+msgstr ""
+"Chúng ta phải giỏi ở đâu? Chất lượng, tốc độ, độ tin cậy, chi phí vận "
+"hành.Chúng ta phải xuất sắc ở đâu? Chất lượng, tốc độ, độ tin cậy, chi phí "
+"vận hành."
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_service_quality
@@ -3326,11 +3951,20 @@ msgid "What we promise is what we deliver - on time, complete, correct."
 msgstr "Hứa gì giao nấy — đúng hạn, đầy đủ, chính xác."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_progress_report__expected
+msgid ""
+"Where it should have stood on that date if it moved linearly across the "
+"cycle calendar."
+msgstr ""
+"Mức lẽ ra đạt được tại ngày đó nếu tiến triển đều theo lịch của chu kỳ."
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__expected_progress
 msgid ""
 "Where progress should stand if the key result moved linearly across the "
 "cycle's calendar."
-msgstr "Tiến độ lẽ ra phải đạt nếu kết quả then chốt tiến đều theo lịch của chu kỳ."
+msgstr ""
+"Tiến độ lẽ ra phải đạt nếu kết quả then chốt tiến đều theo lịch của chu kỳ."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi__data_source
@@ -3338,9 +3972,22 @@ msgid "Where the actuals come from (report, system, meeting minutes)."
 msgstr "Số liệu thực tế đến từ đâu (báo cáo, hệ thống, biên bản họp)."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_issue
+msgid "Why the weights do not add up, when they do not."
+msgstr "Lý do trọng số chưa khớp (nếu có)."
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.perspective,name:aic_okr_kpi.dimension_4dx_wig
 msgid "Wildly Important Goal"
 msgstr "Mục tiêu tối quan trọng"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
+msgid ""
+"Worst first. Click a row\n"
+"                            to open it in the pivot."
+msgstr "Xếp từ kém nhất. Bấm vào một dòng để mở trong bảng pivot."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3362,9 +4009,27 @@ msgstr "một team"
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "ambiguous"
+msgstr "không xác định được duy nhất"
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
 msgid "an owner (employee)"
 msgstr "một chủ sở hữu (nhân viên)"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "aspirational"
+msgstr "kỳ vọng"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "at risk"
+msgstr "có rủi ro"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3390,9 +4055,76 @@ msgstr "employee_id"
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "every line must belong to one of the scorecard's groups"
+msgstr "mọi dòng phải thuộc một nhóm của phiếu giao"
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
 msgid "file"
 msgstr "tệp"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "group %(group)s is used by a line but not declared on the scorecard"
+msgstr ""
+"nhóm %(group)s được dùng ở một dòng nhưng chưa khai báo trên phiếu giao"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "key result"
+msgstr "kết quả then chốt"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "line weights total %(total)s%%"
+msgstr "tổng trọng số các dòng là %(total)s%%"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "needs an owner"
+msgstr "cần có chủ sở hữu"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "no recent check-in"
+msgstr "không có check-in gần đây"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "not found"
+msgstr "không tìm thấy"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "not scored"
+msgstr "chưa chấm điểm"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "off track"
+msgstr "chệch hướng"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "on track"
+msgstr "đúng hướng"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "s"
+msgstr "s"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3401,10 +4133,27 @@ msgid "team_id"
 msgstr "team_id"
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "the groups total %(total)s%%"
+msgstr "tổng trọng số các nhóm là %(total)s%%"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "the lines of group %(group)s total %(total)s%%"
+msgstr "tổng các dòng của nhóm %(group)s là %(total)s%%"
+
+#. module: aic_okr_kpi
 #. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
-msgid "· stale"
-msgstr "· quá hạn check-in"
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "· weight"
+msgstr "· trọng số"
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+msgid "Σ Lines in Group (must equal 100%)"
+msgstr "Σ dòng trong nhóm (phải bằng 100%)"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_list
@@ -3415,192 +4164,3 @@ msgstr "Σ Trọng số %"
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 msgid "Σ Weight (must equal 100%)"
 msgstr "Σ Trọng số (phải bằng 100%)"
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
-msgid "Cycle health, department heatmap and the risk queue"
-msgstr "Sức khỏe chu kỳ, bản đồ nhiệt theo phòng ban và hàng đợi rủi ro"
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
-msgid "Department heatmap"
-msgstr "Bản đồ nhiệt theo phòng ban"
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
-msgid "How every key result rolls up into the company plan"
-msgstr "Mỗi kết quả then chốt cộng dồn lên kế hoạch công ty như thế nào"
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
-msgid "One tile per objective, worst first. The band comes from the cycle's thresholds, not from opinion."
-msgstr "Mỗi ô là một mục tiêu, xấu xếp trước. Màu lấy theo ngưỡng của chu kỳ, không theo cảm tính."
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
-msgid "Not assigned to a department"
-msgstr "Chưa gán phòng ban"
-
-#. module: aic_okr_kpi
-#. odoo-javascript
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
-msgid "needs an owner"
-msgstr "cần có chủ sở hữu"
-
-#. module: aic_okr_kpi
-#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_progress_report
-msgid "Progress vs Plan"
-msgstr "Tiến độ so với kế hoạch"
-
-#. module: aic_okr_kpi
-#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_progress_report
-#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_progress_report
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_graph
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_pivot
-msgid "Progress Against Plan"
-msgstr "Tiến độ so với kế hoạch"
-
-#. module: aic_okr_kpi
-#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_report_overview
-msgid "Executive Overview"
-msgstr "Tổng quan lãnh đạo"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__achieved
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
-msgid "Achieved"
-msgstr "Thực đạt"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__expected
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
-msgid "Expected"
-msgstr "Kỳ vọng"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__gap
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_list
-msgid "Gap"
-msgstr "Chênh lệch"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__label
-msgid "Measured"
-msgstr "Đối tượng đo"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__job_id
-msgid "Job Position"
-msgstr "Vị trí công việc"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__kind__kr
-msgid "Key result"
-msgstr "Kết quả then chốt"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Behind plan"
-msgstr "Chậm so với kế hoạch"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Ahead of plan"
-msgstr "Vượt kế hoạch"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Key results"
-msgstr "Các kết quả then chốt"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "KPIs"
-msgstr "Các KPI"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "This year"
-msgstr "Năm nay"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Job position"
-msgstr "Vị trí công việc"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Goal level"
-msgstr "Cấp mục tiêu"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Week"
-msgstr "Tuần"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Month"
-msgstr "Tháng"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
-msgid "Quarter"
-msgstr "Quý"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
-msgid "Status"
-msgstr "Trạng thái"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
-msgid "Period end"
-msgstr "Kết thúc kỳ"
-
-#. module: aic_okr_kpi
-#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
-msgid "KPI target"
-msgstr "Chỉ tiêu KPI"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "Achieved to date"
-msgstr "Đã đạt đến nay"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "Expected by now"
-msgstr "Lẽ ra phải đạt"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "Ahead / behind plan"
-msgstr "Vượt / chậm kế hoạch"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "Measurements"
-msgstr "Số phép đo"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "Month by month"
-msgstr "Theo từng tháng"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "Furthest behind"
-msgstr "Chậm nhất"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
-msgid "By department"
-msgstr "Theo phòng ban"

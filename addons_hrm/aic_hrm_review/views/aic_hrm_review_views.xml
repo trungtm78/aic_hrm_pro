@@ -280,4 +280,76 @@
               action="action_review_template"
               groups="aic_hrm_base.group_hrm_manager"/>
 
+    <!-- Review forms (questionnaires). They were creatable only from a
+         template's form field and then unreachable: nobody could correct a
+         question, retire a form, or remove one left behind by a deleted
+         template. -->
+    <record id="view_review_questionnaire_list" model="ir.ui.view">
+        <field name="name">aic.hrm.review.form.list</field>
+        <field name="model">aic.hrm.review.form</field>
+        <field name="arch" type="xml">
+            <list class="o_aic_hrm_view">
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_review_questionnaire_form" model="ir.ui.view">
+        <field name="name">aic.hrm.review.form.form</field>
+        <field name="model">aic.hrm.review.form</field>
+        <field name="arch" type="xml">
+            <form class="o_aic_hrm_view">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Annual review 2026"/></h1>
+                    </div>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Sections" name="sections">
+                            <field name="section_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="question_ids" widget="many2many_tags"
+                                           string="Questions" optional="show"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                    </group>
+                                    <field name="question_ids">
+                                        <list editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="name"/>
+                                            <field name="question_type"/>
+                                            <field name="is_required"/>
+                                            <field name="competency" optional="show"/>
+                                        </list>
+                                    </field>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_review_questionnaire" model="ir.actions.act_window">
+        <field name="name">Review Forms</field>
+        <field name="res_model">aic.hrm.review.form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_review_questionnaires" name="Review Forms"
+              parent="aic_hrm_base.menu_aic_hrm_config" sequence="81"
+              action="action_review_questionnaire"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
 </odoo>

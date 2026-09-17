@@ -250,3 +250,94 @@ class TestRollover(OkrCase):
         self.assertTrue(new_child.parent_id)
         self.assertEqual(new_child.parent_id.cycle_id, self.other_cycle,
                          "parent link remapped inside the new cycle")
+
+
+def build_grouped_workbook(kr_code='O1.KR1'):
+    """A monthly assignment sheet: KPIs in weighted groups, each serving a
+    quarterly key result, one milestone target described in words."""
+    import openpyxl
+    workbook = openpyxl.Workbook()
+    okr = workbook.active
+    okr.title = 'OKR_2026'
+    okr.append(['Mã Objective', 'Objective', 'Tỷ trọng O (%)', 'Mã KR', 'Key Result', 'Thước đo',
+                'Target', 'Đơn vị', 'Chủ trì', 'Quý trọng tâm', 'Ưu tiên', 'Ghi chú'])
+
+    kpi = workbook.create_sheet('KPI_CHI_TIET')
+    kpi.append(['KPI ID', 'Nhóm KPI', 'Objective', 'KPI', 'Chiều đo', 'Cách tổng hợp', 'Đơn vị',
+                'Trọng số', 'Target', 'Chủ trì', 'Nguồn đo', 'Ghi chú',
+                'Trọng số nhóm (%)', 'Trọng số trong nhóm (%)', 'Mã KR', 'Chỉ tiêu (nguyên văn)'])
+    kpi.append(['KDDV.CV.B1.1', 'B.I KPI Doanh thu', '', 'Channel revenue', 'Càng cao càng tốt',
+                'Cuối kỳ', 'tỷ VNĐ', 64, 21.92, 'Nam Member', 'Contract system', '',
+                80, 80, kr_code, '≥ 21,92 tỷ (gốc 20,92 + 1,00 bổ sung)'])
+    kpi.append(['KDDV.CV.B1.2', 'B.I KPI Doanh thu', '', 'Merchant onboarding', 'Đạt/Không đạt',
+                'Cuối kỳ', 'merchant', 16, 1, 'Nam Member', 'E-commerce report', '',
+                80, 20, kr_code, 'Ký cam kết ≥ 8 merchant lũy kế'])
+    kpi.append(['KDDV.CV.B2.1', 'B.II KPI Quản trị', '', 'Copyright incidents', 'Càng thấp càng tốt',
+                'Cuối kỳ', 'vụ', 20, 0, 'Nam Member', 'Legal log', '',
+                20, 100, '', '0'])
+
+    assign = workbook.create_sheet('PHAN_CONG')
+    assign.append(['TT', 'Họ và tên', 'Vị trí', 'Trách nhiệm', 'Objective', 'KPI', 'Tổng (%)'])
+    assign.append([1, 'Nam Member, Mai Manager', 'Chuyên viên KD', 'Kênh', '',
+                   'KDDV.CV.B1.1,KDDV.CV.B1.2,KDDV.CV.B2.1', 100])
+    buffer = io.BytesIO()
+    workbook.save(buffer)
+    return base64.b64encode(buffer.getvalue())
+
+
+@tagged('post_install', '-at_install', 'aic_okr_kpi')
+class TestGroupedImport(OkrCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.month = cls.Cycle.create({
+            'name': 'May 2026', 'code': 'OKR-M05-GRP', 'cycle_type': 'month',
+            'date_start': '2026-05-01', 'date_end': '2026-05-31',
+            'parent_id': cls.quarter.id,
+        })
+        cls.objective = cls._make_objective(cycle_id=cls.quarter.id, code='O1')
+        cls.kr = cls._make_kr(cls.objective, code='O1.KR1')
+
+    def _import(self, **kw):
+        wizard = self.env['aic.hrm.import.wizard'].create({
+            'cycle_id': self.month.id, 'file': build_grouped_workbook(**kw), 'filename': 'grouped.xlsx'})
+        wizard.action_preview()
+        wizard.action_import()
+        return wizard
+
+    def test_groups_weights_and_key_results_are_imported(self):
+        self._import()
+        cards = self.env['aic.hrm.kpi.assignment'].search([('cycle_id', '=', self.month.id)])
+        self.assertEqual(len(cards), 2, 'one scorecard per person named on the row')
+        for card in cards:
+            self.assertEqual(sorted(card.group_ids.mapped('weight')), [20.0, 80.0])
+            by_code = {line.kpi_target_id.kpi_id.code: line for line in card.line_ids}
+            self.assertEqual(by_code['KDDV.CV.B1.1'].weight_in_group, 80.0)
+            self.assertAlmostEqual(by_code['KDDV.CV.B1.1'].weight, 64.0)
+            self.assertAlmostEqual(by_code['KDDV.CV.B1.2'].weight, 16.0)
+            self.assertAlmostEqual(by_code['KDDV.CV.B2.1'].weight, 20.0)
+            self.assertTrue(card.weight_ok)
+            revenue = by_code['KDDV.CV.B1.1'].kpi_target_id
+            self.assertEqual(revenue.kr_id, self.kr)
+            self.assertEqual(revenue.objective_id, self.objective)
+            self.assertEqual(revenue.target_note, '≥ 21,92 tỷ (gốc 20,92 + 1,00 bổ sung)')
+            incidents = by_code['KDDV.CV.B2.1'].kpi_target_id
+            self.assertEqual((incidents.direction, incidents.target_value), ('lower', 0.0))
+            self.assertFalse(incidents.kr_id)
+
+    def test_reimport_changes_nothing(self):
+        self._import()
+        before = self.env['aic.hrm.kpi.assignment.line'].search_count([('assignment_id.cycle_id', '=', self.month.id)])
+        self._import()
+        after = self.env['aic.hrm.kpi.assignment.line'].search_count([('assignment_id.cycle_id', '=', self.month.id)])
+        self.assertEqual(before, after)
+        groups = self.env['aic.hrm.kpi.assignment.group'].search_count([('assignment_id.cycle_id', '=', self.month.id)])
+        self.assertEqual(groups, 4)
+
+    def test_unknown_key_result_is_reported_not_guessed(self):
+        wizard = self._import(kr_code='O9.KR9')
+        self.assertIn('O9.KR9', wizard.warning_log)
+        target = self.env['aic.hrm.kpi.target'].search([
+            ('cycle_id', '=', self.month.id), ('kpi_id.code', '=', 'KDDV.CV.B1.1')], limit=1)
+        self.assertFalse(target.kr_id)

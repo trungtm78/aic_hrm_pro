@@ -57,6 +57,40 @@ class TestScreenSmoke(TransactionCase):
         self.assertFalse(
             failures, 'Broken screens:\n' + '\n'.join(failures))
 
+    def test_every_record_a_manager_can_create_has_a_screen(self):
+        """The reverse of the menu check: a model managers may create but no
+        menu reaches holds records that can be made (inline, from another
+        form's field) and never found again. Review forms accumulated that
+        way - nobody could fix a question or remove a form a deleted template
+        left behind.
+
+        Records that live inside a parent (a required, cascading link to it)
+        are managed in the parent's form and are not required to have a menu
+        of their own."""
+        manager = self.env.ref('aic_hrm_base.group_hrm_manager')
+        creatable = set(self.env['ir.model.access'].search([
+            ('group_id', 'in', manager.ids), ('perm_create', '=', True),
+        ]).mapped('model_id.model'))
+        reachable = {
+            menu.action.res_model
+            for menu in self._suite_records('ir.ui.menu')
+            if menu.action and menu.action._name == 'ir.actions.act_window'}
+        missing = []
+        for model_name in sorted(creatable):
+            model = self.env.get(model_name)
+            if (model is None or not model_name.startswith('aic.hrm.')
+                    or model._transient or model._abstract or not model._auto):
+                continue
+            is_child = any(
+                field.type == 'many2one' and field.required
+                and field.ondelete == 'cascade'
+                for field in model._fields.values())
+            if not is_child and model_name not in reachable:
+                missing.append(model_name)
+        self.assertFalse(
+            missing, 'Creatable but unreachable from any menu:\n'
+            + '\n'.join(missing))
+
     def test_every_client_action_is_registered(self):
         actions = self._suite_records('ir.actions.client')
         self.assertGreaterEqual(len(actions), 2)

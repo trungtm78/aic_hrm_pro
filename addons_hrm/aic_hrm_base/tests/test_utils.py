@@ -61,7 +61,13 @@ class TestScoringUtils(TransactionCase):
         self.assertAlmostEqual(utils.achievement(250, 100, 'lower'), 0.0)
         # under target clamps at cap, never above
         self.assertAlmostEqual(utils.achievement(50, 100, 'lower'), 1.0)
+
+    def test_achievement_lower_zero_tolerance(self):
+        # target 0 = zero tolerance: none is full marks, any breach is nothing
+        self.assertEqual(utils.achievement(0, 0, 'lower'), 1.0)
         self.assertEqual(utils.achievement(10, 0, 'lower'), 0.0)
+        self.assertEqual(utils.achievement(0.5, 0, 'lower'), 0.0)
+        self.assertEqual(utils.achievement(0, 0, 'lower', cap=1.2), 1.0)
 
     def test_achievement_boolean(self):
         self.assertEqual(utils.achievement(1, 1, 'boolean'), 1.0)

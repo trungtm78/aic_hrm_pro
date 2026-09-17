@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-20 11:34+0000\n"
-"PO-Revision-Date: 2026-08-20 11:34+0000\n"
+"POT-Creation-Date: 2026-09-17 10:20+0000\n"
+"PO-Revision-Date: 2026-09-17 10:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -78,6 +78,12 @@ msgid ""
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "%(person)s's scorecard weights do not add up: %(issue)s."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_checkin__confidence
 msgid "1 = will miss badly, 10 = will certainly hit."
 msgstr ""
@@ -99,6 +105,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_checkin.py:0
 msgid "A check-in belongs to exactly one key result or one KPI target."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid "A lower-is-better target cannot be negative. Use 0 for zero tolerance."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -333,6 +345,7 @@ msgid ""
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__assignment_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__assignment_id
 msgid "Assignment"
 msgstr ""
@@ -643,6 +656,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__company_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__company_id
@@ -771,6 +785,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__create_uid
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__create_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__create_uid
@@ -801,6 +816,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__create_date
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__create_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__create_date
@@ -1041,6 +1057,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__display_name
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__display_name
@@ -1151,6 +1168,11 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__escalation_days
 msgid "Escalation Days"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
+msgid "Evaluation criterion, source document, assumptions"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1453,6 +1475,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__id
@@ -1651,9 +1674,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi.py:0
 msgid ""
-"KPI %(name)s: lower-is-better KPIs need a strictly positive target — the "
-"linear achievement formula is undefined at target 0. Model 'zero incidents' "
-"goals as Pass/Fail instead."
+"KPI %(name)s: a lower-is-better target cannot be negative. Use 0 for zero "
+"tolerance."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1673,7 +1695,17 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_kpi_group
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__group_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__group_id
 msgid "KPI Group"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_kpi_group
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__group_ids
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_kpi_groups
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+msgid "KPI Groups"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1711,6 +1743,12 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_import_term__term_type__direction
 msgid "KPI direction"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "KPI group weights must be positive."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1754,6 +1792,8 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_key_result
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__kr_id
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 msgid "Key Result"
 msgstr ""
 
@@ -1790,6 +1830,22 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid ""
+"Key result %(code)s on KPI %(kpi)s is %(problem)s in this cycle or the "
+"cycles above it; the KPI is not linked to a key result."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
+msgid ""
+"Key result %(kr)s belongs to another objective than the one this KPI reports"
+" under."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_key_result.py:0
 msgid ""
 "Key result %(name)s: target and baseline must differ, otherwise progress is "
@@ -1799,6 +1855,13 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_alert_rule__rule_type__rag_red
 msgid "Key result in the red band"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__kr_id
+msgid ""
+"Key result this KPI serves. It may belong to a longer cycle than the target,"
+" e.g. a quarterly key result for a monthly KPI."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1894,6 +1957,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__write_uid
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__write_uid
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__write_uid
@@ -1918,6 +1982,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__write_date
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__write_date
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_period_result__write_date
@@ -2071,14 +2136,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__direction__lower
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__direction__lower
 msgid "Lower is better"
-msgstr ""
-
-#. module: aic_okr_kpi
-#. odoo-python
-#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
-msgid ""
-"Lower-is-better targets must be strictly positive; model 'zero incidents' "
-"goals as Pass/Fail."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2411,6 +2468,7 @@ msgid "Note"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
 msgid "Notes"
 msgstr ""
@@ -2518,7 +2576,9 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__objective_id
-msgid "Objective this KPI reports under, if any."
+msgid ""
+"Objective this KPI reports under, if any. Follows the key result when one is"
+" set."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3060,15 +3120,20 @@ msgstr ""
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
-msgid "Scorecard %(name)s cannot go from %(current)s to %(target)s."
+msgid ""
+"Scorecard %(name)s cannot be submitted: %(issue)s. Weights must add up to "
+"exactly 100%%."
 msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
-msgid ""
-"Scorecard %(name)s weighs %(total)s%%: line weights must sum to exactly "
-"100%% before submission."
+msgid "Scorecard %(name)s cannot go from %(current)s to %(target)s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_kpi_assignment_group
+msgid "Scorecard KPI Group"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3100,6 +3165,7 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__sequence
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_group__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__sequence
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__sequence
@@ -3115,6 +3181,23 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_objective
 msgid "Set the first objective of this cycle"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__weight
+msgid "Share of the scorecard, in percent."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight
+msgid ""
+"Share of the whole scorecard. On a grouped line it is derived: group weight "
+"x weight in group."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight_in_group
+msgid "Share of this line inside its group, in percent."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3235,6 +3318,11 @@ msgid "Sum of line weights; must reach exactly 100% to submit."
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__total_in_group
+msgid "Sum of the in-group weights of this group's lines; must be 100%."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.ksf,description:aic_okr_kpi.ksf_supply_reliability
 msgid "Suppliers and partners deliver in full, on time, to spec."
 msgstr ""
@@ -3277,6 +3365,16 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__target_value
 msgid "Target Value"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__target_note
+msgid "Target as Assigned"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
+msgid "Target as assigned, e.g. LIVE on 7/9 with at least 10 merchants"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3367,7 +3465,8 @@ msgstr ""
 #. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
-msgid "The linked objective belongs to a different cycle."
+msgid ""
+"The linked objective belongs to a cycle that does not contain %(cycle)s."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3381,10 +3480,23 @@ msgid "The right people join, grow and stay."
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_target__target_note
+msgid ""
+"The target in the words of the assignment sheet. Needed when the target is a"
+" milestone ('LIVE on 7/9 with 10 merchants') rather than a number, and kept "
+"next to the number otherwise."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.dimension_4dx_sustain
 msgid ""
 "The whirlwind: necessary operational work that must not crowd out the wildly"
 " important."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.constraint,message:aic_okr_kpi.constraint_aic_hrm_kpi_assignment_group_assignment_group_uniq
+msgid "This KPI group is already on the scorecard."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3433,6 +3545,11 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_meeting_action__state__todo
 msgid "To do"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__total_in_group
+msgid "Total In Group"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3519,6 +3636,7 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__weight
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_group__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__weight
@@ -3528,8 +3646,18 @@ msgid "Weight"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_issue
+msgid "Weight Issue"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_ok
 msgid "Weight Ok"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight_in_group
+msgid "Weight in Group"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3541,6 +3669,18 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "Weighted roll-up"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__group_ids
+msgid ""
+"Weighted sections of the scorecard, e.g. revenue KPIs 80% and management "
+"KPIs 20%. Leave empty for a flat scorecard."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+msgid "Weights do not add up:"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3609,6 +3749,11 @@ msgid "Where the actuals come from (report, system, meeting minutes)."
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_issue
+msgid "Why the weights do not add up, when they do not."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.perspective,name:aic_okr_kpi.dimension_4dx_wig
 msgid "Wildly Important Goal"
 msgstr ""
@@ -3637,6 +3782,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
 msgid "a team"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "ambiguous"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3681,14 +3832,32 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "every line must belong to one of the scorecard's groups"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_actuals_import_wizard.py:0
 msgid "file"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "group %(group)s is used by a line but not declared on the scorecard"
 msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "key result"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "line weights total %(total)s%%"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3701,6 +3870,12 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid "no recent check-in"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
+msgid "not found"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3734,9 +3909,26 @@ msgid "team_id"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "the groups total %(total)s%%"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_kpi_assignment.py:0
+msgid "the lines of group %(group)s total %(total)s%%"
+msgstr ""
+
+#. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "· weight"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+msgid "Σ Lines in Group (must equal 100%)"
 msgstr ""
 
 #. module: aic_okr_kpi

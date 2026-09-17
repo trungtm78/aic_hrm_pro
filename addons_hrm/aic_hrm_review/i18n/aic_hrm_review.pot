@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 05:26+0000\n"
-"PO-Revision-Date: 2026-08-02 05:26+0000\n"
+"POT-Creation-Date: 2026-09-17 10:13+0000\n"
+"PO-Revision-Date: 2026-09-17 10:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -137,6 +137,11 @@ msgstr ""
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_calibration_session_form
 msgid "Apply"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "Archived"
 msgstr ""
 
 #. module: aic_hrm_review
@@ -885,6 +890,11 @@ msgid "Question Type"
 msgstr ""
 
 #. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "Questions"
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_feedback_request__rater_employee_id
 msgid "Rater Employee"
 msgstr ""
@@ -976,6 +986,12 @@ msgid "Review Form Section"
 msgstr ""
 
 #. module: aic_hrm_review
+#: model:ir.actions.act_window,name:aic_hrm_review.action_review_questionnaire
+#: model:ir.ui.menu,name:aic_hrm_review.menu_review_questionnaires
+msgid "Review Forms"
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.model,name:aic_hrm_review.model_aic_hrm_review_question
 msgid "Review Question"
 msgstr ""
@@ -1040,6 +1056,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_form__section_ids
 #: model:ir.model.fields,field_description:aic_hrm_review.field_aic_hrm_review_question__section_id
 msgid "Section"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "Sections"
 msgstr ""
 
 #. module: aic_hrm_review
@@ -1189,6 +1210,14 @@ msgid "This person was already invited to this review."
 msgstr ""
 
 #. module: aic_hrm_review
+#. odoo-python
+#: code:addons/aic_hrm_review/models/aic_hrm_feedback.py:0
+msgid ""
+"This rater has no login of their own. Only an HR administrator may record "
+"their answers."
+msgstr ""
+
+#. module: aic_hrm_review
 #: model:ir.model.constraint,message:aic_hrm_review.constraint_aic_hrm_calibration_line_session_review_uniq
 msgid "This review is already on the session."
 msgstr ""
@@ -1253,4 +1282,9 @@ msgstr ""
 #. module: aic_hrm_review
 #: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_cycle_form
 msgid "e.g. 2026 annual review"
+msgstr ""
+
+#. module: aic_hrm_review
+#: model_terms:ir.ui.view,arch_db:aic_hrm_review.view_review_questionnaire_form
+msgid "e.g. Annual review 2026"
 msgstr ""
