@@ -70,6 +70,8 @@ class AicHrmCheckin(models.Model):
             kr.write({
                 'last_checkin_date': checkin.date,
                 'confidence': checkin.confidence,
+                # A check-in is a report even when the value did not move.
+                'progress_reported_on': fields.Datetime.now(),
             })
             checkin.write({
                 'progress_snapshot': kr.progress,

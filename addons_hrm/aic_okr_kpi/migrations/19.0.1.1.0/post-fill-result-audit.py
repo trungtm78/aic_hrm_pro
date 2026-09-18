@@ -11,14 +11,9 @@ still knows about.
 """
 import logging
 
-from odoo import SUPERUSER_ID, api
+from odoo import SUPERUSER_ID, _, api
 
 _logger = logging.getLogger(__name__)
-_BASELINE_REASON = (
-    "Mốc ban đầu: số liệu này đã được xác nhận trước khi hệ thống bật vết "
-    "kiểm toán. Người và thời điểm lấy theo lần ghi cuối mà cơ sở dữ liệu "
-    "còn lưu."
-)
 
 
 def migrate(cr, version):
@@ -41,7 +36,12 @@ def migrate(cr, version):
             'old_state': 'draft',
             'new_state': 'confirmed',
             'source': result.source,
-            'reason': _BASELINE_REASON,
+            # Spelled out at the call site so the string is extracted for
+            # translation: a reason the customer cannot read is no reason.
+            'reason': _("Baseline: this figure was already confirmed before "
+                        "the audit trail was switched on. Who and when are "
+                        "taken from the last write the database still knows "
+                        "about."),
             'user_id': result.write_uid.id or SUPERUSER_ID,
             'event_date': result.write_date,
         })

@@ -3203,11 +3203,6 @@ msgid "Progress Snapshot"
 msgstr ""
 
 #. module: aic_okr_kpi
-#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
-msgid "Progress has been reported: a check-in or a completed milestone."
-msgstr ""
-
-#. module: aic_okr_kpi
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_progress_report
 msgid "Progress vs Plan"
 msgstr ""
@@ -4433,4 +4428,32 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 msgid "Σ Weight (must equal 100%)"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: code:addons/aic_okr_kpi/migrations/19.0.1.1.0/post-fill-result-audit.py:0
+msgid ""
+"Baseline: this figure was already confirmed before the audit trail was "
+"switched on. Who and when are taken from the last write the database still "
+"knows about."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
+msgid ""
+"Progress has been reported: a check-in, a value written by hand, or a "
+"completed milestone."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
+msgid "Progress Reported On"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
+msgid ""
+"Last time somebody reported progress on this key result: a check-in, or the "
+"current value written by hand. An untouched value is never a report, "
+"whatever it is."
 msgstr ""

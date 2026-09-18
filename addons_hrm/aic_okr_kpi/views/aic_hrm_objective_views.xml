@@ -239,6 +239,8 @@
                         <group>
                             <field name="baseline"/>
                             <field name="current"/>
+                            <field name="progress_reported_on"
+                                   invisible="not progress_reported_on"/>
                             <field name="target"/>
                             <field name="weight"/>
                             <field name="progress" widget="percentage"/>

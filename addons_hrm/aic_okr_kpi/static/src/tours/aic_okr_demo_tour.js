@@ -51,6 +51,17 @@ registry.category("web_tour.tours").add("aic_okr_demo", {
             content: "Cockpit renders with the Muc & Thep shell",
             trigger: ".o_aic_hrm",
         },
+        {
+            // The shell renders even when the data call fails - the error
+            // arrives as a dialog over it - so the tour waits for a figure
+            // that only exists once the cycle has actually been read.
+            content: "Cockpit shows the health strip it just computed",
+            trigger: ".o_aic_health_strip .o_aic_stat_value",
+        },
+        {
+            content: "and no error dialog covers it",
+            trigger: ".o_aic_hrm:not(:has(.o_dialog))",
+        },
     ],
 });
 

@@ -67,11 +67,11 @@ export class AicHrmCockpit extends Component {
                 // The newest cycle is often a month that carries scorecards
                 // but no objectives; open on the newest one that actually has
                 // objectives, so the desk does not start empty.
-                const counts = await this.orm.readGroup(
+                const counts = await this.orm.formattedReadGroup(
                     "aic.hrm.objective",
                     [["cycle_id", "in", this.state.cycles.map((c) => c.id)]],
                     ["cycle_id"],
-                    ["cycle_id"],
+                    ["__count"],
                 );
                 const withObjectives = new Set(
                     counts.map((group) => group.cycle_id && group.cycle_id[0]));

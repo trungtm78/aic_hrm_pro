@@ -64,6 +64,11 @@ class AicHrmKeyResult(models.Model):
         compute='_compute_progress', store=True, aggregator='avg',
         help="Normalized 0..cap progress toward the target.")
     last_checkin_date = fields.Date(copy=False)
+    progress_reported_on = fields.Datetime(
+        string='Progress Reported On', readonly=True, copy=False,
+        help="Last time somebody reported progress on this key result: a "
+             "check-in, or the current value written by hand. An untouched "
+             "value is never a report, whatever it is.")
     confidence = fields.Integer(
         readonly=True, copy=False,
         help="Latest check-in confidence, 1 (will miss) to 10 (will hit).")
@@ -148,21 +153,19 @@ class AicHrmKeyResult(models.Model):
         aggregator='avg')
     has_actual = fields.Boolean(
         compute='_compute_has_actual', store=True,
-        help="Progress has been reported: a check-in or a completed milestone.")
+        help="Progress has been reported: a check-in, a value written by "
+             "hand, or a completed milestone.")
 
-    @api.depends('last_checkin_date', 'milestone_ids.is_done', 'current',
-                 'baseline', 'metric_type')
+    @api.depends('last_checkin_date', 'progress_reported_on',
+                 'milestone_ids.is_done')
     def _compute_has_actual(self):
         for kr in self:
-            # Progress can arrive as a check-in, as a completed milestone, or
-            # as a figure written straight onto the key result (an import, a
-            # correction). Any of the three means somebody reported something.
-            reported = bool(kr.last_checkin_date) or any(
-                kr.milestone_ids.mapped('is_done'))
-            if not reported and kr.metric_type in ('number', 'percent', 'boolean'):
-                reported = float_compare(
-                    kr.current, kr.baseline, precision_digits=6) != 0
-            kr.has_actual = reported
+            # Recorded, never inferred from the value: a rolled-over key
+            # result starts at 0 under a baseline of 10, and reading that gap
+            # as a report once turned an objective nobody had touched red.
+            kr.has_actual = bool(
+                kr.last_checkin_date or kr.progress_reported_on
+                or any(kr.milestone_ids.mapped('is_done')))
 
     def _get_rag_profile(self):
         self.ensure_one()
@@ -193,8 +196,25 @@ class AicHrmKeyResult(models.Model):
                 raise ValidationError(_(
                     "Key result weight cannot be negative."))
 
+    def copy_data(self, default=None):
+        # A copy starts a new period (rollover, duplication): whatever the
+        # original reported belongs to the original.
+        vals_list = super().copy_data(default=default)
+        for vals in vals_list:
+            vals.setdefault('progress_reported_on', False)
+        return vals_list
+
     @api.model_create_multi
     def create(self, vals_list):
+        now = fields.Datetime.now()
+        for vals in vals_list:
+            # Created with progress already made (an imported plan, a key
+            # result added mid-cycle): that figure is a report. Created at
+            # its baseline, it is only a starting point.
+            if 'progress_reported_on' not in vals and 'current' in vals                     and float_compare(vals['current'] or 0.0,
+                                      vals.get('baseline') or 0.0,
+                                      precision_digits=6):
+                vals['progress_reported_on'] = now
         objectives = self.env['aic.hrm.objective'].browse(
             [vals['objective_id'] for vals in vals_list
              if vals.get('objective_id')])
@@ -228,6 +248,16 @@ class AicHrmKeyResult(models.Model):
                         "%(fields)s on key results of approved objectives "
                         "change only through an approved target revision.",
                         fields=', '.join(governed)))
+        if 'current' in vals and 'progress_reported_on' not in vals:
+            # Only a value that actually changes is a report: saving a form
+            # again must not turn an untouched key result into a measured one.
+            changed = self.filtered(lambda kr: float_compare(
+                kr.current, vals['current'] or 0.0, precision_digits=6))
+            result = super().write(vals)
+            if changed:
+                super(AicHrmKeyResult, changed).write(
+                    {'progress_reported_on': fields.Datetime.now()})
+            return result
         return super().write(vals)
 
 
