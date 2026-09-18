@@ -275,13 +275,29 @@ def verify(dest):
     return findings
 
 
+# Never part of a module: bytecode, a local agent's working files (they are
+# gitignored but live in the module directory), and files named after a
+# Windows device - a shell redirect to `nul` run outside cmd leaves one
+# behind, and copying it aborts the whole build.
+_IGNORED = shutil.ignore_patterns(
+    '__pycache__', '*.pyc', '.claude', 'CLAUDE.md', 'PROGRESS.md')
+_WINDOWS_DEVICES = {'con', 'prn', 'aux', 'nul'} | {
+    f'{name}{n}' for name in ('com', 'lpt') for n in range(1, 10)}
+
+
+def _ignore(directory, names):
+    ignored = set(_IGNORED(directory, names))
+    ignored.update(name for name in names
+                   if name.split('.')[0].lower() in _WINDOWS_DEVICES)
+    return ignored
+
+
 def backport(source, dest):
     source = pathlib.Path(source)
     dest = pathlib.Path(dest)
     if dest.exists():
         shutil.rmtree(dest)
-    shutil.copytree(source, dest,
-                    ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+    shutil.copytree(source, dest, ignore=_ignore)
     changed = 0
     for path in dest.rglob('*'):
         if path.suffix == '.py':

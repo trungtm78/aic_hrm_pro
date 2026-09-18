@@ -257,3 +257,16 @@ class BackportVerifyCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class BackportCopyCase(unittest.TestCase):
+    """What lands in the 18.0 tree is what a customer receives."""
+
+    def test_device_names_and_agent_files_are_left_behind(self):
+        names = ['__init__.py', 'nul', 'NUL.txt', 'com1', 'console.py',
+                 '.claude', 'CLAUDE.md', 'PROGRESS.md', '__pycache__', 'x.pyc']
+        ignored = backport_18._ignore('addons_hrm/aic_okr_kpi', names)
+        self.assertEqual(
+            ignored, {'nul', 'NUL.txt', 'com1', '.claude', 'CLAUDE.md',
+                      'PROGRESS.md', '__pycache__', 'x.pyc'},
+            'a stray `nul` aborts the build; agent notes must never ship')
