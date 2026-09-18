@@ -2,7 +2,7 @@
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
 {
     'name': 'OKR KPI Engine',
-    'version': '19.0.1.3.0',
+    'version': '19.0.1.4.0',
     'category': 'Human Resources/Performance',
     'summary': 'AIConnect OKR and KPI engine: five goal levels, weighted scoring, check-ins, alerts and dashboards',
     'description': """

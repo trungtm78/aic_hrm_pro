@@ -143,7 +143,15 @@ class AicHrmKpiAssignment(models.Model):
         self.ensure_one()
         return bool(self.data_coverage)
 
-    @api.depends('data_coverage')
+    def _rag_score(self):
+        # Scored on what has figures, as the evaluation rules say: banded on
+        # the full score, a KPI still waiting for its figure counted as 0, so
+        # a card at 100% on everything reported read amber and one at 57%
+        # read red. The coverage is shown beside the score instead.
+        self.ensure_one()
+        return self.score_covered
+
+    @api.depends('data_coverage', 'score_covered')
     def _compute_rag(self):
         super()._compute_rag()
 

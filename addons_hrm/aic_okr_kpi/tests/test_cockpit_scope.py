@@ -157,3 +157,29 @@ class TestCockpitScope(KpiCase):
         visible = self.env['aic.hrm.kpi.assignment'].with_user(self.member_user).search_count(
             [('cycle_id', 'in', [self.july.id, self.august.id])])
         self.assertEqual(data['kpi']['scorecard_count'], visible)
+
+    # ---- the band matches the figure shown -----------------------------
+
+    def test_a_scorecard_is_banded_on_what_has_figures(self):
+        """The desk shows the score on measured KPIs; the colour must be that
+        score's band. Banded on the full score, a card at 100% on everything
+        reported showed amber and one at 57% showed red - on the customer's
+        own July - because every KPI still waiting for a figure counted as 0."""
+        reported = self._make_target(cycle_id=self.august.id,
+                                     employee_id=self.manager_employee.id,
+                                     target_value=100.0)
+        waiting = self._make_target(cycle_id=self.august.id,
+                                    employee_id=self.manager_employee.id,
+                                    target_value=100.0,
+                                    kpi_id=self.Kpi.create({'name': 'Waiting',
+                                                            'code': 'KPI-WAIT'}).id)
+        self._add_result(reported, '2026-08-01', '2026-08-31', 60.0)
+        card = self.env['aic.hrm.kpi.assignment'].create({
+            'employee_id': self.manager_employee.id, 'cycle_id': self.august.id,
+            'line_ids': [(0, 0, {'kpi_target_id': reported.id, 'weight': 50.0}),
+                         (0, 0, {'kpi_target_id': waiting.id, 'weight': 50.0})]})
+        self.assertAlmostEqual(card.score, 0.3, places=4)
+        self.assertAlmostEqual(card.score_covered, 0.6, places=4)
+        self.assertEqual(card.rag, 'amber', '60% on what was reported is at risk, not off track')
+        kpi = self._read(self.august)['kpi']
+        self.assertEqual(kpi['red_count'], 1, 'only the 30% card is off track')

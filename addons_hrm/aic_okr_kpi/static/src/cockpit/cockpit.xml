@@ -198,7 +198,7 @@
                         <div class="o_aic_kpi_table" t-if="state.kpi.by_cycle.length > 1">
                             <h6 class="o_aic_kpi_table_title">By period</h6>
                             <div class="o_aic_kpi_row o_aic_kpi_row_head">
-                                <span>Period</span><span>Score</span><span>Coverage</span><span>With figures</span>
+                                <span class="o_aic_kpi_name">Period</span><span>Score</span><span>Coverage</span><span>With figures</span>
                             </div>
                             <div t-foreach="state.kpi.by_cycle" t-as="row" t-key="row.cycle_id"
                                  class="o_aic_kpi_row">
@@ -211,7 +211,7 @@
                         <div class="o_aic_kpi_table">
                             <h6 class="o_aic_kpi_table_title">By department</h6>
                             <div class="o_aic_kpi_row o_aic_kpi_row_head">
-                                <span>Department</span><span>Score</span><span>Coverage</span><span>With figures</span>
+                                <span class="o_aic_kpi_name">Department</span><span>Score</span><span>Coverage</span><span>With figures</span>
                             </div>
                             <div t-foreach="state.kpi.by_department" t-as="row"
                                  t-key="row.department_id || 0" class="o_aic_kpi_row">
@@ -224,7 +224,7 @@
                         <div class="o_aic_kpi_table" t-if="state.kpi.weakest.length">
                             <h6 class="o_aic_kpi_table_title">Lowest measured scorecards</h6>
                             <div t-foreach="state.kpi.weakest" t-as="card" t-key="card.id"
-                                 class="o_aic_risk_item">
+                                 class="o_aic_risk_item o_aic_kpi_weak">
                                 <span t-attf-class="o_aic_rag o_aic_rag_{{ card.rag || 'none' }} o_aic_rag_code">
                                     <span class="o_aic_rag_marker"/>
                                     <span class="o_aic_hrm_num" t-esc="formatPercent(card.score_covered)"/>

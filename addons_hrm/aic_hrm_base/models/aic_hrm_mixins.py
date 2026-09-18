@@ -69,6 +69,13 @@ class AicHrmScoringMixin(models.AbstractModel):
         self.ensure_one()
         return True
 
+    def _rag_score(self):
+        """The score the band is read from. Models whose headline figure is
+        not `score` say which one it is, so the colour always matches the
+        number shown next to it."""
+        self.ensure_one()
+        return self.score
+
     @api.depends('score')
     def _compute_rag(self):
         for record in self:
@@ -76,4 +83,5 @@ class AicHrmScoringMixin(models.AbstractModel):
             if not record._has_measurement():
                 record.rag = 'none'
             else:
-                record.rag = profile.resolve(record.score) if profile else 'none'
+                record.rag = (profile.resolve(record._rag_score())
+                              if profile else 'none')

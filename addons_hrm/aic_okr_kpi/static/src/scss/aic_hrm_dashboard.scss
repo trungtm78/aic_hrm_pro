@@ -213,6 +213,19 @@
     > span:not(.o_aic_kpi_name) { text-align: right; }
     .o_aic_kpi_name { min-width: 0; overflow-wrap: anywhere; }
   }
+  // The rail's risk-item layout only applies inside the rail.
+  .o_aic_kpi_weak {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--aic-space-sm);
+    padding: var(--aic-space-sm) 0;
+    border-top: 1px solid var(--aic-rule);
+    min-height: 44px;
+
+    .o_aic_rag_code { flex: 0 0 auto; }
+    .o_aic_risk_text { min-width: 0; }
+    .o_aic_risk_meta { color: var(--aic-muted); font-size: 0.78rem; }
+  }
   .o_aic_kpi_row_head {
     min-height: 0;
     border-top: none;
