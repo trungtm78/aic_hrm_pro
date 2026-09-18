@@ -7,8 +7,11 @@ import { _t } from "@web/core/l10n/translation";
 
 /**
  * Leadership cockpit — the "reading desk": one health strip, a RAG heatmap
- * per department, and the risk queue. Data comes from three batched ORM
- * calls per cycle switch; everything else is client-side arithmetic.
+ * per department, the risk queue and the KPI scorecards. One server call per
+ * cycle switch (`aic.hrm.cycle.cockpit_data`) decides which cycles speak for
+ * the selected one - objectives are set per quarter and KPIs per month, so a
+ * month reads its quarter's objectives and a quarter gathers its months'
+ * scorecards - and says so; the arithmetic below only presents it.
  */
 /**
  * Score of a set of objectives, weighted the way an objective roll-up is
@@ -54,6 +57,8 @@ export class AicHrmCockpit extends Component {
             stats: null,
             heatmapRows: [],
             risks: [],
+            okrScope: null,
+            kpi: null,
             loading: true,
         });
         onWillStart(async () => {
@@ -94,31 +99,11 @@ export class AicHrmCockpit extends Component {
     }
 
     async loadCycle() {
-        const cycleId = this.state.cycleId;
-        const [objectives, krs, risks] = await Promise.all([
-            this.orm.searchRead(
-                "aic.hrm.objective",
-                [["cycle_id", "=", cycleId]],
-                ["id", "code", "name", "department_id", "objective_type",
-                 "score", "score_covered", "data_coverage", "weight", "rag",
-                 "state"],
-                { limit: 500 },
-            ),
-            this.orm.searchRead(
-                "aic.hrm.key.result",
-                [["cycle_id", "=", cycleId]],
-                ["id", "is_stale", "rag", "has_actual", "last_checkin_date"],
-                { limit: 2000 },
-            ),
-            this.orm.searchRead(
-                "aic.hrm.key.result",
-                ["&", ["cycle_id", "=", cycleId],
-                 "|", ["rag", "=", "red"], ["is_stale", "=", true]],
-                ["id", "code", "name", "employee_id", "rag", "is_stale",
-                 "progress"],
-                { limit: 10 },
-            ),
-        ]);
+        const data = await this.orm.call(
+            "aic.hrm.cycle", "cockpit_data", [[this.state.cycleId]]);
+        const { objectives, key_results: krs, risks } = data.okr;
+        this.state.okrScope = { source: data.okr.source, cycles: data.okr.cycles };
+        this.state.kpi = data.kpi;
         const committed = objectives.filter(
             (o) => o.objective_type === "committed");
         const measured = objectives.filter((o) => o.data_coverage > 0);
@@ -182,6 +167,48 @@ export class AicHrmCockpit extends Component {
         rows.sort((a, b) => (a.isUnassigned - b.isUnassigned)
             || (a.score - b.score));
         return rows;
+    }
+
+    get notAssignedLabel() {
+        return _t("Not assigned to a department");
+    }
+
+    /** "3/19": how many of the scorecards have figures behind them. */
+    fraction(part, whole) {
+        return `${part || 0}/${whole || 0}`;
+    }
+
+    /** A row with no figures has no score - a dash, never a 0%. */
+    rowScore(row) {
+        return row.measured_count ? this.formatPercent(row.score_covered) : "—";
+    }
+
+    weakestMeta(card) {
+        const cycle = card.cycle_id ? card.cycle_id[1] : "";
+        return _t("%(cycle)s · %(coverage)s of the weight has figures", {
+            cycle,
+            coverage: this.formatShare(card.data_coverage),
+        });
+    }
+
+    /** Which cycles the figures came from, in one sentence. */
+    scopeNote(scope, kind) {
+        if (!scope) {
+            return "";
+        }
+        const names = scope.cycles.map((cycle) => cycle.name).join(", ");
+        const notes = kind === "okr" ? {
+            own: _t("Objectives of %s.", names),
+            parent: _t("No objectives are set on this cycle itself: showing those of %s, the cycle it belongs to.", names),
+            children: _t("Gathered from the cycles inside this one: %s.", names),
+            none: _t("No objectives in this cycle, inside it or above it."),
+        } : {
+            own: _t("Scorecards of %s.", names),
+            parent: _t("No scorecards on this cycle or inside it: showing those of %s, the cycle it belongs to.", names),
+            children: _t("Gathered from %s.", names),
+            none: _t("No KPI scorecards in this cycle, inside it or above it."),
+        };
+        return notes[scope.source] || "";
     }
 
     formatPercent(value) {

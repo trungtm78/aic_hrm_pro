@@ -25,3 +25,4 @@ from . import test_department_report
 from . import test_cockpit_reading
 from . import test_measurement_migration
 from . import test_progress_reporting
+from . import test_cockpit_scope

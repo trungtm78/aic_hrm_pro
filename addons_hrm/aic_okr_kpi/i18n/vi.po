@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 23:57+0000\n"
-"PO-Revision-Date: 2026-09-17 23:57+0000\n"
+"POT-Creation-Date: 2026-09-18 07:55+0000\n"
+"PO-Revision-Date: 2026-09-18 07:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -25,6 +25,12 @@ msgid ""
 msgstr ""
 "Còn %(count)d công việc dự án liên kết chưa đóng — rà lại danh sách cùng đội"
 " và tách nhỏ hoặc giao lại những việc tồn lâu nhất."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "%(cycle)s · %(coverage)s of the weight has figures"
+msgstr "%(cycle)s · %(coverage)s trọng số đã có số liệu"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -624,6 +630,17 @@ msgid "Baseline Value"
 msgstr "Giá trị gốc"
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/migrations/19.0.1.1.0/post-fill-result-audit.py:0
+msgid ""
+"Baseline: this figure was already confirmed before the audit trail was "
+"switched on. Who and when are taken from the last write the database still "
+"knows about."
+msgstr ""
+"Mốc ban đầu: số liệu này đã được xác nhận trước khi hệ thống bật vết kiểm "
+"toán. Người và thời điểm lấy theo lần ghi cuối mà cơ sở dữ liệu còn lưu."
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__behind
 msgid "Behind pace"
 msgstr "Chậm tiến độ"
@@ -689,9 +706,16 @@ msgstr "Định nghĩa nghiệp vụ mà mọi người đọc đều thống nh
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
 msgid "By department"
 msgstr "Theo phòng ban"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "By period"
+msgstr "Theo kỳ"
 
 #. module: aic_okr_kpi
 #: model:aic.hrm.perspective,description:aic_okr_kpi.perspective_learning
@@ -936,6 +960,12 @@ msgstr "Quy trình lõi chạy ổn định, nhanh, tỷ lệ lỗi thấp."
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_cost_discipline
 msgid "Cost discipline"
 msgstr "Kỷ luật chi phí"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Coverage"
+msgstr "Độ phủ"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__create_missing_employees
@@ -1198,6 +1228,8 @@ msgstr ""
 " lùi"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__department_id
@@ -1268,6 +1300,7 @@ msgstr "Nhãn hiển thị"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__display_name
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_cycle__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__display_name
@@ -1662,6 +1695,18 @@ msgid "Gap"
 msgstr "Chênh lệch"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Gathered from %s."
+msgstr "Tổng hợp từ %s."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Gathered from the cycles inside this one: %s."
+msgstr "Tổng hợp từ các chu kỳ con của chu kỳ này: %s."
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Goal level"
 msgstr "Cấp mục tiêu"
@@ -1793,6 +1838,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_cycle__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__id
@@ -2083,6 +2129,12 @@ msgid "KPI group weights must be positive."
 msgstr "Trọng số nhóm KPI phải lớn hơn 0."
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "KPI scorecards"
+msgstr "Phiếu giao KPI"
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
 msgid "KPI target"
 msgstr "Chỉ tiêu KPI"
@@ -2364,6 +2416,17 @@ msgid "Last Updated on"
 msgstr "Ngày cập nhật cuối"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
+msgid ""
+"Last time somebody reported progress on this key result: a check-in, or the "
+"current value written by hand. An untouched value is never a report, "
+"whatever it is."
+msgstr ""
+"Lần gần nhất có người báo cáo tiến độ cho KR này: một lần check-in, hoặc giá"
+" trị hiện tại được nhập tay. Giá trị chưa ai chạm vào không bao giờ được "
+"tính là báo cáo, dù nó là bao nhiêu."
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__confidence
 msgid "Latest check-in confidence, 1 (will miss) to 10 (will hit)."
 msgstr "Độ tự tin ở check-in gần nhất, 1 (sẽ trượt) đến 10 (sẽ đạt)."
@@ -2512,6 +2575,12 @@ msgstr "Thấp"
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__direction__lower
 msgid "Lower is better"
 msgstr "Càng thấp càng tốt"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Lowest measured scorecards"
+msgstr "Phiếu có số liệu đạt thấp nhất"
 
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_framework
@@ -2762,6 +2831,12 @@ msgid "Next Activity Type"
 msgstr "Loại hoạt động kế tiếp"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "No KPI scorecards in this cycle, inside it or above it."
+msgstr "Chu kỳ này, các chu kỳ con và chu kỳ cha đều chưa có phiếu giao KPI."
+
+#. module: aic_okr_kpi
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_result_audit
 msgid "No changes recorded yet"
 msgstr "Chưa ghi nhận thay đổi nào"
@@ -2799,11 +2874,36 @@ msgstr "Chưa có số đo"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid ""
+"No objectives are set on this cycle itself: showing those of %s, the cycle "
+"it belongs to."
+msgstr ""
+"Chu kỳ này không giao mục tiêu riêng: đang hiển thị mục tiêu của %s, chu kỳ "
+"cha của nó."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid ""
 "No objectives in this cycle yet — import the spreadsheet or add objectives."
 msgstr "Chu kỳ chưa có mục tiêu — nhập từ Excel hoặc thêm mục tiêu mới."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid ""
+"No objectives in this cycle, inside it or above it — import the spreadsheet "
+"or add objectives."
+msgstr ""
+"Chu kỳ này, các chu kỳ con và chu kỳ cha đều chưa có mục tiêu — hãy nhập từ "
+"tệp Excel hoặc thêm mục tiêu."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "No objectives in this cycle, inside it or above it."
+msgstr "Chu kỳ này, các chu kỳ con và chu kỳ cha đều chưa có mục tiêu."
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -2819,6 +2919,16 @@ msgstr ""
 #: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
 msgid "No open cycle yet. Open a performance cycle, then come back."
 msgstr "Chưa có chu kỳ đang mở. Hãy mở một chu kỳ đánh giá rồi quay lại."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid ""
+"No scorecards on this cycle or inside it: showing those of %s, the cycle it "
+"belongs to."
+msgstr ""
+"Chu kỳ này và các chu kỳ con chưa có phiếu KPI: đang hiển thị phiếu của %s, "
+"chu kỳ cha của nó."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_progress_report__achieved
@@ -3029,6 +3139,12 @@ msgid ""
 msgstr ""
 "Mục tiêu mang các kết quả then chốt có trọng số; điểm tự động cộng dồn lên "
 "khi có check-in."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Objectives of %s."
+msgstr "Mục tiêu của %s."
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3246,6 +3362,11 @@ msgid "Percentage"
 msgstr "Phần trăm"
 
 #. module: aic_okr_kpi
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_cycle
+msgid "Performance Cycle"
+msgstr "Chu kỳ hiệu suất"
+
+#. module: aic_okr_kpi
 #: model:ir.actions.server,name:aic_okr_kpi.cron_checkin_reminders_ir_actions_server
 msgid "Performance: check-in reminders"
 msgstr "Hiệu suất: nhắc check-in"
@@ -3259,6 +3380,12 @@ msgstr "Hiệu suất: làm mới nguồn số liệu"
 #: model:ir.actions.server,name:aic_okr_kpi.cron_alert_rules_ir_actions_server
 msgid "Performance: run alert rules"
 msgstr "Hiệu suất: chạy quy tắc cảnh báo"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Period"
+msgstr "Kỳ"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_result_audit__result_id
@@ -3380,9 +3507,23 @@ msgid "Progress Diagnosis"
 msgstr "Chẩn đoán tiến độ"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
+msgid "Progress Reported On"
+msgstr "Thời điểm báo cáo tiến độ"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__progress_snapshot
 msgid "Progress Snapshot"
 msgstr "Ảnh chụp tiến độ"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
+msgid ""
+"Progress has been reported: a check-in, a value written by hand, or a "
+"completed milestone."
+msgstr ""
+"Đã báo cáo tiến độ: có check-in, có người nhập giá trị hoặc có mốc đã hoàn "
+"thành."
 
 #. module: aic_okr_kpi
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_progress_report
@@ -3609,6 +3750,8 @@ msgid "Same User"
 msgstr "Cùng người xác nhận"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__score
@@ -3626,6 +3769,12 @@ msgstr "Điểm trên KPI có số liệu"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__score_covered
 msgid "Score on Measured Key Results"
 msgstr "Điểm trên KR có số liệu"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Score on measured KPIs"
+msgstr "Điểm trên KPI có số liệu"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -3658,6 +3807,18 @@ msgstr "Bảng điểm chưa đủ 100% trọng số"
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_assignments
 msgid "Scorecards"
 msgstr "Bảng điểm cá nhân"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Scorecards of %s."
+msgstr "Phiếu giao KPI của %s."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Scorecards with figures"
+msgstr "Phiếu đã có số liệu"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
@@ -4449,6 +4610,12 @@ msgid "Wildly Important Goal"
 msgstr "Mục tiêu tối quan trọng"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "With figures"
+msgstr "Có số liệu"
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_list
 msgid "Withdraw Confirmation"
 msgstr "Huỷ xác nhận"
@@ -4687,38 +4854,3 @@ msgstr "Σ Trọng số %"
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 msgid "Σ Weight (must equal 100%)"
 msgstr "Σ Trọng số (phải bằng 100%)"
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/migrations/19.0.1.1.0/post-fill-result-audit.py:0
-msgid ""
-"Baseline: this figure was already confirmed before the audit trail was "
-"switched on. Who and when are taken from the last write the database still "
-"knows about."
-msgstr ""
-"Mốc ban đầu: số liệu này đã được xác nhận trước khi hệ thống bật vết kiểm "
-"toán. Người và thời điểm lấy theo lần ghi cuối mà cơ sở dữ liệu còn lưu."
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
-msgid ""
-"Progress has been reported: a check-in, a value written by hand, or a "
-"completed milestone."
-msgstr ""
-"Đã báo cáo tiến độ: có check-in, có người nhập giá trị hoặc có mốc đã hoàn "
-"thành."
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
-msgid "Progress Reported On"
-msgstr "Thời điểm báo cáo tiến độ"
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
-msgid ""
-"Last time somebody reported progress on this key result: a check-in, or the "
-"current value written by hand. An untouched value is never a report, "
-"whatever it is."
-msgstr ""
-"Lần gần nhất có người báo cáo tiến độ cho KR này: một lần check-in, hoặc giá"
-" trị hiện tại được nhập tay. Giá trị chưa ai chạm vào không bao giờ được "
-"tính là báo cáo, dù nó là bao nhiêu."

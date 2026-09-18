@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 23:57+0000\n"
-"PO-Revision-Date: 2026-09-17 23:57+0000\n"
+"POT-Creation-Date: 2026-09-18 07:55+0000\n"
+"PO-Revision-Date: 2026-09-18 07:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,12 @@ msgstr ""
 msgid ""
 "%(count)d linked project task(s) still open — walk the list with the team "
 "and split or reassign the oldest ones."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "%(cycle)s · %(coverage)s of the weight has figures"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -579,6 +585,15 @@ msgid "Baseline Value"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/migrations/19.0.1.1.0/post-fill-result-audit.py:0
+msgid ""
+"Baseline: this figure was already confirmed before the audit trail was "
+"switched on. Who and when are taken from the last write the database still "
+"knows about."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_key_result__pace_status__behind
 msgid "Behind pace"
 msgstr ""
@@ -638,8 +653,15 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
 msgid "By department"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "By period"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -875,6 +897,12 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_cost_discipline
 msgid "Cost discipline"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Coverage"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -1132,6 +1160,8 @@ msgid ""
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__department_id
@@ -1200,6 +1230,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__display_name
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_cycle__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__display_name
@@ -1568,6 +1599,18 @@ msgid "Gap"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Gathered from %s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Gathered from the cycles inside this one: %s."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Goal level"
 msgstr ""
@@ -1687,6 +1730,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_alert_rule__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_cycle__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_framework__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_term__id
@@ -1973,6 +2017,12 @@ msgid "KPI group weights must be positive."
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "KPI scorecards"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_search
 msgid "KPI target"
 msgstr ""
@@ -2238,6 +2288,14 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
+msgid ""
+"Last time somebody reported progress on this key result: a check-in, or the "
+"current value written by hand. An untouched value is never a report, "
+"whatever it is."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__confidence
 msgid "Latest check-in confidence, 1 (will miss) to 10 (will hit)."
 msgstr ""
@@ -2376,6 +2434,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__direction__lower
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi_target__direction__lower
 msgid "Lower is better"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Lowest measured scorecards"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2620,6 +2684,12 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "No KPI scorecards in this cycle, inside it or above it."
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_result_audit
 msgid "No changes recorded yet"
 msgstr ""
@@ -2651,10 +2721,31 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid ""
+"No objectives are set on this cycle itself: showing those of %s, the cycle "
+"it belongs to."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
-#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid ""
 "No objectives in this cycle yet — import the spreadsheet or add objectives."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid ""
+"No objectives in this cycle, inside it or above it — import the spreadsheet "
+"or add objectives."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "No objectives in this cycle, inside it or above it."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2668,6 +2759,14 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.xml:0
 msgid "No open cycle yet. Open a performance cycle, then come back."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid ""
+"No scorecards on this cycle or inside it: showing those of %s, the cycle it "
+"belongs to."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -2872,6 +2971,12 @@ msgid ""
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Objectives of %s."
+msgstr ""
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/wizard/aic_hrm_import_wizard.py:0
 msgid "Objectives: %(codes)s"
@@ -3070,6 +3175,11 @@ msgid "Percentage"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_cycle
+msgid "Performance Cycle"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.actions.server,name:aic_okr_kpi.cron_checkin_reminders_ir_actions_server
 msgid "Performance: check-in reminders"
 msgstr ""
@@ -3082,6 +3192,12 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.actions.server,name:aic_okr_kpi.cron_alert_rules_ir_actions_server
 msgid "Performance: run alert rules"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Period"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3198,8 +3314,20 @@ msgid "Progress Diagnosis"
 msgstr ""
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
+msgid "Progress Reported On"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_checkin__progress_snapshot
 msgid "Progress Snapshot"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
+msgid ""
+"Progress has been reported: a check-in, a value written by hand, or a "
+"completed milestone."
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3418,6 +3546,8 @@ msgid "Same User"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__score
@@ -3434,6 +3564,12 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__score_covered
 msgid "Score on Measured Key Results"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Score on measured KPIs"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -3464,6 +3600,18 @@ msgstr ""
 #: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_kpi_assignment
 #: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_assignments
 msgid "Scorecards"
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.js:0
+msgid "Scorecards of %s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "Scorecards with figures"
 msgstr ""
 
 #. module: aic_okr_kpi
@@ -4194,6 +4342,12 @@ msgid "Wildly Important Goal"
 msgstr ""
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+msgid "With figures"
+msgstr ""
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_list
 msgid "Withdraw Confirmation"
 msgstr ""
@@ -4428,32 +4582,4 @@ msgstr ""
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
 msgid "Σ Weight (must equal 100%)"
-msgstr ""
-
-#. module: aic_okr_kpi
-#: code:addons/aic_okr_kpi/migrations/19.0.1.1.0/post-fill-result-audit.py:0
-msgid ""
-"Baseline: this figure was already confirmed before the audit trail was "
-"switched on. Who and when are taken from the last write the database still "
-"knows about."
-msgstr ""
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__has_actual
-msgid ""
-"Progress has been reported: a check-in, a value written by hand, or a "
-"completed milestone."
-msgstr ""
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
-msgid "Progress Reported On"
-msgstr ""
-
-#. module: aic_okr_kpi
-#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__progress_reported_on
-msgid ""
-"Last time somebody reported progress on this key result: a check-in, or the "
-"current value written by hand. An untouched value is never a report, "
-"whatever it is."
 msgstr ""

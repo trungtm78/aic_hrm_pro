@@ -25,6 +25,8 @@
             No open cycle yet. Create and open a performance cycle, then come back.
         </div>
         <t t-else="">
+            <p class="o_aic_scope_note" t-if="state.okrScope"
+               t-esc="scopeNote(state.okrScope, 'okr')"/>
             <div class="o_aic_health_strip" t-if="state.stats">
                 <div class="o_aic_stat">
                     <div class="o_aic_stat_value" t-esc="formatPercent(state.stats.overall)"/>
@@ -134,7 +136,7 @@
                     </div>
 
                     <div t-if="!state.heatmapRows.length" class="o_aic_empty">
-                        No objectives in this cycle yet — import the spreadsheet or add objectives.
+                        No objectives in this cycle, inside it or above it — import the spreadsheet or add objectives.
                     </div>
                 </section>
 
@@ -161,6 +163,81 @@
                     </div>
                 </aside>
             </div>
+
+            <section class="o_aic_card o_aic_kpi_card" t-if="state.kpi">
+                <header class="o_aic_card_head">
+                    <div>
+                        <h5 class="o_aic_card_title">KPI scorecards</h5>
+                        <p class="o_aic_card_sub" t-esc="scopeNote(state.kpi, 'kpi')"/>
+                    </div>
+                </header>
+                <t t-if="state.kpi.scorecard_count">
+                    <div class="o_aic_health_strip o_aic_kpi_strip">
+                        <div class="o_aic_stat">
+                            <div class="o_aic_stat_value" t-esc="formatPercent(state.kpi.score_covered)"/>
+                            <div class="o_aic_stat_label">Score on measured KPIs</div>
+                        </div>
+                        <div class="o_aic_stat">
+                            <div class="o_aic_stat_value" t-esc="formatShare(state.kpi.coverage)"/>
+                            <div class="o_aic_stat_label">Data coverage</div>
+                        </div>
+                        <div class="o_aic_stat">
+                            <div class="o_aic_stat_value o_aic_hrm_num" t-esc="fraction(state.kpi.measured_count, state.kpi.scorecard_count)"/>
+                            <div class="o_aic_stat_label">Scorecards with figures</div>
+                        </div>
+                        <div class="o_aic_stat">
+                            <div class="o_aic_stat_value o_aic_hrm_num" t-esc="state.kpi.red_count"/>
+                            <div class="o_aic_stat_label">Off track</div>
+                            <div class="o_aic_stat_note" t-if="state.kpi.unmeasured_count">
+                                <t t-esc="state.kpi.unmeasured_count"/> not measured yet
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_aic_kpi_tables">
+                        <div class="o_aic_kpi_table" t-if="state.kpi.by_cycle.length > 1">
+                            <h6 class="o_aic_kpi_table_title">By period</h6>
+                            <div class="o_aic_kpi_row o_aic_kpi_row_head">
+                                <span>Period</span><span>Score</span><span>Coverage</span><span>With figures</span>
+                            </div>
+                            <div t-foreach="state.kpi.by_cycle" t-as="row" t-key="row.cycle_id"
+                                 class="o_aic_kpi_row">
+                                <span class="o_aic_kpi_name" t-esc="row.name"/>
+                                <span class="o_aic_hrm_num" t-esc="rowScore(row)"/>
+                                <span class="o_aic_hrm_num" t-esc="formatShare(row.coverage)"/>
+                                <span class="o_aic_hrm_num" t-esc="fraction(row.measured_count, row.count)"/>
+                            </div>
+                        </div>
+                        <div class="o_aic_kpi_table">
+                            <h6 class="o_aic_kpi_table_title">By department</h6>
+                            <div class="o_aic_kpi_row o_aic_kpi_row_head">
+                                <span>Department</span><span>Score</span><span>Coverage</span><span>With figures</span>
+                            </div>
+                            <div t-foreach="state.kpi.by_department" t-as="row"
+                                 t-key="row.department_id || 0" class="o_aic_kpi_row">
+                                <span class="o_aic_kpi_name" t-esc="row.name || notAssignedLabel"/>
+                                <span class="o_aic_hrm_num" t-esc="rowScore(row)"/>
+                                <span class="o_aic_hrm_num" t-esc="formatShare(row.coverage)"/>
+                                <span class="o_aic_hrm_num" t-esc="fraction(row.measured_count, row.count)"/>
+                            </div>
+                        </div>
+                        <div class="o_aic_kpi_table" t-if="state.kpi.weakest.length">
+                            <h6 class="o_aic_kpi_table_title">Lowest measured scorecards</h6>
+                            <div t-foreach="state.kpi.weakest" t-as="card" t-key="card.id"
+                                 class="o_aic_risk_item">
+                                <span t-attf-class="o_aic_rag o_aic_rag_{{ card.rag || 'none' }} o_aic_rag_code">
+                                    <span class="o_aic_rag_marker"/>
+                                    <span class="o_aic_hrm_num" t-esc="formatPercent(card.score_covered)"/>
+                                </span>
+                                <div class="o_aic_risk_text">
+                                    <div class="o_aic_risk_name" t-esc="card.employee_id ? card.employee_id[1] : ''"/>
+                                    <div class="o_aic_risk_meta" t-esc="weakestMeta(card)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </section>
         </t>
     </div>
 </t>

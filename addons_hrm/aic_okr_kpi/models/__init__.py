@@ -15,3 +15,4 @@ from . import aic_hrm_review_meeting
 from . import aic_hrm_import_term
 from . import aic_hrm_target_revision
 from . import aic_hrm_progress_report
+from . import aic_hrm_cockpit

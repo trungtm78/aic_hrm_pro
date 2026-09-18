@@ -176,6 +176,50 @@
     }
   }
 
+  // Which cycles the figures came from: a caveat under the title, so a
+  // month showing its quarter's objectives never passes for its own.
+  .o_aic_scope_note {
+    margin: calc(-1 * var(--aic-space-sm)) 0 var(--aic-space-md);
+    color: var(--aic-muted);
+    font-size: 0.82rem;
+  }
+
+  /* ---- KPI scorecards: the monthly layer under the objectives ---- */
+  .o_aic_kpi_card { margin-top: var(--aic-space-lg); }
+  .o_aic_kpi_strip { margin-bottom: var(--aic-space-md); }
+  .o_aic_kpi_tables {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--aic-space-lg);
+  }
+  .o_aic_kpi_table_title {
+    margin: 0 0 var(--aic-space-sm);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--aic-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .o_aic_kpi_row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    gap: var(--aic-space-sm);
+    align-items: center;
+    min-height: 44px;
+    padding: 0.35rem 0;
+    border-top: 1px solid var(--aic-rule);
+    font-size: 0.85rem;
+
+    > span:not(.o_aic_kpi_name) { text-align: right; }
+    .o_aic_kpi_name { min-width: 0; overflow-wrap: anywhere; }
+  }
+  .o_aic_kpi_row_head {
+    min-height: 0;
+    border-top: none;
+    color: var(--aic-muted);
+    font-size: 0.72rem;
+  }
+
   .o_aic_cockpit_body {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
@@ -560,6 +604,11 @@
   }
   @media (max-width: 414px) {
     .o_aic_health_strip { grid-template-columns: 1fr; }
+    .o_aic_kpi_tables { grid-template-columns: minmax(0, 1fr); }
+    .o_aic_kpi_row {
+      grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+      font-size: 0.8rem;
+    }
   }
 
   /* ---- executive overview: month bars ----
