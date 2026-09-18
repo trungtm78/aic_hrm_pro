@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 import { test, expect, read, loginAsAdmin, login, PROD_URL, PROD_DB } from '../../fixtures/prod';
 import { OdooUi } from '../../pages/prod';
+import type { Page } from '@playwright/test';
 
 /**
  * The controls that make a score defensible, checked on the live instance.
@@ -16,6 +17,33 @@ import { OdooUi } from '../../pages/prod';
 
 const ACCOUNTS = resolve(__dirname, '..', '..', 'data', 'kddv_accounts.json');
 const REASON = 'Kiểm thử chốt kiểm soát: huỷ xác nhận có lý do rồi xác nhận lại ngay, số liệu không đổi.';
+
+/**
+ * Select one row of the period results list and wait until the header button
+ * is offered. Searching reloads the list after the facet appears, so a row
+ * ticked too early is replaced and the tick is lost - which once left a
+ * withdrawn figure unconfirmed on production. Wait for exactly the rows the
+ * search should return, pick the row by what it shows, and prove the tick
+ * held before pressing anything.
+ */
+async function selectResultRow(page: Page, code: string, state: RegExp, actual: string, button: string) {
+  const expected = await read('aic.hrm.kpi.period.result', 'search_count',
+    [[['kpi_target_id.kpi_id.code', '=', code]]]);
+  const search = page.locator('.o_searchview_input').first();
+  await search.fill(code);
+  await search.press('Enter');
+  const rows = page.locator('.o_list_view .o_data_row');
+  await expect(rows).toHaveCount(expected, { timeout: 60_000 });
+  await expect(rows.filter({ hasNotText: code })).toHaveCount(0);
+  const row = rows.filter({ hasText: state }).filter({ hasText: actual });
+  await expect(row, `one ${code} row showing ${actual}`).toHaveCount(1);
+  const tick = row.locator('.o_list_record_selector input');
+  await tick.check();
+  await expect(tick).toBeChecked();
+  const action = page.locator(`.o_control_panel button[name="${button}"], .o_list_view button[name="${button}"]`).first();
+  await expect(action).toBeVisible();
+  return action;
+}
 
 async function xmlid(name: string): Promise<number> {
   const [module, ref] = name.split('.');
@@ -43,6 +71,26 @@ test('withdrawing a confirmation needs a reason and leaves a trail', async ({ pa
   const resultAction = await xmlid('aic_okr_kpi.action_aic_hrm_period_result');
   const auditAction = await xmlid('aic_okr_kpi.action_aic_hrm_result_audit');
 
+  // A run interrupted between the withdrawal and the re-confirmation leaves
+  // the figure withdrawn. Put such a figure back first - only one this spec
+  // withdrew itself, recognised by its own reason as the latest event.
+  const stranded = await read('aic.hrm.kpi.period.result', 'search_read', [[
+    ['state', '=', 'draft'], ['kpi_target_id.kpi_id.code', '=', 'KDDV.PHONG.CP']]],
+  { fields: ['actual'] });
+  for (const figure of stranded) {
+    const [last] = await read('aic.hrm.kpi.result.audit', 'search_read',
+      [[['result_id', '=', figure.id]]], { fields: ['action', 'reason'], order: 'event_date desc, id desc', limit: 1 });
+    if (last?.action !== 'reset' || last.reason !== REASON) continue;
+    await test.step(`restore figure ${figure.id} left withdrawn by an interrupted run`, async () => {
+      await ui.openAction(resultAction);
+      const shownActual = await ui.userNumber(Math.round(figure.actual * 100) / 100);
+      const confirm = await selectResultRow(page, 'KDDV.PHONG.CP', /Nháp|Draft/, shownActual, 'action_confirm');
+      await ui.rpc('action_confirm', 'restore an interrupted withdrawal', () => confirm.click());
+      const [back] = await read('aic.hrm.kpi.period.result', 'read', [[figure.id]], { fields: ['state'] });
+      expect(back.state).toBe('confirmed');
+    });
+  }
+
   // The least consequential figure to touch: a department tracking indicator,
   // which carries no score for any person.
   const [result] = await read('aic.hrm.kpi.period.result', 'search_read', [[
@@ -51,16 +99,13 @@ test('withdrawing a confirmation needs a reason and leaves a trail', async ({ pa
   expect(result, 'the cost tracking figure must exist').toBeTruthy();
   const before = await read('aic.hrm.kpi.result.audit', 'search_count', [[['result_id', '=', result.id]]]);
 
+  const shown = await ui.userNumber(Math.round(result.actual * 100) / 100);
+
   await test.step('withdraw it through the wizard', async () => {
     await ui.openAction(resultAction);
-    const search = page.locator('.o_searchview_input').first();
-    await search.fill('KDDV.PHONG.CP');
-    await search.press('Enter');
-    await page.locator('.o_searchview_facet').first().waitFor();
-    const row = page.locator('.o_list_view .o_data_row').filter({ hasText: /Đã xác nhận|Confirmed/ }).first();
-    await row.locator('.o_list_record_selector input').check();
-    await page.locator('.o_control_panel button[name="action_open_reset_wizard"], .o_list_view button[name="action_open_reset_wizard"]')
-      .first().click();
+    const withdraw = await selectResultRow(page, 'KDDV.PHONG.CP', /Đã xác nhận|Confirmed/, shown,
+      'action_open_reset_wizard');
+    await withdraw.click();
     const dialog = page.locator('.modal-dialog').last();
     await dialog.waitFor();
     // The reason is mandatory: the wizard refuses an empty one.
@@ -92,15 +137,8 @@ test('withdrawing a confirmation needs a reason and leaves a trail', async ({ pa
 
   await test.step('put it back, so nothing is left changed', async () => {
     await ui.openAction(resultAction);
-    const search = page.locator('.o_searchview_input').first();
-    await search.fill('KDDV.PHONG.CP');
-    await search.press('Enter');
-    await page.locator('.o_searchview_facet').first().waitFor();
-    const row = page.locator('.o_list_view .o_data_row').filter({ hasText: /Nháp|Draft/ }).first();
-    await row.locator('.o_list_record_selector input').check();
-    await ui.rpc('action_confirm', 'confirm again', () =>
-      page.locator('.o_control_panel button[name="action_confirm"], .o_list_view button[name="action_confirm"]')
-        .first().click());
+    const confirm = await selectResultRow(page, 'KDDV.PHONG.CP', /Nháp|Draft/, shown, 'action_confirm');
+    await ui.rpc('action_confirm', 'confirm again', () => confirm.click());
   });
 
   const [restored] = await read('aic.hrm.kpi.period.result', 'read', [[result.id]],
