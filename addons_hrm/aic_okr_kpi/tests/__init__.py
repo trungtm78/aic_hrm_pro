@@ -26,4 +26,5 @@ from . import test_cockpit_reading
 from . import test_measurement_migration
 from . import test_progress_reporting
 from . import test_cockpit_scope
+from . import test_overview_scope
 from . import test_objective_contribution

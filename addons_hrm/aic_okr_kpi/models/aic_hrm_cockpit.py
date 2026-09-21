@@ -31,6 +31,40 @@ class AicHrmCycle(models.Model):
         self.ensure_one()
         return self.search([('id', 'child_of', self.id)])
 
+    def _cockpit_gather(self, model_name, borrow_upwards=True):
+        """Pick the cycles whose records of `model_name` add up into this one.
+
+        Records belong to the period they were made in, so the periods
+        inside a cycle belong to it and add up: a quarter is its own rows
+        plus its months, a year is everything under it. Nothing is ever
+        borrowed downwards - a quarterly figure is not a June figure.
+
+        With nothing anywhere inside it, a cycle names the nearest cycle
+        above that has records, so an empty month still shows the scorecards
+        it works towards. `borrow_upwards=False` switches that off, for a
+        reading that is about a period rather than about a commitment: a
+        month with no measurements has no measurements, and showing the
+        quarter's instead would date them to the wrong month.
+
+        Returns (source, cycles) in calendar order, where source is one of
+        own / children / parent / none.
+        """
+        self.ensure_one()
+        Model = self.env[model_name]
+        groups = Model._read_group(
+            [('cycle_id', 'in', self._cockpit_descendants().ids)],
+            ['cycle_id'], ['__count'])
+        cycles = self.browse([cycle.id for cycle, _count in groups])
+        if cycles:
+            source = 'own' if cycles == self else 'children'
+        else:
+            source = 'none'
+            for ancestor in (self._lineage() - self) if borrow_upwards else self.browse():
+                if Model.search_count([('cycle_id', '=', ancestor.id)], limit=1):
+                    source, cycles = 'parent', ancestor
+                    break
+        return source, cycles.sorted(lambda c: (c.date_start, c.id))
+
     def _cockpit_resolve(self, model_name):
         """Pick the cycles whose records of `model_name` speak for this one.
 
@@ -78,22 +112,8 @@ class AicHrmCycle(models.Model):
 
     def _cockpit_kpi(self):
         Scorecard = self.env['aic.hrm.kpi.assignment']
-        # Scorecards add up across the tree: a quarter is its months, a year
-        # is everything in it. Only a cycle with none anywhere below falls
-        # back to the nearest cycle above it.
-        groups = Scorecard._read_group(
-            [('cycle_id', 'in', self._cockpit_descendants().ids)],
-            ['cycle_id'], ['__count'])
-        cycles = self.browse([cycle.id for cycle, _count in groups])
-        if cycles:
-            source = 'own' if cycles == self else 'children'
-        else:
-            source = 'none'
-            for ancestor in self._lineage() - self:
-                if Scorecard.search_count([('cycle_id', '=', ancestor.id)], limit=1):
-                    source, cycles = 'parent', ancestor
-                    break
-        cycles = cycles.sorted(lambda c: (c.date_start, c.id))
+        # Scorecards add up across the tree, the same way measurements do.
+        source, cycles = self._cockpit_gather('aic.hrm.kpi.assignment')
         domain = [('cycle_id', 'in', cycles.ids)]
 
         # "Measured" is a scorecard with at least one confirmed figure: the

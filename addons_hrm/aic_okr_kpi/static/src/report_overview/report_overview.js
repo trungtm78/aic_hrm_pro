@@ -3,6 +3,7 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
 
 /**
  * Executive overview — the reading of the progress report a leader wants
@@ -25,6 +26,7 @@ export class AicHrmReportOverview extends Component {
             cycles: [],
             cycleId: false,
             months: [],
+            scope: null,
             departments: [],
             laggards: [],
             summary: null,
@@ -73,7 +75,12 @@ export class AicHrmReportOverview extends Component {
     }
 
     get domain() {
-        return [["cycle_id", "=", this.state.cycleId]];
+        // Every period inside the cycle, not the cycle alone. Objectives are
+        // set per quarter and KPIs assigned per month, so reading the
+        // quarter alone showed one measurement out of thirty-nine and called
+        // it "100% achieved, nothing behind plan". The server decides the
+        // scope, and the same rule is tested there.
+        return [["cycle_id", "in", this.state.scope ? this.state.scope.cycle_ids : []]];
     }
 
     async onCycleChange(ev) {
@@ -89,6 +96,15 @@ export class AicHrmReportOverview extends Component {
         // Odoo 19 exposes formatted_read_group; the older readGroup is
         // gone from the ORM service.
         const model = "aic.hrm.progress.report";
+        this.state.scope = await this.orm.call(model, "overview_scope",
+                                               [this.state.cycleId]);
+        if (!this.state.scope.cycle_ids.length) {
+            this.state.months = [];
+            this.state.departments = [];
+            this.state.laggards = [];
+            this.state.summary = { achieved: 0, expected: 0, gap: 0, measurements: 0 };
+            return;
+        }
         const [byMonth, byDepartment, worst, overall] = await Promise.all([
             this.orm.formattedReadGroup(
                 model, this.domain, ["date:month"],
@@ -136,6 +152,28 @@ export class AicHrmReportOverview extends Component {
             gap: (totals["achieved:avg"] || 0) - (totals["expected:avg"] || 0),
             measurements: totals.__count || 0,
         };
+    }
+
+    /**
+     * Which periods these figures speak for.
+     *
+     * A quarter reads as its months, so the strip above can say "39
+     * measurements" while the selector says "Q3". Without this line a
+     * reader cannot tell a quarter that gathered three months from one that
+     * happened to hold three rows of its own.
+     */
+    scopeNote() {
+        const scope = this.state.scope;
+        if (!scope) {
+            return "";
+        }
+        const names = scope.cycles.map((cycle) => cycle.name).join(", ");
+        const notes = {
+            own: _t("Measurements of %s.", names),
+            children: _t("Gathered from the periods inside this cycle: %s.", names),
+            none: _t("Nothing has been measured in this period or in any period inside it."),
+        };
+        return notes[scope.source] || "";
     }
 
     formatPercent(value) {

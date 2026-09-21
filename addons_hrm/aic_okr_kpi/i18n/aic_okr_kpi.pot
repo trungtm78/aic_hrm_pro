@@ -17,6 +17,24 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.js:0
+msgid "Measurements of %s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.js:0
+msgid "Gathered from the periods inside this cycle: %s."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.js:0
+msgid "Nothing has been measured in this period or in any period inside it."
+msgstr ""
+
+#. module: aic_okr_kpi
+#. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.js:0
 msgid "%s weight"
 msgstr ""

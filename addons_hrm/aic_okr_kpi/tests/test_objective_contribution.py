@@ -244,6 +244,16 @@ class TestCarriersForCycle(KpiCase):
         weights = [entry['weight'] for entry in self.carriers()]
         self.assertEqual(weights, sorted(weights, reverse=True))
 
+    def test_a_month_reads_the_carriers_of_the_quarter_it_serves(self):
+        """The tree draws a month against its quarter's objectives, so the
+        carriers it lists have to be the same ones - a month that drew the
+        objectives and none of the people would read as unowned work."""
+        self._month_kpi(self.member_employee, self.may, 100.0, actual=100.0)
+        self.env.flush_all()
+        entries = self.Contribution.carriers_for_cycle(self.may.id)
+        self.assertEqual([entry['employee_id'] for entry in entries],
+                         [self.member_employee.id])
+
     def test_an_objective_of_another_cycle_is_left_out(self):
         other_quarter = self.Cycle.create({
             'name': 'Quý sau', 'code': 'CAR-Q-NEXT', 'cycle_type': 'quarter',

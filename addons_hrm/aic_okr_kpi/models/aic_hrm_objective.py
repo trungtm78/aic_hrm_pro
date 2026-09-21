@@ -124,6 +124,29 @@ class AicHrmObjective(models.Model):
         'aic.hrm.objective.contribution', 'objective_id', readonly=True)
     contributor_count = fields.Integer(compute='_compute_contributor_count')
 
+    @api.model
+    def alignment_scope(self, cycle_id):
+        """Which cycles' objectives the alignment tree should draw.
+
+        The tree read only the objectives of exactly the cycle selected. The
+        customer sets objectives on the quarter, so four of the five cycles
+        in the selector - the year and all three months - drew "this cycle
+        has no objectives" on a system holding four of them.
+
+        An objective is a commitment, not a measurement, so the tree looks
+        upwards as well: a month works towards its quarter. This is the rule
+        the leadership desk already applies, and using the same one keeps
+        two screens side by side from disagreeing about what a month is
+        about.
+        """
+        cycle = self.env['aic.hrm.cycle'].browse(cycle_id)
+        source, cycles = cycle._cockpit_resolve(self._name)
+        return {
+            'source': source,
+            'cycle_ids': cycles.ids,
+            'cycles': [{'id': c.id, 'name': c.name} for c in cycles],
+        }
+
     def _compute_contributor_count(self):
         counted = {objective.id: count for objective, count
                    in self.env['aic.hrm.objective.contribution']._read_group(

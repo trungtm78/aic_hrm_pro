@@ -101,6 +101,7 @@
             No objectives in this cycle yet — import the spreadsheet or add objectives.
         </div>
         <t t-else="">
+            <p class="o_aic_scope_note" t-if="scopeNote()" t-esc="scopeNote()"/>
             <div class="o_aic_tree_summary" t-if="state.summary">
                 <div class="o_aic_tree_stat">
                     <span class="o_aic_hrm_num o_aic_tree_stat_value"

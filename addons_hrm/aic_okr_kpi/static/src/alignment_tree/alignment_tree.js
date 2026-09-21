@@ -22,6 +22,7 @@ export class AicHrmAlignmentTree extends Component {
             cycles: [],
             cycleId: false,
             roots: [],
+            scope: null,
             collapsed: {},
             summary: null,
             loading: true,
@@ -60,10 +61,18 @@ export class AicHrmAlignmentTree extends Component {
 
     async loadTree() {
         const cycleId = this.state.cycleId;
+        // Objectives are set on the quarter while the selector also offers
+        // the year and each month, so reading the selected cycle alone drew
+        // "this cycle has no objectives" on four of the customer's five
+        // cycles. The server decides which cycles speak for this one, by the
+        // same rule the leadership desk uses, and the rule is tested there.
+        this.state.scope = await this.orm.call(
+            "aic.hrm.objective", "alignment_scope", [cycleId]);
+        const cycleIds = this.state.scope.cycle_ids;
         const [objectives, krs, contributions] = await Promise.all([
             this.orm.searchRead(
                 "aic.hrm.objective",
-                [["cycle_id", "=", cycleId]],
+                [["cycle_id", "in", cycleIds]],
                 ["id", "code", "name", "parent_id", "employee_id", "score",
                  "rag", "level", "weight", "objective_type",
                  "department_id"],
@@ -71,7 +80,7 @@ export class AicHrmAlignmentTree extends Component {
             ),
             this.orm.searchRead(
                 "aic.hrm.key.result",
-                [["cycle_id", "=", cycleId]],
+                [["cycle_id", "in", cycleIds]],
                 ["id", "code", "name", "objective_id", "employee_id",
                  "progress", "rag"],
                 { limit: 2000, order: "code" },
@@ -143,6 +152,28 @@ export class AicHrmAlignmentTree extends Component {
             counts,
             score: weight ? weighted / weight : 0,
         };
+    }
+
+    /**
+     * Which cycle's objectives are on screen.
+     *
+     * A month draws the objectives of its quarter, which is right but only
+     * if the screen says so: otherwise a reader takes a quarterly objective
+     * for a monthly one.
+     */
+    scopeNote() {
+        const scope = this.state.scope;
+        if (!scope) {
+            return "";
+        }
+        const names = scope.cycles.map((cycle) => cycle.name).join(", ");
+        const notes = {
+            own: "",
+            parent: _t("No objectives are set on this cycle itself: showing those of %s, the cycle it belongs to.", names),
+            children: _t("Gathered from the cycles inside this one: %s.", names),
+            none: _t("No objectives in this cycle, inside it or above it."),
+        };
+        return notes[scope.source] || "";
     }
 
     /** Levels are stored as keys; a reader wants the word. */

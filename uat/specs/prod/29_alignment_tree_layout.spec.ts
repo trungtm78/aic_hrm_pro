@@ -111,3 +111,43 @@ for (const width of [1440, 768, 375]) {
       .toBeLessThanOrEqual(width);
   });
 }
+
+test('every cycle in the selector draws the objectives it works towards', async ({ page }) => {
+  test.setTimeout(20 * 60_000);
+  await openTree(page);
+  const select = page.locator('.o_aic_hrm select').first();
+  const options = await select.locator('option').evaluateAll(
+    (nodes) => nodes.map((node) => ({ id: Number((node as HTMLOptionElement).value), name: node.textContent!.trim() })));
+  expect(options.length).toBeGreaterThan(1);
+
+  // Objectives are set on the quarter, so reading the selected cycle alone
+  // drew "this cycle has no objectives" on the year and on all three
+  // months - four of the customer's five cycles - while the quarter above
+  // them held four.
+  const anywhere = await read('aic.hrm.objective', 'search_count', [[]]);
+
+  for (const option of options) {
+    const loaded = page.waitForResponse((r) => r.url().includes('/web/dataset/call_kw') && r.ok(),
+      { timeout: 90_000 });
+    await select.selectOption(String(option.id));
+    await loaded;
+    await page.waitForTimeout(1_500);
+    await expect(page.locator('.o_dialog, .modal-dialog'), `no error dialog on ${option.name}`).toHaveCount(0);
+
+    const drawn = await page.locator('.o_aic_node').count();
+    console.log(`${option.name}: ${drawn} objective rows`);
+    if (anywhere) {
+      expect(drawn, `${option.name} must show the objectives it works towards`).toBeGreaterThan(0);
+    }
+    // A month drawing its quarter's objectives has to say so, or the reader
+    // takes a quarterly objective for a monthly one.
+    const note = await page.locator('.o_aic_scope_note').count()
+      ? (await page.locator('.o_aic_scope_note').innerText()).trim() : '';
+    const ownObjectives = await read('aic.hrm.objective', 'search_count',
+      [[['cycle_id', '=', option.id]]]);
+    if (!ownObjectives) {
+      expect(note, `${option.name}: borrowed objectives must be declared`).not.toBe('');
+    }
+  }
+  await page.screenshot({ path: test.info().outputPath('tree-scope.png'), fullPage: true });
+});

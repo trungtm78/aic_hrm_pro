@@ -30,6 +30,7 @@
             a KPI period result and this fills itself.
         </div>
         <t t-else="">
+            <p class="o_aic_scope_note" t-if="state.scope" t-esc="scopeNote()"/>
             <div class="o_aic_health_strip">
                 <div class="o_aic_stat">
                     <div class="o_aic_stat_value"

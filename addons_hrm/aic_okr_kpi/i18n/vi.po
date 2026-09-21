@@ -18,6 +18,24 @@ msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.js:0
+msgid "Measurements of %s."
+msgstr "Phép đo của %s."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.js:0
+msgid "Gathered from the periods inside this cycle: %s."
+msgstr "Gộp từ các kỳ bên trong chu kỳ này: %s."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/report_overview/report_overview.js:0
+msgid "Nothing has been measured in this period or in any period inside it."
+msgstr "Chưa có phép đo nào trong kỳ này, cũng chưa có trong kỳ nào bên trong nó."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.js:0
 msgid "%s weight"
 msgstr "%s trọng số"

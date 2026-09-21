@@ -77,8 +77,11 @@ class AicHrmObjectiveContribution(models.Model):
         count of periods still waiting is carried alongside so a carrier who
         looks green on two months out of three does not look finished.
         """
-        objectives = self.env['aic.hrm.objective'].search(
-            [('cycle_id', '=', cycle_id)])
+        # Through the same cycles the tree draws, so a month shows the
+        # carriers of the quarter it is working towards rather than nothing.
+        Objective = self.env['aic.hrm.objective']
+        scope = Objective.alignment_scope(cycle_id)
+        objectives = Objective.search([('cycle_id', 'in', scope['cycle_ids'])])
         if not objectives:
             return []
         rows = self.search_read(

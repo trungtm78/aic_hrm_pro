@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of AIC HRM Pro. See LICENSE file for full copyright and licensing details.
-from odoo import fields, models, tools
+from odoo import api, fields, models, tools
 
 # Where a measurement should stand if the goal moved linearly across the
 # cycle calendar, evaluated AT THE DATE OF THE MEASUREMENT.
@@ -122,6 +122,30 @@ class AicHrmProgressReport(models.Model):
         'hr.employee',
         'hr.version',
     )
+
+    @api.model
+    def overview_scope(self, cycle_id):
+        """Which periods' measurements the executive overview should read.
+
+        The overview used to read only the rows of exactly the cycle on
+        screen. The customer sets objectives per quarter and assigns KPIs
+        per month, so choosing the quarter showed one measurement out of
+        thirty-nine - one month bar, "100% achieved", "nothing behind plan"
+        - while thirty-eight measurements sat in the months underneath. A
+        director judging a quarter by that screen was reading one row as the
+        whole truth.
+
+        The rule is the one the leadership desk already applies to
+        scorecards, and the answer names the periods it speaks for so the
+        screen can say so out loud.
+        """
+        cycle = self.env['aic.hrm.cycle'].browse(cycle_id)
+        source, cycles = cycle._cockpit_gather(self._name, borrow_upwards=False)
+        return {
+            'source': source,
+            'cycle_ids': cycles.ids,
+            'cycles': [{'id': c.id, 'name': c.name} for c in cycles],
+        }
 
     def _flush_sources(self):
         for model in self._SOURCE_MODELS:
