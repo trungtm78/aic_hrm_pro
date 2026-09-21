@@ -17,6 +17,18 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.js:0
+msgid "%s weight"
+msgstr "%s trọng số"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.js:0
+msgid "(%(measured)s of %(total)s periods measured)"
+msgstr "(%(measured)s/%(total)s kỳ có số liệu)"
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_diagnosis.py:0
 msgid ""

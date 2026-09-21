@@ -132,3 +132,129 @@ class TestObjectiveContribution(KpiCase):
             self.Contribution.with_user(self.member_user).search([])
         self.assertIsNotNone(
             self.Contribution.with_user(self.manager_user).search([]))
+
+
+@tagged('post_install', '-at_install', 'aic_okr_kpi')
+class TestCarriersForCycle(KpiCase):
+    """The reading the alignment tree needs: one entry per person per key
+    result, whatever number of months their scorecards are cut into.
+
+    The report itself is deliberately per cycle, because a director asks it
+    "what happened in August". The tree asks a different question - "who is
+    carrying this quarterly key result" - and reading the report rows raw
+    answered it with the same person three times over, once per month, with
+    three different scores. The months belong to the answer, but as one line
+    about a person, not as three people.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.Contribution = cls.env['aic.hrm.objective.contribution']
+        cls.may = cls.Cycle.create({
+            'name': 'Tháng 5/2026', 'code': 'CAR-05', 'cycle_type': 'month',
+            'date_start': '2026-05-01', 'date_end': '2026-05-31',
+            'parent_id': cls.quarter.id})
+        cls.june = cls.Cycle.create({
+            'name': 'Tháng 6/2026', 'code': 'CAR-06', 'cycle_type': 'month',
+            'date_start': '2026-06-01', 'date_end': '2026-06-30',
+            'parent_id': cls.quarter.id})
+        cls.objective = cls._make_objective(cycle_id=cls.quarter.id, weight=100.0)
+        cls.kr = cls._make_kr(cls.objective, baseline=0, target=100, current=0,
+                              weight=100.0)
+
+    @classmethod
+    def _month_kpi(cls, employee, cycle, weight, actual=None, kpi_code='KPI-CAR'):
+        """One KPI serving the key result, on one person's scorecard for one
+        month, optionally with its figure confirmed."""
+        kpi = cls.Kpi.search([('code', '=', kpi_code)], limit=1) or cls.Kpi.create(
+            {'name': kpi_code, 'code': kpi_code, 'direction': 'higher',
+             'aggregation': 'last'})
+        target = cls.KpiTarget.create({
+            'kpi_id': kpi.id, 'cycle_id': cycle.id, 'employee_id': employee.id,
+            'target_value': 100.0, 'weight': 100.0, 'kr_id': cls.kr.id})
+        if actual is not None:
+            cls._add_result(target, cycle.date_start, cycle.date_end, actual)
+        card = cls.env['aic.hrm.kpi.assignment'].search(
+            [('employee_id', '=', employee.id), ('cycle_id', '=', cycle.id)], limit=1)
+        if card:
+            card.write({'line_ids': [(0, 0, {'kpi_target_id': target.id,
+                                             'weight': weight})]})
+        else:
+            card = cls.env['aic.hrm.kpi.assignment'].create({
+                'employee_id': employee.id, 'cycle_id': cycle.id,
+                'line_ids': [(0, 0, {'kpi_target_id': target.id, 'weight': weight})]})
+        return card
+
+    def carriers(self):
+        self.env.flush_all()
+        return self.Contribution.carriers_for_cycle(self.quarter.id)
+
+    def test_a_person_carrying_the_same_key_result_all_quarter_is_one_entry(self):
+        self._month_kpi(self.member_employee, self.may, 100.0, actual=100.0)
+        self._month_kpi(self.member_employee, self.june, 100.0, actual=100.0)
+        self.assertEqual(len(self.Contribution.search(
+            [('employee_id', '=', self.member_employee.id)])), 2,
+            'the report keeps one row per month')
+        entries = self.carriers()
+        self.assertEqual(len(entries), 1, 'the tree reads one carrier')
+        [entry] = entries
+        self.assertEqual(entry['employee_id'], self.member_employee.id)
+        self.assertEqual(entry['kr_id'], self.kr.id)
+        self.assertEqual(entry['periods'], 2)
+        self.assertEqual(entry['measured_periods'], 2)
+
+    def test_the_weight_is_the_share_of_a_month_not_the_sum_of_the_months(self):
+        """Weight is a share of one scorecard, out of 100. Added across
+        months it would read 200 out of 100 and mean nothing."""
+        self._month_kpi(self.member_employee, self.may, 60.0, actual=100.0)
+        self._month_kpi(self.member_employee, self.june, 40.0, actual=100.0)
+        [entry] = self.carriers()
+        self.assertAlmostEqual(entry['weight'], 50.0,
+                               msg='the average month, not the sum')
+
+    def test_a_month_still_without_figures_lowers_the_coverage_not_the_score(self):
+        self._month_kpi(self.member_employee, self.may, 100.0, actual=80.0)
+        self._month_kpi(self.member_employee, self.june, 100.0)
+        [entry] = self.carriers()
+        self.assertEqual(entry['periods'], 2)
+        self.assertEqual(entry['measured_periods'], 1)
+        self.assertAlmostEqual(entry['coverage'], 50.0)
+        self.assertAlmostEqual(entry['score_covered'], 0.8, places=4,
+                               msg='scored on what was measured')
+
+    def test_nothing_measured_anywhere_scores_nothing(self):
+        self._month_kpi(self.member_employee, self.may, 100.0)
+        [entry] = self.carriers()
+        self.assertEqual(entry['measured_periods'], 0)
+        self.assertAlmostEqual(entry['coverage'], 0.0)
+        self.assertAlmostEqual(entry['score_covered'], 0.0)
+
+    def test_two_people_on_one_key_result_stay_two_entries(self):
+        self._month_kpi(self.member_employee, self.may, 100.0, actual=100.0)
+        self._month_kpi(self.manager_employee, self.may, 80.0, actual=100.0)
+        entries = self.carriers()
+        self.assertEqual(len(entries), 2)
+        self.assertEqual({entry['employee_id'] for entry in entries},
+                         {self.member_employee.id, self.manager_employee.id})
+
+    def test_entries_come_heaviest_first(self):
+        self._month_kpi(self.member_employee, self.may, 40.0, actual=100.0)
+        self._month_kpi(self.manager_employee, self.may, 90.0, actual=100.0)
+        weights = [entry['weight'] for entry in self.carriers()]
+        self.assertEqual(weights, sorted(weights, reverse=True))
+
+    def test_an_objective_of_another_cycle_is_left_out(self):
+        other_quarter = self.Cycle.create({
+            'name': 'Quý sau', 'code': 'CAR-Q-NEXT', 'cycle_type': 'quarter',
+            'date_start': '2026-07-01', 'date_end': '2026-09-30'})
+        self._month_kpi(self.member_employee, self.may, 100.0, actual=100.0)
+        self.env.flush_all()
+        self.assertEqual(self.Contribution.carriers_for_cycle(other_quarter.id), [])
+
+    def test_a_colleague_cannot_read_who_carries_what(self):
+        self._month_kpi(self.member_employee, self.may, 100.0, actual=100.0)
+        self.env.flush_all()
+        with self.assertRaises(Exception):
+            self.Contribution.with_user(self.member_user).carriers_for_cycle(
+                self.quarter.id)

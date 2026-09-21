@@ -63,7 +63,7 @@
                 </div>
                 <div class="o_aic_kr_people" t-if="kr.people.length">
                     <span class="o_aic_kr_people_label">Carried by</span>
-                    <span t-foreach="kr.people" t-as="person" t-key="person.id"
+                    <span t-foreach="kr.people" t-as="person" t-key="person.employee_id"
                           class="o_aic_kr_person" t-esc="carrierLabel(person)"/>
                 </div>
             </div>

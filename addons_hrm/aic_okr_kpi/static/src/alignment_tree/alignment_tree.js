@@ -77,19 +77,19 @@ export class AicHrmAlignmentTree extends Component {
                 { limit: 2000, order: "code" },
             ),
             // Who is carrying each key result through their own KPIs. The
-            // KPIs are usually monthly while the key result is quarterly,
-            // so the rows are read by key result, not by cycle.
-            this.orm.searchRead(
+            // KPIs are monthly while the key result is quarterly, so the
+            // server folds a person's months into one entry: reading the
+            // report rows raw named the same person once per scorecard,
+            // three deep with three different scores.
+            this.orm.call(
                 "aic.hrm.objective.contribution",
-                [["objective_id.cycle_id", "=", cycleId]],
-                ["id", "kr_id", "objective_id", "employee_id", "cycle_id",
-                 "weight", "coverage", "score_covered", "measured_weight"],
-                { limit: 4000, order: "weight desc" },
+                "carriers_for_cycle",
+                [cycleId],
             ),
         ]);
         const carriedBy = new Map();
         for (const row of contributions) {
-            const key = row.kr_id ? `kr-${row.kr_id[0]}` : `o-${row.objective_id[0]}`;
+            const key = row.kr_id ? `kr-${row.kr_id}` : `o-${row.objective_id}`;
             if (!carriedBy.has(key)) {
                 carriedBy.set(key, []);
             }
@@ -161,14 +161,29 @@ export class AicHrmAlignmentTree extends Component {
         this.state.collapsed[nodeId] = !this.state.collapsed[nodeId];
     }
 
-    /** "Chu Thị Lâm Oanh · 92 trọng số · 100%" - one carrier, one line. */
+    /**
+     * One carrier, one line: "Chu Thị Lâm Oanh · 92 trọng số · 100%".
+     *
+     * A carrier who has figures for some of their months but not all is the
+     * common case mid-quarter, and a bare percentage would read as finished.
+     * The line says how many periods it speaks for.
+     */
     carrierLabel(row) {
-        const name = row.employee_id ? row.employee_id[1] : _t("Not assigned");
-        const weight = Math.round(row.weight || 0);
-        const score = row.measured_weight
-            ? this.formatPercent(row.score_covered)
-            : _t("no figures yet");
-        return `${name} · ${weight} ${_t("weight")} · ${score}`;
+        const name = row.employee_name || _t("Not assigned");
+        // The word is part of the phrase, not a term on its own: as a bare
+        // msgid "weight" was never translated and a Vietnamese screen read
+        // "80 weight".
+        const weight = _t("%s weight", Math.round(row.weight || 0));
+        if (!row.measured_periods) {
+            return `${name} · ${weight} · ${_t("no figures yet")}`;
+        }
+        const score = this.formatPercent(row.score_covered);
+        if (row.measured_periods < row.periods) {
+            return `${name} · ${weight} · ${score} ` + _t(
+                "(%(measured)s of %(total)s periods measured)",
+                { measured: row.measured_periods, total: row.periods });
+        }
+        return `${name} · ${weight} · ${score}`;
     }
 
     formatPercent(value) {

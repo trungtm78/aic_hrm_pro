@@ -561,13 +561,19 @@
 
     // Who is carrying this key result through their own KPIs. Its own line
     // under the row, so a key result with seven carriers still reads.
+    //
+    // The indent is padding, never margin: the block already asks for the
+    // full width of the row, so a margin on top of that made it wider than
+    // the row it sits in - the page grew a sideways scrollbar and the cycle
+    // selector was cut off at the right edge.
     .o_aic_kr_people {
       flex: 1 0 100%;
+      min-width: 0;
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
       gap: 0.25rem 0.7rem;
-      margin-left: 4.2rem;
+      padding-left: 4.2rem;
       font-size: 0.78rem;
       color: var(--aic-ink-2);
 
@@ -636,6 +642,8 @@
     .o_aic_meter { flex-basis: 4rem; }
     .o_aic_tree_summary { gap: var(--aic-space-sm); }
     .o_aic_tree_bands { margin-left: 0; }
+    /* On a phone the carrier lines need the width more than the indent. */
+    .o_aic_kr_people { padding-left: 1.4rem; }
   }
   @media (max-width: 414px) {
     .o_aic_health_strip { grid-template-columns: 1fr; }
