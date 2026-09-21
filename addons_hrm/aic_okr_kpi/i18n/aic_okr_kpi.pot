@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 03:32+0000\n"
-"PO-Revision-Date: 2026-09-21 03:32+0000\n"
+"POT-Creation-Date: 2026-09-21 07:06+0000\n"
+"PO-Revision-Date: 2026-09-21 07:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -161,6 +161,16 @@ msgid ""
 msgstr ""
 "Không thể xoá số đã xác nhận: hãy huỷ xác nhận kèm lý do trước. Điểm đánh "
 "giá phụ thuộc vào số này."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_objective_contribution
+msgid ""
+"A line appears once a KPI names the key result it serves and\n"
+"                somebody carries that KPI on their scorecard. One KPI is often\n"
+"                carried by several people at once, so the figures describe each\n"
+"                person's own commitment and result - they do not add up across\n"
+"                people."
+msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -741,6 +751,12 @@ msgid "Cancelled"
 msgstr "Đã hủy"
 
 #. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
+msgid "Carried by"
+msgstr "Người gánh"
+
+#. module: aic_okr_kpi
 #: model:aic.hrm.ksf,name:aic_okr_kpi.ksf_cash_health
 msgid "Cash and working-capital health"
 msgstr "Sức khỏe dòng tiền và vốn lưu động"
@@ -844,6 +860,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__company_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__company_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__company_id
@@ -934,10 +951,42 @@ msgid "Contributes To"
 msgstr "Đóng góp cho"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__contribution_ids
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__contribution_ids
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
+msgid "Contribution"
+msgstr "Đóng góp"
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
 msgid "Contribution alignment"
 msgstr "Liên kết đóng góp"
+
+#. module: aic_okr_kpi
+#: model:ir.model,name:aic_okr_kpi.model_aic_hrm_objective_contribution
+msgid "Contribution to Objective"
+msgstr "Đóng góp vào mục tiêu"
+
+#. module: aic_okr_kpi
+#: model:ir.actions.act_window,name:aic_okr_kpi.action_aic_hrm_objective_contribution
+#: model:ir.ui.menu,name:aic_okr_kpi.menu_aic_hrm_objective_contribution
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_graph
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_list
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_pivot
+msgid "Contribution to Objectives"
+msgstr "Đóng góp vào mục tiêu"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__contributor_count
+msgid "Contributor Count"
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
+msgid "Contributors"
+msgstr "Người đóng góp"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_rollover_wizard__copy_assignments
@@ -1099,9 +1148,11 @@ msgstr "Khách hàng hài lòng, ở lại và giới thiệu chúng ta."
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_result_audit__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__cycle_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__cycle_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__cycle_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Cycle"
@@ -1137,6 +1188,7 @@ msgstr "Quản lý hằng ngày"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__avg_data_coverage
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__data_coverage
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__data_coverage
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__coverage
 msgid "Data Coverage (%)"
 msgstr "Độ phủ dữ liệu (%)"
 
@@ -1239,10 +1291,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__department_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__department_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__department_id
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_objective__level__department
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__level__department
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Department"
@@ -1322,6 +1376,7 @@ msgstr "Nhãn hiển thị"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__display_name
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__display_name
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__display_name
@@ -1380,9 +1435,11 @@ msgid "Driving Objectives"
 msgstr "Mục tiêu thúc đẩy"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__employee_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_assignment_form
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
 msgid "Employee"
-msgstr "Nhân viên"
+msgstr "Nhân sự"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -1812,6 +1869,11 @@ msgstr ""
 "Hãy đọc điểm trên phần có số liệu theo con số này, không theo tổng số người."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective_contribution__target_count
+msgid "How many of this person's KPIs serve the objective."
+msgstr "Người này có bao nhiêu chỉ tiêu KPI phục vụ mục tiêu đó."
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__required_run_rate_factor
 msgid ""
 "How much faster than the average pace so far the remaining work must move to"
@@ -1869,6 +1931,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_ksf__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_meeting_action__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_perspective__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_review_meeting__id
@@ -2175,9 +2238,10 @@ msgstr ""
 "giao."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__target_count
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "KPIs"
-msgstr "Các KPI"
+msgstr "Số chỉ tiêu"
 
 #. module: aic_okr_kpi
 #. odoo-python
@@ -2199,6 +2263,7 @@ msgstr "Kaplan–Norton: đọc danh mục mục tiêu qua bốn góc nhìn cân
 #. module: aic_okr_kpi
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_key_result
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__kr_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__kr_id
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_search
 msgid "Key Result"
 msgstr "Kết quả then chốt"
@@ -2231,6 +2296,8 @@ msgstr "Yếu tố thành công then chốt"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_progress_report__kind__kr
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Key result"
 msgstr "Kết quả then chốt"
 
@@ -2870,6 +2937,11 @@ msgid "No check-in within the cycle's stale threshold."
 msgstr "Không có check-in trong ngưỡng quá hạn của chu kỳ."
 
 #. module: aic_okr_kpi
+#: model_terms:ir.actions.act_window,help:aic_okr_kpi.action_aic_hrm_objective_contribution
+msgid "No contribution to show yet"
+msgstr "Chưa có đóng góp nào để hiển thị"
+
+#. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_kpi_target_form
 msgid ""
 "No guideline documented yet - define it on the KPI so the owner knows how to"
@@ -2969,6 +3041,12 @@ msgstr "Điểm chuẩn hóa 0..trần."
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_checkin__progress_snapshot
 msgid "Normalized progress right after this check-in."
 msgstr "Tiến độ chuẩn hóa ngay sau check-in này."
+
+#. module: aic_okr_kpi
+#. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.js:0
+msgid "Not assigned"
+msgstr "Chưa phân công"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
@@ -3084,7 +3162,9 @@ msgstr "Nhập OKR/KPI từ Excel"
 #: model:ir.model,name:aic_okr_kpi.model_aic_hrm_objective
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_key_result__objective_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__objective_id
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__objective_id
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__objective_id
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_progress_report_search
 msgid "Objective"
 msgstr "Mục tiêu"
@@ -3353,6 +3433,11 @@ msgstr "Mục tiêu cha"
 #: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
 msgid "Parent alignment"
 msgstr "Liên kết mục tiêu cha"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective_contribution__measured_weight
+msgid "Part of that weight whose KPIs have confirmed actuals."
+msgstr "Phần trọng số mà chỉ tiêu đã có số thực hiện được xác nhận."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields.selection,name:aic_okr_kpi.selection__aic_hrm_kpi__direction__boolean
@@ -3769,11 +3854,13 @@ msgstr "Cùng người xác nhận"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_target__score
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__score
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__score
 msgid "Score"
 msgstr "Điểm"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__score_covered
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__score_covered
 msgid "Score on Measured KPIs"
 msgstr "Điểm trên KPI có số liệu"
 
@@ -3869,6 +3956,11 @@ msgid "Set the first objective of this cycle"
 msgstr "Đặt mục tiêu đầu tiên của chu kỳ"
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective_contribution__coverage
+msgid "Share of the committed weight that has figures behind it."
+msgstr "Tỷ lệ trọng số cam kết đã thực sự có số liệu."
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__data_coverage
 msgid ""
 "Share of the objective's weight whose key results have reported progress."
@@ -3897,6 +3989,15 @@ msgstr ""
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight_in_group
 msgid "Share of this line inside its group, in percent."
 msgstr "Tỷ trọng của dòng này trong nhóm, tính theo phần trăm."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective_contribution__weight
+msgid ""
+"Share of this person's scorecard, out of 100, that serves the objective. It "
+"says how much of their month the objective is."
+msgstr ""
+"Phần trăm phiếu giao KPI của người này (trên 100) dành cho mục tiêu đó. Cho "
+"biết mục tiêu chiếm bao nhiêu phần công việc trong tháng của họ."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective__contributes_to_ids
@@ -4237,6 +4338,28 @@ msgid "The one or two goals where a miss makes everything else irrelevant."
 msgstr "Một hai mục tiêu mà nếu trượt thì mọi thứ khác thành vô nghĩa."
 
 #. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__contribution_ids
+msgid "The people whose own KPIs serve this key result."
+msgstr "Những người có chỉ tiêu KPI riêng phục vụ kết quả then chốt này."
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_key_result_form
+msgid ""
+"The people whose own KPIs serve this key result. The same\n"
+"                                figure is often carried by several of them, so the rows\n"
+"                                describe each person and do not add up."
+msgstr ""
+
+#. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_form
+msgid ""
+"The people whose own KPIs serve this objective, with the share\n"
+"                                of their scorecard they committed to it. One KPI is often\n"
+"                                carried by several people at once, so these figures describe\n"
+"                                each person and do not add up across them."
+msgstr ""
+
+#. module: aic_okr_kpi
 #. odoo-python
 #: code:addons/aic_okr_kpi/models/aic_hrm_kpi_target.py:0
 msgid ""
@@ -4403,6 +4526,11 @@ msgid "Visibility"
 msgstr "Hiển thị"
 
 #. module: aic_okr_kpi
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
+msgid "Waiting for figures"
+msgstr "Đang chờ số liệu"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_actuals_import_wizard__warning_log
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_import_wizard__warning_log
 msgid "Warning Log"
@@ -4445,8 +4573,14 @@ msgstr "Tuần"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kr_milestone__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective__weight
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_progress_report__weight
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_list
 msgid "Weight"
 msgstr "Trọng số"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__weight
+msgid "Weight Committed"
+msgstr "Trọng số cam kết"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_issue
@@ -4457,6 +4591,11 @@ msgstr "Vấn đề trọng số"
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment__weight_ok
 msgid "Weight Ok"
 msgstr "Trọng số hợp lệ"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_objective_contribution__measured_weight
+msgid "Weight With Figures"
+msgstr "Trọng số đã có số liệu"
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_kpi_assignment_line__weight_in_group
@@ -4487,6 +4626,24 @@ msgid ""
 msgstr ""
 "Điểm bình quân gia quyền chỉ trên các KPI đã có số thực tế được xác nhận. "
 "Đọc cùng với độ phủ dữ liệu."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective_contribution__score_covered
+msgid ""
+"Weighted score over the KPIs that have figures. Read it together with the "
+"coverage."
+msgstr ""
+"Điểm bình quân theo trọng số trên các chỉ tiêu đã có số liệu. Phải đọc kèm "
+"độ phủ dữ liệu."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_objective_contribution__score
+msgid ""
+"Weighted score over the whole committed weight, counting a KPI still waiting"
+" for its figure as zero."
+msgstr ""
+"Điểm bình quân trên toàn bộ trọng số cam kết, chỉ tiêu chưa có số liệu tính "
+"là 0."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_assignment__group_ids
@@ -4593,6 +4750,12 @@ msgid "Who accepted this figure into the score."
 msgstr "Người đã chấp nhận số này vào điểm."
 
 #. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "Who is carrying this objective"
+msgstr "Ai đang gánh mục tiêu này"
+
+#. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_kpi_result_reset_wizard__affected_summary
 msgid "Whose score changes when these confirmations are withdrawn."
 msgstr "Điểm của những ai sẽ thay đổi khi huỷ các xác nhận này."
@@ -4629,8 +4792,9 @@ msgstr "Số người đã có số liệu"
 #. module: aic_okr_kpi
 #. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
+#: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_objective_contribution_search
 msgid "With figures"
-msgstr "Có số liệu"
+msgstr "Đã có số liệu"
 
 #. module: aic_okr_kpi
 #: model_terms:ir.ui.view,arch_db:aic_okr_kpi.view_aic_hrm_period_result_list
@@ -4793,6 +4957,12 @@ msgstr "cần có chủ sở hữu"
 
 #. module: aic_okr_kpi
 #. odoo-javascript
+#: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.js:0
+msgid "no figures yet"
+msgstr "chưa có số liệu"
+
+#. module: aic_okr_kpi
+#. odoo-javascript
 #: code:addons/aic_okr_kpi/static/src/cockpit/cockpit.xml:0
 msgid "no recent check-in"
 msgstr "không có check-in gần đây"
@@ -4814,6 +4984,12 @@ msgstr "chưa có số liệu"
 #: code:addons/aic_okr_kpi/static/src/alignment_tree/alignment_tree.xml:0
 msgid "not scored"
 msgstr "chưa chấm điểm"
+
+#. module: aic_okr_kpi
+#. odoo-python
+#: code:addons/aic_okr_kpi/models/aic_hrm_objective.py:0
+msgid "objective_id"
+msgstr ""
 
 #. module: aic_okr_kpi
 #. odoo-javascript

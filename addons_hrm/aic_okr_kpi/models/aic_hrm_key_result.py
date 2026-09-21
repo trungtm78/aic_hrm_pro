@@ -167,6 +167,10 @@ class AicHrmKeyResult(models.Model):
                 kr.last_checkin_date or kr.progress_reported_on
                 or any(kr.milestone_ids.mapped('is_done')))
 
+    contribution_ids = fields.One2many(
+        'aic.hrm.objective.contribution', 'kr_id', readonly=True,
+        help="The people whose own KPIs serve this key result.")
+
     def _get_rag_profile(self):
         self.ensure_one()
         return self.cycle_id.rag_profile_id or super()._get_rag_profile()

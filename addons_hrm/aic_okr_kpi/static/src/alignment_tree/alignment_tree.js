@@ -3,6 +3,7 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
 import { cycleWithObjectives } from "../cycle_choice";
 
 /**
@@ -59,7 +60,7 @@ export class AicHrmAlignmentTree extends Component {
 
     async loadTree() {
         const cycleId = this.state.cycleId;
-        const [objectives, krs] = await Promise.all([
+        const [objectives, krs, contributions] = await Promise.all([
             this.orm.searchRead(
                 "aic.hrm.objective",
                 [["cycle_id", "=", cycleId]],
@@ -75,7 +76,25 @@ export class AicHrmAlignmentTree extends Component {
                  "progress", "rag"],
                 { limit: 2000, order: "code" },
             ),
+            // Who is carrying each key result through their own KPIs. The
+            // KPIs are usually monthly while the key result is quarterly,
+            // so the rows are read by key result, not by cycle.
+            this.orm.searchRead(
+                "aic.hrm.objective.contribution",
+                [["objective_id.cycle_id", "=", cycleId]],
+                ["id", "kr_id", "objective_id", "employee_id", "cycle_id",
+                 "weight", "coverage", "score_covered", "measured_weight"],
+                { limit: 4000, order: "weight desc" },
+            ),
         ]);
+        const carriedBy = new Map();
+        for (const row of contributions) {
+            const key = row.kr_id ? `kr-${row.kr_id[0]}` : `o-${row.objective_id[0]}`;
+            if (!carriedBy.has(key)) {
+                carriedBy.set(key, []);
+            }
+            carriedBy.get(key).push(row);
+        }
         const nodeById = new Map(objectives.map((objective) => [
             objective.id,
             { ...objective, children: [], krs: [] },
@@ -83,8 +102,11 @@ export class AicHrmAlignmentTree extends Component {
         for (const kr of krs) {
             const parent = nodeById.get(kr.objective_id[0]);
             if (parent) {
-                parent.krs.push(kr);
+                parent.krs.push({ ...kr, people: carriedBy.get(`kr-${kr.id}`) || [] });
             }
+        }
+        for (const node of nodeById.values()) {
+            node.people = carriedBy.get(`o-${node.id}`) || [];
         }
         const roots = [];
         for (const node of nodeById.values()) {
@@ -137,6 +159,16 @@ export class AicHrmAlignmentTree extends Component {
 
     toggle(nodeId) {
         this.state.collapsed[nodeId] = !this.state.collapsed[nodeId];
+    }
+
+    /** "Chu Thị Lâm Oanh · 92 trọng số · 100%" - one carrier, one line. */
+    carrierLabel(row) {
+        const name = row.employee_id ? row.employee_id[1] : _t("Not assigned");
+        const weight = Math.round(row.weight || 0);
+        const score = row.measured_weight
+            ? this.formatPercent(row.score_covered)
+            : _t("no figures yet");
+        return `${name} · ${weight} ${_t("weight")} · ${score}`;
     }
 
     formatPercent(value) {

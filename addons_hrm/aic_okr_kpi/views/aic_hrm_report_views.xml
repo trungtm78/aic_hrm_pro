@@ -63,6 +63,7 @@
             <search string="Progress">
                 <field name="label"/>
                 <field name="objective_id"/>
+                <field name="kr_id"/>
                 <field name="department_id"/>
                 <field name="employee_id"/>
                 <field name="job_id"/>
@@ -92,6 +93,9 @@
                     <filter name="group_objective" string="Objective"
                             domain="[]"
                             context="{'group_by': 'objective_id'}"/>
+                    <filter name="group_key_result" string="Key result"
+                            domain="[]"
+                            context="{'group_by': 'kr_id'}"/>
                     <filter name="group_level" string="Goal level"
                             domain="[]"
                             context="{'group_by': 'level'}"/>

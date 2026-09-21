@@ -554,9 +554,31 @@
     position: relative;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: var(--aic-space-sm);
     min-height: 40px;
     padding: 0.3rem var(--aic-space-sm) 0.3rem 0;
+
+    // Who is carrying this key result through their own KPIs. Its own line
+    // under the row, so a key result with seven carriers still reads.
+    .o_aic_kr_people {
+      flex: 1 0 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.25rem 0.7rem;
+      margin-left: 4.2rem;
+      font-size: 0.78rem;
+      color: var(--aic-ink-2);
+
+      .o_aic_kr_people_label {
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.68rem;
+        color: var(--aic-muted);
+      }
+      .o_aic_kr_person { overflow-wrap: anywhere; }
+    }
 
     /* the elbow that ties a key result to its objective's rail */
     &::before {

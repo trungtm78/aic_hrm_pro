@@ -205,7 +205,10 @@ class AicHrmProgressReport(models.Model):
                         kpi.name                            AS label,
                         t.cycle_id                          AS cycle_id,
                         t.objective_id                      AS objective_id,
-                        NULL::integer                       AS kr_id,
+                        -- The key result this KPI serves. Dropped here once,
+                        -- which made it impossible to ask who is carrying a
+                        -- key result even though every target names one.
+                        t.kr_id                             AS kr_id,
                         t.id                                AS kpi_target_id,
                         t.employee_id                       AS employee_id,
                         COALESCE(t.department_id, o.department_id)

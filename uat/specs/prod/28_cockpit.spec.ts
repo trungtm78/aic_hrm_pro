@@ -120,7 +120,10 @@ test('every cycle in the selector shows what its tree holds', async ({ page }) =
   expect(options.length).toBeGreaterThan(1);
 
   for (const option of options) {
-    const loaded = page.waitForResponse((r) => r.url().includes('/cockpit_data') && r.ok());
+    // This runs against the customer's live instance over the internet;
+    // the default 30s turns a slow round trip into a false alarm.
+    const loaded = page.waitForResponse((r) => r.url().includes('/cockpit_data') && r.ok(),
+      { timeout: 90_000 });
     await select.selectOption(option.id);
     await loaded;
     await expect(page.locator('.o_dialog, .modal-dialog'), `no error dialog on ${option.name}`).toHaveCount(0);
@@ -168,4 +171,29 @@ test('the alignment tree opens on a cycle that has objectives', async ({ page })
       .not.toContainText('Chu kỳ chưa có mục tiêu');
   }
   await page.screenshot({ path: test.info().outputPath('alignment-tree.png'), fullPage: true });
+});
+
+test('the contribution report says who carries each objective', async ({ page }) => {
+  test.setTimeout(15 * 60_000);
+  const ui = new OdooUi(page);
+  await loginAsAdmin(page);
+  await ui.openAction(await xmlid('aic_okr_kpi.action_aic_hrm_objective_contribution'));
+  await page.locator('.o_list_view').first().waitFor({ timeout: 90_000 });
+  await expect(page.locator('.o_dialog, .modal-dialog'), 'no error dialog').toHaveCount(0);
+
+  // The link from a person's KPI to a department objective lived in the data
+  // and on no screen. Every row must be one somebody can act on: a person, a
+  // weight they committed, and the objective it serves.
+  const rows = await read('aic.hrm.objective.contribution', 'search_read', [[]],
+    { fields: ['objective_id', 'employee_id', 'weight', 'measured_weight', 'score_covered'] });
+  expect(rows.length, 'the report must not be empty while KPIs name their key results').toBeGreaterThan(0);
+  for (const row of rows) {
+    expect(row.objective_id, 'every row names an objective').toBeTruthy();
+    expect(row.weight, 'every row carries a committed weight').toBeGreaterThan(0);
+    if (!row.measured_weight) {
+      expect(row.score_covered, 'nothing measured scores nothing').toBe(0);
+    }
+  }
+  console.log(`contribution rows: ${rows.length}, people: ${new Set(rows.map((r: any) => r.employee_id[0])).size}`);
+  await page.screenshot({ path: test.info().outputPath('contribution.png'), fullPage: true });
 });

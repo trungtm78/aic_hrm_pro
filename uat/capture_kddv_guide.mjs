@@ -251,6 +251,19 @@ const objectiveForm = await recordId('aic.hrm.objective', [['code', '=', 'O1']])
 await open(objectives, `/${objectiveForm}`);
 await shot('24-objective-with-key-results');
 
+// Who is carrying each objective through their own KPIs.
+const contribution = await xmlid('aic_okr_kpi.action_aic_hrm_objective_contribution');
+await open(contribution);
+// It opens grouped by objective; drop the grouping so the picture shows the
+// people themselves rather than four collapsed rows.
+const facet = page.locator('.o_searchview_facet .o_facet_remove').first();
+if (await facet.count()) {
+  await facet.click();
+  await page.waitForTimeout(2000);
+}
+await page.locator('.o_list_view .o_data_row').first().waitFor({ timeout: 60_000 });
+await shot('29-objective-contribution');
+
 
 
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Who is carrying an objective. The numbers describe one person's
+         commitment and result; they are deliberately not summable across
+         people, because the same figure is carried by several of them. -->
+    <record id="view_aic_hrm_objective_contribution_list" model="ir.ui.view">
+        <field name="name">aic.hrm.objective.contribution.list</field>
+        <field name="model">aic.hrm.objective.contribution</field>
+        <field name="arch" type="xml">
+            <list string="Contribution to Objectives" class="o_aic_hrm_view"
+                  default_order="weight desc">
+                <field name="objective_id"/>
+                <field name="kr_id" optional="show"/>
+                <field name="employee_id"/>
+                <field name="department_id" optional="hide"/>
+                <field name="cycle_id"/>
+                <field name="target_count"/>
+                <field name="weight" sum="Weight"/>
+                <field name="measured_weight" optional="show"/>
+                <field name="coverage"/>
+                <field name="score_covered" widget="percentage"/>
+                <field name="score" widget="percentage" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_objective_contribution_pivot" model="ir.ui.view">
+        <field name="name">aic.hrm.objective.contribution.pivot</field>
+        <field name="model">aic.hrm.objective.contribution</field>
+        <field name="arch" type="xml">
+            <pivot string="Contribution to Objectives">
+                <field name="objective_id" type="row"/>
+                <field name="employee_id" type="row"/>
+                <field name="weight" type="measure"/>
+                <field name="score_covered" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_objective_contribution_graph" model="ir.ui.view">
+        <field name="name">aic.hrm.objective.contribution.graph</field>
+        <field name="model">aic.hrm.objective.contribution</field>
+        <field name="arch" type="xml">
+            <graph string="Contribution to Objectives" type="bar">
+                <field name="employee_id"/>
+                <field name="weight" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_aic_hrm_objective_contribution_search" model="ir.ui.view">
+        <field name="name">aic.hrm.objective.contribution.search</field>
+        <field name="model">aic.hrm.objective.contribution</field>
+        <field name="arch" type="xml">
+            <search string="Contribution">
+                <field name="objective_id"/>
+                <field name="kr_id"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="cycle_id"/>
+                <filter name="with_figures" string="With figures"
+                        domain="[('measured_weight', '&gt;', 0)]"/>
+                <filter name="waiting" string="Waiting for figures"
+                        domain="[('measured_weight', '=', 0)]"/>
+                <group>
+                    <filter name="group_objective" string="Objective" domain="[]"
+                            context="{'group_by': 'objective_id'}"/>
+                    <filter name="group_key_result" string="Key result" domain="[]"
+                            context="{'group_by': 'kr_id'}"/>
+                    <filter name="group_employee" string="Employee" domain="[]"
+                            context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_department" string="Department" domain="[]"
+                            context="{'group_by': 'department_id'}"/>
+                    <filter name="group_cycle" string="Cycle" domain="[]"
+                            context="{'group_by': 'cycle_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_aic_hrm_objective_contribution" model="ir.actions.act_window">
+        <field name="name">Contribution to Objectives</field>
+        <field name="res_model">aic.hrm.objective.contribution</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="context">{'search_default_group_objective': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No contribution to show yet</p>
+            <p>
+                A line appears once a KPI names the key result it serves and
+                somebody carries that KPI on their scorecard. One KPI is often
+                carried by several people at once, so the figures describe each
+                person's own commitment and result - they do not add up across
+                people.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_aic_hrm_objective_contribution" name="Contribution to Objectives"
+              parent="aic_hrm_base.menu_aic_hrm_reporting" sequence="35"
+              action="action_aic_hrm_objective_contribution"
+              groups="aic_hrm_base.group_hrm_manager"/>
+
+</odoo>

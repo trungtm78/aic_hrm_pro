@@ -65,6 +65,14 @@
                            statusbar_visible="draft,submitted,approved,in_progress,done"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_contributions" type="object"
+                                class="oe_stat_button" icon="fa-users"
+                                invisible="not contributor_count">
+                            <field name="contributor_count" widget="statinfo"
+                                   string="Contributors"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="What must change this cycle?"/></h1>
                     </div>
@@ -100,6 +108,25 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Contributors" name="contributors">
+                            <p class="text-muted">
+                                The people whose own KPIs serve this objective, with the share
+                                of their scorecard they committed to it. One KPI is often
+                                carried by several people at once, so these figures describe
+                                each person and do not add up across them.
+                            </p>
+                            <field name="contribution_ids" readonly="1">
+                                <list>
+                                    <field name="employee_id"/>
+                                    <field name="kr_id"/>
+                                    <field name="cycle_id"/>
+                                    <field name="target_count"/>
+                                    <field name="weight"/>
+                                    <field name="coverage"/>
+                                    <field name="score_covered" widget="percentage"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Key Results" name="krs">
                             <field name="kr_ids">
                                 <list editable="bottom">
@@ -262,6 +289,23 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Contributors" name="kr_contributors">
+                            <p class="text-muted">
+                                The people whose own KPIs serve this key result. The same
+                                figure is often carried by several of them, so the rows
+                                describe each person and do not add up.
+                            </p>
+                            <field name="contribution_ids" readonly="1">
+                                <list>
+                                    <field name="employee_id"/>
+                                    <field name="cycle_id"/>
+                                    <field name="target_count"/>
+                                    <field name="weight"/>
+                                    <field name="coverage"/>
+                                    <field name="score_covered" widget="percentage"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Milestones" name="milestones"
                               invisible="metric_type != 'milestone'">
                             <field name="milestone_ids">

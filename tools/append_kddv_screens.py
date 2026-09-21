@@ -60,6 +60,7 @@ BACKING = {
     '18-executive-overview': 'aic.hrm.kpi.target',
     '19-progress-vs-plan': 'aic.hrm.kpi.target',
     '14-review-cycle': 'aic.hrm.review',
+    '29-objective-contribution': 'aic.hrm.objective.contribution',
 }
 
 SCREENS = [
@@ -159,6 +160,12 @@ SCREENS = [
       ('Lọc theo nhu cầu', 'Chọn chu kỳ, phòng ban hoặc một người cụ thể.'),
       ('Xuất ra Excel', 'Lấy dữ liệu ra tệp khi cần gửi đi.')],
      'Hiệu suất › Báo cáo › Tiến độ so với kế hoạch'),
+    ('29-objective-contribution', 'Đóng góp vào mục tiêu',
+     'Mỗi mục tiêu của phòng do những ai gánh, và mỗi người đang đạt bao nhiêu trên phần đã có số liệu.',
+     [('Đọc theo mục tiêu', 'Gom nhóm theo mục tiêu rồi tới từng người trong phòng.'),
+      ('Trọng số cam kết', 'Ví dụ tháng 7: trưởng phòng dành 89/100 trọng số phiếu cho mục tiêu doanh thu.'),
+      ('Không cộng dồn', 'Một chỉ tiêu giao cho nhiều người cùng gánh nên các dòng không cộng lại được.')],
+     'Hiệu suất › Báo cáo › Đóng góp vào mục tiêu'),
     ('14-review-cycle', 'Chu kỳ đánh giá',
      'Đợt đánh giá của một chu kỳ hiệu suất và toàn bộ phiếu sinh ra từ đó.',
      [('21 phiếu Quý III', 'Một thao tác sinh phiếu cho cả phòng.'),

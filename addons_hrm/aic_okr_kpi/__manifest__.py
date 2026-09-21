@@ -41,6 +41,7 @@ Provides:
         'views/aic_hrm_monitoring_views.xml',
         'views/aic_hrm_dashboard_actions.xml',
         'views/aic_hrm_report_views.xml',
+        'views/aic_hrm_objective_contribution_views.xml',
         'wizard/aic_hrm_result_reset_wizard_views.xml',
     ],
     'assets': {

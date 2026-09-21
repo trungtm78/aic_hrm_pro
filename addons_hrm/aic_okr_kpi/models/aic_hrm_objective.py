@@ -118,6 +118,30 @@ class AicHrmObjective(models.Model):
     kr_ids = fields.One2many('aic.hrm.key.result', 'objective_id',
                              string='Key Results')
     kr_count = fields.Integer(compute='_compute_kr_count')
+    # Who is carrying this objective through their own KPIs. Read-only: the
+    # link is made on the KPI target, not here.
+    contribution_ids = fields.One2many(
+        'aic.hrm.objective.contribution', 'objective_id', readonly=True)
+    contributor_count = fields.Integer(compute='_compute_contributor_count')
+
+    def _compute_contributor_count(self):
+        counted = {objective.id: count for objective, count
+                   in self.env['aic.hrm.objective.contribution']._read_group(
+                       [('objective_id', 'in', self.ids)], ['objective_id'],
+                       ['__count'])}
+        for objective in self:
+            objective.contributor_count = counted.get(objective.id, 0)
+
+    def action_open_contributions(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Who is carrying this objective'),
+            'res_model': 'aic.hrm.objective.contribution',
+            'view_mode': 'list,pivot,graph',
+            'domain': [('objective_id', '=', self.id)],
+            'context': {'search_default_group_employee': 1},
+        }
 
     @api.depends('kr_ids')
     def _compute_kr_count(self):

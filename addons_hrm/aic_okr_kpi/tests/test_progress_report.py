@@ -137,6 +137,21 @@ class TestProgressReport(OkrCase):
         self.assertEqual(len(row), 1)
         self.assertAlmostEqual(row.achieved, 0.5, places=3)
 
+    def test_a_kpi_row_names_the_key_result_it_serves(self):
+        """Every target names the key result it serves, and the report threw
+        that away: a manager could group by objective but never ask who is
+        carrying one key result of it."""
+        kr = self._make_kr(self.objective, baseline=0, target=100, current=0,
+                           weight=100.0)
+        target = self._kpi_target()
+        target.kr_id = kr.id
+        self.env['aic.hrm.kpi.period.result'].create({
+            'kpi_target_id': target.id, 'date_from': '2026-01-01',
+            'date_to': '2026-06-30', 'actual': 100.0, 'state': 'confirmed'})
+        row = self.Report.search([('kpi_target_id', '=', target.id)])
+        self.assertEqual(row.kr_id, kr)
+        self.assertEqual(row.objective_id, self.objective)
+
     def test_lower_is_better_inverts_achievement(self):
         target = self._kpi_target(direction='lower', target=10.0)
         self.env['aic.hrm.kpi.period.result'].create({
