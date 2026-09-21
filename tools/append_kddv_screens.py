@@ -631,3 +631,97 @@ def remove_slides(deck_path, titles, out=None):
                         extra.text = ''
     deck.save(str(out or deck_path))
     return dropped
+
+
+TABLE_STYLE = {'head_fill': '16334B', 'head_text': 'FFFFFF', 'body_fill': 'EDF3F6',
+               'body_text': '16334B', 'size': 13.5, 'head_size': 14.0}
+
+
+def add_table_slide(deck_path, title, lead, headers, rows, widths, footnote='',
+                    after=None, out=None, style=None):
+    """One more slide in the deck's own shape: title, lead, a table, a note.
+
+    Built for figures the report was missing rather than for a screenshot -
+    per-person results, where a picture of a list would be unreadable at
+    slide size.
+    """
+    from pptx import Presentation
+    from pptx.util import Inches, Pt
+    from pptx.dml.color import RGBColor
+    from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+    deck = Presentation(str(deck_path))
+    reference = deck.slides[1] if len(deck.slides) > 1 else deck.slides[0]
+    probed = style or probe_style(reference)
+    table_style = dict(TABLE_STYLE)
+    slide = deck.slides.add_slide(reference.slide_layout)
+    _text(slide, title, probed['title']['box'], probed['title'], Inches, Pt)
+    if lead:
+        _text(slide, lead, probed['lead']['box'], probed['lead'], Inches, Pt)
+    top = 2.10
+    height = min(4.2, 0.42 * (len(rows) + 1))
+    shape = slide.shapes.add_table(len(rows) + 1, len(headers), Inches(0.60),
+                                   Inches(top), Inches(12.12), Inches(height))
+    table = shape.table
+    for element in shape._element.graphic.graphicData.tbl.tblPr.findall('.//{*}tableStyleId'):
+        element.text = '{2D5ABB26-0587-4C30-8999-92F81FD0307C}'
+    total = sum(widths)
+    for index, weight in enumerate(widths):
+        table.columns[index].width = int(Inches(12.12).emu * weight / total)
+    for column, header in enumerate(headers):
+        _table_cell(table.cell(0, column), header, table_style['head_size'], True,
+                    table_style['head_text'], table_style['head_fill'],
+                    probed['lead'].get('name'), Pt, RGBColor, PP_ALIGN, MSO_ANCHOR,
+                    'l' if column == 0 else 'c')
+    for row_index, values in enumerate(rows, start=1):
+        for column, value in enumerate(values):
+            _table_cell(table.cell(row_index, column), str(value), table_style['size'], False,
+                        table_style['body_text'], table_style['body_fill'],
+                        probed['lead'].get('name'), Pt, RGBColor, PP_ALIGN, MSO_ANCHOR,
+                        'l' if column == 0 else 'c')
+    if footnote:
+        _text(slide, footnote, probed['footnote']['box'], probed['footnote'], Inches, Pt)
+    number = len(deck.slides) if after is None else after + 1
+    _text(slide, '%02d' % number, probed['page']['box'], probed['page'], Inches, Pt)
+    if after is not None:
+        slides = deck.slides._sldIdLst
+        element = slides[-1]
+        slides.remove(element)
+        slides.insert(after, element)
+    deck.save(str(out or deck_path))
+    return len(deck.slides)
+
+
+def _table_cell(cell, text, size, bold, colour, fill, font, Pt, RGBColor,
+                PP_ALIGN, MSO_ANCHOR, align):
+    cell.fill.solid()
+    cell.fill.fore_color.rgb = RGBColor.from_string(fill)
+    cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+    cell.margin_left = cell.margin_right = Pt(8)
+    cell.margin_top = cell.margin_bottom = Pt(4)
+    paragraph = cell.text_frame.paragraphs[0]
+    paragraph.alignment = {'l': PP_ALIGN.LEFT, 'c': PP_ALIGN.CENTER,
+                           'r': PP_ALIGN.RIGHT}[align]
+    run = paragraph.add_run()
+    run.text = text
+    run.font.size, run.font.bold = Pt(size), bold
+    if font:
+        run.font.name = font
+    run.font.color.rgb = RGBColor.from_string(colour)
+
+
+def renumber(deck_path, out=None):
+    """Put the page numbers back in order after slides move."""
+    from pptx import Presentation
+    from pptx.util import Emu
+    deck = Presentation(str(deck_path))
+    for number, slide in enumerate(deck.slides, start=1):
+        for shape in slide.shapes:
+            if (shape.has_text_frame and Emu(shape.left).inches > 11.5
+                    and shape.text_frame.text.strip().isdigit()):
+                runs = shape.text_frame.paragraphs[0].runs
+                if runs:
+                    runs[0].text = '%02d' % number
+                    for extra in runs[1:]:
+                        extra.text = ''
+    deck.save(str(out or deck_path))
+    return len(deck.slides)
