@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 07:55+0000\n"
-"PO-Revision-Date: 2026-09-18 07:55+0000\n"
+"POT-Creation-Date: 2026-09-21 03:32+0000\n"
+"PO-Revision-Date: 2026-09-21 03:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi\n"
@@ -542,8 +542,12 @@ msgstr "Điểm bảng điểm cá nhân bình quân trong phòng ban."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_department_scorecard__avg_score_covered
-msgid "Average score over the KPIs that have confirmed actuals."
-msgstr "Điểm bình quân chỉ trên các KPI đã có số thực hiện được xác nhận."
+msgid ""
+"Average score over the KPIs that have confirmed actuals, taken over the "
+"people who have figures."
+msgstr ""
+"Điểm bình quân trên các KPI đã có số thực hiện được xác nhận, tính trên "
+"những người đã có số liệu."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_department_scorecard__avg_data_coverage
@@ -1798,6 +1802,15 @@ msgstr "Mỗi kết quả then chốt cộng dồn lên kế hoạch công ty nh
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_alert_rule__streak_length
 msgid "How many consecutive falling check-ins trigger the confidence rule."
 msgstr "Bao nhiêu check-in giảm liên tiếp thì kích hoạt quy tắc độ tự tin."
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_department_scorecard__measured_employee_count
+msgid ""
+"How many of them have at least one confirmed actual. Read the measured score"
+" against this, not against the headcount."
+msgstr ""
+"Bao nhiêu người trong số đó đã có ít nhất một số thực hiện được xác nhận. "
+"Hãy đọc điểm trên phần có số liệu theo con số này, không theo tổng số người."
 
 #. module: aic_okr_kpi
 #: model:ir.model.fields,help:aic_okr_kpi.field_aic_hrm_key_result__required_run_rate_factor
@@ -4608,6 +4621,11 @@ msgstr "Lý do trọng số chưa khớp (nếu có)."
 #: model:aic.hrm.perspective,name:aic_okr_kpi.dimension_4dx_wig
 msgid "Wildly Important Goal"
 msgstr "Mục tiêu tối quan trọng"
+
+#. module: aic_okr_kpi
+#: model:ir.model.fields,field_description:aic_okr_kpi.field_aic_hrm_department_scorecard__measured_employee_count
+msgid "With Figures"
+msgstr "Số người đã có số liệu"
 
 #. module: aic_okr_kpi
 #. odoo-javascript

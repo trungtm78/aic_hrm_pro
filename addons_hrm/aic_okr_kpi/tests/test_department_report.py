@@ -60,6 +60,46 @@ class TestDepartmentReport(KpiCase):
         self.assertAlmostEqual(row.avg_data_coverage, 60.0, places=2)
         self.assertEqual(row.employee_count, 1)
 
+    def test_a_colleague_without_figures_does_not_drag_the_measured_score(self):
+        """The score over measured KPIs must be read over the people who have
+        figures. Averaged over everyone, a department where two of three
+        people are still waiting for their figures reported a third of what
+        the leadership desk showed for the same month, and the two screens
+        contradicting each other is worse than either number alone."""
+        waiting = self.env['hr.employee'].create(
+            {'name': 'Chưa có số', 'department_id': self.department.id})
+        target = self._make_target(cycle_id=self.january.id, employee_id=waiting.id,
+                                   target_value=100.0)
+        self.env['aic.hrm.kpi.assignment'].create({
+            'employee_id': waiting.id, 'cycle_id': self.january.id,
+            'line_ids': [(0, 0, {'kpi_target_id': target.id, 'weight': 100.0})]})
+        [row] = self.row(self.january)
+        self.assertEqual(row.employee_count, 2)
+        self.assertEqual(row.measured_employee_count, 1,
+                         'one of the two has figures')
+        self.assertAlmostEqual(row.avg_score_covered, 0.5, places=4,
+                               msg='unchanged by a colleague with nothing measured')
+        self.assertAlmostEqual(row.avg_composite, 0.15, places=4,
+                               msg='the full score does count the missing figures as 0')
+        self.assertAlmostEqual(row.avg_data_coverage, 30.0, places=2)
+
+    def test_a_department_with_no_figures_at_all_has_no_measured_score(self):
+        other = self.env['hr.department'].create({'name': 'Phòng chưa nhập số'})
+        employee = self.env['hr.employee'].create(
+            {'name': 'Nhân sự mới', 'department_id': other.id})
+        target = self._make_target(cycle_id=self.january.id, employee_id=employee.id,
+                                   target_value=100.0)
+        self.env['aic.hrm.kpi.assignment'].create({
+            'employee_id': employee.id, 'cycle_id': self.january.id,
+            'line_ids': [(0, 0, {'kpi_target_id': target.id, 'weight': 100.0})]})
+        self.env.flush_all()
+        [row] = self.Report.search([('cycle_id', '=', self.january.id),
+                                    ('department_id', '=', other.id)])
+        self.assertEqual(row.measured_employee_count, 0)
+        self.assertAlmostEqual(row.avg_score_covered, 0.0,
+                               msg='nothing measured is 0 with a coverage of 0 beside it')
+        self.assertAlmostEqual(row.avg_data_coverage, 0.0)
+
     def test_objectives_are_weighted_not_averaged_flat(self):
         """A 50% objective must not count the same as a 10% one."""
         small = self._make_objective(cycle_id=self.q1.id, weight=25.0,

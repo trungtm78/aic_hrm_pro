@@ -349,12 +349,17 @@ class AicHrmDepartmentScorecard(models.Model):
     cycle_id = fields.Many2one('aic.hrm.cycle', readonly=True)
     company_id = fields.Many2one('res.company', readonly=True)
     employee_count = fields.Integer(readonly=True)
+    measured_employee_count = fields.Integer(
+        string='With Figures', readonly=True,
+        help="How many of them have at least one confirmed actual. Read the "
+             "measured score against this, not against the headcount.")
     avg_composite = fields.Float(
         readonly=True, aggregator='avg',
         help="Average personal scorecard score in the department.")
     avg_score_covered = fields.Float(
         readonly=True, aggregator='avg',
-        help="Average score over the KPIs that have confirmed actuals.")
+        help="Average score over the KPIs that have confirmed actuals, taken "
+             "over the people who have figures.")
     avg_data_coverage = fields.Float(
         string='Data Coverage (%)', readonly=True, aggregator='avg',
         help="Average share of scorecard weight that has confirmed actuals.")
@@ -418,8 +423,17 @@ class AicHrmDepartmentScorecard(models.Model):
                     a.cycle_id AS cycle_id,
                     a.company_id AS company_id,
                     COUNT(DISTINCT a.employee_id) AS employee_count,
+                    COUNT(DISTINCT a.employee_id)
+                        FILTER (WHERE a.data_coverage > 0)
+                        AS measured_employee_count,
                     AVG(a.score) AS avg_composite,
-                    AVG(a.score_covered) AS avg_score_covered,
+                    -- Over the people who have figures, the way the
+                    -- leadership desk reads it. Averaged over everyone, a
+                    -- department where most figures are still missing showed
+                    -- a third of what the desk showed for the same month.
+                    COALESCE(AVG(a.score_covered)
+                             FILTER (WHERE a.data_coverage > 0), 0)
+                        AS avg_score_covered,
                     AVG(a.data_coverage) AS avg_data_coverage,
                     MAX(n.objective_score) AS avg_objective_score,
                     MAX(n.ancestor_id) AS objective_cycle_id

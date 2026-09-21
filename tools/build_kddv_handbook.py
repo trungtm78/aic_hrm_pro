@@ -169,7 +169,7 @@ def collect(client):
         cards = client.search_read(
             'aic.hrm.kpi.assignment', [('cycle_id.code', '=', code)],
             ['employee_id', 'job_note', 'score', 'score_covered', 'data_coverage', 'total_weight',
-             'line_ids', 'group_ids', 'state'], order='employee_id', context=VI)
+             'line_ids', 'group_ids', 'state', 'rag'], order='employee_id', context=VI)
         data['cards'][month] = cards
         for card in cards:
             data['lines'][card['id']] = client.search_read(
@@ -216,8 +216,8 @@ def collect(client):
         'aic.hrm.review.stage', [], ['name', 'stage_type', 'sequence', 'duration_days'],
         order='sequence', context=VI)
     data['department_report'] = client.search_read(
-        'aic.hrm.department.scorecard', [], ['cycle_id', 'employee_count', 'avg_composite',
-                                             'avg_score_covered', 'avg_data_coverage',
+        'aic.hrm.department.scorecard', [], ['cycle_id', 'employee_count', 'measured_employee_count',
+                                             'avg_composite', 'avg_score_covered', 'avg_data_coverage',
                                              'avg_objective_score', 'objective_cycle_id'], context=VI)
     data['ledger_by_account'] = {}
     data['ledger_by_partner'] = {}

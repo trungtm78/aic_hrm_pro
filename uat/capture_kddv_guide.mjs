@@ -184,6 +184,39 @@ const review = await recordId('aic.hrm.review',
 await open(reviews, `/${review}`);
 await shot('15-review-form');
 
+// The screens a progress report is presented from. Two of them are client
+// actions: they render no list or form, so they need their own wait.
+const cockpit = await xmlid('aic_okr_kpi.action_aic_hrm_cockpit');
+const overview = await xmlid('aic_okr_kpi.action_aic_hrm_report_overview');
+const progress = await xmlid('aic_okr_kpi.action_aic_hrm_progress_report');
+
+async function openDesk(action, marker) {
+  await page.goto(`/odoo/action-${action}`, { waitUntil: 'domcontentloaded', timeout: 90_000 });
+  await page.locator(marker).first().waitFor({ timeout: 90_000 });
+  await page.waitForTimeout(2500);
+}
+
+async function pickCycle(name) {
+  const select = page.locator('.o_aic_cycle_select').first();
+  const value = await select.locator('option', { hasText: name }).first().getAttribute('value');
+  const loaded = page.waitForResponse((response) => response.url().includes('/cockpit_data') && response.ok());
+  await select.selectOption(value);
+  await loaded;
+  await page.waitForTimeout(1500);
+}
+
+await openDesk(cockpit, '.o_aic_health_strip');
+await pickCycle('Quý III/2026');
+await shot('16-cockpit-quarter');
+await pickCycle('Tháng 7/2026');
+await shot('17-cockpit-month');
+
+await openDesk(overview, '.o_aic_hrm');
+await shot('18-executive-overview');
+
+await open(progress);
+await shot('19-progress-vs-plan');
+
 await context.close();
 await browser.close();
 console.log(`done -> ${OUT}`);

@@ -127,6 +127,7 @@
                 <field name="department_id"/>
                 <field name="cycle_id"/>
                 <field name="employee_count"/>
+                <field name="measured_employee_count"/>
                 <field name="avg_composite" widget="percentage"/>
                 <field name="avg_score_covered" widget="percentage"/>
                 <field name="avg_data_coverage"/>
