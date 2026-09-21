@@ -63,7 +63,8 @@ def source():
     data['revenue'] = {'7': {'total': 38.03, 'has_data': True},
                        '8': {'total': 43.99, 'has_data': True},
                        '9': {'total': 0.0, 'has_data': False}}
-    data['cost'] = {'7': 18.445937012}
+    # The file reader writes a block per month, not a bare number.
+    data['cost'] = {'7': {'total': 18.445937012, 'groups': []}}
     return data
 
 
@@ -97,6 +98,25 @@ class PaletteCase(unittest.TestCase):
 
     def test_a_colour_outside_the_screen_gamut_still_gives_a_usable_value(self):
         self.assertRegex(deck_tool.oklch_to_rgb(0.99, 0.40, 150.0), r'^[0-9A-F]{6}$')
+
+
+class PartnerNameCase(unittest.TestCase):
+    """A chart label that runs off the picture loses the company's name."""
+
+    def test_a_long_legal_name_is_shortened_but_still_recognisable(self):
+        short = deck_tool.short_name('Công ty Cổ phần viễn thông FPT')
+        self.assertEqual(short, 'CTCP viễn thông FPT')
+        long_one = deck_tool.short_name('CÔNG TY CỔ PHẦN TECHNOLOGY CONVERGENCE CORPORATION')
+        self.assertLessEqual(len(long_one), 34)
+        self.assertTrue(long_one.startswith('CTCP TECHNOLOGY'), long_one)
+
+    def test_a_short_name_is_left_alone(self):
+        self.assertEqual(deck_tool.short_name('Apple'), 'Apple')
+
+    def test_the_chart_labels_fit_the_picture(self):
+        chart = next(c for c in deck_tool.charts_of(DECK) if c.key == 'doanh-thu-theo-doi-tac')
+        for label in chart.categories:
+            self.assertLessEqual(len(label), 34, label)
 
 
 class OutlineCase(unittest.TestCase):
@@ -174,6 +194,19 @@ class NumbersCase(unittest.TestCase):
         self.assertNotEqual(deck_tool.facts(changed, source())['automation']['share'],
                             FACTS['automation']['share'])
 
+    def test_the_cost_headline_counts_only_the_cost_entries(self):
+        """The accrual sits in the same list of entries; counted with the
+        cost it claims the cost came from one more document than it did."""
+        changed = dataset()
+        changed['entries'].append({'ref': 'DTHU2026-T08', 'name': 'DTHU/2026/08/0001',
+                                   'date': '2026-08-31', 'journal_id': [2, 'Dự thu doanh thu'],
+                                   'amount_total': 22000000000.0})
+        bundle = deck_tool.facts(changed, source())
+        self.assertEqual(bundle['cost_entries'], 1)
+        self.assertEqual(bundle['accrual_entries'], 1)
+        notes = [kpi.note for slide in build(changed) for kpi in slide.kpis]
+        self.assertIn('1 bút toán chi phí', notes)
+
     def test_the_example_scorecards_are_read_from_the_cards(self):
         examples = FACTS['examples']
         self.assertTrue(examples)
@@ -249,6 +282,14 @@ class ChartCase(unittest.TestCase):
         chart = next(c for c in deck_tool.charts_of(DECK) if c.key == 'ke-hoach-va-thuc-hien-quy-3')
         actual = next(series for series in chart.series if series.name == 'Thực hiện')
         self.assertIsNone(actual.values[-1], 'tháng 9 chưa có số liệu')
+
+    def test_an_unreported_objective_is_a_gap_not_a_nought(self):
+        changed = dataset()
+        changed['objectives'].append({'id': 3, 'code': 'O3', 'name': 'Quy trình', 'weight': 20.0,
+                                      'score': 0.0, 'score_covered': 0.0, 'data_coverage': 0.0,
+                                      'employee_id': [5, 'TP']})
+        chart = next(c for c in deck_tool.charts_of(build(changed)) if c.key == 'muc-tieu-quy-3')
+        self.assertIsNone(chart.series[0].values[-1])
 
     def test_chart_files_have_safe_distinct_names(self):
         keys = [chart.key for chart in deck_tool.charts_of(DECK)]

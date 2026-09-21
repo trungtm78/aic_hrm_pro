@@ -132,6 +132,22 @@ def figure(images, name, number):
             f'<span class="muted">(bấm vào ảnh để xem cỡ đầy đủ)</span></figcaption></figure>')
 
 
+def read_with_optional(client, model, domain, fields, optional, **kwargs):
+    """Read `fields`, plus `optional` when the instance is new enough to have
+    them.
+
+    The documents are built against whatever version the customer is running,
+    which is not always the newest one: a field added this week must not stop
+    a report being produced today.
+    """
+    try:
+        return client.search_read(model, domain, fields + optional, **kwargs)
+    except SystemExit as refused:
+        if not any(name in str(refused) for name in optional):
+            raise
+        return client.search_read(model, domain, fields, **kwargs)
+
+
 def collect(client):
     data = {}
     [data['company']] = client.call('res.company', 'read', [[1]],
@@ -168,8 +184,9 @@ def collect(client):
     for month, code in MONTHS.items():
         cards = client.search_read(
             'aic.hrm.kpi.assignment', [('cycle_id.code', '=', code)],
-            ['employee_id', 'job_note', 'score', 'score_covered', 'data_coverage', 'total_weight',
-             'line_ids', 'group_ids', 'state', 'rag'], order='employee_id', context=VI)
+            ['employee_id', 'job_note', 'score', 'score_covered', 'data_coverage',
+             'total_weight', 'line_ids', 'group_ids', 'state', 'rag'],
+            order='employee_id', context=VI)
         data['cards'][month] = cards
         for card in cards:
             data['lines'][card['id']] = client.search_read(
@@ -215,10 +232,11 @@ def collect(client):
     data['review_stages'] = client.search_read(
         'aic.hrm.review.stage', [], ['name', 'stage_type', 'sequence', 'duration_days'],
         order='sequence', context=VI)
-    data['department_report'] = client.search_read(
-        'aic.hrm.department.scorecard', [], ['cycle_id', 'employee_count', 'measured_employee_count',
-                                             'avg_composite', 'avg_score_covered', 'avg_data_coverage',
-                                             'avg_objective_score', 'objective_cycle_id'], context=VI)
+    data['department_report'] = read_with_optional(
+        client, 'aic.hrm.department.scorecard', [],
+        ['cycle_id', 'employee_count', 'avg_composite', 'avg_score_covered',
+         'avg_data_coverage', 'avg_objective_score', 'objective_cycle_id'],
+        ['measured_employee_count'], context=VI)
     data['ledger_by_account'] = {}
     data['ledger_by_partner'] = {}
     # Every month of the year: the register holds revenue from January, and the

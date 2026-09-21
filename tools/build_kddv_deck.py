@@ -261,12 +261,32 @@ def _cost_by_month(data):
             if abs(value) > 1.0}
 
 
+PREFIXES = (('Công ty Cổ phần', 'CTCP'), ('Công ty cổ phần', 'CTCP'),
+            ('Công ty TNHH', 'Công ty TNHH'), ('Tổng Công ty', 'TCT'),
+            ('Tổng công ty', 'TCT'), ('CÔNG TY CỔ PHẦN', 'CTCP'))
+
+
+def short_name(name, limit=34):
+    """A partner name that fits on a chart and is still recognisable.
+
+    Full legal names run past the edge of the picture and lose their first
+    words, which is where the company's actual name usually is not - the
+    prefix is. Shorten the prefix, then cut the tail if it is still too long.
+    """
+    text = name.strip()
+    for prefix, short in PREFIXES:
+        if text.startswith(prefix):
+            text = short + text[len(prefix):]
+            break
+    return text if len(text) <= limit else text[:limit - 1].rstrip() + '…'
+
+
 def _revenue_by_partner(data, top=10):
     totals = {}
     for (_month, partner), amount in data['ledger_by_partner'].items():
         totals[partner] = totals.get(partner, 0.0) + amount
     ranked = sorted(totals.items(), key=lambda item: -item[1])
-    return [(name, value / 1e9) for name, value in ranked[:top]], len(ranked)
+    return [(short_name(name), value / 1e9) for name, value in ranked[:top]], len(ranked)
 
 
 def _scorecard_month(data, month):
@@ -368,7 +388,10 @@ def facts(data, source, engagement=None):
     okr_coverage = sum(o['data_coverage'] * o['weight'] for o in objectives) / weight
     file_revenue = {int(month): row['total'] for month, row in source.get('revenue', {}).items()
                     if row.get('has_data')}
-    file_cost = {int(month): value for month, value in source.get('cost', {}).items()}
+    # The reader writes the month's cost as a block with its account groups;
+    # older snapshots carry the total alone.
+    file_cost = {int(month): (value['total'] if isinstance(value, dict) else value)
+                 for month, value in source.get('cost', {}).items()}
     stages = {}
     for review in data['reviews']:
         stage = (review['stage_id'] or [0, 'Chưa vào chặng'])[1]
@@ -389,6 +412,13 @@ def facts(data, source, engagement=None):
         'sources': len(data['sources']),
         'invoices': len(data['invoices']),
         'entries': len(data['entries']),
+        # The cost journal and the accrual journal are both "entries"; a
+        # headline that counts them together next to the cost total says the
+        # cost came from one more document than it did.
+        'cost_entries': sum(1 for entry in data['entries']
+                            if 'chi phí' in (entry['journal_id'][1] or '').lower()),
+        'accrual_entries': sum(1 for entry in data['entries']
+                               if 'chi phí' not in (entry['journal_id'][1] or '').lower()),
         'confirmed': data['confirmed'],
         'audit_events': data['audit_events'],
         'unstamped': data['unstamped'],
@@ -675,11 +705,16 @@ def _okr_chart(bundle):
     return Chart(
         key='muc-tieu-quy-3', kind='bar',
         title='Mục tiêu Quý III/2026: mức đạt của từng mục tiêu (%)',
-        categories=tuple(f"{o['code']} · trọng số {vn(o['weight'], 0)}%" for o in objectives),
-        series=(Series('Mức đạt', tuple(100.0 * o['score'] for o in objectives),
+        categories=tuple(f"{o['code']} · {short_name(o['name'], 26)} · {vn(o['weight'], 0)}%"
+                         for o in objectives),
+        # An objective nobody has reported on is a gap, not a nought: drawn as
+        # 0 it reads as "achieved nothing" instead of "nothing reported yet".
+        series=(Series('Mức đạt',
+                       tuple(100.0 * o['score'] if o['data_coverage'] > 0 else None
+                             for o in objectives),
                        point_colours=tones),),
         unit='%', decimals=0,
-        note='Màu xám là mục tiêu chưa có số liệu nào, không phải mục tiêu kém.')
+        note='Mục tiêu ghi "chưa có số" là chưa ai báo cáo kết quả, không phải đạt 0%.')
 
 
 def _kpi_chart(bundle):
@@ -757,10 +792,11 @@ def deck(bundle):
         Slide('kpis',
               title='Tình hình đến hôm nay, gói trong sáu con số',
               lead='Toàn bộ là số thật của phòng, không phải số minh hoạ.',
-              kpis=(Kpi(vn(bundle['revenue_total'], 1) + ' tỷ', 'Doanh thu đã vào sổ',
-                        note=f"{bundle['invoices']} hoá đơn · {bundle['partner_count']} đối tác"),
+              kpis=(Kpi(vn(bundle['revenue_total'], 1) + ' tỷ', 'Doanh thu đã ghi nhận',
+                        note=f"{bundle['invoices']} hoá đơn và {bundle['accrual_entries']} "
+                             f"bút toán dự thu · {bundle['partner_count']} đối tác"),
                     Kpi(vn(bundle['cost_total'], 1) + ' tỷ', 'Chi phí đã vào sổ',
-                        tone='amber', note=f"{bundle['entries']} bút toán"),
+                        tone='amber', note=f"{bundle['cost_entries']} bút toán chi phí"),
                     Kpi(str(bundle['targets']), 'Chỉ tiêu KPI đã giao',
                         note=f"trong {bundle['cards']} phiếu của {bundle['staff']} nhân sự"),
                     Kpi(percent(bundle['okr_score'], 0), 'Mức đạt mục tiêu Quý III',
@@ -824,7 +860,7 @@ def deck(bundle):
                       ('Bảng kê phiếu thu 2026 (phần chưa xuất hoá đơn)',
                        'Bút toán dự thu cuối tháng', 'Đã ghi nhận đủ doanh thu của kỳ'),
                       ('Bảng chi phí 2026', 'Bút toán chi phí tổng hợp theo tháng',
-                       f"{bundle['entries']} bút toán đã vào sổ"),
+                       f"{bundle['cost_entries']} bút toán đã vào sổ"),
                       ('Bảng giao KPI tháng 7, 8, 9',
                        'Chỉ tiêu KPI và phiếu giao của từng người',
                        f"{bundle['targets']} chỉ tiêu trong {bundle['cards']} phiếu"),
@@ -1223,8 +1259,7 @@ def _draw_chart(axes, chart, family, FuncFormatter):
         drawn = axes.barh(list(positions), [value or 0.0 for value in series.values],
                           color=colours, height=0.62)
         axes.set_yticks(list(positions))
-        axes.set_yticklabels([label[:46] for label in chart.categories],
-                             fontfamily=family, fontsize=9)
+        axes.set_yticklabels(list(chart.categories), fontfamily=family, fontsize=9)
         axes.invert_yaxis()
         axes.xaxis.set_major_formatter(show)
         axes.xaxis.grid(True, color=HEX['rule'], linewidth=0.6)
