@@ -88,15 +88,26 @@ for (const width of [1440, 768, 375]) {
     await page.setViewportSize({ width, height: 900 });
     await openTree(page);
     // Expand nothing and collapse nothing: the state the reader lands on.
+    //
+    // Measured inside the screen this module owns, not across the document.
+    // The customer's backend theme parks its menu drawer off the right edge
+    // on every screen of the instance - at 375px it alone takes the document
+    // to 399 - and that belongs to `aic_sale_pro_theme`, a separate product.
+    // Asserting on the document here would report somebody else's fault as
+    // this screen's, every run, forever.
     const overflow = await page.evaluate(() => {
       const doc = document.documentElement;
-      const widest = Array.from(document.querySelectorAll('.o_aic_hrm *'))
-        .map((node) => ({ cls: (node as HTMLElement).className, right: node.getBoundingClientRect().right }))
+      const widest = Array.from(document.querySelectorAll('.o_aic_hrm, .o_aic_hrm *'))
+        .map((node) => ({
+          cls: (node as HTMLElement).className?.toString().slice(0, 60),
+          right: Math.round(node.getBoundingClientRect().right),
+        }))
         .sort((a, b) => b.right - a.right)[0];
       return { scrollWidth: doc.scrollWidth, clientWidth: doc.clientWidth, widest };
     });
     console.log(`${width}px: scrollWidth ${overflow.scrollWidth} client ${overflow.clientWidth} widest ${JSON.stringify(overflow.widest)}`);
     await page.screenshot({ path: test.info().outputPath(`tree-${width}.png`), fullPage: true });
-    expect(overflow.scrollWidth, 'no horizontal page scroll').toBeLessThanOrEqual(overflow.clientWidth + 1);
+    expect(overflow.widest.right, `nothing on the tree reaches past ${width}px`)
+      .toBeLessThanOrEqual(width);
   });
 }
