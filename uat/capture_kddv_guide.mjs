@@ -217,6 +217,45 @@ await shot('18-executive-overview');
 await open(progress);
 await shot('19-progress-vs-plan');
 
+// The rest of the screens, so a reader who never opens the system still sees
+// what it is made of.
+const alignment = await xmlid('aic_okr_kpi.action_aic_hrm_alignment_tree');
+const cycles = await xmlid('aic_hrm_base.action_aic_hrm_cycle');
+const library = await xmlid('aic_okr_kpi.action_aic_hrm_kpi');
+const keyResults = await xmlid('aic_okr_kpi.action_aic_hrm_key_result');
+const alerts = await xmlid('aic_okr_kpi.action_aic_hrm_alert_rule');
+const meetings = await xmlid('aic_okr_kpi.action_aic_hrm_review_meeting');
+const calibration = await xmlid('aic_hrm_review.action_calibration_session');
+const idp = await xmlid('aic_hrm_review.action_idp');
+
+await openDesk(alignment, '.o_aic_hrm');
+await shot('20-alignment-tree');
+
+await open(cycles);
+await shot('21-cycles');
+
+await open(library);
+await shot('22-kpi-library');
+
+await open(keyResults);
+await shot('23-key-results');
+
+const objectiveForm = await recordId('aic.hrm.objective', [['code', '=', 'O1']]);
+await open(objectives, `/${objectiveForm}`);
+await shot('24-objective-with-key-results');
+
+await open(alerts);
+await shot('25-alert-rules');
+
+await open(meetings);
+await shot('26-review-meetings');
+
+await open(calibration);
+await shot('27-calibration');
+
+await open(idp);
+await shot('28-development-plans');
+
 await context.close();
 await browser.close();
 console.log(`done -> ${OUT}`);
