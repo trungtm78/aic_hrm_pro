@@ -209,7 +209,70 @@ def check_images(images, entries=SCREENS):
                          'rồi chạy lại.' % ', '.join(missing))
 
 
-def retouch(deck_path, replacements, out=None):
+FONT_FILE = pathlib.Path('C:/Windows/Fonts/segoeui.ttf')
+LINE_SPACING = 1.22          # PowerPoint's single spacing for this face
+
+
+def wrap(text, size_pt, width_in, font_file=FONT_FILE):
+    """Break `text` the way PowerPoint will, measured with the real font.
+
+    Guessing characters-per-line is what put a four-line note in a box three
+    lines tall, and the overflow landed on top of the next heading.
+    """
+    from PIL import ImageFont
+    font = ImageFont.truetype(str(font_file), int(round(size_pt * 4)))  # 4x for precision
+    limit = width_in * 72 * 4
+    lines, current = [], ''
+    for word in text.split():
+        candidate = (current + ' ' + word).strip()
+        if current and font.getlength(candidate) > limit:
+            lines.append(current)
+            current = word
+        else:
+            current = candidate
+    if current:
+        lines.append(current)
+    return lines
+
+
+def fits(text, size_pt, box, font_file=FONT_FILE):
+    """Whether the text stays inside its box (width, height in inches)."""
+    if not font_file.exists():
+        return True, 0, 0
+    lines = wrap(text, size_pt, box[0], font_file)
+    needed = len(lines) * size_pt * LINE_SPACING / 72.0
+    return needed <= box[1] + 0.02, len(lines), needed
+
+
+def check_fit(entries=None, style=None):
+    """Refuse to write a slide whose note would run over the next one."""
+    entries = SCREENS if entries is None else entries
+    style = style or STYLE
+    head_box = (style['note_head']['box'][2], style['note_head']['box'][3])
+    body_box = (style['note_body']['box'][2], style['note_body']['box'][3])
+    title_box = (style['title']['box'][2], style['title']['box'][3])
+    lead_box = (style['lead']['box'][2], style['lead']['box'][3])
+    long_ones = []
+    for name, title, lead, notes, where in entries:
+        checks = [(title, style['title']['size'], title_box, 'tiêu đề'),
+                  (lead, style['lead']['size'], lead_box, 'dòng dẫn'),
+                  ('Vị trí trên menu: ' + where, style['footnote']['size'],
+                   (style['footnote']['box'][2], style['footnote']['box'][3]), 'chân trang')]
+        for head, body in notes:
+            checks.append((head, style['note_head']['size'], head_box, 'tiêu đề ghi chú'))
+            checks.append((body, style['note_body']['size'], body_box, 'ghi chú'))
+        for text, size, box, what in checks:
+            ok, lines, needed = fits(text, size, box)
+            if not ok:
+                long_ones.append('%s · %s: "%s" cần %.2f" (khung %.2f", %s dòng)'
+                                 % (name, what, text[:48], needed, box[1], lines))
+    if long_ones:
+        raise SystemExit('Chữ dài hơn khung, sẽ tràn sang mục dưới:\n  '
+                         + '\n  '.join(long_ones))
+    return True
+
+
+def retouch(deck_path, replacements, out=None, allow_overflow=False):
     """Rewrite named notes in a deck without touching its look.
 
     A note that only says what a number is not ("không phải tỷ lệ hoàn thành
@@ -236,6 +299,17 @@ def retouch(deck_path, replacements, out=None):
             runs = paragraph.runs
             if not runs:
                 continue
+            # Measured against the box it is going into: a replacement one
+            # line too long spills onto the heading below it, which is what
+            # the customer saw on the quarter overview slide.
+            from pptx.util import Emu
+            size = runs[0].font.size.pt if runs[0].font.size else 18.0
+            box = (Emu(shape.width).inches, Emu(shape.height).inches)
+            room, lines, needed = fits(wanted, size, box)
+            if not room and not allow_overflow:
+                raise SystemExit(
+                    'Trang %s: "%s" cần %.2f" (%s dòng) nhưng khung chỉ cao %.2f". '
+                    'Hãy viết ngắn lại.' % (index, wanted[:60], needed, lines, box[1]))
             runs[0].text = wanted
             for extra in runs[1:]:
                 extra.text = ''
@@ -283,6 +357,35 @@ def set_font(deck_path, name='Segoe UI', out=None):
                 shape.chart.font.name = name
     deck.save(str(out or deck_path))
     return touched
+
+
+def scan_overflow(deck_path):
+    """Every text box in the deck that needs more room than it has.
+
+    Run it after editing by hand: PowerPoint shows the overflow only when the
+    slide is open, and printed or exported it lands on top of whatever sits
+    below.
+    """
+    from pptx import Presentation
+    from pptx.util import Emu
+    found = []
+    deck = Presentation(str(deck_path))
+    for index, slide in enumerate(deck.slides, start=1):
+        for shape in slide.shapes:
+            if not shape.has_text_frame or not shape.text_frame.text.strip():
+                continue
+            runs = [run for paragraph in shape.text_frame.paragraphs
+                    for run in paragraph.runs]
+            if not runs:
+                continue
+            size = runs[0].font.size.pt if runs[0].font.size else 18.0
+            box = (Emu(shape.width).inches, Emu(shape.height).inches)
+            text = ' '.join(shape.text_frame.text.split())
+            room, lines, needed = fits(text, size, box)
+            if not room:
+                found.append({'slide': index, 'text': text, 'lines': lines,
+                              'needed': needed, 'height': box[1]})
+    return found
 
 
 def probe_style(slide):
@@ -359,6 +462,7 @@ def append(deck_path, images, entries=SCREENS, out=None):
     from pptx.util import Inches, Pt
 
     check_images(images, entries)
+    check_fit(entries)
     check_wording(entries, extra=[MAP_SLIDE['title'], MAP_SLIDE['lead'],
                                   MAP_SLIDE['footnote']]
                   + [text for block in MAP_SLIDE['blocks'] for text in block])
@@ -412,9 +516,19 @@ def main():
     parser.add_argument('--deck', required=True, help='tệp .pptx đang dùng')
     parser.add_argument('--images', default=str(DEFAULT_IMAGES))
     parser.add_argument('--out', default=None, help='ghi ra tệp khác, mặc định ghi đè')
+    parser.add_argument('--check', action='store_true',
+                        help='chỉ kiểm tra chữ có tràn khung không, không sửa gì')
     parser.add_argument('--font', default=None,
                         help='đổi phông cả tệp, ví dụ "Segoe UI"; mặc định giữ nguyên')
     args = parser.parse_args()
+    if args.check:
+        spills = scan_overflow(pathlib.Path(args.deck))
+        for spill in spills:
+            print('trang %s: cần %.2f" trong khung %.2f" (%s dòng): %s'
+                  % (spill['slide'], spill['needed'], spill['height'],
+                     spill['lines'], spill['text'][:70]))
+        print('%s ô chữ tràn khung' % len(spills))
+        return
     written = append(pathlib.Path(args.deck), pathlib.Path(args.images), out=args.out)
     if args.font:
         runs = set_font(written['file'], args.font)

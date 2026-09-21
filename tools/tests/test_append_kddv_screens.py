@@ -78,6 +78,37 @@ class WordingCase(unittest.TestCase):
             self.assertGreaterEqual(len(items), 2, name)
 
 
+class FitCase(unittest.TestCase):
+    """Text measured against its box, with the font the deck actually uses.
+
+    The customer saw a note run over the heading under it. Guessing how many
+    characters fit on a line is what allowed that; these measure."""
+
+    def test_a_note_that_needs_four_lines_in_a_three_line_box_is_refused(self):
+        long_one = ('Mục tiêu O1 trọng số 50% đạt 70%, nên đóng góp 35%. '
+                    'Ba mục tiêu còn lại chưa ai báo cáo kết quả nên chưa có điểm.')
+        room, lines, needed = tool.fits(long_one, 17.25, (4.19, 0.89))
+        self.assertFalse(room)
+        self.assertGreaterEqual(lines, 4)
+        self.assertGreater(needed, 0.89)
+
+    def test_the_shorter_version_fits(self):
+        short = 'O1 trọng số 50% đạt 70% nên đóng góp 35%. Ba mục tiêu kia chưa có số.'
+        room, lines, _needed = tool.fits(short, 17.25, (4.19, 0.89))
+        self.assertTrue(room)
+        self.assertLessEqual(lines, 3)
+
+    def test_every_note_of_the_walkthrough_fits_its_box(self):
+        self.assertTrue(tool.check_fit())
+
+    def test_a_walkthrough_note_that_is_too_long_stops_the_run(self):
+        entry = ('21-cycles', 'Chu kỳ làm việc', 'Dòng dẫn.',
+                 [('Ghi chú', 'Câu này rất dài. ' * 12)], 'Hiệu suất › Kế hoạch › Chu kỳ')
+        with self.assertRaises(SystemExit) as stopped:
+            tool.check_fit([entry])
+        self.assertIn('tràn', str(stopped.exception))
+
+
 class PictureCase(unittest.TestCase):
 
     def test_every_screen_is_one_the_capture_script_takes(self):
