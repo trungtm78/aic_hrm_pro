@@ -214,7 +214,18 @@ await shot('17-cockpit-month');
 await openDesk(overview, '.o_aic_hrm');
 await shot('18-executive-overview');
 
-await open(progress);
+// The graph this report opens on draws the expected-progress line alone,
+// which says nothing on a slide; the list carries the figures per target.
+await page.goto(`/odoo/action-${progress}?view_type=list`, { waitUntil: 'domcontentloaded', timeout: 90_000 });
+await page.locator('.o_list_view').first().waitFor({ timeout: 90_000 });
+// The report groups by month, so the rows sit inside a collapsed group.
+const months = page.locator('.o_list_view .o_group_header');
+for (let index = 0; index < Math.min(await months.count(), 2); index += 1) {
+  await months.nth(index).click();
+  await page.waitForTimeout(800);
+}
+await page.locator('.o_list_view .o_data_row').first().waitFor({ timeout: 60_000 });
+await page.waitForTimeout(1500);
 await shot('19-progress-vs-plan');
 
 // The rest of the screens, so a reader who never opens the system still sees
@@ -223,10 +234,6 @@ const alignment = await xmlid('aic_okr_kpi.action_aic_hrm_alignment_tree');
 const cycles = await xmlid('aic_hrm_base.action_aic_hrm_cycle');
 const library = await xmlid('aic_okr_kpi.action_aic_hrm_kpi');
 const keyResults = await xmlid('aic_okr_kpi.action_aic_hrm_key_result');
-const alerts = await xmlid('aic_okr_kpi.action_aic_hrm_alert_rule');
-const meetings = await xmlid('aic_okr_kpi.action_aic_hrm_review_meeting');
-const calibration = await xmlid('aic_hrm_review.action_calibration_session');
-const idp = await xmlid('aic_hrm_review.action_idp');
 
 await openDesk(alignment, '.o_aic_hrm');
 await shot('20-alignment-tree');
@@ -244,17 +251,9 @@ const objectiveForm = await recordId('aic.hrm.objective', [['code', '=', 'O1']])
 await open(objectives, `/${objectiveForm}`);
 await shot('24-objective-with-key-results');
 
-await open(alerts);
-await shot('25-alert-rules');
 
-await open(meetings);
-await shot('26-review-meetings');
 
-await open(calibration);
-await shot('27-calibration');
 
-await open(idp);
-await shot('28-development-plans');
 
 await context.close();
 await browser.close();

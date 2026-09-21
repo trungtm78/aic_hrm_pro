@@ -39,6 +39,29 @@ PICTURE_BOX = (0.60, 2.05, 7.55, 4.40)
 # the screen's name as the menu shows it, one line on what it answers, up to
 # three notes, and where to find it. A note states a figure that is on the
 # picture or a rule the reader can check - never what the screen is not.
+# What stands behind each screen. A screen whose model holds nothing is a
+# blank page in a report to the customer's leadership, so `check_data`
+# refuses to include it rather than letting it ship empty.
+BACKING = {
+    '21-cycles': 'aic.hrm.cycle',
+    '24-objective-with-key-results': 'aic.hrm.objective',
+    '23-key-results': 'aic.hrm.key.result',
+    '20-alignment-tree': 'aic.hrm.objective',
+    '22-kpi-library': 'aic.hrm.kpi',
+    '03-kpi-target-form': 'aic.hrm.kpi.target',
+    '02-scorecard-form': 'aic.hrm.kpi.assignment',
+    '08-invoice-list': 'account.move',
+    '10-cost-entry': 'account.move',
+    '11-metric-sources': 'aic.hrm.metric.source',
+    '05-period-results': 'aic.hrm.kpi.period.result',
+    '07-checkins': 'aic.hrm.checkin',
+    '17-cockpit-month': 'aic.hrm.kpi.assignment',
+    '12-department-report': 'aic.hrm.kpi.assignment',
+    '18-executive-overview': 'aic.hrm.kpi.target',
+    '19-progress-vs-plan': 'aic.hrm.kpi.target',
+    '14-review-cycle': 'aic.hrm.review',
+}
+
 SCREENS = [
     ('21-cycles', 'Chu kỳ làm việc',
      'Mọi việc giao và mọi điểm số đều gắn vào một chu kỳ: năm, quý hoặc tháng.',
@@ -136,36 +159,12 @@ SCREENS = [
       ('Lọc theo nhu cầu', 'Chọn chu kỳ, phòng ban hoặc một người cụ thể.'),
       ('Xuất ra Excel', 'Lấy dữ liệu ra tệp khi cần gửi đi.')],
      'Hiệu suất › Báo cáo › Tiến độ so với kế hoạch'),
-    ('25-alert-rules', 'Luật cảnh báo',
-     'Điều kiện để hệ thống tự nhắc khi chỉ tiêu tụt hoặc lâu không ai cập nhật.',
-     [('Tự chạy định kỳ', 'Không phụ thuộc việc ai đó nhớ kiểm tra.'),
-      ('Gửi đúng người', 'Nhắc người phụ trách chỉ tiêu và quản lý trực tiếp.'),
-      ('Đặt ngưỡng', 'Theo mức đạt hoặc theo số ngày không có cập nhật.')],
-     'Hiệu suất › Giám sát › Luật cảnh báo'),
-    ('26-review-meetings', 'Họp rà soát',
-     'Biên bản các buổi rà soát hiệu suất và việc cần làm sau buổi họp.',
-     [('Gắn với chu kỳ', 'Mỗi biên bản thuộc về một chu kỳ đang rà soát.'),
-      ('Việc sau họp', 'Ghi việc cần làm, người chịu trách nhiệm và hạn hoàn thành.'),
-      ('Tra lại được', 'Quý sau mở lại xem kỳ trước đã thống nhất những gì.')],
-     'Hiệu suất › Giám sát › Họp rà soát'),
     ('14-review-cycle', 'Chu kỳ đánh giá',
      'Đợt đánh giá của một chu kỳ hiệu suất và toàn bộ phiếu sinh ra từ đó.',
      [('21 phiếu Quý III', 'Một thao tác sinh phiếu cho cả phòng.'),
       ('Bốn chặng', 'Tự đánh giá, quản lý đánh giá, hiệu chỉnh, chốt kết quả.'),
       ('Điểm KPI tự vào phiếu', 'Lấy từ phiếu giao KPI của quý, không chép tay.')],
      'Hiệu suất › Đánh giá › Chu kỳ đánh giá'),
-    ('27-calibration', 'Hiệu chỉnh kết quả',
-     'Buổi so điểm giữa các nhóm trước khi chốt, để mức đánh giá không lệch nhau.',
-     [('So trên cùng bảng', 'Xem điểm nhiều người cạnh nhau trong một màn hình.'),
-      ('Ghi lý do điều chỉnh', 'Mỗi thay đổi điểm đều kèm lý do và người quyết định.'),
-      ('Chốt sau bước này', 'Phiếu chỉ vào chặng cuối khi đã hiệu chỉnh xong.')],
-     'Hiệu suất › Đánh giá › Hiệu chỉnh'),
-    ('28-development-plans', 'Kế hoạch phát triển cá nhân',
-     'Việc cần cải thiện của từng người sau đánh giá, có hạn và người hỗ trợ.',
-     [('Lập từ kết quả đánh giá', 'Nối thẳng với phiếu đánh giá của kỳ.'),
-      ('Có hạn hoàn thành', 'Kỳ sau rà lại đúng những việc đã cam kết.'),
-      ('Quản lý theo dõi', 'Xem tiến độ thực hiện mà không cần hỏi lại từng người.')],
-     'Hiệu suất › Đánh giá › Kế hoạch phát triển'),
 ]
 
 MAP_SLIDE = {
@@ -200,6 +199,29 @@ def check_wording(entries=SCREENS, extra=()):
     if bad:
         raise SystemExit('Chữ nghe như máy viết: %s' % ', '.join(bad))
     return len(texts)
+
+
+def check_data(client, entries=None):
+    """Refuse a screen that would go out as an empty page.
+
+    Four screens - alert rules, review meetings, calibration and development
+    plans - held no records at all. Sending those to a customer's leadership
+    says the system is empty; the honest answer is to leave them out until
+    the work behind them has actually happened.
+    """
+    entries = SCREENS if entries is None else entries
+    empty = []
+    for name, title, *_rest in entries:
+        model = BACKING.get(name)
+        if not model:
+            empty.append('%s: chưa khai báo dữ liệu đứng sau' % name)
+            continue
+        if not client.call(model, 'search_count', [[]]):
+            empty.append('%s ("%s"): %s chưa có bản ghi nào' % (name, title, model))
+    if empty:
+        raise SystemExit('Màn hình chưa có dữ liệu, không đưa vào báo cáo:\n  '
+                         + '\n  '.join(empty))
+    return len(entries)
 
 
 def check_images(images, entries=SCREENS):
@@ -571,3 +593,41 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+def remove_slides(deck_path, titles, out=None):
+    """Take slides out of a deck and close the gap in the page numbers.
+
+    A screen with no records behind it is a blank page in a report to the
+    customer's leadership: better absent than empty.
+    """
+    from pptx import Presentation
+    from pptx.util import Emu
+    deck = Presentation(str(deck_path))
+    wanted = set(titles)
+    dropped, keep = [], []
+    slides = deck.slides._sldIdLst
+    for slide, element in zip(list(deck.slides), list(slides)):
+        heading = [shape.text_frame.text for shape in slide.shapes
+                   if shape.has_text_frame and Emu(shape.top).inches < 0.9
+                   and Emu(shape.width).inches > 8]
+        if heading and heading[0] in wanted:
+            dropped.append(heading[0])
+            deck.part.drop_rel(element.rId)
+            slides.remove(element)
+        else:
+            keep.append(slide)
+    missing = wanted - set(dropped)
+    if missing:
+        raise SystemExit('Không tìm thấy trang: %s' % ', '.join(sorted(missing)))
+    for number, slide in enumerate(keep, start=1):
+        for shape in slide.shapes:
+            if (shape.has_text_frame and Emu(shape.left).inches > 11.5
+                    and shape.text_frame.text.strip().isdigit()):
+                runs = shape.text_frame.paragraphs[0].runs
+                if runs:
+                    runs[0].text = '%02d' % number
+                    for extra in runs[1:]:
+                        extra.text = ''
+    deck.save(str(out or deck_path))
+    return dropped
