@@ -47,28 +47,32 @@ async function periodsOf(cycleId: number) {
   };
 }
 
-test('a quarter counts the measurements of the months inside it', async ({ page }) => {
-  test.setTimeout(15 * 60_000);
-  await openOverview(page);
-
+/** Open the quarter, which is where the customer's figures actually are. */
+async function selectQuarter(page: Page) {
   const select = page.locator('.o_aic_cycle_select').first();
   const options = await select.locator('option').evaluateAll(
     (nodes) => nodes.map((node) => ({ id: Number((node as HTMLOptionElement).value), name: node.textContent!.trim() })));
   const quarter = options.find((option) => /Quý|Q[1-4]/i.test(option.name));
   expect(quarter, 'the customer runs quarters, so one must be selectable').toBeTruthy();
-
   const loaded = page.waitForResponse((r) => r.url().includes('/web/dataset/call_kw') && r.ok(),
     { timeout: 90_000 });
   await select.selectOption(String(quarter!.id));
   await loaded;
   await page.waitForTimeout(2_000);
+  return quarter!;
+}
 
-  const expected = await periodsOf(quarter!.id);
-  console.log(`${quarter!.name}: ${expected.rows} rows across ${expected.cycles.size} cycles, ${expected.months.size} calendar months`);
+test('a quarter counts the measurements of the months inside it', async ({ page }) => {
+  test.setTimeout(15 * 60_000);
+  await openOverview(page);
+
+  const quarter = await selectQuarter(page);
+  const expected = await periodsOf(quarter.id);
+  console.log(`${quarter.name}: ${expected.rows} rows across ${expected.cycles.size} cycles, ${expected.months.size} calendar months`);
   await page.screenshot({ path: test.info().outputPath('overview-quarter.png'), fullPage: true });
 
   const measurements = Number(await page.locator('.o_aic_health_strip .o_aic_stat_value').nth(3).innerText());
-  expect(measurements, `${quarter!.name} must count every measurement inside it`)
+  expect(measurements, `${quarter.name} must count every measurement inside it`)
     .toBe(expected.rows);
 
   // One bar per calendar month that holds a measurement. A quarter showing
@@ -126,4 +130,38 @@ test('the headline figures are the average over the measurements it read', async
   console.log(`headline: ${values.join(' | ')} over ${rows.length} rows`);
   expect(percent(values[0]), 'achieved to date').toBe(Math.round(mean('achieved') * 100));
   expect(percent(values[1]), 'expected by now').toBe(Math.round(mean('expected') * 100));
+});
+
+test('two people behind on the same KPI are two readable rows', async ({ page }) => {
+  test.setTimeout(15 * 60_000);
+  await openOverview(page);
+  await selectQuarter(page);
+  const rows = await page.locator('.o_aic_risk_item').evaluateAll(
+    (items) => items.map((item) => item.textContent!.replace(/\s+/g, ' ').trim()));
+  if (!rows.length) {
+    test.skip();
+    return;
+  }
+  console.log(`laggards:\n${rows.join('\n')}`);
+  // The customer gives one revenue line to several people on purpose, so
+  // the same KPI legitimately appears more than once. What is not allowed
+  // is two rows a reader cannot tell apart: the rail named the KPI, the
+  // department and the date, and three people shared all three.
+  const seen = new Set<string>();
+  for (const row of rows) {
+    expect(seen.has(row), `two identical rows: ${row}`).toBe(false);
+    seen.add(row);
+  }
+});
+
+test('the screen carries no untranslated English', async ({ page }) => {
+  test.setTimeout(15 * 60_000);
+  await openOverview(page);
+  await selectQuarter(page);
+  const text = await page.locator('.o_aic_hrm').innerText();
+  // The department fallback was a bare JavaScript string, so a Vietnamese
+  // screen read "Not assigned to a department" under a Vietnamese heading.
+  for (const phrase of ['Not assigned', 'Measurements of', 'Gathered from']) {
+    expect(text, `untranslated: ${phrase}`).not.toContain(phrase);
+  }
 });

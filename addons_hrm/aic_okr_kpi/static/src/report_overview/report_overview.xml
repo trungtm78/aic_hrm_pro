@@ -93,6 +93,9 @@
                         <div class="o_aic_risk_text">
                             <div class="o_aic_risk_name" t-esc="row.label"/>
                             <div class="o_aic_risk_meta">
+                                <t t-if="row.employee_id">
+                                    <t t-esc="row.employee_id[1]"/> ·
+                                </t>
                                 <t t-if="row.department_id">
                                     <t t-esc="row.department_id[1]"/> ·
                                 </t>

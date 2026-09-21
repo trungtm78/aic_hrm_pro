@@ -113,8 +113,12 @@ export class AicHrmReportOverview extends Component {
                 model, this.domain, ["department_id"],
                 ["__count", "achieved:avg", "gap:avg"]),
             this.orm.searchRead(
+                // The owner, because the customer gives one KPI to several
+                // people on purpose: three of them share the FAST Channel
+                // revenue line, and without a name the rail printed the same
+                // sentence three times with nothing to tell them apart.
                 model, this.domain.concat([["gap", "<", 0]]),
-                ["label", "gap", "achieved", "department_id", "date"],
+                ["label", "gap", "achieved", "department_id", "employee_id", "date"],
                 { order: "gap asc", limit: 8 }),
             this.orm.formattedReadGroup(
                 model, this.domain, [],
@@ -138,7 +142,7 @@ export class AicHrmReportOverview extends Component {
             .map((row) => ({
                 id: row.department_id ? row.department_id[0] : 0,
                 name: row.department_id ? row.department_id[1]
-                    : "Not assigned to a department",
+                    : _t("Not assigned to a department"),
                 count: row.__count,
                 achieved: row["achieved:avg"] || 0,
                 gap: row["gap:avg"] || 0,
