@@ -3,6 +3,7 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { cycleWithObjectives } from "../cycle_choice";
 
 /**
  * Alignment tree — indented rails, no bubble charts. Objectives nest by
@@ -36,8 +37,11 @@ export class AicHrmAlignmentTree extends Component {
                 ["id", "name", "code", "state"],
                 { order: "date_start desc" },
             );
-            if (this.state.cycles.length) {
-                this.state.cycleId = this.state.cycles[0].id;
+            // The newest cycle is usually a month with scorecards but no
+            // objectives; opening there showed "chu kỳ chưa có mục tiêu"
+            // on a system that holds four of them.
+            this.state.cycleId = await cycleWithObjectives(this.orm, this.state.cycles);
+            if (this.state.cycleId) {
                 await this.loadTree();
             }
             this.state.loading = false;

@@ -4,6 +4,7 @@ import { Component, onWillStart, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
+import { cycleWithObjectives } from "../cycle_choice";
 
 /**
  * Leadership cockpit — the "reading desk": one health strip, a RAG heatmap
@@ -68,21 +69,8 @@ export class AicHrmCockpit extends Component {
                 ["id", "name", "code", "state"],
                 { order: "date_start desc" },
             );
-            if (this.state.cycles.length) {
-                // The newest cycle is often a month that carries scorecards
-                // but no objectives; open on the newest one that actually has
-                // objectives, so the desk does not start empty.
-                const counts = await this.orm.formattedReadGroup(
-                    "aic.hrm.objective",
-                    [["cycle_id", "in", this.state.cycles.map((c) => c.id)]],
-                    ["cycle_id"],
-                    ["__count"],
-                );
-                const withObjectives = new Set(
-                    counts.map((group) => group.cycle_id && group.cycle_id[0]));
-                const first = this.state.cycles.find(
-                    (cycle) => withObjectives.has(cycle.id)) || this.state.cycles[0];
-                this.state.cycleId = first.id;
+            this.state.cycleId = await cycleWithObjectives(this.orm, this.state.cycles);
+            if (this.state.cycleId) {
                 await this.loadCycle();
             }
             this.state.loading = false;

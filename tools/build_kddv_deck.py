@@ -760,10 +760,13 @@ def _coverage_rows(bundle):
 def _example_table(example):
     rows = []
     for line in example['lines'][:MAX_TABLE_ROWS]:
+        # The unit belongs with the figure it measures: "49,15" alone leaves
+        # the reader guessing between tỷ đồng and số hợp đồng.
+        unit = f" {line['unit']}" if line['unit'] else ''
         rows.append((
             line['kpi'][:58],
             vn(line['weight'], 0),
-            vn(line['target'], 2) if line['target'] is not None else '—',
+            (vn(line['target'], 2) + unit) if line['target'] is not None else '—',
             vn(line['actual'], 2) if line['actual'] is not None else 'Chưa có số liệu',
             percent(line['achievement']) if line['achievement'] is not None else '—',
             percent(line['score'], 0),
@@ -772,9 +775,10 @@ def _example_table(example):
     return Table(
         headers=('Chỉ tiêu KPI', 'Trọng số', 'Chỉ tiêu giao', 'Thực hiện', 'Đạt', 'Điểm', 'Số liệu đến từ'),
         rows=tuple(rows), align='lrrrrrl',
-        widths=(4.2, 0.8, 1.1, 1.2, 0.8, 0.8, 1.6),
+        widths=(3.8, 0.7, 1.5, 1.1, 0.7, 0.7, 1.5),
         note=f"Tổng trọng số của phiếu là {vn(example['weight'], 0)}; "
-             f"{vn(example['measured_weight'], 0)} trọng số đã có số liệu.")
+             f"{vn(example['measured_weight'], 0)} trọng số đã có số liệu. "
+             f"Cột thực hiện cùng đơn vị với cột chỉ tiêu giao.")
 
 
 def deck(bundle):
@@ -1104,11 +1108,14 @@ def _appendix(bundle):
                      str(month['bands']['red']), str(month['bands']['none']))
                     for month in bundle['months']),
                 align='lrrrrrr', widths=(2.0, 1.3, 1.6, 1.4, 1.3, 1.4, 1.6))))
+    # The same rounding as the slide that shows these figures earlier: a
+    # reader who sees 82,6% on one page and 83% on another stops trusting
+    # both.
     report_rows = tuple(
         (row['cycle_id'][1], str(row['employee_count']), str(row.get('measured_employee_count', 0)),
-         percent(row['avg_composite'], 0),
-         percent(row['avg_score_covered'], 0) if row.get('measured_employee_count') else 'Chưa có số liệu',
-         share(row['avg_data_coverage'], 0), percent(row['avg_objective_score'], 0),
+         percent(row['avg_composite']),
+         percent(row['avg_score_covered']) if row.get('measured_employee_count') else 'Chưa có số liệu',
+         share(row['avg_data_coverage']), percent(row['avg_objective_score']),
          (row['objective_cycle_id'] or [0, '—'])[1])
         for row in bundle['department_report'])
     slides.append(Slide(

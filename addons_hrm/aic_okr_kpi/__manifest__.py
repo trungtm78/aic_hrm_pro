@@ -48,6 +48,7 @@ Provides:
             'aic_okr_kpi/static/src/scss/aic_hrm_tokens.scss',
             'aic_okr_kpi/static/src/scss/aic_hrm_dashboard.scss',
             'aic_okr_kpi/static/src/scss/aic_hrm_views.scss',
+            'aic_okr_kpi/static/src/cycle_choice.js',
             'aic_okr_kpi/static/src/cockpit/cockpit.js',
             'aic_okr_kpi/static/src/cockpit/cockpit.xml',
             'aic_okr_kpi/static/src/alignment_tree/alignment_tree.js',

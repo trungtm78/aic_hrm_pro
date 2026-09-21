@@ -145,3 +145,27 @@ test('every cycle in the selector shows what its tree holds', async ({ page }) =
     await page.screenshot({ path: test.info().outputPath(`cycle-${option.id}.png`), fullPage: true });
   }
 });
+
+test('the alignment tree opens on a cycle that has objectives', async ({ page }) => {
+  test.setTimeout(15 * 60_000);
+  const ui = new OdooUi(page);
+  await loginAsAdmin(page);
+  await ui.gotoWithRetry(`/odoo/action-${await xmlid('aic_okr_kpi.action_aic_hrm_alignment_tree')}`);
+  await page.locator('.o_aic_hrm').first().waitFor({ timeout: 90_000 });
+  await expect(page.locator('.o_dialog, .modal-dialog'), 'no error dialog').toHaveCount(0);
+
+  // It used to open on the newest cycle - the month that has just started,
+  // which carries scorecards but no objectives - and greeted the reader with
+  // "chu kỳ chưa có mục tiêu" on a system holding four of them.
+  const selected = Number(await page.locator('.o_aic_hrm select').first().inputValue());
+  const objectives = await read('aic.hrm.objective', 'search_count', [[['cycle_id', '=', selected]]]);
+  const anywhere = await read('aic.hrm.objective', 'search_count', [[]]);
+  const [cycle] = await read('aic.hrm.cycle', 'read', [[selected]], { fields: ['name'] });
+  if (anywhere) {
+    expect(objectives, `the tree must not open on ${cycle.name}, which has no objectives`)
+      .toBeGreaterThan(0);
+    await expect(page.locator('.o_aic_hrm'), 'the tree shows its objectives')
+      .not.toContainText('Chu kỳ chưa có mục tiêu');
+  }
+  await page.screenshot({ path: test.info().outputPath('alignment-tree.png'), fullPage: true });
+});

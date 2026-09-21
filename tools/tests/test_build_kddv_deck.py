@@ -51,8 +51,15 @@ def dataset():
         for card in cards:
             card['rag'] = ('green' if card['data_coverage'] and card['score_covered'] >= 0.7
                            else 'amber' if card['data_coverage'] else 'none')
+    # The roll-up view reads the same cards, so its figures have to agree
+    # with them: two of the three people have figures, and their measured
+    # score is (100% + 60,4%) / 2. A fixture where the two disagree would
+    # hide the very mistake this deck was built to stop.
+    measured = [card for card in data['cards'][7] if card['data_coverage'] > 0]
     for row in data['department_report']:
-        row.setdefault('measured_employee_count', 7)
+        row['measured_employee_count'] = len(measured)
+        row['avg_score_covered'] = (sum(card['score_covered'] for card in measured)
+                                    / len(measured))
     return data
 
 
@@ -217,6 +224,15 @@ class NumbersCase(unittest.TestCase):
                                  next(card['id'] for card in DATA['cards'][7]
                                       if card['employee_id'][1] == example['name'])]))
 
+    def test_an_example_line_carries_the_unit_of_its_target(self):
+        rows = [row for slide in DECK if slide.table and 'Chỉ tiêu giao' in slide.table.headers
+                for row in slide.table.rows]
+        self.assertTrue(rows)
+        column = next(slide.table.headers.index('Chỉ tiêu giao') for slide in DECK
+                      if slide.table and 'Chỉ tiêu giao' in slide.table.headers)
+        self.assertTrue(any('tỷ' in row[column] or '%' in row[column] for row in rows),
+                        'người đọc phải biết 49,15 là tỷ đồng hay hợp đồng')
+
     def test_an_example_line_says_where_its_figure_comes_from(self):
         sources = {line['source'] for example in FACTS['examples'] for line in example['lines']}
         self.assertLessEqual(sources, {deck_tool.AUTOMATIC, deck_tool.BY_HAND})
@@ -259,6 +275,21 @@ class TextCase(unittest.TestCase):
                     self.assertIsInstance(value, str)
                     if re.fullmatch(r'-?\d+\.\d+', value):
                         self.fail('số theo kiểu Anh trong "%s": %r' % (slide.title, value))
+
+    def test_the_measured_score_is_written_the_same_way_on_every_slide(self):
+        """82,6% on one slide and 83% on another reads as two measurements of
+        the same thing, and a reader who spots it stops trusting both."""
+        column = 'Điểm trên phần có số liệu'
+        shown = set()
+        for slide in DECK:
+            table = slide.table
+            if table and column in table.headers:
+                index = table.headers.index(column)
+                for row in table.rows:
+                    if row[0].startswith('Tháng 7'):
+                        shown.add(row[index])
+        self.assertEqual(shown, {deck_tool.percent(FACTS['months'][0]['score_covered'])},
+                         'cùng một con số phải viết giống nhau ở mọi trang')
 
     def test_the_meetings_slide_says_when_it_has_nothing_to_show(self):
         empty = build(engagement={})

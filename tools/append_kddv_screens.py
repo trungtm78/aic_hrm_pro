@@ -359,6 +359,38 @@ def set_font(deck_path, name='Segoe UI', out=None):
     return touched
 
 
+def replace_picture(deck_path, title, image, out=None):
+    """Swap the picture on the slide with this title, keeping its frame.
+
+    A screenshot is taken again whenever the screen behind it changes - the
+    alignment tree was captured while it still opened on an empty month - and
+    the slide around it must not move when the new one goes in.
+    """
+    from pptx import Presentation
+    from pptx.util import Emu, Inches
+    deck = Presentation(str(deck_path))
+    for index, slide in enumerate(deck.slides, start=1):
+        titles = [shape.text_frame.text for shape in slide.shapes
+                  if shape.has_text_frame and Emu(shape.top).inches < 0.9]
+        if title not in titles:
+            continue
+        pictures = [shape for shape in slide.shapes if shape.shape_type == 13]
+        if not pictures:
+            raise SystemExit('Trang %s ("%s") không có ảnh để thay.' % (index, title))
+        old_picture = pictures[0]
+        box = (Emu(old_picture.left).inches, Emu(old_picture.top).inches,
+               Emu(old_picture.width).inches, Emu(old_picture.height).inches)
+        # Keep the frame the slide was laid out around: same centre, same room.
+        frame = (PICTURE_BOX[0], box[1], PICTURE_BOX[2], box[3])
+        placed = _fit(image, frame)
+        old_picture._element.getparent().remove(old_picture._element)
+        slide.shapes.add_picture(str(image), Inches(placed[0]), Inches(placed[1]),
+                                 width=Inches(placed[2]))
+        deck.save(str(out or deck_path))
+        return index
+    raise SystemExit('Không tìm thấy trang có tiêu đề "%s".' % title)
+
+
 def scan_overflow(deck_path):
     """Every text box in the deck that needs more room than it has.
 
